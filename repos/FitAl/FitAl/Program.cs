@@ -23,5 +23,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+//migration oluştuğunda bu satırı değiştireceğiz ve home controller'ı Auth yapacağız    
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Auth}/{action=Login}/{id?}");
 app.Run();

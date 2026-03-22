@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Senkronizasyon Logları";
+    ViewData["ActiveMenu"] = "sync";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(67,217,173,0.1)"><i class="bi bi-check-circle" style="color:#43D9AD"></i></div>
+            <div class="stat-value">1,847</div>
+            <div class="stat-label">Başarılı Sync</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,101,132,0.1)"><i class="bi bi-x-circle" style="color:#FF6584"></i></div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Hatalı Sync</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(108,99,255,0.1)"><i class="bi bi-box-seam" style="color:#6C63FF"></i></div>
+            <div class="stat-value">12,483</div>
+            <div class="stat-label">İşlenen Kayıt</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,181,71,0.1)"><i class="bi bi-clock" style="color:#FFB547"></i></div>
+            <div class="stat-value">1.4s</div>
+            <div class="stat-label">Ortalama Süre</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Sync Geçmişi</span>
+        <div class="d-flex gap-2">
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Tüm Platformlar</option>
+                <option>Trendyol</option>
+                <option>Hepsiburada</option>
+            </select>
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Tüm Durumlar</option>
+                <option>Başarılı</option>
+                <option>Hatalı</option>
+            </select>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Platform</th>
+                    <th>Tip</th>
+                    <th>Başlama</th>
+                    <th>Bitiş</th>
+                    <th>İşlenen</th>
+                    <th>Eklenen</th>
+                    <th>Güncellenen</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var loglar = new[] {
+                        new { Platform="🛍️ Trendyol", Tip="Periyodik", Bas="14:30:12", Bit="14:30:13", Islenen=47, Eklenen=2, Guncellenen=45, Durum="Basarili" },
+                        new { Platform="🏪 Hepsiburada", Tip="Webhook", Bas="14:18:44", Bit="14:18:45", Islenen=3, Eklenen=0, Guncellenen=3, Durum="Basarili" },
+                        new { Platform="🛍️ Trendyol", Tip="Periyodik", Bas="14:15:08", Bit="14:15:10", Islenen=52, Eklenen=5, Guncellenen=47, Durum="Basarili" },
+                        new { Platform="🏪 Hepsiburada", Tip="Periyodik", Bas="14:00:00", Bit="—", Islenen=0, Eklenen=0, Guncellenen=0, Durum="Hatali" },
+                        new { Platform="🛍️ Trendyol", Tip="Manuel", Bas="13:45:22", Bit="13:45:24", Islenen=89, Eklenen=12, Guncellenen=77, Durum="Basarili" },
+                    };
+                }
+                @foreach (var l in loglar)
+                {
+                    var color = l.Durum == "Basarili" ? "#43D9AD" : "#FF6584";
+                    <tr>
+                        <td class="ps-4" style="font-weight:600;font-size:0.875rem">@l.Platform</td>
+                        <td><span class="badge-pill" style="background:#f4f6fb;color:#666;font-size:0.75rem">@l.Tip</span></td>
+                        <td style="font-size:0.8rem;color:#8892a4">@l.Bas</td>
+                        <td style="font-size:0.8rem;color:#8892a4">@l.Bit</td>
+                        <td style="font-weight:600;font-size:0.875rem">@l.Islenen</td>
+                        <td style="color:#43D9AD;font-weight:600;font-size:0.875rem">+@l.Eklenen</td>
+                        <td style="color:#6C63FF;font-weight:600;font-size:0.875rem">~@l.Guncellenen</td>
+                        <td>
+                            <span class="badge-pill" style="background:@(color)22;color:@color">@l.Durum</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

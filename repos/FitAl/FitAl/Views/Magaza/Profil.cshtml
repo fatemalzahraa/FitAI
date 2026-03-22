@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Mağaza Profili";
+    ViewData["ActiveMenu"] = "magaza";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3">
+    <div class="col-xl-4">
+        <div class="card mb-3">
+            <div class="card-body text-center py-4">
+                <div style="width:80px;height:80px;background:linear-gradient(135deg,#6C63FF,#764ba2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:2rem;color:white;font-weight:800">
+                    AY
+                </div>
+                <h5 style="font-weight:800">Ayşenur Mağazası</h5>
+                <div class="d-flex justify-content-center gap-2 mb-3">
+                    <span class="badge-pill" style="background:rgba(108,99,255,0.1);color:#6C63FF">Pro Paket</span>
+                    <span class="badge-pill" style="background:rgba(67,217,173,0.1);color:#43D9AD">Aktif</span>
+                </div>
+                <div style="background:#f4f6fb;border-radius:12px;padding:14px;text-align:left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span style="font-size:0.8rem;color:#8892a4">Komisyon Oranı</span>
+                        <span style="font-weight:700;font-size:0.85rem">%8.5</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span style="font-size:0.8rem;color:#8892a4">Min. Garanti</span>
+                        <span style="font-weight:700;font-size:0.85rem">₺500/ay</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span style="font-size:0.8rem;color:#8892a4">Kayıt Tarihi</span>
+                        <span style="font-weight:700;font-size:0.85rem">Oca 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Onboarding Durumu</div>
+            <div class="card-body p-0">
+                @{
+                    var adimlar = new[] {
+                        new { No=1, Ad="Hesap Oluştur", Tamam=true },
+                        new { No=2, Ad="Platform Bağla", Tamam=true },
+                        new { No=3, Ad="İlk Sync", Tamam=true },
+                        new { No=4, Ad="AI Onayla", Tamam=true },
+                        new { No=5, Ad="Tamamla", Tamam=true },
+                    };
+                }
+                @foreach (var a in adimlar)
+                {
+                    <div style="padding:12px 16px;border-bottom:1px solid #e8ecf4;display:flex;align-items:center;gap:12px">
+                        <div style="width:28px;height:28px;border-radius:50%;background:@(a.Tamam?"#43D9AD":"#e8ecf4");color:@(a.Tamam?"white":"#8892a4");display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700">
+                            @if (a.Tamam) { <text>✓</text> } else { @a.No }
+                        </div>
+                        <span style="font-size:0.875rem;font-weight:600;color:@(a.Tamam?"#1a1a2e":"#8892a4")">@a.Ad</span>
+                        @if (a.Tamam)
+                        {
+                            <span style="margin-left:auto;font-size:0.75rem;color:#43D9AD;font-weight:600">Tamamlandı</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Mağaza Bilgileri</span>
+                <button class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:8px;font-weight:600">
+                    <i class="bi bi-pencil me-1"></i>Düzenle
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label style="font-weight:700;font-size:0.875rem;color:#8892a4">Mağaza Adı</label>
+                        <div style="font-weight:600;margin-top:4px">Ayşenur Mağazası</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="font-weight:700;font-size:0.875rem;color:#8892a4">E-posta</label>
+                        <div style="font-weight:600;margin-top:4px">aysenur@magaza.com</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="font-weight:700;font-size:0.875rem;color:#8892a4">Paket Türü</label>
+                        <div style="margin-top:4px">
+                            <span class="badge-pill" style="background:rgba(108,99,255,0.1);color:#6C63FF;font-size:0.85rem">Pro</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="font-weight:700;font-size:0.875rem;color:#8892a4">Son Giriş</label>
+                        <div style="font-weight:600;margin-top:4px">Şu an aktif</div>
+                    </div>
+                </div>
+
+                <hr style="border-color:#e8ecf4;margin:20px 0" />
+
+                <h6 style="font-weight:800;margin-bottom:16px">Şifre Değiştir</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label style="font-weight:600;font-size:0.875rem">Mevcut Şifre</label>
+                        <input type="password" class="form-control mt-1" placeholder="••••••••" style="border-radius:10px;border:2px solid #e8ecf4" />
+                    </div>
+                    <div class="col-md-4">
+                        <label style="font-weight:600;font-size:0.875rem">Yeni Şifre</label>
+                        <input type="password" class="form-control mt-1" placeholder="••••••••" style="border-radius:10px;border:2px solid #e8ecf4" />
+                    </div>
+                    <div class="col-md-4">
+                        <label style="font-weight:600;font-size:0.875rem">Tekrar</label>
+                        <input type="password" class="form-control mt-1" placeholder="••••••••" style="border-radius:10px;border:2px solid #e8ecf4" />
+                    </div>
+                </div>
+                <button class="btn mt-3" style="background:#6C63FF;color:white;border:none;border-radius:10px;padding:10px 24px;font-weight:600">
+                    Şifreyi Güncelle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

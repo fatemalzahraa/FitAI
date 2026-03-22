@@ -1,0 +1,117 @@
+@{
+    ViewData["Title"] = "Kullanıcılar";
+    ViewData["ActiveMenu"] = "kullanici";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 style="font-weight:800;margin:0">Kullanıcı Yönetimi</h5>
+        <small style="color:#8892a4">Mağaza çalışanları ve yetkileri</small>
+    </div>
+    <button class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:10px;padding:8px 18px;font-weight:600"
+            data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="bi bi-person-plus me-1"></i>Kullanıcı Ekle
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Kullanıcı</th>
+                    <th>E-posta</th>
+                    <th>Rol</th>
+                    <th>Son Giriş</th>
+                    <th>Durum</th>
+                    <th class="pe-4">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var kullanicilar = new[] {
+                        new { Ad="Ayşenur Y.", Eposta="aysenur@fitai.com", Rol="Admin", SonGiris="Şu an aktif", Aktif=true },
+                        new { Ad="Mehmet K.", Eposta="mehmet@fitai.com", Rol="Editor", SonGiris="2 saat önce", Aktif=true },
+                        new { Ad="Zeynep A.", Eposta="zeynep@fitai.com", Rol="Viewer", SonGiris="1 gün önce", Aktif=true },
+                        new { Ad="Ali R.", Eposta="ali@fitai.com", Rol="Editor", SonGiris="3 gün önce", Aktif=false },
+                    };
+                    var rolRenk = new System.Collections.Generic.Dictionary<string, string> {
+                        {"Admin", "#6C63FF"}, {"Editor", "#FFB547"}, {"Viewer", "#43D9AD"}
+                    };
+                }
+                @foreach (var k in kullanicilar)
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="width:36px;height:36px;background:@rolRenk[k.Rol];border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem">
+                                    @k.Ad[0]
+                                </div>
+                                <span style="font-weight:600;font-size:0.875rem">@k.Ad</span>
+                            </div>
+                        </td>
+                        <td style="font-size:0.875rem;color:#8892a4">@k.Eposta</td>
+                        <td>
+                            <span class="badge-pill" style="background:@(rolRenk[k.Rol])22;color:@rolRenk[k.Rol]">@k.Rol</span>
+                        </td>
+                        <td style="font-size:0.8rem;color:#8892a4">@k.SonGiris</td>
+                        <td>
+                            <span class="badge-pill" style="background:@(k.Aktif?"rgba(67,217,173,0.1)":"rgba(255,101,132,0.1)");color:@(k.Aktif?"#43D9AD":"#FF6584")">
+                                @(k.Aktif ? "Aktif" : "Pasif")
+                            </span>
+                        </td>
+                        <td class="pe-4">
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-sm" style="background:#f4f6fb;border:1px solid #e8ecf4;border-radius:8px">
+                                    <i class="bi bi-pencil" style="font-size:0.8rem"></i>
+                                </button>
+                                <button class="btn btn-sm" style="background:#fff0f3;border:1px solid #FF658422;border-radius:8px">
+                                    <i class="bi bi-trash" style="color:#FF6584;font-size:0.8rem"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius:20px;border:none">
+            <div class="modal-header" style="border-bottom:1px solid #e8ecf4;padding:20px 24px">
+                <h5 class="modal-title" style="font-weight:800">Yeni Kullanıcı Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="padding:24px">
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">Ad Soyad</label>
+                    <input type="text" class="form-control mt-1" placeholder="Ad Soyad" style="border-radius:12px;border:2px solid #e8ecf4" />
+                </div>
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">E-posta</label>
+                    <input type="email" class="form-control mt-1" placeholder="email@domain.com" style="border-radius:12px;border:2px solid #e8ecf4" />
+                </div>
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">Rol</label>
+                    <select class="form-select mt-1" style="border-radius:12px;border:2px solid #e8ecf4">
+                        <option>Admin</option>
+                        <option>Editor</option>
+                        <option>Viewer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">Şifre</label>
+                    <input type="password" class="form-control mt-1" placeholder="••••••••" style="border-radius:12px;border:2px solid #e8ecf4" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top:1px solid #e8ecf4;padding:16px 24px">
+                <button class="btn" data-bs-dismiss="modal" style="border-radius:10px;border:2px solid #e8ecf4;font-weight:600;padding:8px 20px">İptal</button>
+                <button class="btn" style="background:#6C63FF;color:white;border:none;border-radius:10px;font-weight:600;padding:8px 20px">Kullanıcı Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>

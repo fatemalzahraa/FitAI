@@ -1,0 +1,117 @@
+@{
+    ViewData["Title"] = "Ürün Detay";
+    ViewData["ActiveMenu"] = "urun";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-4">
+    <a href="/Urun" style="color:#8892a4;text-decoration:none;font-size:0.875rem">
+        <i class="bi bi-arrow-left me-1"></i> Ürünler
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div>
+                        <h4 style="font-weight:800;margin:0">Slim Fit Jean</h4>
+                        <div class="d-flex gap-2 mt-2">
+                            <span style="font-size:0.8rem">🛍️ Trendyol</span>
+                            <span style="color:#8892a4">·</span>
+                            <span style="color:#8892a4;font-size:0.8rem">ID: TY-2847361</span>
+                            <span style="color:#8892a4">·</span>
+                            <span style="color:#8892a4;font-size:0.8rem">Kesim: Slim Fit</span>
+                        </div>
+                    </div>
+                    <span class="badge-pill" style="background:#fff3cd;color:#FFB547">Bekliyor</span>
+                </div>
+
+                <!-- 9 VUCUT TİPİ SKORLARI -->
+                <h6 style="font-weight:800;margin-bottom:16px">🧍 Vücut Tipi Uyum Skorları</h6>
+                <div class="row g-2">
+                    @{
+                        var vucutTipleri = new[] {
+                            new { Tip="Kum Saati", Emoji="⌛", Uyum=78, Iade=18, Tavsiye="Normal beden" },
+                            new { Tip="Armut", Emoji="🍐", Uyum=42, Iade=67, Tavsiye="1 beden büyük alın" },
+                            new { Tip="Ters Üçgen", Emoji="🔺", Uyum=82, Iade=14, Tavsiye="Normal beden" },
+                            new { Tip="Elma", Emoji="🍎", Uyum=35, Iade=72, Tavsiye="2 beden büyük alın" },
+                            new { Tip="Dikdörtgen", Emoji="▭", Uyum=88, Iade=10, Tavsiye="Normal beden" },
+                            new { Tip="Oval", Emoji="⭕", Uyum=40, Iade=68, Tavsiye="1 beden büyük alın" },
+                            new { Tip="Daire", Emoji="🔵", Uyum=30, Iade=78, Tavsiye="2 beden büyük alın" },
+                            new { Tip="Kare", Emoji="⬛", Uyum=75, Iade=20, Tavsiye="Normal beden" },
+                            new { Tip="Uzun İnce", Emoji="🥢", Uyum=92, Iade=8, Tavsiye="Normal beden" },
+                        };
+                    }
+                    @foreach (var v in vucutTipleri)
+                    {
+                        var color = v.Uyum >= 70 ? "#43D9AD" : v.Uyum >= 50 ? "#FFB547" : "#FF6584";
+                        var bg = v.Uyum >= 70 ? "rgba(67,217,173,0.1)" : v.Uyum >= 50 ? "rgba(255,181,71,0.1)" : "rgba(255,101,132,0.1)";
+                        <div class="col-md-4">
+                            <div style="background:@bg;border-radius:12px;padding:12px;border:1px solid @color+'33'">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span style="font-size:0.85rem;font-weight:700">@v.Emoji @v.Tip</span>
+                                    <span style="font-weight:800;color:@color;font-size:0.9rem">%@v.Uyum</span>
+                                </div>
+                                <div class="score-bar mb-1">
+                                    <div class="score-fill" style="width:@(v.Uyum)%;background:@color"></div>
+                                </div>
+                                <div style="font-size:0.72rem;color:#8892a4">İade: %@v.Iade · @v.Tavsiye</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <!-- AI TAVSİYELERİ -->
+        <div class="card mb-3">
+            <div class="card-header">🤖 AI Tavsiyesi</div>
+            <div class="card-body">
+                <div style="background:#fff0f3;border-radius:12px;padding:14px;border:1px solid #FF658422;margin-bottom:12px">
+                    <div style="font-weight:700;font-size:0.875rem;color:#FF6584;margin-bottom:4px">
+                        <i class="bi bi-exclamation-triangle me-1"></i>Yüksek İade Riski
+                    </div>
+                    <p style="font-size:0.8rem;color:#666;margin:0">Armut ve Elma vücut tiplerinde iade riski %65+ seviyesinde. Beden tablosunu güncelleyin.</p>
+                </div>
+                <div style="background:#f0f4ff;border-radius:12px;padding:14px;border:1px solid #6C63FF22">
+                    <div style="font-weight:700;font-size:0.875rem;color:#6C63FF;margin-bottom:4px">
+                        <i class="bi bi-lightbulb me-1"></i>Öneri
+                    </div>
+                    <p style="font-size:0.8rem;color:#666;margin:0">Uzun İnce ve Dikdörtgen tiplerini ön plana çıkaran görseller ekleyin. +%23 satış bekleniyor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NLP BULGULARI -->
+        <div class="card">
+            <div class="card-header">💬 NLP Bulguları</div>
+            <div class="card-body p-0">
+                <div style="padding:14px 16px;border-bottom:1px solid #e8ecf4">
+                    <div class="d-flex justify-content-between">
+                        <span style="font-weight:600;font-size:0.85rem">Kumaş kalınlığı</span>
+                        <span class="badge-pill" style="background:#fff3cd;color:#FFB547">12 kez</span>
+                    </div>
+                    <div style="font-size:0.78rem;color:#8892a4;margin-top:2px">Kumaş gr/m² bilgisi eksik</div>
+                </div>
+                <div style="padding:14px 16px;border-bottom:1px solid #e8ecf4">
+                    <div class="d-flex justify-content-between">
+                        <span style="font-weight:600;font-size:0.85rem">Beden küçük çıkıyor</span>
+                        <span class="badge-pill" style="background:#ffe0e6;color:#FF6584">8 yorum</span>
+                    </div>
+                    <div style="font-size:0.78rem;color:#8892a4;margin-top:2px">Beden tablosu yanıltıcı olabilir</div>
+                </div>
+                <div style="padding:14px 16px">
+                    <div class="d-flex justify-content-between">
+                        <span style="font-weight:600;font-size:0.85rem">Armut tipi uygun mu?</span>
+                        <span class="badge-pill" style="background:#e8ecff;color:#6C63FF">6 soru</span>
+                    </div>
+                    <div style="font-size:0.78rem;color:#8892a4;margin-top:2px">Vücut tipi etiketi eksik</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

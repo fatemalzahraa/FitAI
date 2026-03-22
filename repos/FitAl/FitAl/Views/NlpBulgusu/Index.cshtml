@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "NLP Uyarıları";
+    ViewData["ActiveMenu"] = "nlp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,101,132,0.1)"><i class="bi bi-exclamation-circle" style="color:#FF6584"></i></div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Açık Uyarı</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(67,217,173,0.1)"><i class="bi bi-check-circle" style="color:#43D9AD"></i></div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">Çözülen</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,181,71,0.1)"><i class="bi bi-clock" style="color:#FFB547"></i></div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Bekleyen Onay</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(108,99,255,0.1)"><i class="bi bi-chat-text" style="color:#6C63FF"></i></div>
+            <div class="stat-value">247</div>
+            <div class="stat-label">İşlenen Yorum</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>NLP Bulguları</span>
+        <div class="d-flex gap-2">
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Tüm Durumlar</option>
+                <option>Açık</option>
+                <option>Çözüldü</option>
+            </select>
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Duygu</option>
+                <option>Negatif</option>
+                <option>Pozitif</option>
+                <option>Nötr</option>
+            </select>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Ürün</th>
+                    <th>Tema</th>
+                    <th>Tekrar</th>
+                    <th>Duygu</th>
+                    <th>Öneri</th>
+                    <th>Durum</th>
+                    <th class="pe-4">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var bulgular = new[] {
+                        new { Urun="Slim Fit Jean", Tema="Kumaş kalınlığı", Tekrar=12, Duygu="Negatif", DuyguColor="#FF6584", Oneri="Kumaş gr/m² bilgisi ekleyin", Durum="Açık", Platform="Bekliyor" },
+                        new { Urun="Yazlık Elbise", Tema="Beden uyumu", Tekrar=8, Duygu="Negatif", DuyguColor="#FF6584", Oneri="Beden tablosunu güncelleyin", Durum="Açık", Platform="Bekliyor" },
+                        new { Urun="Oversize Gömlek", Tema="Vücut tipi uyumu", Tekrar=6, Duygu="Nötr", DuyguColor="#FFB547", Oneri="Vücut tipi etiketi ekleyin", Durum="Açık", Platform="Bekliyor" },
+                        new { Urun="A-Line Etek", Tema="Renk tutarlılığı", Tekrar=9, Duygu="Negatif", DuyguColor="#FF6584", Oneri="Doğal ışıkta ek fotoğraf ekleyin", Durum="Açık", Platform="Bekliyor" },
+                        new { Urun="Kum Saati Elbise", Tema="Sezon bilgisi", Tekrar=5, Duygu="Nötr", DuyguColor="#FFB547", Oneri="Sezon: Yaz etiketi ekleyin", Durum="Açık", Platform="Bekliyor" },
+                        new { Urun="Bodycon Elbise", Tema="Kumaş kalitesi", Tekrar=4, Duygu="Pozitif", DuyguColor="#43D9AD", Oneri="Kumaş detayı ön plana çıkarıldı", Durum="Çözüldü", Platform="Uygulandı" },
+                    };
+                }
+                @foreach (var b in bulgular)
+                {
+                    <tr>
+                        <td class="ps-4" style="font-weight:600;font-size:0.875rem">@b.Urun</td>
+                        <td style="font-size:0.875rem">@b.Tema</td>
+                        <td>
+                            <span class="badge-pill" style="background:rgba(255,101,132,0.1);color:#FF6584">@b.Tekrar kez</span>
+                        </td>
+                        <td>
+                            <span class="badge-pill" style="background:@(b.DuyguColor)22;color:@b.DuyguColor">@b.Duygu</span>
+                        </td>
+                        <td style="font-size:0.8rem;color:#666;max-width:200px">@b.Oneri</td>
+                        <td>
+                            <span class="badge-pill" style="background:@(b.Durum=="Açık"?"rgba(255,101,132,0.1)":"rgba(67,217,173,0.1)");color:@(b.Durum=="Açık"?"#FF6584":"#43D9AD")">
+                                @b.Durum
+                            </span>
+                        </td>
+                        <td class="pe-4">
+                            @if (b.Durum == "Açık")
+                            {
+                                <button class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:8px;font-size:0.78rem">
+                                    Platforma Gönder
+                                </button>
+                            }
+                            else
+                            {
+                                <span style="color:#43D9AD;font-size:0.8rem;font-weight:600">✓ Uygulandı</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

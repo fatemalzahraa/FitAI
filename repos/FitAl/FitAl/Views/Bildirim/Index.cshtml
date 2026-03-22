@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Bildirimler";
+    ViewData["ActiveMenu"] = "bildirim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 style="font-weight:800;margin:0">Bildirimler</h5>
+        <small style="color:#8892a4">3 okunmamış bildirim</small>
+    </div>
+    <button class="btn btn-sm" style="background:#f4f6fb;border:1px solid #e8ecf4;border-radius:10px;font-weight:600">
+        Tümünü Okundu İşaretle
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        @{
+            var bildirimler = new[] {
+                new { Tip="NLPUyarisi", Baslik="Yeni NLP Uyarısı", Icerik="Slim Fit Jean için 12 müşteri kumaş kalınlığı sordu. Ürün açıklamasını güncelleyin.", Tarih="5 dk önce", Okundu=false, Icon="bi-chat-text", Color="#6C63FF" },
+                new { Tip="IadeRiski", Baslik="Yüksek İade Riski Tespit Edildi", Icerik="Yazlık Elbise ürününde Elma vücut tipi için iade riski %72'ye ulaştı.", Tarih="1 saat önce", Okundu=false, Icon="bi-exclamation-triangle", Color="#FF6584" },
+                new { Tip="SyncHatasi", Baslik="Senkronizasyon Hatası", Icerik="Hepsiburada bağlantısı 14:00'da başarısız oldu. API anahtarını kontrol edin.", Tarih="2 saat önce", Okundu=false, Icon="bi-x-circle", Color="#FF6584" },
+                new { Tip="Genel", Baslik="AI Talimat Etki Raporu Hazır", Icerik="'Konforu Ön Plana Al' talimatının 7 günlük etki raporu oluşturuldu.", Tarih="1 gün önce", Okundu=true, Icon="bi-robot", Color="#43D9AD" },
+                new { Tip="Genel", Baslik="Aylık Komisyon Raporu", Icerik="Mart 2026 komisyon raporu hazır. Toplam: ₺24,850", Tarih="2 gün önce", Okundu=true, Icon="bi-bar-chart", Color="#6C63FF" },
+            };
+        }
+        @foreach (var b in bildirimler)
+        {
+            <div style="padding:16px 20px;border-bottom:1px solid #e8ecf4;background:@(!b.Okundu?"rgba(108,99,255,0.02)":"white");display:flex;gap:14px;align-items:flex-start">
+                <div style="width:42px;height:42px;border-radius:12px;background:@(b.Color)22;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <i class="bi @b.Icon" style="color:@b.Color;font-size:1.1rem"></i>
+                </div>
+                <div style="flex:1">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div style="font-weight:@(!b.Okundu?"700":"600");font-size:0.875rem">@b.Baslik</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span style="font-size:0.75rem;color:#8892a4">@b.Tarih</span>
+                            @if (!b.Okundu)
+                            {
+                                <div style="width:8px;height:8px;background:#6C63FF;border-radius:50%"></div>
+                            }
+                        </div>
+                    </div>
+                    <div style="font-size:0.8rem;color:#8892a4;margin-top:3px">@b.Icerik</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,199 @@
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitAI — Giriş Yap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            background: #0f0f1a;
+            overflow: hidden;
+        }
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(108,99,255,0.3) 0%, transparent 70%);
+            top: -100px; left: -100px;
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(255,101,132,0.2) 0%, transparent 70%);
+            bottom: -50px; right: -50px;
+        }
+        .brand { text-align: center; z-index: 1; }
+        .brand h1 { font-size: 4rem; font-weight: 800; color: white; margin: 0; }
+        .brand h1 span { color: #6C63FF; }
+        .brand p { color: rgba(255,255,255,0.5); font-size: 1rem; margin-top: 8px; }
+        .features { margin-top: 60px; z-index: 1; width: 100%; max-width: 380px; }
+        .feature-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .feature-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+        .feature-text h6 { color: white; margin: 0; font-size: 0.875rem; font-weight: 600; }
+        .feature-text p { color: rgba(255,255,255,0.4); margin: 0; font-size: 0.78rem; }
+
+        .right-panel {
+            width: 480px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 50px;
+        }
+        .login-form { width: 100%; }
+        .login-form h2 { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+        .login-form p { color: #8892a4; font-size: 0.9rem; margin-bottom: 32px; }
+        .form-label { font-weight: 600; font-size: 0.875rem; color: #1a1a2e; margin-bottom: 6px; }
+        .form-control {
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 2px solid #e8ecf4;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus { border-color: #6C63FF; box-shadow: 0 0 0 4px rgba(108,99,255,0.1); }
+        .input-group-text {
+            background: #f4f6fb;
+            border: 2px solid #e8ecf4;
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: #8892a4;
+        }
+        .input-group .form-control { border-left: none; border-radius: 0 12px 12px 0; }
+        .btn-login {
+            background: #6C63FF;
+            border: none;
+            border-radius: 12px;
+            padding: 13px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            width: 100%;
+            color: white;
+            transition: all 0.2s;
+        }
+        .btn-login:hover { background: #5a52d5; transform: translateY(-1px); color: white; }
+        .divider { text-align: center; color: #8892a4; font-size: 0.85rem; margin: 20px 0; position: relative; }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%; width: 40%; height: 1px;
+            background: #e8ecf4;
+        }
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+        .register-link { text-align: center; margin-top: 20px; font-size: 0.875rem; color: #8892a4; }
+        .register-link a { color: #6C63FF; font-weight: 700; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <div class="brand">
+            <h1>Fit<span>AI</span></h1>
+            <p>Yapay Zeka Destekli E-Ticaret Optimizasyonu</p>
+        </div>
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon" style="background:rgba(108,99,255,0.2)">
+                    <i class="bi bi-person-bounding-box" style="color:#6C63FF"></i>
+                </div>
+                <div class="feature-text">
+                    <h6>Vücut Uyum Motoru</h6>
+                    <p>9 vücut tipi × ürün analizi</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon" style="background:rgba(255,101,132,0.2)">
+                    <i class="bi bi-chat-square-text" style="color:#FF6584"></i>
+                </div>
+                <div class="feature-text">
+                    <h6>NLP Yorum Analizi</h6>
+                    <p>Türkçe müşteri yorumlarından öğren</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon" style="background:rgba(67,217,173,0.2)">
+                    <i class="bi bi-graph-up-arrow" style="color:#43D9AD"></i>
+                </div>
+                <div class="feature-text">
+                    <h6>İade Tahmini</h6>
+                    <p>AI ile iade riskini minimize et</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="login-form">
+            <h2>Tekrar Hoşgeldin 👋</h2>
+            <p>Mağaza hesabınla giriş yap</p>
+
+            <form method="post" asp-controller="Auth" asp-action="Login">
+                <div class="mb-3">
+                    <label class="form-label">E-posta Adresi</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="eposta" class="form-control" placeholder="magaza@email.com" required />
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Şifre</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="sifre" class="form-control" placeholder="••••••••" required />
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe" style="font-size:0.83rem;color:#8892a4">Beni Hatırla</label>
+                        </div>
+                        <a href="#" style="color:#6C63FF;font-size:0.83rem;text-decoration:none;font-weight:600">Şifremi Unuttum</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-login">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                </button>
+            </form>
+
+            <div class="divider">veya</div>
+            <div class="register-link">
+                Hesabın yok mu? <a href="/Auth/Register">Kayıt Ol</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+@{
+    ViewData["Title"] = "Ürünler";
+    ViewData["ActiveMenu"] = "urun";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h5 style="font-weight:800;margin:0">Ürün Listesi</h5>
+        <small style="color:#8892a4">1,248 ürün senkronize edildi</small>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-sm" style="background:#f4f6fb;border:1px solid #e8ecf4;border-radius:10px;font-weight:600">
+            <i class="bi bi-arrow-repeat me-1"></i>Sync Et
+        </button>
+        <button class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:10px;font-weight:600">
+            <i class="bi bi-filter me-1"></i>Filtrele
+        </button>
+    </div>
+</div>
+
+<!-- FİLTRELER -->
+<div class="card mb-4">
+    <div class="card-body py-3">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <input type="text" class="form-control form-control-sm" placeholder="🔍 Ürün ara..." style="border-radius:10px;border:2px solid #e8ecf4" />
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" style="border-radius:10px;border:2px solid #e8ecf4">
+                    <option>Tüm Platformlar</option>
+                    <option>Trendyol</option>
+                    <option>Hepsiburada</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" style="border-radius:10px;border:2px solid #e8ecf4">
+                    <option>Tüm Kesimler</option>
+                    <option>Slim Fit</option>
+                    <option>Regular</option>
+                    <option>Oversize</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" style="border-radius:10px;border:2px solid #e8ecf4">
+                    <option>İade Riski</option>
+                    <option>Düşük (%0-30)</option>
+                    <option>Orta (%30-60)</option>
+                    <option>Yüksek (%60+)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" style="border-radius:10px;border:2px solid #e8ecf4">
+                    <option>Push Durumu</option>
+                    <option>Tamamlandı</option>
+                    <option>Bekliyor</option>
+                    <option>Hata</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TABLO -->
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Ürün Adı</th>
+                    <th>Platform</th>
+                    <th>Kesim</th>
+                    <th>En İyi Uyum</th>
+                    <th>İade Riski</th>
+                    <th>Vücut Etiketi</th>
+                    <th>Push Durumu</th>
+                    <th class="pe-4">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var urunler = new[] {
+                        new { Ad="Kum Saati Elbise", Platform="Trendyol", Kesim="Slim Fit", Uyum=92, Iade=8, Etiket="Kum Saati", Push="Tamamlandı", PushColor="#43D9AD" },
+                        new { Ad="A-Line Etek", Platform="Hepsiburada", Kesim="A-Line", Uyum=87, Iade=11, Etiket="Armut", Push="Tamamlandı", PushColor="#43D9AD" },
+                        new { Ad="Oversize Gömlek", Platform="Trendyol", Kesim="Oversize", Uyum=78, Iade=22, Etiket="Dikdörtgen", Push="Bekliyor", PushColor="#FFB547" },
+                        new { Ad="Slim Fit Jean", Platform="Trendyol", Kesim="Slim Fit", Uyum=65, Iade=34, Etiket="—", Push="Bekliyor", PushColor="#FFB547" },
+                        new { Ad="Yazlık Elbise", Platform="Hepsiburada", Kesim="Regular", Uyum=42, Iade=67, Etiket="Elma", Push="Hata", PushColor="#FF6584" },
+                        new { Ad="Bodycon Elbise", Platform="Trendyol", Kesim="Slim Fit", Uyum=88, Iade=12, Etiket="Kum Saati", Push="Tamamlandı", PushColor="#43D9AD" },
+                    };
+                }
+                @foreach (var u in urunler)
+                {
+                    var uyumColor = u.Uyum >= 70 ? "#43D9AD" : u.Uyum >= 50 ? "#FFB547" : "#FF6584";
+                    <tr>
+                        <td class="ps-4">
+                            <div style="font-weight:600;font-size:0.875rem">@u.Ad</div>
+                        </td>
+                        <td>
+                            <span style="font-size:0.875rem">@(u.Platform == "Trendyol" ? "🛍️" : "🏪") @u.Platform</span>
+                        </td>
+                        <td><span style="font-size:0.875rem">@u.Kesim</span></td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="score-bar" style="width:70px">
+                                    <div class="score-fill" style="width:@(u.Uyum)%;background:@uyumColor"></div>
+                                </div>
+                                <span style="font-weight:700;color:@uyumColor;font-size:0.85rem">%@u.Uyum</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span style="font-weight:700;color:@(u.Iade < 30 ? "#43D9AD" : u.Iade < 60 ? "#FFB547" : "#FF6584");font-size:0.875rem">%@u.Iade</span>
+                        </td>
+                        <td>
+                            @if (u.Etiket != "—")
+                            {
+                                <span class="badge-pill" style="background:rgba(108,99,255,0.1);color:#6C63FF">@u.Etiket</span>
+                            }
+                            else
+                            {
+                                <span style="color:#8892a4;font-size:0.8rem">Etiket yok</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="badge-pill" style="background:@(u.PushColor)22;color:@u.PushColor">@u.Push</span>
+                        </td>
+                        <td class="pe-4">
+                            <a href="/Urun/Detay/1" class="btn btn-sm" style="background:#f4f6fb;border:1px solid #e8ecf4;border-radius:8px;font-size:0.78rem;font-weight:600">
+                                <i class="bi bi-eye"></i> Detay
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-white d-flex justify-content-between align-items-center" style="border-top:1px solid #e8ecf4;border-radius:0 0 16px 16px">
+        <small style="color:#8892a4">6 / 1,248 ürün gösteriliyor</small>
+        <nav>
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled"><a class="page-link" style="border-radius:8px">‹</a></li>
+                <li class="page-item active"><a class="page-link" style="background:#6C63FF;border-color:#6C63FF;border-radius:8px">1</a></li>
+                <li class="page-item"><a class="page-link" style="border-radius:8px">2</a></li>
+                <li class="page-item"><a class="page-link" style="border-radius:8px">3</a></li>
+                <li class="page-item"><a class="page-link" style="border-radius:8px">›</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

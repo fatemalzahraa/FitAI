@@ -1,0 +1,131 @@
+@{
+    ViewData["Title"] = "Platform Bağlantıları";
+    ViewData["ActiveMenu"] = "platform";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="font-size:2.5rem">🛍️</div>
+                        <div>
+                            <h5 style="font-weight:800;margin:0">Trendyol</h5>
+                            <span class="badge-pill" style="background:rgba(67,217,173,0.1);color:#43D9AD">Aktif</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm" style="background:#fff0f3;color:#FF6584;border:none;border-radius:8px;font-weight:600">
+                        <i class="bi bi-x-circle me-1"></i>Bağlantıyı Kes
+                    </button>
+                </div>
+                <div style="background:#f4f6fb;border-radius:12px;padding:14px">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">API Anahtarı</div>
+                            <div style="font-weight:600;font-size:0.85rem">ty_api_••••••••</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Son Sync</div>
+                            <div style="font-weight:600;font-size:0.85rem">5 dk önce</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Sync Tipi</div>
+                            <div style="font-weight:600;font-size:0.85rem">Otomatik (15dk)</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Webhook</div>
+                            <div style="font-weight:600;font-size:0.85rem;color:#43D9AD">Aktif</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-sm w-100 mt-3" style="background:#6C63FF;color:white;border:none;border-radius:10px;padding:10px;font-weight:600">
+                    <i class="bi bi-arrow-repeat me-1"></i>Manuel Sync
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="font-size:2.5rem">🏪</div>
+                        <div>
+                            <h5 style="font-weight:800;margin:0">Hepsiburada</h5>
+                            <span class="badge-pill" style="background:rgba(67,217,173,0.1);color:#43D9AD">Aktif</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm" style="background:#fff0f3;color:#FF6584;border:none;border-radius:8px;font-weight:600">
+                        <i class="bi bi-x-circle me-1"></i>Bağlantıyı Kes
+                    </button>
+                </div>
+                <div style="background:#f4f6fb;border-radius:12px;padding:14px">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">API Anahtarı</div>
+                            <div style="font-weight:600;font-size:0.85rem">hb_api_••••••••</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Son Sync</div>
+                            <div style="font-weight:600;font-size:0.85rem">12 dk önce</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Sync Tipi</div>
+                            <div style="font-weight:600;font-size:0.85rem">Otomatik (15dk)</div>
+                        </div>
+                        <div class="col-6">
+                            <div style="font-size:0.75rem;color:#8892a4">Webhook</div>
+                            <div style="font-weight:600;font-size:0.85rem;color:#43D9AD">Aktif</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-sm w-100 mt-3" style="background:#6C63FF;color:white;border:none;border-radius:10px;padding:10px;font-weight:600">
+                    <i class="bi bi-arrow-repeat me-1"></i>Manuel Sync
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SYNC LOGS -->
+<div class="card">
+    <div class="card-header">Son Senkronizasyon Logları</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Platform</th>
+                    <th>Tip</th>
+                    <th>Başlama</th>
+                    <th>Süre</th>
+                    <th>İşlenen</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var loglar = new[] {
+                        new { Platform="🛍️ Trendyol", Tip="Periyodik", Bas="23 Mar 14:30", Sure="1.2s", Islenen=47, Durum="Basarili", Color="#43D9AD" },
+                        new { Platform="🏪 Hepsiburada", Tip="Webhook", Bas="23 Mar 14:18", Sure="0.4s", Islenen=3, Durum="Basarili", Color="#43D9AD" },
+                        new { Platform="🛍️ Trendyol", Tip="Periyodik", Bas="23 Mar 14:15", Sure="1.8s", Islenen=52, Durum="Basarili", Color="#43D9AD" },
+                        new { Platform="🏪 Hepsiburada", Tip="Periyodik", Bas="23 Mar 14:00", Sure="—", Islenen=0, Durum="Hatali", Color="#FF6584" },
+                    };
+                }
+                @foreach (var l in loglar)
+                {
+                    <tr>
+                        <td class="ps-4" style="font-weight:600;font-size:0.875rem">@l.Platform</td>
+                        <td><span class="badge-pill" style="background:#f4f6fb;color:#666">@l.Tip</span></td>
+                        <td style="font-size:0.8rem;color:#8892a4">@l.Bas</td>
+                        <td style="font-size:0.875rem">@l.Sure</td>
+                        <td style="font-weight:600">@l.Islenen kayıt</td>
+                        <td><span class="badge-pill" style="background:@(l.Color)22;color:@l.Color">@l.Durum</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

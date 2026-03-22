@@ -1,0 +1,155 @@
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>FitAI — Kayıt Ol</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: #f4f6fb; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+        .register-container { width: 100%; max-width: 600px; }
+        .brand { text-align: center; margin-bottom: 32px; }
+        .brand h1 { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
+        .brand h1 span { color: #6C63FF; }
+        .steps-bar { display: flex; align-items: center; justify-content: center; margin-bottom: 32px; gap: 0; }
+        .step {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            position: relative; flex: 1;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 18px; left: 50%; width: 100%;
+            height: 2px; background: #e8ecf4; z-index: 0;
+        }
+        .step.done:not(:last-child)::after { background: #6C63FF; }
+        .step-circle {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #e8ecf4;
+            color: #8892a4;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem;
+            z-index: 1; position: relative;
+        }
+        .step.active .step-circle { background: #6C63FF; color: white; }
+        .step.done .step-circle { background: #43D9AD; color: white; }
+        .step-label { font-size: 0.72rem; color: #8892a4; font-weight: 600; text-align: center; }
+        .step.active .step-label { color: #6C63FF; }
+
+        .card { border-radius: 20px; border: 1px solid #e8ecf4; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+        .card-body { padding: 36px; }
+        .form-label { font-weight: 600; font-size: 0.875rem; color: #1a1a2e; }
+        .form-control {
+            border-radius: 12px; padding: 12px 16px;
+            border: 2px solid #e8ecf4; font-size: 0.9rem;
+        }
+        .form-control:focus { border-color: #6C63FF; box-shadow: 0 0 0 4px rgba(108,99,255,0.1); }
+        .form-select { border-radius: 12px; padding: 12px 16px; border: 2px solid #e8ecf4; }
+        .btn-primary {
+            background: #6C63FF; border: none; border-radius: 12px;
+            padding: 12px 28px; font-weight: 700;
+        }
+        .btn-primary:hover { background: #5a52d5; }
+        .btn-outline-secondary { border-radius: 12px; padding: 12px 28px; font-weight: 600; }
+        .platform-card {
+            border: 2px solid #e8ecf4; border-radius: 14px; padding: 18px;
+            cursor: pointer; transition: all 0.2s; text-align: center;
+        }
+        .platform-card:hover, .platform-card.selected { border-color: #6C63FF; background: rgba(108,99,255,0.05); }
+        .platform-card img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px; }
+        .platform-card h6 { font-weight: 700; margin: 0; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="brand">
+            <h1>Fit<span>AI</span></h1>
+        </div>
+
+        <!-- STEPS -->
+        <div class="steps-bar">
+            <div class="step done">
+                <div class="step-circle"><i class="bi bi-check"></i></div>
+                <div class="step-label">Hesap</div>
+            </div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Platform</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Sync</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">4</div>
+                <div class="step-label">AI Onay</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">5</div>
+                <div class="step-label">Tamamla</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 style="font-weight:800;margin-bottom:6px">Platform Bağlantısı</h4>
+                <p style="color:#8892a4;font-size:0.875rem;margin-bottom:28px">Hangi platformda mağazanız var?</p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="platform-card selected" onclick="selectPlatform(this)">
+                            <div style="font-size:2rem;margin-bottom:8px">🛍️</div>
+                            <h6>Trendyol</h6>
+                            <small style="color:#8892a4">API Entegrasyonu</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="platform-card" onclick="selectPlatform(this)">
+                            <div style="font-size:2rem;margin-bottom:8px">🏪</div>
+                            <h6>Hepsiburada</h6>
+                            <small style="color:#8892a4">API Entegrasyonu</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">API Anahtarı</label>
+                    <input type="text" class="form-control" placeholder="ty_api_xxxxxxxxxxxxxxxx" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">API Gizli Anahtarı</label>
+                    <input type="password" class="form-control" placeholder="••••••••••••••••" />
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Geri
+                    </button>
+                    <button class="btn btn-primary">
+                        İleri <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="/Auth/Login" style="color:#8892a4;font-size:0.875rem;text-decoration:none">
+                Zaten hesabın var mı? <span style="color:#6C63FF;font-weight:700">Giriş Yap</span>
+            </a>
+        </div>
+    </div>
+    <script>
+        function selectPlatform(el) {
+            document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

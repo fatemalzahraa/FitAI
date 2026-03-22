@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "Komisyon Raporu";
+    ViewData["ActiveMenu"] = "komisyon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(108,99,255,0.1)"><i class="bi bi-currency-dollar" style="color:#6C63FF"></i></div>
+            <div class="stat-value">₺24,850</div>
+            <div class="stat-label">Bu Ay Komisyon</div>
+            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>%18 artış</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(67,217,173,0.1)"><i class="bi bi-robot" style="color:#43D9AD"></i></div>
+            <div class="stat-value">342</div>
+            <div class="stat-label">AI Attributed Satış</div>
+            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>%24 artış</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,181,71,0.1)"><i class="bi bi-percent" style="color:#FFB547"></i></div>
+            <div class="stat-value">%8.5</div>
+            <div class="stat-label">Komisyon Oranı</div>
+            <div class="stat-change" style="color:#8892a4">Pro Paket</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,101,132,0.1)"><i class="bi bi-shield-check" style="color:#FF6584"></i></div>
+            <div class="stat-value">₺500</div>
+            <div class="stat-label">Min. Garanti Eşiği</div>
+            <div class="stat-change up" style="color:#43D9AD">✓ Karşılandı</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Komisyon Kayıtları</span>
+        <div class="d-flex gap-2">
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Mart 2026</option>
+                <option>Şubat 2026</option>
+                <option>Ocak 2026</option>
+            </select>
+            <button class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:8px;font-weight:600">
+                <i class="bi bi-download me-1"></i>Excel
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">Ürün</th>
+                    <th>Platform Sipariş</th>
+                    <th>Satış Tutarı</th>
+                    <th>Komisyon</th>
+                    <th>AI Attribution</th>
+                    <th>Tarih</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var kayitlar = new[] {
+                        new { Urun="Kum Saati Elbise", Siparis="TY-29471823", Satis=459.90m, Komisyon=39.09m, AI=true, Tarih="23 Mar 2026" },
+                        new { Urun="A-Line Etek", Siparis="HB-18372641", Satis=289.90m, Komisyon=24.64m, AI=true, Tarih="22 Mar 2026" },
+                        new { Urun="Oversize Gömlek", Siparis="TY-29471234", Satis=349.90m, Komisyon=29.74m, AI=false, Tarih="22 Mar 2026" },
+                        new { Urun="Bodycon Elbise", Siparis="TY-29470918", Satis=529.90m, Komisyon=45.04m, AI=true, Tarih="21 Mar 2026" },
+                        new { Urun="Slim Fit Jean", Siparis="HB-18372199", Satis=399.90m, Komisyon=33.99m, AI=false, Tarih="21 Mar 2026" },
+                    };
+                }
+                @foreach (var k in kayitlar)
+                {
+                    <tr>
+                        <td class="ps-4" style="font-weight:600;font-size:0.875rem">@k.Urun</td>
+                        <td style="font-size:0.8rem;color:#8892a4">@k.Siparis</td>
+                        <td style="font-weight:600">₺@k.Satis.ToString("N2")</td>
+                        <td style="font-weight:700;color:#6C63FF">₺@k.Komisyon.ToString("N2")</td>
+                        <td>
+                            @if (k.AI)
+                            {
+                                <span class="badge-pill" style="background:rgba(67,217,173,0.1);color:#43D9AD">
+                                    <i class="bi bi-robot me-1"></i>AI Önerisi
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color:#8892a4;font-size:0.8rem">Organik</span>
+                            }
+                        </td>
+                        <td style="font-size:0.8rem;color:#8892a4">@k.Tarih</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

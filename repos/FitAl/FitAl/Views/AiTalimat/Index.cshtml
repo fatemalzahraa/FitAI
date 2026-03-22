@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "AI Talimatlar";
+    ViewData["ActiveMenu"] = "ai";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3">
+    <div class="col-xl-5">
+        <div class="card mb-3">
+            <div class="card-header">🤖 Yeni AI Talimatı Ver</div>
+            <div class="card-body">
+                <p style="color:#8892a4;font-size:0.875rem">AI davranışını doğal dil ile yönet. Talimatın analiz edilerek ağırlıklar güncellenir.</p>
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">Talimat Senaryo Şablonları</label>
+                    <div class="row g-2 mt-1">
+                        @{
+                            var sablonlar = new[] {
+                                new { Icon="📦", Baslik="İadeyi Azalt", Metin="İade oranını azalt, satış düşse bile sorun değil" },
+                                new { Icon="😊", Baslik="Konfor Odaklı", Metin="Konforu ön plana al, kumaş ve kesim ağırlığını artır" },
+                                new { Icon="💰", Baslik="Bütçe Duyarlı", Metin="Pahalı ürün önerme, bütçe dostu seçenekleri ön planda tut" },
+                                new { Icon="⭐", Baslik="Yorum Ağırlığı", Metin="Yorumlara daha fazla önem ver, düşük puanlıları gizle" },
+                            };
+                        }
+                        @foreach (var s in sablonlar)
+                        {
+                            <div class="col-6">
+                                <div onclick="setTalimat(this, '@s.Metin')"
+                                     style="border:2px solid #e8ecf4;border-radius:12px;padding:10px;cursor:pointer;transition:all 0.2s"
+                                     onmouseover="this.style.borderColor='#6C63FF'" onmouseout="this.style.borderColor='#e8ecf4'">
+                                    <div style="font-size:1.2rem">@s.Icon</div>
+                                    <div style="font-weight:700;font-size:0.8rem;margin-top:4px">@s.Baslik</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label style="font-weight:700;font-size:0.875rem">Talimat Metni</label>
+                    <textarea id="talimatInput" class="form-control mt-1" rows="4"
+                              placeholder="Örn: İade oranını azalt, satış düşse bile sorun değil"
+                              style="border-radius:12px;border:2px solid #e8ecf4;resize:none"></textarea>
+                </div>
+                <div style="background:#f0f4ff;border-radius:12px;padding:14px;margin-bottom:16px">
+                    <div style="font-weight:700;font-size:0.8rem;color:#6C63FF;margin-bottom:8px">
+                        <i class="bi bi-info-circle me-1"></i>Tahmini Etki
+                    </div>
+                    <div style="font-size:0.78rem;color:#666">
+                        Bu talimat işlendiğinde iade risk eşiği düşürülecek, konservatif öneriler aktifleştirilecek.
+                        Etki raporu 7 gün sonra oluşturulacak.
+                    </div>
+                </div>
+                <button class="btn w-100" style="background:#6C63FF;color:white;border:none;border-radius:12px;padding:12px;font-weight:700">
+                    <i class="bi bi-send me-2"></i>Talimatı Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-7">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Talimat Geçmişi</span>
+                <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                    <option>Tüm Durumlar</option>
+                    <option>Onaylandi</option>
+                    <option>Bekliyor</option>
+                    <option>Reddedildi</option>
+                </select>
+            </div>
+            <div class="card-body p-0">
+                @{
+                    var talimatlar = new[] {
+                        new { Metin="İadeyi azalt, satış düşse bile sorun değil", Senaryo="İade Azaltma", Tarih="2 saat önce", Durum="Onaylandi", DurumColor="#43D9AD", EtkiVar=false },
+                        new { Metin="Konforu ön plana al", Senaryo="Konfor Odaklı", Tarih="1 gün önce", Durum="Onaylandi", DurumColor="#43D9AD", EtkiVar=true },
+                        new { Metin="Yorumlara daha fazla önem ver", Senaryo="Yorum Ağırlığı", Tarih="3 gün önce", Durum="Onaylandi", DurumColor="#43D9AD", EtkiVar=true },
+                        new { Metin="Sadece mükemmel uyumlu ürün öner", Senaryo="Vücut Tipi Odaklı", Tarih="5 gün önce", Durum="Reddedildi", DurumColor="#FF6584", EtkiVar=false },
+                    };
+                }
+                @foreach (var t in talimatlar)
+                {
+                    <div style="padding:16px 20px;border-bottom:1px solid #e8ecf4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div style="flex:1">
+                                <div style="font-weight:600;font-size:0.875rem;margin-bottom:4px">@t.Metin</div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <span class="badge-pill" style="background:rgba(108,99,255,0.1);color:#6C63FF;font-size:0.72rem">@t.Senaryo</span>
+                                    <span style="color:#8892a4;font-size:0.75rem">@t.Tarih</span>
+                                </div>
+                            </div>
+                            <span class="badge-pill ms-3" style="background:@(t.DurumColor)22;color:@t.DurumColor">@t.Durum</span>
+                        </div>
+                        @if (t.EtkiVar)
+                        {
+                            <div style="background:#f4f6fb;border-radius:10px;padding:10px;font-size:0.78rem;color:#666">
+                                <i class="bi bi-bar-chart me-1" style="color:#6C63FF"></i>
+                                Etki: İade oranı %3.2 azaldı · Uyum skoru ortalaması +%8 arttı
+                                <a href="#" style="color:#6C63FF;font-weight:700;text-decoration:none;margin-left:8px">Raporu Gör →</a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function setTalimat(el, metin) {
+        document.getElementById('talimatInput').value = metin;
+    }
+</script>
+}
