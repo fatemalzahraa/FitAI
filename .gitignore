@@ -1,0 +1,42 @@
+## ASP.NET Core için .gitignore
+
+# Build klasörleri
+bin/
+obj/
+
+# Visual Studio dosyaları
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docview
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+
+# Publish çıktısı
+publish/
+**/publish/
+
+# Logs
+*.log
+logs/
+
+# Ortam & gizli ayarlar
+appsettings.Development.json
+*.env
+.env
+
+# Veritabanı dosyaları
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+# macOS
+.DS_Store
+
+# Test çıktıları
+TestResults/

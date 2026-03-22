@@ -4,1533 +4,363 @@ C:.
 ¦   yapi.txt
 ¦   
 +---repos
-    ¦   SQLQuery1.sql
-    ¦   
-    +---AvciFidancilik
-    ¦   ¦   AvciFidancilik.sln
-    ¦   ¦   
-    ¦   +---.vs
-    ¦   ¦   +---AvciFidancilik
-    ¦   ¦   ¦   +---config
-    ¦   ¦   ¦   ¦       applicationhost.config
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---CopilotIndices
-    ¦   ¦   ¦   ¦   +---17.14.698.11175
-    ¦   ¦   ¦   ¦           CodeChunks.db
-    ¦   ¦   ¦   ¦           SemanticSymbols.db
-    ¦   ¦   ¦   ¦           
-    ¦   ¦   ¦   +---DesignTimeBuild
-    ¦   ¦   ¦   ¦       .dtbcache.v2
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---FileContentIndex
-    ¦   ¦   ¦   ¦       1a75fc17-2b73-4690-a405-af01a548c28e.vsidx
-    ¦   ¦   ¦   ¦       4b7573f0-3235-4cbb-b61e-d1fc4b97d928.vsidx
-    ¦   ¦   ¦   ¦       5518c8ce-e5f0-4a15-a4d6-b2287674e4bc.vsidx
-    ¦   ¦   ¦   ¦       8da0bda0-a954-4680-86b6-6de3cab3de9e.vsidx
-    ¦   ¦   ¦   ¦       b31075fe-27f9-493a-9781-89db0b3816f0.vsidx
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---v17
-    ¦   ¦   ¦           .futdcache.v2
-    ¦   ¦   ¦           .suo
-    ¦   ¦   ¦           DocumentLayout.backup.json
-    ¦   ¦   ¦           DocumentLayout.json
-    ¦   ¦   ¦           HierarchyCache.v1.txt
-    ¦   ¦   ¦           
-    ¦   ¦   +---ProjectEvaluation
-    ¦   ¦           avcifidancilik.metadata.v9.bin
-    ¦   ¦           avcifidancilik.projects.v9.bin
-    ¦   ¦           avcifidancilik.strings.v9.bin
-    ¦   ¦           
-    ¦   +---AvciFidancilik.WebUI
-    ¦   ¦   ¦   appsettings.Development.json
-    ¦   ¦   ¦   appsettings.json
-    ¦   ¦   ¦   AvciFidancilik.WebUI.csproj
-    ¦   ¦   ¦   AvciFidancilik.WebUI.csproj.user
-    ¦   ¦   ¦   Program.cs
-    ¦   ¦   ¦   ScaffoldingReadMe.txt
-    ¦   ¦   ¦   
-    ¦   ¦   +---Areas
-    ¦   ¦   ¦   +---admin
-    ¦   ¦   ¦       +---Controllers
-    ¦   ¦   ¦       ¦   ¦   AddressesController.cs
-    ¦   ¦   ¦       ¦   ¦   AppUsersController.cs
-    ¦   ¦   ¦       ¦   ¦   BaseAdminController.cs
-    ¦   ¦   ¦       ¦   ¦   CartItemsController.cs
-    ¦   ¦   ¦       ¦   ¦   CartsController.cs
-    ¦   ¦   ¦       ¦   ¦   CategoriesController.cs
-    ¦   ¦   ¦       ¦   ¦   ContactsController.cs
-    ¦   ¦   ¦       ¦   ¦   FavoritesController.cs
-    ¦   ¦   ¦       ¦   ¦   FidanYonetimController.cs
-    ¦   ¦   ¦       ¦   ¦   MainController.cs
-    ¦   ¦   ¦       ¦   ¦   OrderItemsController.cs
-    ¦   ¦   ¦       ¦   ¦   OrdersController.cs
-    ¦   ¦   ¦       ¦   ¦   ProductImagesController.cs
-    ¦   ¦   ¦       ¦   ¦   ProductsController.cs
-    ¦   ¦   ¦       ¦   ¦   RolesController.cs
-    ¦   ¦   ¦       ¦   ¦   SettingsController.cs
-    ¦   ¦   ¦       ¦   ¦   SlidersController.cs
-    ¦   ¦   ¦       ¦   ¦   UserRolesController.cs
-    ¦   ¦   ¦       ¦   ¦   
-    ¦   ¦   ¦       ¦   +---ChatbotControllers
-    ¦   ¦   ¦       ¦           ArazisController.cs
-    ¦   ¦   ¦       ¦           ChatLogsController.cs
-    ¦   ¦   ¦       ¦           ChatOptionsController.cs
-    ¦   ¦   ¦       ¦           CitiesController.cs
-    ¦   ¦   ¦       ¦           ProductAgricultureProfilesController.cs
-    ¦   ¦   ¦       ¦           
-    ¦   ¦   ¦       +---Views
-    ¦   ¦   ¦           ¦   _ViewImports.cshtml
-    ¦   ¦   ¦           ¦   _ViewStart.cshtml
-    ¦   ¦   ¦           ¦   
-    ¦   ¦   ¦           +---Addresses
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---AppUsers
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Arazis
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---CartItems
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Carts
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Categories
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ChatLogs
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ChatOptions
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Cities
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Contacts
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Favorites
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---FidanYönetim
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Main
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---OrderItems
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Orders
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ProductAgricultureProfiles
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ProductImages
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Products
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Roles
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Settings
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Shared
-    ¦   ¦   ¦           ¦       _LayoutAdmin.cshtml
-    ¦   ¦   ¦           ¦       _LayoutAdmin.cshtml.css
-    ¦   ¦   ¦           ¦       _SolMenu.cshtml
-    ¦   ¦   ¦           ¦       _UstBar.cshtml
-    ¦   ¦   ¦           ¦       _ValidationScriptsPartial.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Sliders
-    ¦   ¦   ¦           ¦       Create.cshtml
-    ¦   ¦   ¦           ¦       Delete.cshtml
-    ¦   ¦   ¦           ¦       Details.cshtml
-    ¦   ¦   ¦           ¦       Edit.cshtml
-    ¦   ¦   ¦           ¦       Index.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---UserRoles
-    ¦   ¦   ¦                   Create.cshtml
-    ¦   ¦   ¦                   Delete.cshtml
-    ¦   ¦   ¦                   Details.cshtml
-    ¦   ¦   ¦                   Edit.cshtml
-    ¦   ¦   ¦                   Index.cshtml
-    ¦   ¦   ¦                   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦           ¦   appsettings.Development.json
-    ¦   ¦   ¦           ¦   appsettings.json
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.deps.json
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.dll
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.exe
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.pdb
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.runtimeconfig.json
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.staticwebassets.endpoints.json
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.staticwebassets.runtime.json
-    ¦   ¦   ¦           ¦   Azure.Core.dll
-    ¦   ¦   ¦           ¦   Azure.Identity.dll
-    ¦   ¦   ¦           ¦   BCrypt.Net-Next.dll
-    ¦   ¦   ¦           ¦   dotnet-aspnet-codegenerator-design.dll
-    ¦   ¦   ¦           ¦   Eticaret.Core.dll
-    ¦   ¦   ¦           ¦   Eticaret.Core.pdb
-    ¦   ¦   ¦           ¦   Eticaret.Data.dll
-    ¦   ¦   ¦           ¦   Eticaret.Data.pdb
-    ¦   ¦   ¦           ¦   Eticaret.Service.dll
-    ¦   ¦   ¦           ¦   Eticaret.Service.pdb
-    ¦   ¦   ¦           ¦   Humanizer.dll
-    ¦   ¦   ¦           ¦   Microsoft.AspNetCore.Razor.Language.dll
-    ¦   ¦   ¦           ¦   Microsoft.Bcl.AsyncInterfaces.dll
-    ¦   ¦   ¦           ¦   Microsoft.Build.dll
-    ¦   ¦   ¦           ¦   Microsoft.Build.Framework.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.AnalyzerUtilities.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.CSharp.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.CSharp.Features.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.Elfie.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.Features.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.Razor.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.Scripting.dll
-    ¦   ¦   ¦           ¦   Microsoft.CodeAnalysis.Workspaces.dll
-    ¦   ¦   ¦           ¦   Microsoft.Data.SqlClient.dll
-    ¦   ¦   ¦           ¦   Microsoft.DiaSymReader.dll
-    ¦   ¦   ¦           ¦   Microsoft.DotNet.Scaffolding.Shared.dll
-    ¦   ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
-    ¦   ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Design.dll
-    ¦   ¦   ¦           ¦   Microsoft.EntityFrameworkCore.dll
-    ¦   ¦   ¦           ¦   Microsoft.EntityFrameworkCore.Relational.dll
-    ¦   ¦   ¦           ¦   Microsoft.EntityFrameworkCore.SqlServer.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.Caching.Memory.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.DependencyModel.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.Logging.Abstractions.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.Logging.dll
-    ¦   ¦   ¦           ¦   Microsoft.Extensions.Options.dll
-    ¦   ¦   ¦           ¦   Microsoft.Identity.Client.dll
-    ¦   ¦   ¦           ¦   Microsoft.Identity.Client.Extensions.Msal.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.Abstractions.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.JsonWebTokens.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.Logging.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.Protocols.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-    ¦   ¦   ¦           ¦   Microsoft.IdentityModel.Tokens.dll
-    ¦   ¦   ¦           ¦   Microsoft.NET.StringTools.dll
-    ¦   ¦   ¦           ¦   Microsoft.SqlServer.Server.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGeneration.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
-    ¦   ¦   ¦           ¦   Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
-    ¦   ¦   ¦           ¦   Microsoft.Win32.SystemEvents.dll
-    ¦   ¦   ¦           ¦   Mono.TextTemplating.dll
-    ¦   ¦   ¦           ¦   Newtonsoft.Json.dll
-    ¦   ¦   ¦           ¦   NuGet.Common.dll
-    ¦   ¦   ¦           ¦   NuGet.Configuration.dll
-    ¦   ¦   ¦           ¦   NuGet.DependencyResolver.Core.dll
-    ¦   ¦   ¦           ¦   NuGet.Frameworks.dll
-    ¦   ¦   ¦           ¦   NuGet.LibraryModel.dll
-    ¦   ¦   ¦           ¦   NuGet.Packaging.dll
-    ¦   ¦   ¦           ¦   NuGet.ProjectModel.dll
-    ¦   ¦   ¦           ¦   NuGet.Protocol.dll
-    ¦   ¦   ¦           ¦   NuGet.Versioning.dll
-    ¦   ¦   ¦           ¦   System.ClientModel.dll
-    ¦   ¦   ¦           ¦   System.CodeDom.dll
-    ¦   ¦   ¦           ¦   System.Composition.AttributedModel.dll
-    ¦   ¦   ¦           ¦   System.Composition.Convention.dll
-    ¦   ¦   ¦           ¦   System.Composition.Hosting.dll
-    ¦   ¦   ¦           ¦   System.Composition.Runtime.dll
-    ¦   ¦   ¦           ¦   System.Composition.TypedParts.dll
-    ¦   ¦   ¦           ¦   System.Configuration.ConfigurationManager.dll
-    ¦   ¦   ¦           ¦   System.Drawing.Common.dll
-    ¦   ¦   ¦           ¦   System.IdentityModel.Tokens.Jwt.dll
-    ¦   ¦   ¦           ¦   System.Memory.Data.dll
-    ¦   ¦   ¦           ¦   System.Reflection.MetadataLoadContext.dll
-    ¦   ¦   ¦           ¦   System.Runtime.Caching.dll
-    ¦   ¦   ¦           ¦   System.Security.Cryptography.ProtectedData.dll
-    ¦   ¦   ¦           ¦   System.Security.Permissions.dll
-    ¦   ¦   ¦           ¦   System.Windows.Extensions.dll
-    ¦   ¦   ¦           ¦   
-    ¦   ¦   ¦           +---af
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ar
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---az
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---bg
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---bn-BD
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---cs
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---da
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---de
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---el
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---es
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---fa
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---fi-FI
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---fr
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---fr-BE
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---he
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---hr
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---hu
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---hy
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---id
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---is
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---it
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ja
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ko
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ko-KR
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ku
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---lv
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ms-MY
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---mt
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---nb
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---nb-NO
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---nl
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---pl
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---pt
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---pt-BR
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ro
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---ru
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---runtimes
-    ¦   ¦   ¦           ¦   +---unix
-    ¦   ¦   ¦           ¦   ¦   +---lib
-    ¦   ¦   ¦           ¦   ¦       +---net6.0
-    ¦   ¦   ¦           ¦   ¦               Microsoft.Data.SqlClient.dll
-    ¦   ¦   ¦           ¦   ¦               
-    ¦   ¦   ¦           ¦   +---win
-    ¦   ¦   ¦           ¦   ¦   +---lib
-    ¦   ¦   ¦           ¦   ¦       +---net6.0
-    ¦   ¦   ¦           ¦   ¦       ¦       Microsoft.Data.SqlClient.dll
-    ¦   ¦   ¦           ¦   ¦       ¦       System.Runtime.Caching.dll
-    ¦   ¦   ¦           ¦   ¦       ¦       
-    ¦   ¦   ¦           ¦   ¦       +---net7.0
-    ¦   ¦   ¦           ¦   ¦               Microsoft.Win32.SystemEvents.dll
-    ¦   ¦   ¦           ¦   ¦               System.Drawing.Common.dll
-    ¦   ¦   ¦           ¦   ¦               System.Security.Cryptography.ProtectedData.dll
-    ¦   ¦   ¦           ¦   ¦               System.Windows.Extensions.dll
-    ¦   ¦   ¦           ¦   ¦               
-    ¦   ¦   ¦           ¦   +---win-arm
-    ¦   ¦   ¦           ¦   ¦   +---native
-    ¦   ¦   ¦           ¦   ¦           Microsoft.Data.SqlClient.SNI.dll
-    ¦   ¦   ¦           ¦   ¦           
-    ¦   ¦   ¦           ¦   +---win-arm64
-    ¦   ¦   ¦           ¦   ¦   +---native
-    ¦   ¦   ¦           ¦   ¦           Microsoft.Data.SqlClient.SNI.dll
-    ¦   ¦   ¦           ¦   ¦           
-    ¦   ¦   ¦           ¦   +---win-x64
-    ¦   ¦   ¦           ¦   ¦   +---native
-    ¦   ¦   ¦           ¦   ¦           Microsoft.Data.SqlClient.SNI.dll
-    ¦   ¦   ¦           ¦   ¦           
-    ¦   ¦   ¦           ¦   +---win-x86
-    ¦   ¦   ¦           ¦       +---native
-    ¦   ¦   ¦           ¦               Microsoft.Data.SqlClient.SNI.dll
-    ¦   ¦   ¦           ¦               
-    ¦   ¦   ¦           +---sk
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---sl
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---sr
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---sr-Latn
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---sv
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---th-TH
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---tr
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---uk
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---uz-Cyrl-UZ
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---uz-Latn-UZ
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---vi
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---zh-CN
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---zh-Hans
-    ¦   ¦   ¦           ¦       Humanizer.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦           ¦       Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---zh-Hant
-    ¦   ¦   ¦                   Humanizer.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.CSharp.Features.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.CSharp.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.Features.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.Scripting.resources.dll
-    ¦   ¦   ¦                   Microsoft.CodeAnalysis.Workspaces.resources.dll
-    ¦   ¦   ¦                   
-    ¦   ¦   +---Controllers
-    ¦   ¦   ¦       AccountController.cs
-    ¦   ¦   ¦       CategoryController.cs
-    ¦   ¦   ¦       ChatController.cs
-    ¦   ¦   ¦       HomeController.cs
-    ¦   ¦   ¦       ProductController.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦   ¦   ¦   AvciFidancilik.WebUI.csproj.EntityFrameworkCore.targets
-    ¦   ¦   ¦   ¦   AvciFidancilik.WebUI.csproj.nuget.dgspec.json
-    ¦   ¦   ¦   ¦   AvciFidancilik.WebUI.csproj.nuget.g.props
-    ¦   ¦   ¦   ¦   AvciFidancilik.WebUI.csproj.nuget.g.targets
-    ¦   ¦   ¦   ¦   project.assets.json
-    ¦   ¦   ¦   ¦   project.nuget.cache
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦   ¦           ¦   ApiEndpoints.json
-    ¦   ¦   ¦           ¦   apphost.exe
-    ¦   ¦   ¦           ¦   AvciFida.73A65F46.Up2Date
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.AssemblyInfo.cs
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.AssemblyInfoInputs.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.assets.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.csproj.AssemblyReference.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.csproj.BuildWithSkipAnalyzers
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.csproj.CoreCompileInputs.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.csproj.FileListAbsolute.txt
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.dll
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.genruntimeconfig.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.GlobalUsings.g.cs
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.MvcApplicationPartsAssemblyInfo.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.pdb
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.RazorAssemblyInfo.cache
-    ¦   ¦   ¦           ¦   AvciFidancilik.WebUI.RazorAssemblyInfo.cs
-    ¦   ¦   ¦           ¦   rbcswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjimswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjsmcshtml.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjsmrazor.dswa.cache.json
-    ¦   ¦   ¦           ¦   rpswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.endpoints.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.json.cache
-    ¦   ¦   ¦           ¦   staticwebassets.development.json
-    ¦   ¦   ¦           ¦   staticwebassets.references.upToDateCheck.txt
-    ¦   ¦   ¦           ¦   staticwebassets.removed.txt
-    ¦   ¦   ¦           ¦   staticwebassets.upToDateCheck.txt
-    ¦   ¦   ¦           ¦   
-    ¦   ¦   ¦           +---ref
-    ¦   ¦   ¦           ¦       AvciFidancilik.WebUI.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---refint
-    ¦   ¦   ¦           ¦       AvciFidancilik.WebUI.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---scopedcss
-    ¦   ¦   ¦               +---Areas
-    ¦   ¦   ¦               ¦   +---admin
-    ¦   ¦   ¦               ¦       +---Views
-    ¦   ¦   ¦               ¦           +---Shared
-    ¦   ¦   ¦               ¦                   _LayoutAdmin.cshtml.rz.scp.css
-    ¦   ¦   ¦               ¦                   
-    ¦   ¦   ¦               +---bundle
-    ¦   ¦   ¦               ¦       AvciFidancilik.WebUI.styles.css
-    ¦   ¦   ¦               ¦       
-    ¦   ¦   ¦               +---projectbundle
-    ¦   ¦   ¦               ¦       AvciFidancilik.WebUI.bundle.scp.css
-    ¦   ¦   ¦               ¦       
-    ¦   ¦   ¦               +---Views
-    ¦   ¦   ¦                   +---Shared
-    ¦   ¦   ¦                           _Layout.cshtml.rz.scp.css
-    ¦   ¦   ¦                           
-    ¦   ¦   +---Properties
-    ¦   ¦   ¦       launchSettings.json
-    ¦   ¦   ¦       
-    ¦   ¦   +---Utils
-    ¦   ¦   ¦       FileHelper.cs
-    ¦   ¦   ¦       PasswordHelper.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---ViewComponents
-    ¦   ¦   ¦       Categories.cs
-    ¦   ¦   ¦       Class.SliderViewComponent.cs
-    ¦   ¦   ¦       SliderViewComponent.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---ViewModels
-    ¦   ¦   ¦   ¦   ProductImageViewModel.cs.cs
-    ¦   ¦   ¦   ¦   ProductListVM.cs
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---Fidan
-    ¦   ¦   ¦           FidanOneriViewModel.cs
-    ¦   ¦   ¦           
-    ¦   ¦   +---Views
-    ¦   ¦   ¦   ¦   _ViewImports.cshtml
-    ¦   ¦   ¦   ¦   _ViewStart.cshtml
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---Account
-    ¦   ¦   ¦   ¦       AccessDenied.cshtml
-    ¦   ¦   ¦   ¦       AdminSignIn.cshtml
-    ¦   ¦   ¦   ¦       Index.cshtml
-    ¦   ¦   ¦   ¦       Profile.cshtml
-    ¦   ¦   ¦   ¦       SignUp.cshtml
-    ¦   ¦   ¦   ¦       SignIn.cshtml
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Category
-    ¦   ¦   ¦   ¦       Index.cshtml
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Home
-    ¦   ¦   ¦   ¦       About.cshtml
-    ¦   ¦   ¦   ¦       ContactUs.cshtml
-    ¦   ¦   ¦   ¦       Index.cshtml
-    ¦   ¦   ¦   ¦       Privacy.cshtml
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Product
-    ¦   ¦   ¦   ¦       Detail.cshtml
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Shared
-    ¦   ¦   ¦       ¦   _FidanAsistanPartial.cshtml
-    ¦   ¦   ¦       ¦   _Footer.cshtml
-    ¦   ¦   ¦       ¦   _Header.cshtml
-    ¦   ¦   ¦       ¦   _Layout.cshtml
-    ¦   ¦   ¦       ¦   _Layout.cshtml.css
-    ¦   ¦   ¦       ¦   _ValidationScriptsPartial.cshtml
-    ¦   ¦   ¦       ¦   
-    ¦   ¦   ¦       +---Components
-    ¦   ¦   ¦           +---Categories
-    ¦   ¦   ¦           ¦       Default.cshtml
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---Slider
-    ¦   ¦   ¦                   Default.cshtml
-    ¦   ¦   ¦                   
-    ¦   ¦   +---wwwroot
-    ¦   ¦       ¦   admin.zip
-    ¦   ¦       ¦   favicon.ico
-    ¦   ¦       ¦   
-    ¦   ¦       +---admin
-    ¦   ¦       ¦   ¦   401.html
-    ¦   ¦       ¦   ¦   404.html
-    ¦   ¦       ¦   ¦   500.html
-    ¦   ¦       ¦   ¦   charts.html
-    ¦   ¦       ¦   ¦   index.html
-    ¦   ¦       ¦   ¦   layout-sidenav-light.html
-    ¦   ¦       ¦   ¦   layout-static.html
-    ¦   ¦       ¦   ¦   login.html
-    ¦   ¦       ¦   ¦   password.html
-    ¦   ¦       ¦   ¦   register.html
-    ¦   ¦       ¦   ¦   tables.html
-    ¦   ¦       ¦   ¦   
-    ¦   ¦       ¦   +---assets
-    ¦   ¦       ¦   ¦   +---demo
-    ¦   ¦       ¦   ¦   ¦       chart-area-demo.js
-    ¦   ¦       ¦   ¦   ¦       chart-bar-demo.js
-    ¦   ¦       ¦   ¦   ¦       chart-pie-demo.js
-    ¦   ¦       ¦   ¦   ¦       datatables-demo.js
-    ¦   ¦       ¦   ¦   ¦       
-    ¦   ¦       ¦   ¦   +---img
-    ¦   ¦       ¦   ¦           error-404-monochrome.svg
-    ¦   ¦       ¦   ¦           
-    ¦   ¦       ¦   +---css
-    ¦   ¦       ¦   ¦       styles.css
-    ¦   ¦       ¦   ¦       
-    ¦   ¦       ¦   +---img
-    ¦   ¦       ¦   ¦   +---slider
-    ¦   ¦       ¦   ¦           07fa6ff6-2990-4b49-852f-b0f7a1281ada.png
-    ¦   ¦       ¦   ¦           7710201a-69db-450f-96d3-362db9faadeb.jpg
-    ¦   ¦       ¦   ¦           c0e722e6-87eb-430d-8ad4-466350c18dbe.jpg
-    ¦   ¦       ¦   ¦           ffef392c-9061-4fc4-8e24-c0d0d67c3c5b.jpg
-    ¦   ¦       ¦   ¦           
-    ¦   ¦       ¦   +---js
-    ¦   ¦       ¦           datatables-simple-demo.js
-    ¦   ¦       ¦           scripts.js
-    ¦   ¦       ¦           
-    ¦   ¦       +---css
-    ¦   ¦       ¦       fidan-asistan.css
-    ¦   ¦       ¦       site.css
-    ¦   ¦       ¦       
-    ¦   ¦       +---Img
-    ¦   ¦       ¦   ¦   admin-bg.png
-    ¦   ¦       ¦   ¦   customer-bg.png
-    ¦   ¦       ¦   ¦   
-    ¦   ¦       ¦   +---categories
-    ¦   ¦       ¦   ¦       badem.jpg
-    ¦   ¦       ¦   ¦       dut.jpg
-    ¦   ¦       ¦   ¦       elma.jpg
-    ¦   ¦       ¦   ¦       fistik.jpg
-    ¦   ¦       ¦   ¦       golden_elma.jpg
-    ¦   ¦       ¦   ¦       incir.jpg
-    ¦   ¦       ¦   ¦       kayisi.jpg
-    ¦   ¦       ¦   ¦       kiraz.jpg
-    ¦   ¦       ¦   ¦       kirmizi_elma.jpg
-    ¦   ¦       ¦   ¦       limon.jpg
-    ¦   ¦       ¦   ¦       nar.jpg
-    ¦   ¦       ¦   ¦       seftali.jpg
-    ¦   ¦       ¦   ¦       siyah_erik.jpg
-    ¦   ¦       ¦   ¦       
-    ¦   ¦       ¦   +---logo
-    ¦   ¦       ¦   ¦       avciLogo.png
-    ¦   ¦       ¦   ¦       
-    ¦   ¦       ¦   +---products
-    ¦   ¦       ¦   ¦       badem.jpg
-    ¦   ¦       ¦   ¦       default-product.jpg
-    ¦   ¦       ¦   ¦       dut(tut).jpg
-    ¦   ¦       ¦   ¦       elma.jpg
-    ¦   ¦       ¦   ¦       fistik.jpg
-    ¦   ¦       ¦   ¦       golden elma.jpg
-    ¦   ¦       ¦   ¦       incir.jpg
-    ¦   ¦       ¦   ¦       kayisi.jpg
-    ¦   ¦       ¦   ¦       kiraz.jpg
-    ¦   ¦       ¦   ¦       kirmizi elma.jpg
-    ¦   ¦       ¦   ¦       limon.jpg
-    ¦   ¦       ¦   ¦       nar.jpg
-    ¦   ¦       ¦   ¦       siyah erik.jpg
-    ¦   ¦       ¦   ¦       seftali.jpg
-    ¦   ¦       ¦   ¦       
-    ¦   ¦       ¦   +---slider
-    ¦   ¦       ¦           narSlider.jpg
-    ¦   ¦       ¦           slider.jpg
-    ¦   ¦       ¦           slider10.jpg
-    ¦   ¦       ¦           slider2.jpg
-    ¦   ¦       ¦           slider3.jpg
-    ¦   ¦       ¦           slider4.jpg
-    ¦   ¦       ¦           slider5.jpg
-    ¦   ¦       ¦           slider6.jpg
-    ¦   ¦       ¦           slider7.jpg
-    ¦   ¦       ¦           slider8.jpg
-    ¦   ¦       ¦           slider9.jpg
-    ¦   ¦       ¦           
-    ¦   ¦       +---js
-    ¦   ¦       ¦       fidan-chatbot.js
-    ¦   ¦       ¦       site.js
-    ¦   ¦       ¦       
-    ¦   ¦       +---lib
-    ¦   ¦       ¦   +---bootstrap
-    ¦   ¦       ¦   ¦   ¦   LICENSE
-    ¦   ¦       ¦   ¦   ¦   
-    ¦   ¦       ¦   ¦   +---dist
-    ¦   ¦       ¦   ¦       +---css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.rtl.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.rtl.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.rtl.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-grid.rtl.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.rtl.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.rtl.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.rtl.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-reboot.rtl.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.rtl.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.rtl.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.rtl.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap-utilities.rtl.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap.min.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap.rtl.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap.rtl.css.map
-    ¦   ¦       ¦   ¦       ¦       bootstrap.rtl.min.css
-    ¦   ¦       ¦   ¦       ¦       bootstrap.rtl.min.css.map
-    ¦   ¦       ¦   ¦       ¦       
-    ¦   ¦       ¦   ¦       +---js
-    ¦   ¦       ¦   ¦               bootstrap.bundle.js
-    ¦   ¦       ¦   ¦               bootstrap.bundle.js.map
-    ¦   ¦       ¦   ¦               bootstrap.bundle.min.js
-    ¦   ¦       ¦   ¦               bootstrap.bundle.min.js.map
-    ¦   ¦       ¦   ¦               bootstrap.esm.js
-    ¦   ¦       ¦   ¦               bootstrap.esm.js.map
-    ¦   ¦       ¦   ¦               bootstrap.esm.min.js
-    ¦   ¦       ¦   ¦               bootstrap.esm.min.js.map
-    ¦   ¦       ¦   ¦               bootstrap.js
-    ¦   ¦       ¦   ¦               bootstrap.js.map
-    ¦   ¦       ¦   ¦               bootstrap.min.js
-    ¦   ¦       ¦   ¦               bootstrap.min.js.map
-    ¦   ¦       ¦   ¦               
-    ¦   ¦       ¦   +---jquery
-    ¦   ¦       ¦   ¦   ¦   LICENSE.txt
-    ¦   ¦       ¦   ¦   ¦   
-    ¦   ¦       ¦   ¦   +---dist
-    ¦   ¦       ¦   ¦           jquery.js
-    ¦   ¦       ¦   ¦           jquery.min.js
-    ¦   ¦       ¦   ¦           jquery.min.map
-    ¦   ¦       ¦   ¦           
-    ¦   ¦       ¦   +---jquery-validation
-    ¦   ¦       ¦   ¦   ¦   LICENSE.md
-    ¦   ¦       ¦   ¦   ¦   
-    ¦   ¦       ¦   ¦   +---dist
-    ¦   ¦       ¦   ¦           additional-methods.js
-    ¦   ¦       ¦   ¦           additional-methods.min.js
-    ¦   ¦       ¦   ¦           jquery.validate.js
-    ¦   ¦       ¦   ¦           jquery.validate.min.js
-    ¦   ¦       ¦   ¦           
-    ¦   ¦       ¦   +---jquery-validation-unobtrusive
-    ¦   ¦       ¦           jquery.validate.unobtrusive.js
-    ¦   ¦       ¦           jquery.validate.unobtrusive.min.js
-    ¦   ¦       ¦           LICENSE.txt
-    ¦   ¦       ¦           
-    ¦   ¦       +---uploads
-    ¦   ¦           +---products
-    ¦   ¦                   00160d3bfaf2470ab33b63414bac59f9.jpeg
-    ¦   ¦                   0309b2975e0c4c8691a72b3a3d7bdda1.jpeg
-    ¦   ¦                   03c985d9d180406bbf023525860c6047.png
-    ¦   ¦                   0407c1d917b14ef69f346f43dcc40b61.png
-    ¦   ¦                   06db38051cc44cca957aeef6ac5f4e90.png
-    ¦   ¦                   07994d77049b4196984026ccdd17f041.jpg
-    ¦   ¦                   0a748c334c2e41b1af922552fc9dc0b9.png
-    ¦   ¦                   141d35d538b34753a82485653fad2b14.jpeg
-    ¦   ¦                   144fbb9fc62e4de9becddb2baffb7cb0.png
-    ¦   ¦                   15deb88fe87d4897ab48d9f80b57c6c2.jpeg
-    ¦   ¦                   20f925138a054d65ad997b09939904df.png
-    ¦   ¦                   34426ed589f34a899da7f48bd44758fe.jpeg
-    ¦   ¦                   39ba1a682df14637a2db51ce7bd8491c.png
-    ¦   ¦                   3e89ffe2e68d4361992a451633f7d8b7.jpg
-    ¦   ¦                   4bde6ce65c8d4a42ab2a3f4a6f981d04.jpg
-    ¦   ¦                   60718a0d484543dfb1bb3a29e674a298.png
-    ¦   ¦                   60ab5ec08f244d4a8ca05db18bb18ce3.png
-    ¦   ¦                   67fde1c415bc46899a9972cde95bbca7.jpg
-    ¦   ¦                   767fd2fd35bc4812929a46651fba77ff.jpg
-    ¦   ¦                   79e711fc95c14ad6ae9497b232b67de0.png
-    ¦   ¦                   8133f658ca45462785262476792f7759.jpg
-    ¦   ¦                   81935868ddc544a7b393ac7819cef6d7.jpg
-    ¦   ¦                   8efecf79-8c59-4b17-8283-5b6cfe28ce0b.jpg
-    ¦   ¦                   99edee52-61e4-40fd-b74d-1113ae317730.jpg
-    ¦   ¦                   9d146ffe16d04f8985930e7d4918baeb.jpg
-    ¦   ¦                   a6dc4deaed8148a1b8a95007a9be6ace.jpg
-    ¦   ¦                   c7acda167aed4cad88518141817d6a33.jpg
-    ¦   ¦                   c7cba346a01446afa5ea927382bfd4be.jpeg
-    ¦   ¦                   d252ad65af91481d954342bebfb3db52.jpg
-    ¦   ¦                   d3cb0b2a56e448bcbc33fe5ae4c48ecf.jpg
-    ¦   ¦                   d9183437ab7c4f0ab8b31998e5517045.png
-    ¦   ¦                   eebffc9200b9449fadfe1125af7348ee.png
-    ¦   ¦                   f0b81b5a60784617a521b90855d8fff8.jpg
-    ¦   ¦                   f493dda7f3464e15afbbf6d02f8cf9c9.png
-    ¦   ¦                   f6bd11e8db8f472981970c57ddac0303.jpeg
-    ¦   ¦                   
-    ¦   +---Eticaret.Core
-    ¦   ¦   ¦   Eticaret.Core.csproj
-    ¦   ¦   ¦   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               Eticaret.Core.deps.json
-    ¦   ¦   ¦               Eticaret.Core.dll
-    ¦   ¦   ¦               Eticaret.Core.pdb
-    ¦   ¦   ¦               
-    ¦   ¦   +---DTOs
-    ¦   ¦   ¦   ¦   AbandonedCartDetailDto.cs
-    ¦   ¦   ¦   ¦   AdminKdsDto.cs
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---ChatBot
-    ¦   ¦   ¦           ChatOption.cs
-    ¦   ¦   ¦           ChatResponse.cs
-    ¦   ¦   ¦           FidanChatState.cs
-    ¦   ¦   ¦           FidanRecommendationRequest.cs
-    ¦   ¦   ¦           
-    ¦   ¦   +---Entities
-    ¦   ¦   ¦       Address.cs
-    ¦   ¦   ¦       AppUser.cs
-    ¦   ¦   ¦       Arazi.cs
-    ¦   ¦   ¦       Brand.cs
-    ¦   ¦   ¦       Cart.cs
-    ¦   ¦   ¦       CartItem.cs
-    ¦   ¦   ¦       Category.cs
-    ¦   ¦   ¦       ChatLog.cs
-    ¦   ¦   ¦       ChatOption.cs
-    ¦   ¦   ¦       City.cs
-    ¦   ¦   ¦       Contact.cs
-    ¦   ¦   ¦       Favorite.cs
-    ¦   ¦   ¦       IEntity.cs
-    ¦   ¦   ¦       Order.cs
-    ¦   ¦   ¦       OrderItem.cs
-    ¦   ¦   ¦       Product.cs
-    ¦   ¦   ¦       ProductAgricultureProfile.cs
-    ¦   ¦   ¦       ProductImage.cs
-    ¦   ¦   ¦       Role.cs
-    ¦   ¦   ¦       Slider.cs
-    ¦   ¦   ¦       UserRole.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---enum
-    ¦   ¦   ¦       ChatState.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦       ¦   Eticaret.Core.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   Eticaret.Core.csproj.nuget.g.props
-    ¦   ¦       ¦   Eticaret.Core.csproj.nuget.g.targets
-    ¦   ¦       ¦   project.assets.json
-    ¦   ¦       ¦   project.nuget.cache
-    ¦   ¦       ¦   
-    ¦   ¦       +---Debug
-    ¦   ¦           +---net8.0
-    ¦   ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦               ¦   Eticaret.Core.AssemblyInfo.cs
-    ¦   ¦               ¦   Eticaret.Core.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   Eticaret.Core.assets.cache
-    ¦   ¦               ¦   Eticaret.Core.csproj.AssemblyReference.cache
-    ¦   ¦               ¦   Eticaret.Core.csproj.BuildWithSkipAnalyzers
-    ¦   ¦               ¦   Eticaret.Core.csproj.CoreCompileInputs.cache
-    ¦   ¦               ¦   Eticaret.Core.csproj.FileListAbsolute.txt
-    ¦   ¦               ¦   Eticaret.Core.dll
-    ¦   ¦               ¦   Eticaret.Core.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   Eticaret.Core.GlobalUsings.g.cs
-    ¦   ¦               ¦   Eticaret.Core.pdb
-    ¦   ¦               ¦   
-    ¦   ¦               +---ref
-    ¦   ¦               ¦       Eticaret.Core.dll
-    ¦   ¦               ¦       
-    ¦   ¦               +---refint
-    ¦   ¦                       Eticaret.Core.dll
-    ¦   ¦                       
-    ¦   +---Eticaret.Data
-    ¦   ¦   ¦   DatabaseContext.cs
-    ¦   ¦   ¦   DesignTimeDbContextFactory.cs
-    ¦   ¦   ¦   Eticaret.Data.csproj
-    ¦   ¦   ¦   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               Eticaret.Core.dll
-    ¦   ¦   ¦               Eticaret.Core.pdb
-    ¦   ¦   ¦               Eticaret.Data.deps.json
-    ¦   ¦   ¦               Eticaret.Data.dll
-    ¦   ¦   ¦               Eticaret.Data.pdb
-    ¦   ¦   ¦               Eticaret.Data.runtimeconfig.json
-    ¦   ¦   ¦               
-    ¦   ¦   +---Configurations
-    ¦   ¦   ¦       AddressConfiguration.cs
-    ¦   ¦   ¦       AppUserConfiguration.cs
-    ¦   ¦   ¦       CartConfiguration.cs
-    ¦   ¦   ¦       CartItemConfiguration.cs
-    ¦   ¦   ¦       CategoryConfiguration.cs
-    ¦   ¦   ¦       ContactConfiguration.cs
-    ¦   ¦   ¦       FavoriteConfiguration.cs
-    ¦   ¦   ¦       OrderConfiguration.cs
-    ¦   ¦   ¦       OrderItemConfiguration.cs
-    ¦   ¦   ¦       ProductConfiguration.cs
-    ¦   ¦   ¦       ProductImageConfiguration.cs
-    ¦   ¦   ¦       RoleConfiguration.cs
-    ¦   ¦   ¦       SliderConfiguration.cs
-    ¦   ¦   ¦       UserRoleConfiguration.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---Migrations
-    ¦   ¦   ¦       20260126131432_Init_Fidan.cs
-    ¦   ¦   ¦       20260126131432_Init_Fidan.Designer.cs
-    ¦   ¦   ¦       20260129125522_Chatbot.cs
-    ¦   ¦   ¦       20260129125522_Chatbot.Designer.cs
-    ¦   ¦   ¦       20260130211515_MakeUserIdNullable.cs
-    ¦   ¦   ¦       20260130211515_MakeUserIdNullable.Designer.cs
-    ¦   ¦   ¦       20260131155427_KdsAltyapiVeIliskiler.cs
-    ¦   ¦   ¦       20260131155427_KdsAltyapiVeIliskiler.Designer.cs
-    ¦   ¦   ¦       20260131171724_AddKdsDynamicTables.cs
-    ¦   ¦   ¦       20260131171724_AddKdsDynamicTables.Designer.cs
-    ¦   ¦   ¦       20260131173703_AddCityTableAndKdsImprovements.cs
-    ¦   ¦   ¦       20260131173703_AddCityTableAndKdsImprovements.Designer.cs
-    ¦   ¦   ¦       20260201114351_UpdateCityForKDS.cs
-    ¦   ¦   ¦       20260201114351_UpdateCityForKDS.Designer.cs
-    ¦   ¦   ¦       20260201114807_CreateDiseaseRulesTable.cs
-    ¦   ¦   ¦       20260201114807_CreateDiseaseRulesTable.Designer.cs
-    ¦   ¦   ¦       20260201114911_InitialKdsSystem.cs
-    ¦   ¦   ¦       20260201114911_InitialKdsSystem.Designer.cs
-    ¦   ¦   ¦       20260201121445_AdvancedKdsFeatures.cs
-    ¦   ¦   ¦       20260201121445_AdvancedKdsFeatures.Designer.cs
-    ¦   ¦   ¦       20260201174953_AddAgricultureProfileFinalVersion.cs
-    ¦   ¦   ¦       20260201174953_AddAgricultureProfileFinalVersion.Designer.cs
-    ¦   ¦   ¦       DatabaseContextModelSnapshot.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦       ¦   AvciFidancilik.WebUI.csproj.EntityFrameworkCore.targets
-    ¦   ¦       ¦   Eticaret.Data.csproj.EntityFrameworkCore.targets
-    ¦   ¦       ¦   Eticaret.Data.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   Eticaret.Data.csproj.nuget.g.props
-    ¦   ¦       ¦   Eticaret.Data.csproj.nuget.g.targets
-    ¦   ¦       ¦   project.assets.json
-    ¦   ¦       ¦   project.nuget.cache
-    ¦   ¦       ¦   
-    ¦   ¦       +---Debug
-    ¦   ¦           +---net8.0
-    ¦   ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦               ¦   Eticaret.5F83CBB5.Up2Date
-    ¦   ¦               ¦   Eticaret.Data.AssemblyInfo.cs
-    ¦   ¦               ¦   Eticaret.Data.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   Eticaret.Data.assets.cache
-    ¦   ¦               ¦   Eticaret.Data.csproj.AssemblyReference.cache
-    ¦   ¦               ¦   Eticaret.Data.csproj.BuildWithSkipAnalyzers
-    ¦   ¦               ¦   Eticaret.Data.csproj.CoreCompileInputs.cache
-    ¦   ¦               ¦   Eticaret.Data.csproj.FileListAbsolute.txt
-    ¦   ¦               ¦   Eticaret.Data.dll
-    ¦   ¦               ¦   Eticaret.Data.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   Eticaret.Data.genruntimeconfig.cache
-    ¦   ¦               ¦   Eticaret.Data.GlobalUsings.g.cs
-    ¦   ¦               ¦   Eticaret.Data.pdb
-    ¦   ¦               ¦   
-    ¦   ¦               +---ref
-    ¦   ¦               ¦       Eticaret.Data.dll
-    ¦   ¦               ¦       
-    ¦   ¦               +---refint
-    ¦   ¦                       Eticaret.Data.dll
-    ¦   ¦                       
-    ¦   +---Eticaret.Service
-    ¦   ¦   ¦   Eticaret.Service.csproj
-    ¦   ¦   ¦   
-    ¦   ¦   +---Abstract
-    ¦   ¦   ¦       IAdminKdsService.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               Eticaret.Core.dll
-    ¦   ¦   ¦               Eticaret.Core.pdb
-    ¦   ¦   ¦               Eticaret.Data.dll
-    ¦   ¦   ¦               Eticaret.Data.pdb
-    ¦   ¦   ¦               Eticaret.Service.deps.json
-    ¦   ¦   ¦               Eticaret.Service.dll
-    ¦   ¦   ¦               Eticaret.Service.pdb
-    ¦   ¦   ¦               
-    ¦   ¦   +---ChatKds
-    ¦   ¦   ¦   +---Abstract
-    ¦   ¦   ¦   ¦       ITarimChatService.cs
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Concrete
-    ¦   ¦   ¦           TarimChatService.cs
-    ¦   ¦   ¦           
-    ¦   ¦   +---Concrete
-    ¦   ¦   ¦       AdminKdsService.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦       ¦   Eticaret.Service.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   Eticaret.Service.csproj.nuget.g.props
-    ¦   ¦       ¦   Eticaret.Service.csproj.nuget.g.targets
-    ¦   ¦       ¦   project.assets.json
-    ¦   ¦       ¦   project.nuget.cache
-    ¦   ¦       ¦   
-    ¦   ¦       +---Debug
-    ¦   ¦           +---net8.0
-    ¦   ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦               ¦   Eticaret.16464E91.Up2Date
-    ¦   ¦               ¦   Eticaret.Service.AssemblyInfo.cs
-    ¦   ¦               ¦   Eticaret.Service.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   Eticaret.Service.assets.cache
-    ¦   ¦               ¦   Eticaret.Service.csproj.AssemblyReference.cache
-    ¦   ¦               ¦   Eticaret.Service.csproj.BuildWithSkipAnalyzers
-    ¦   ¦               ¦   Eticaret.Service.csproj.CoreCompileInputs.cache
-    ¦   ¦               ¦   Eticaret.Service.csproj.FileListAbsolute.txt
-    ¦   ¦               ¦   Eticaret.Service.dll
-    ¦   ¦               ¦   Eticaret.Service.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   Eticaret.Service.GlobalUsings.g.cs
-    ¦   ¦               ¦   Eticaret.Service.pdb
-    ¦   ¦               ¦   
-    ¦   ¦               +---ref
-    ¦   ¦               ¦       Eticaret.Service.dll
-    ¦   ¦               ¦       
-    ¦   ¦               +---refint
-    ¦   ¦                       Eticaret.Service.dll
-    ¦   ¦                       
-    ¦   +---obj
-    ¦           AvciFidancilik.Data.EntityFrameworkCore.targets
-    ¦           Eticaret.Datacd.EntityFrameworkCore.targets
-    ¦           
-    +---Eticaret.Data
-    ¦   +---obj
-    ¦           Eticaret.Data.csproj.EntityFrameworkCore.targets
-    ¦           Eticaret.Data.EntityFrameworkCore.targets
-    ¦           
     +---FitAl
-    ¦   ¦   FitAl.sln
-    ¦   ¦   
-    ¦   +---.vs
-    ¦   ¦   +---FitAl
-    ¦   ¦   ¦   +---CopilotIndices
-    ¦   ¦   ¦   ¦   +---17.14.698.11175
-    ¦   ¦   ¦   ¦           CodeChunks.db
-    ¦   ¦   ¦   ¦           CodeChunks.db-shm
-    ¦   ¦   ¦   ¦           CodeChunks.db-wal
-    ¦   ¦   ¦   ¦           SemanticSymbols.db
-    ¦   ¦   ¦   ¦           SemanticSymbols.db-shm
-    ¦   ¦   ¦   ¦           SemanticSymbols.db-wal
-    ¦   ¦   ¦   ¦           
-    ¦   ¦   ¦   +---DesignTimeBuild
-    ¦   ¦   ¦   ¦       .dtbcache.v2
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---FileContentIndex
-    ¦   ¦   ¦   ¦       1a78dad6-cfa9-4e6d-b881-0af3323231f4.vsidx
-    ¦   ¦   ¦   ¦       55ace341-b61b-48c7-94d7-3965936968e2.vsidx
-    ¦   ¦   ¦   ¦       6e9afd2d-62a7-40aa-a180-78f7c99fdb9a.vsidx
-    ¦   ¦   ¦   ¦       725b9f60-4c60-4f83-8437-de2e80db4e6e.vsidx
-    ¦   ¦   ¦   ¦       f298224b-059f-4535-8c16-e03da5af5724.vsidx
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---v17
-    ¦   ¦   ¦           .futdcache.v2
-    ¦   ¦   ¦           .suo
-    ¦   ¦   ¦           DocumentLayout.backup.json
-    ¦   ¦   ¦           DocumentLayout.json
-    ¦   ¦   ¦           
-    ¦   ¦   +---ProjectEvaluation
-    ¦   ¦           fital.metadata.v9.bin
-    ¦   ¦           fital.projects.v9.bin
-    ¦   ¦           fital.strings.v9.bin
-    ¦   ¦           
-    ¦   +---FitAl
-    ¦   ¦   ¦   appsettings.Development.json
-    ¦   ¦   ¦   appsettings.json
-    ¦   ¦   ¦   FitAl.csproj
-    ¦   ¦   ¦   FitAl.csproj.user
-    ¦   ¦   ¦   Program.cs
-    ¦   ¦   ¦   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               appsettings.Development.json
-    ¦   ¦   ¦               appsettings.json
-    ¦   ¦   ¦               FitAl.deps.json
-    ¦   ¦   ¦               FitAl.dll
-    ¦   ¦   ¦               FitAl.exe
-    ¦   ¦   ¦               FitAl.pdb
-    ¦   ¦   ¦               FitAl.runtimeconfig.json
-    ¦   ¦   ¦               FitAl.staticwebassets.endpoints.json
-    ¦   ¦   ¦               FitAl.staticwebassets.runtime.json
-    ¦   ¦   ¦               
-    ¦   ¦   +---Controllers
-    ¦   ¦   ¦       HomeController.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---Models
-    ¦   ¦   ¦       ErrorViewModel.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦   ¦   ¦   FitAl.csproj.nuget.dgspec.json
-    ¦   ¦   ¦   ¦   FitAl.csproj.nuget.g.props
-    ¦   ¦   ¦   ¦   FitAl.csproj.nuget.g.targets
-    ¦   ¦   ¦   ¦   project.assets.json
-    ¦   ¦   ¦   ¦   project.nuget.cache
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦   ¦           ¦   apphost.exe
-    ¦   ¦   ¦           ¦   FitAl.AssemblyInfo.cs
-    ¦   ¦   ¦           ¦   FitAl.AssemblyInfoInputs.cache
-    ¦   ¦   ¦           ¦   FitAl.assets.cache
-    ¦   ¦   ¦           ¦   FitAl.csproj.CoreCompileInputs.cache
-    ¦   ¦   ¦           ¦   FitAl.csproj.FileListAbsolute.txt
-    ¦   ¦   ¦           ¦   FitAl.dll
-    ¦   ¦   ¦           ¦   FitAl.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦   ¦           ¦   FitAl.genruntimeconfig.cache
-    ¦   ¦   ¦           ¦   FitAl.GlobalUsings.g.cs
-    ¦   ¦   ¦           ¦   FitAl.MvcApplicationPartsAssemblyInfo.cache
-    ¦   ¦   ¦           ¦   FitAl.pdb
-    ¦   ¦   ¦           ¦   FitAl.RazorAssemblyInfo.cache
-    ¦   ¦   ¦           ¦   FitAl.RazorAssemblyInfo.cs
-    ¦   ¦   ¦           ¦   rbcswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjimswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjsmcshtml.dswa.cache.json
-    ¦   ¦   ¦           ¦   rjsmrazor.dswa.cache.json
-    ¦   ¦   ¦           ¦   rpswa.dswa.cache.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.endpoints.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.json
-    ¦   ¦   ¦           ¦   staticwebassets.build.json.cache
-    ¦   ¦   ¦           ¦   staticwebassets.development.json
-    ¦   ¦   ¦           ¦   staticwebassets.references.upToDateCheck.txt
-    ¦   ¦   ¦           ¦   staticwebassets.removed.txt
-    ¦   ¦   ¦           ¦   staticwebassets.upToDateCheck.txt
-    ¦   ¦   ¦           ¦   
-    ¦   ¦   ¦           +---ref
-    ¦   ¦   ¦           ¦       FitAl.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---refint
-    ¦   ¦   ¦           ¦       FitAl.dll
-    ¦   ¦   ¦           ¦       
-    ¦   ¦   ¦           +---scopedcss
-    ¦   ¦   ¦               +---bundle
-    ¦   ¦   ¦               ¦       FitAl.styles.css
-    ¦   ¦   ¦               ¦       
-    ¦   ¦   ¦               +---projectbundle
-    ¦   ¦   ¦               ¦       FitAl.bundle.scp.css
-    ¦   ¦   ¦               ¦       
-    ¦   ¦   ¦               +---Views
-    ¦   ¦   ¦                   +---Shared
-    ¦   ¦   ¦                           _Layout.cshtml.rz.scp.css
-    ¦   ¦   ¦                           
-    ¦   ¦   +---Properties
-    ¦   ¦   ¦       launchSettings.json
-    ¦   ¦   ¦       
-    ¦   ¦   +---Views
-    ¦   ¦   ¦   ¦   _ViewImports.cshtml
-    ¦   ¦   ¦   ¦   _ViewStart.cshtml
-    ¦   ¦   ¦   ¦   
-    ¦   ¦   ¦   +---Home
-    ¦   ¦   ¦   ¦       Index.cshtml
-    ¦   ¦   ¦   ¦       Privacy.cshtml
-    ¦   ¦   ¦   ¦       
-    ¦   ¦   ¦   +---Shared
-    ¦   ¦   ¦           Error.cshtml
-    ¦   ¦   ¦           _Layout.cshtml
-    ¦   ¦   ¦           _Layout.cshtml.css
-    ¦   ¦   ¦           _ValidationScriptsPartial.cshtml
-    ¦   ¦   ¦           
-    ¦   ¦   +---wwwroot
-    ¦   ¦       ¦   favicon.ico
-    ¦   ¦       ¦   
-    ¦   ¦       +---css
-    ¦   ¦       ¦       site.css
-    ¦   ¦       ¦       
-    ¦   ¦       +---js
-    ¦   ¦       ¦       site.js
-    ¦   ¦       ¦       
-    ¦   ¦       +---lib
-    ¦   ¦           +---bootstrap
-    ¦   ¦           ¦   ¦   LICENSE
-    ¦   ¦           ¦   ¦   
-    ¦   ¦           ¦   +---dist
-    ¦   ¦           ¦       +---css
-    ¦   ¦           ¦       ¦       bootstrap-grid.css
-    ¦   ¦           ¦       ¦       bootstrap-grid.css.map
-    ¦   ¦           ¦       ¦       bootstrap-grid.min.css
-    ¦   ¦           ¦       ¦       bootstrap-grid.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap-grid.rtl.css
-    ¦   ¦           ¦       ¦       bootstrap-grid.rtl.css.map
-    ¦   ¦           ¦       ¦       bootstrap-grid.rtl.min.css
-    ¦   ¦           ¦       ¦       bootstrap-grid.rtl.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap-reboot.css
-    ¦   ¦           ¦       ¦       bootstrap-reboot.css.map
-    ¦   ¦           ¦       ¦       bootstrap-reboot.min.css
-    ¦   ¦           ¦       ¦       bootstrap-reboot.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap-reboot.rtl.css
-    ¦   ¦           ¦       ¦       bootstrap-reboot.rtl.css.map
-    ¦   ¦           ¦       ¦       bootstrap-reboot.rtl.min.css
-    ¦   ¦           ¦       ¦       bootstrap-reboot.rtl.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap-utilities.css
-    ¦   ¦           ¦       ¦       bootstrap-utilities.css.map
-    ¦   ¦           ¦       ¦       bootstrap-utilities.min.css
-    ¦   ¦           ¦       ¦       bootstrap-utilities.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap-utilities.rtl.css
-    ¦   ¦           ¦       ¦       bootstrap-utilities.rtl.css.map
-    ¦   ¦           ¦       ¦       bootstrap-utilities.rtl.min.css
-    ¦   ¦           ¦       ¦       bootstrap-utilities.rtl.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap.css
-    ¦   ¦           ¦       ¦       bootstrap.css.map
-    ¦   ¦           ¦       ¦       bootstrap.min.css
-    ¦   ¦           ¦       ¦       bootstrap.min.css.map
-    ¦   ¦           ¦       ¦       bootstrap.rtl.css
-    ¦   ¦           ¦       ¦       bootstrap.rtl.css.map
-    ¦   ¦           ¦       ¦       bootstrap.rtl.min.css
-    ¦   ¦           ¦       ¦       bootstrap.rtl.min.css.map
-    ¦   ¦           ¦       ¦       
-    ¦   ¦           ¦       +---js
-    ¦   ¦           ¦               bootstrap.bundle.js
-    ¦   ¦           ¦               bootstrap.bundle.js.map
-    ¦   ¦           ¦               bootstrap.bundle.min.js
-    ¦   ¦           ¦               bootstrap.bundle.min.js.map
-    ¦   ¦           ¦               bootstrap.esm.js
-    ¦   ¦           ¦               bootstrap.esm.js.map
-    ¦   ¦           ¦               bootstrap.esm.min.js
-    ¦   ¦           ¦               bootstrap.esm.min.js.map
-    ¦   ¦           ¦               bootstrap.js
-    ¦   ¦           ¦               bootstrap.js.map
-    ¦   ¦           ¦               bootstrap.min.js
-    ¦   ¦           ¦               bootstrap.min.js.map
-    ¦   ¦           ¦               
-    ¦   ¦           +---jquery
-    ¦   ¦           ¦   ¦   LICENSE.txt
-    ¦   ¦           ¦   ¦   
-    ¦   ¦           ¦   +---dist
-    ¦   ¦           ¦           jquery.js
-    ¦   ¦           ¦           jquery.min.js
-    ¦   ¦           ¦           jquery.min.map
-    ¦   ¦           ¦           
-    ¦   ¦           +---jquery-validation
-    ¦   ¦           ¦   ¦   LICENSE.md
-    ¦   ¦           ¦   ¦   
-    ¦   ¦           ¦   +---dist
-    ¦   ¦           ¦           additional-methods.js
-    ¦   ¦           ¦           additional-methods.min.js
-    ¦   ¦           ¦           jquery.validate.js
-    ¦   ¦           ¦           jquery.validate.min.js
-    ¦   ¦           ¦           
-    ¦   ¦           +---jquery-validation-unobtrusive
-    ¦   ¦                   jquery.validate.unobtrusive.js
-    ¦   ¦                   jquery.validate.unobtrusive.min.js
-    ¦   ¦                   LICENSE.txt
-    ¦   ¦                   
-    ¦   +---FitAl.Service
-    ¦   ¦   ¦   Class1.cs
-    ¦   ¦   ¦   FitAl.Service.csproj
-    ¦   ¦   ¦   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               FitAl.Service.deps.json
-    ¦   ¦   ¦               FitAl.Service.dll
-    ¦   ¦   ¦               FitAl.Service.pdb
-    ¦   ¦   ¦               
-    ¦   ¦   +---obj
-    ¦   ¦       ¦   FitAl.Service.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   FitAl.Service.csproj.nuget.g.props
-    ¦   ¦       ¦   FitAl.Service.csproj.nuget.g.targets
-    ¦   ¦       ¦   project.assets.json
-    ¦   ¦       ¦   project.nuget.cache
-    ¦   ¦       ¦   
-    ¦   ¦       +---Debug
-    ¦   ¦           +---net8.0
-    ¦   ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦               ¦   FitAl.Service.AssemblyInfo.cs
-    ¦   ¦               ¦   FitAl.Service.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   FitAl.Service.assets.cache
-    ¦   ¦               ¦   FitAl.Service.csproj.CoreCompileInputs.cache
-    ¦   ¦               ¦   FitAl.Service.csproj.FileListAbsolute.txt
-    ¦   ¦               ¦   FitAl.Service.dll
-    ¦   ¦               ¦   FitAl.Service.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   FitAl.Service.GlobalUsings.g.cs
-    ¦   ¦               ¦   FitAl.Service.pdb
-    ¦   ¦               ¦   
-    ¦   ¦               +---ref
-    ¦   ¦               ¦       FitAl.Service.dll
-    ¦   ¦               ¦       
-    ¦   ¦               +---refint
-    ¦   ¦                       FitAl.Service.dll
-    ¦   ¦                       
-    ¦   +---FitAlCore
-    ¦   ¦   ¦   Class1.cs
-    ¦   ¦   ¦   FitAl.Core.csproj
-    ¦   ¦   ¦   
-    ¦   ¦   +---bin
-    ¦   ¦   ¦   +---Debug
-    ¦   ¦   ¦       +---net8.0
-    ¦   ¦   ¦               FitAl.Core.deps.json
-    ¦   ¦   ¦               FitAl.Core.dll
-    ¦   ¦   ¦               FitAl.Core.pdb
-    ¦   ¦   ¦               
-    ¦   ¦   +---Entity
-    ¦   ¦   ¦       AiTalimat.cs
-    ¦   ¦   ¦       Bildirim.cs
-    ¦   ¦   ¦       KomisyonKaydi.cs
-    ¦   ¦   ¦       Kullanici.cs
-    ¦   ¦   ¦       KullaniciProfil.cs
-    ¦   ¦   ¦       Magaza.cs
-    ¦   ¦   ¦       NlpBulgusu.cs
-    ¦   ¦   ¦       OnboardingAdim.cs
-    ¦   ¦   ¦       PlatformBaglantisi.cs
-    ¦   ¦   ¦       SenkronizasyonLog.cs
-    ¦   ¦   ¦       Urun.cs
-    ¦   ¦   ¦       VucutUyumSkoru.cs
-    ¦   ¦   ¦       WidgetSorguLog.cs
-    ¦   ¦   ¦       Yorum.cs
-    ¦   ¦   ¦       
-    ¦   ¦   +---obj
-    ¦   ¦       ¦   FitAl.Core.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   FitAl.Core.csproj.nuget.g.props
-    ¦   ¦       ¦   FitAl.Core.csproj.nuget.g.targets
-    ¦   ¦       ¦   FitAlCore.csproj.nuget.dgspec.json
-    ¦   ¦       ¦   FitAlCore.csproj.nuget.g.props
-    ¦   ¦       ¦   FitAlCore.csproj.nuget.g.targets
-    ¦   ¦       ¦   project.assets.json
-    ¦   ¦       ¦   project.nuget.cache
-    ¦   ¦       ¦   
-    ¦   ¦       +---Debug
-    ¦   ¦           +---net8.0
-    ¦   ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦   ¦               ¦   FitAl.Core.AssemblyInfo.cs
-    ¦   ¦               ¦   FitAl.Core.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   FitAl.Core.assets.cache
-    ¦   ¦               ¦   FitAl.Core.csproj.CoreCompileInputs.cache
-    ¦   ¦               ¦   FitAl.Core.csproj.FileListAbsolute.txt
-    ¦   ¦               ¦   FitAl.Core.dll
-    ¦   ¦               ¦   FitAl.Core.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   FitAl.Core.GlobalUsings.g.cs
-    ¦   ¦               ¦   FitAl.Core.pdb
-    ¦   ¦               ¦   FitAlCore.AssemblyInfo.cs
-    ¦   ¦               ¦   FitAlCore.AssemblyInfoInputs.cache
-    ¦   ¦               ¦   FitAlCore.assets.cache
-    ¦   ¦               ¦   FitAlCore.GeneratedMSBuildEditorConfig.editorconfig
-    ¦   ¦               ¦   FitAlCore.GlobalUsings.g.cs
-    ¦   ¦               ¦   
-    ¦   ¦               +---ref
-    ¦   ¦               ¦       FitAl.Core.dll
-    ¦   ¦               ¦       
-    ¦   ¦               +---refint
-    ¦   ¦                       FitAl.Core.dll
-    ¦   ¦                       
-    ¦   +---FitAlData
-    ¦       ¦   Class1.cs
-    ¦       ¦   FitAl.Data.csproj
-    ¦       ¦   
-    ¦       +---bin
-    ¦       ¦   +---Debug
-    ¦       ¦       +---net8.0
-    ¦       ¦               FitAl.Data.deps.json
-    ¦       ¦               FitAl.Data.dll
-    ¦       ¦               FitAl.Data.pdb
-    ¦       ¦               
-    ¦       +---obj
-    ¦           ¦   FitAl.Data.csproj.nuget.dgspec.json
-    ¦           ¦   FitAl.Data.csproj.nuget.g.props
-    ¦           ¦   FitAl.Data.csproj.nuget.g.targets
-    ¦           ¦   FitAlData.csproj.nuget.dgspec.json
-    ¦           ¦   FitAlData.csproj.nuget.g.props
-    ¦           ¦   FitAlData.csproj.nuget.g.targets
-    ¦           ¦   project.assets.json
-    ¦           ¦   project.nuget.cache
-    ¦           ¦   
-    ¦           +---Debug
-    ¦               +---net8.0
-    ¦                   ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
-    ¦                   ¦   FitAl.Data.AssemblyInfo.cs
-    ¦                   ¦   FitAl.Data.AssemblyInfoInputs.cache
-    ¦                   ¦   FitAl.Data.assets.cache
-    ¦                   ¦   FitAl.Data.csproj.AssemblyReference.cache
-    ¦                   ¦   FitAl.Data.csproj.CoreCompileInputs.cache
-    ¦                   ¦   FitAl.Data.csproj.FileListAbsolute.txt
-    ¦                   ¦   FitAl.Data.dll
-    ¦                   ¦   FitAl.Data.GeneratedMSBuildEditorConfig.editorconfig
-    ¦                   ¦   FitAl.Data.GlobalUsings.g.cs
-    ¦                   ¦   FitAl.Data.pdb
-    ¦                   ¦   FitAlData.AssemblyInfo.cs
-    ¦                   ¦   FitAlData.AssemblyInfoInputs.cache
-    ¦                   ¦   FitAlData.assets.cache
-    ¦                   ¦   FitAlData.GeneratedMSBuildEditorConfig.editorconfig
-    ¦                   ¦   FitAlData.GlobalUsings.g.cs
-    ¦                   ¦   
-    ¦                   +---ref
-    ¦                   ¦       FitAl.Data.dll
-    ¦                   ¦       
-    ¦                   +---refint
-    ¦                           FitAl.Data.dll
-    ¦                           
-    +---obj
-            Eticaret.Data.EntityFrameworkCore.targets
-            
+        ¦   FitAl.sln
+        ¦   
+        +---.vs
+        ¦   +---FitAl
+        ¦   ¦   +---CopilotIndices
+        ¦   ¦   ¦   +---17.14.698.11175
+        ¦   ¦   ¦           CodeChunks.db
+        ¦   ¦   ¦           CodeChunks.db-shm
+        ¦   ¦   ¦           CodeChunks.db-wal
+        ¦   ¦   ¦           SemanticSymbols.db
+        ¦   ¦   ¦           SemanticSymbols.db-shm
+        ¦   ¦   ¦           SemanticSymbols.db-wal
+        ¦   ¦   ¦           
+        ¦   ¦   +---DesignTimeBuild
+        ¦   ¦   ¦       .dtbcache.v2
+        ¦   ¦   ¦       
+        ¦   ¦   +---FileContentIndex
+        ¦   ¦   ¦       1a78dad6-cfa9-4e6d-b881-0af3323231f4.vsidx
+        ¦   ¦   ¦       55ace341-b61b-48c7-94d7-3965936968e2.vsidx
+        ¦   ¦   ¦       6e9afd2d-62a7-40aa-a180-78f7c99fdb9a.vsidx
+        ¦   ¦   ¦       725b9f60-4c60-4f83-8437-de2e80db4e6e.vsidx
+        ¦   ¦   ¦       f298224b-059f-4535-8c16-e03da5af5724.vsidx
+        ¦   ¦   ¦       
+        ¦   ¦   +---v17
+        ¦   ¦           .futdcache.v2
+        ¦   ¦           .suo
+        ¦   ¦           DocumentLayout.backup.json
+        ¦   ¦           DocumentLayout.json
+        ¦   ¦           
+        ¦   +---ProjectEvaluation
+        ¦           fital.metadata.v9.bin
+        ¦           fital.projects.v9.bin
+        ¦           fital.strings.v9.bin
+        ¦           
+        +---FitAl
+        ¦   ¦   appsettings.Development.json
+        ¦   ¦   appsettings.json
+        ¦   ¦   FitAl.csproj
+        ¦   ¦   FitAl.csproj.user
+        ¦   ¦   Program.cs
+        ¦   ¦   
+        ¦   +---bin
+        ¦   ¦   +---Debug
+        ¦   ¦       +---net8.0
+        ¦   ¦               appsettings.Development.json
+        ¦   ¦               appsettings.json
+        ¦   ¦               FitAl.deps.json
+        ¦   ¦               FitAl.dll
+        ¦   ¦               FitAl.exe
+        ¦   ¦               FitAl.pdb
+        ¦   ¦               FitAl.runtimeconfig.json
+        ¦   ¦               FitAl.staticwebassets.endpoints.json
+        ¦   ¦               FitAl.staticwebassets.runtime.json
+        ¦   ¦               
+        ¦   +---Controllers
+        ¦   ¦       HomeController.cs
+        ¦   ¦       
+        ¦   +---Models
+        ¦   ¦       ErrorViewModel.cs
+        ¦   ¦       
+        ¦   +---obj
+        ¦   ¦   ¦   FitAl.csproj.nuget.dgspec.json
+        ¦   ¦   ¦   FitAl.csproj.nuget.g.props
+        ¦   ¦   ¦   FitAl.csproj.nuget.g.targets
+        ¦   ¦   ¦   project.assets.json
+        ¦   ¦   ¦   project.nuget.cache
+        ¦   ¦   ¦   
+        ¦   ¦   +---Debug
+        ¦   ¦       +---net8.0
+        ¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+        ¦   ¦           ¦   apphost.exe
+        ¦   ¦           ¦   FitAl.AssemblyInfo.cs
+        ¦   ¦           ¦   FitAl.AssemblyInfoInputs.cache
+        ¦   ¦           ¦   FitAl.assets.cache
+        ¦   ¦           ¦   FitAl.csproj.CoreCompileInputs.cache
+        ¦   ¦           ¦   FitAl.csproj.FileListAbsolute.txt
+        ¦   ¦           ¦   FitAl.dll
+        ¦   ¦           ¦   FitAl.GeneratedMSBuildEditorConfig.editorconfig
+        ¦   ¦           ¦   FitAl.genruntimeconfig.cache
+        ¦   ¦           ¦   FitAl.GlobalUsings.g.cs
+        ¦   ¦           ¦   FitAl.MvcApplicationPartsAssemblyInfo.cache
+        ¦   ¦           ¦   FitAl.pdb
+        ¦   ¦           ¦   FitAl.RazorAssemblyInfo.cache
+        ¦   ¦           ¦   FitAl.RazorAssemblyInfo.cs
+        ¦   ¦           ¦   rbcswa.dswa.cache.json
+        ¦   ¦           ¦   rjimswa.dswa.cache.json
+        ¦   ¦           ¦   rjsmcshtml.dswa.cache.json
+        ¦   ¦           ¦   rjsmrazor.dswa.cache.json
+        ¦   ¦           ¦   rpswa.dswa.cache.json
+        ¦   ¦           ¦   staticwebassets.build.endpoints.json
+        ¦   ¦           ¦   staticwebassets.build.json
+        ¦   ¦           ¦   staticwebassets.build.json.cache
+        ¦   ¦           ¦   staticwebassets.development.json
+        ¦   ¦           ¦   staticwebassets.references.upToDateCheck.txt
+        ¦   ¦           ¦   staticwebassets.removed.txt
+        ¦   ¦           ¦   staticwebassets.upToDateCheck.txt
+        ¦   ¦           ¦   
+        ¦   ¦           +---ref
+        ¦   ¦           ¦       FitAl.dll
+        ¦   ¦           ¦       
+        ¦   ¦           +---refint
+        ¦   ¦           ¦       FitAl.dll
+        ¦   ¦           ¦       
+        ¦   ¦           +---scopedcss
+        ¦   ¦               +---bundle
+        ¦   ¦               ¦       FitAl.styles.css
+        ¦   ¦               ¦       
+        ¦   ¦               +---projectbundle
+        ¦   ¦               ¦       FitAl.bundle.scp.css
+        ¦   ¦               ¦       
+        ¦   ¦               +---Views
+        ¦   ¦                   +---Shared
+        ¦   ¦                           _Layout.cshtml.rz.scp.css
+        ¦   ¦                           
+        ¦   +---Properties
+        ¦   ¦       launchSettings.json
+        ¦   ¦       
+        ¦   +---Views
+        ¦   ¦   ¦   _ViewImports.cshtml
+        ¦   ¦   ¦   _ViewStart.cshtml
+        ¦   ¦   ¦   
+        ¦   ¦   +---Home
+        ¦   ¦   ¦       Index.cshtml
+        ¦   ¦   ¦       Privacy.cshtml
+        ¦   ¦   ¦       
+        ¦   ¦   +---Shared
+        ¦   ¦           Error.cshtml
+        ¦   ¦           _Layout.cshtml
+        ¦   ¦           _Layout.cshtml.css
+        ¦   ¦           _ValidationScriptsPartial.cshtml
+        ¦   ¦           
+        ¦   +---wwwroot
+        ¦       ¦   favicon.ico
+        ¦       ¦   
+        ¦       +---css
+        ¦       ¦       site.css
+        ¦       ¦       
+        ¦       +---js
+        ¦       ¦       site.js
+        ¦       ¦       
+        ¦       +---lib
+        ¦           +---bootstrap
+        ¦           ¦   ¦   LICENSE
+        ¦           ¦   ¦   
+        ¦           ¦   +---dist
+        ¦           ¦       +---css
+        ¦           ¦       ¦       bootstrap-grid.css
+        ¦           ¦       ¦       bootstrap-grid.css.map
+        ¦           ¦       ¦       bootstrap-grid.min.css
+        ¦           ¦       ¦       bootstrap-grid.min.css.map
+        ¦           ¦       ¦       bootstrap-grid.rtl.css
+        ¦           ¦       ¦       bootstrap-grid.rtl.css.map
+        ¦           ¦       ¦       bootstrap-grid.rtl.min.css
+        ¦           ¦       ¦       bootstrap-grid.rtl.min.css.map
+        ¦           ¦       ¦       bootstrap-reboot.css
+        ¦           ¦       ¦       bootstrap-reboot.css.map
+        ¦           ¦       ¦       bootstrap-reboot.min.css
+        ¦           ¦       ¦       bootstrap-reboot.min.css.map
+        ¦           ¦       ¦       bootstrap-reboot.rtl.css
+        ¦           ¦       ¦       bootstrap-reboot.rtl.css.map
+        ¦           ¦       ¦       bootstrap-reboot.rtl.min.css
+        ¦           ¦       ¦       bootstrap-reboot.rtl.min.css.map
+        ¦           ¦       ¦       bootstrap-utilities.css
+        ¦           ¦       ¦       bootstrap-utilities.css.map
+        ¦           ¦       ¦       bootstrap-utilities.min.css
+        ¦           ¦       ¦       bootstrap-utilities.min.css.map
+        ¦           ¦       ¦       bootstrap-utilities.rtl.css
+        ¦           ¦       ¦       bootstrap-utilities.rtl.css.map
+        ¦           ¦       ¦       bootstrap-utilities.rtl.min.css
+        ¦           ¦       ¦       bootstrap-utilities.rtl.min.css.map
+        ¦           ¦       ¦       bootstrap.css
+        ¦           ¦       ¦       bootstrap.css.map
+        ¦           ¦       ¦       bootstrap.min.css
+        ¦           ¦       ¦       bootstrap.min.css.map
+        ¦           ¦       ¦       bootstrap.rtl.css
+        ¦           ¦       ¦       bootstrap.rtl.css.map
+        ¦           ¦       ¦       bootstrap.rtl.min.css
+        ¦           ¦       ¦       bootstrap.rtl.min.css.map
+        ¦           ¦       ¦       
+        ¦           ¦       +---js
+        ¦           ¦               bootstrap.bundle.js
+        ¦           ¦               bootstrap.bundle.js.map
+        ¦           ¦               bootstrap.bundle.min.js
+        ¦           ¦               bootstrap.bundle.min.js.map
+        ¦           ¦               bootstrap.esm.js
+        ¦           ¦               bootstrap.esm.js.map
+        ¦           ¦               bootstrap.esm.min.js
+        ¦           ¦               bootstrap.esm.min.js.map
+        ¦           ¦               bootstrap.js
+        ¦           ¦               bootstrap.js.map
+        ¦           ¦               bootstrap.min.js
+        ¦           ¦               bootstrap.min.js.map
+        ¦           ¦               
+        ¦           +---jquery
+        ¦           ¦   ¦   LICENSE.txt
+        ¦           ¦   ¦   
+        ¦           ¦   +---dist
+        ¦           ¦           jquery.js
+        ¦           ¦           jquery.min.js
+        ¦           ¦           jquery.min.map
+        ¦           ¦           
+        ¦           +---jquery-validation
+        ¦           ¦   ¦   LICENSE.md
+        ¦           ¦   ¦   
+        ¦           ¦   +---dist
+        ¦           ¦           additional-methods.js
+        ¦           ¦           additional-methods.min.js
+        ¦           ¦           jquery.validate.js
+        ¦           ¦           jquery.validate.min.js
+        ¦           ¦           
+        ¦           +---jquery-validation-unobtrusive
+        ¦                   jquery.validate.unobtrusive.js
+        ¦                   jquery.validate.unobtrusive.min.js
+        ¦                   LICENSE.txt
+        ¦                   
+        +---FitAl.Service
+        ¦   ¦   Class1.cs
+        ¦   ¦   FitAl.Service.csproj
+        ¦   ¦   
+        ¦   +---bin
+        ¦   ¦   +---Debug
+        ¦   ¦       +---net8.0
+        ¦   ¦               FitAl.Service.deps.json
+        ¦   ¦               FitAl.Service.dll
+        ¦   ¦               FitAl.Service.pdb
+        ¦   ¦               
+        ¦   +---obj
+        ¦       ¦   FitAl.Service.csproj.nuget.dgspec.json
+        ¦       ¦   FitAl.Service.csproj.nuget.g.props
+        ¦       ¦   FitAl.Service.csproj.nuget.g.targets
+        ¦       ¦   project.assets.json
+        ¦       ¦   project.nuget.cache
+        ¦       ¦   
+        ¦       +---Debug
+        ¦           +---net8.0
+        ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+        ¦               ¦   FitAl.Service.AssemblyInfo.cs
+        ¦               ¦   FitAl.Service.AssemblyInfoInputs.cache
+        ¦               ¦   FitAl.Service.assets.cache
+        ¦               ¦   FitAl.Service.csproj.CoreCompileInputs.cache
+        ¦               ¦   FitAl.Service.csproj.FileListAbsolute.txt
+        ¦               ¦   FitAl.Service.dll
+        ¦               ¦   FitAl.Service.GeneratedMSBuildEditorConfig.editorconfig
+        ¦               ¦   FitAl.Service.GlobalUsings.g.cs
+        ¦               ¦   FitAl.Service.pdb
+        ¦               ¦   
+        ¦               +---ref
+        ¦               ¦       FitAl.Service.dll
+        ¦               ¦       
+        ¦               +---refint
+        ¦                       FitAl.Service.dll
+        ¦                       
+        +---FitAlCore
+        ¦   ¦   Class1.cs
+        ¦   ¦   FitAl.Core.csproj
+        ¦   ¦   
+        ¦   +---bin
+        ¦   ¦   +---Debug
+        ¦   ¦       +---net8.0
+        ¦   ¦               FitAl.Core.deps.json
+        ¦   ¦               FitAl.Core.dll
+        ¦   ¦               FitAl.Core.pdb
+        ¦   ¦               
+        ¦   +---Entity
+        ¦   ¦       AiTalimat.cs
+        ¦   ¦       Bildirim.cs
+        ¦   ¦       KomisyonKaydi.cs
+        ¦   ¦       Kullanici.cs
+        ¦   ¦       KullaniciProfil.cs
+        ¦   ¦       Magaza.cs
+        ¦   ¦       NlpBulgusu.cs
+        ¦   ¦       OnboardingAdim.cs
+        ¦   ¦       PlatformBaglantisi.cs
+        ¦   ¦       SenkronizasyonLog.cs
+        ¦   ¦       Urun.cs
+        ¦   ¦       VucutUyumSkoru.cs
+        ¦   ¦       WidgetSorguLog.cs
+        ¦   ¦       Yorum.cs
+        ¦   ¦       
+        ¦   +---obj
+        ¦       ¦   FitAl.Core.csproj.nuget.dgspec.json
+        ¦       ¦   FitAl.Core.csproj.nuget.g.props
+        ¦       ¦   FitAl.Core.csproj.nuget.g.targets
+        ¦       ¦   FitAlCore.csproj.nuget.dgspec.json
+        ¦       ¦   FitAlCore.csproj.nuget.g.props
+        ¦       ¦   FitAlCore.csproj.nuget.g.targets
+        ¦       ¦   project.assets.json
+        ¦       ¦   project.nuget.cache
+        ¦       ¦   
+        ¦       +---Debug
+        ¦           +---net8.0
+        ¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+        ¦               ¦   FitAl.Core.AssemblyInfo.cs
+        ¦               ¦   FitAl.Core.AssemblyInfoInputs.cache
+        ¦               ¦   FitAl.Core.assets.cache
+        ¦               ¦   FitAl.Core.csproj.CoreCompileInputs.cache
+        ¦               ¦   FitAl.Core.csproj.FileListAbsolute.txt
+        ¦               ¦   FitAl.Core.dll
+        ¦               ¦   FitAl.Core.GeneratedMSBuildEditorConfig.editorconfig
+        ¦               ¦   FitAl.Core.GlobalUsings.g.cs
+        ¦               ¦   FitAl.Core.pdb
+        ¦               ¦   FitAlCore.AssemblyInfo.cs
+        ¦               ¦   FitAlCore.AssemblyInfoInputs.cache
+        ¦               ¦   FitAlCore.assets.cache
+        ¦               ¦   FitAlCore.GeneratedMSBuildEditorConfig.editorconfig
+        ¦               ¦   FitAlCore.GlobalUsings.g.cs
+        ¦               ¦   
+        ¦               +---ref
+        ¦               ¦       FitAl.Core.dll
+        ¦               ¦       
+        ¦               +---refint
+        ¦                       FitAl.Core.dll
+        ¦                       
+        +---FitAlData
+            ¦   Class1.cs
+            ¦   FitAl.Data.csproj
+            ¦   
+            +---bin
+            ¦   +---Debug
+            ¦       +---net8.0
+            ¦               FitAl.Data.deps.json
+            ¦               FitAl.Data.dll
+            ¦               FitAl.Data.pdb
+            ¦               
+            +---obj
+                ¦   FitAl.Data.csproj.nuget.dgspec.json
+                ¦   FitAl.Data.csproj.nuget.g.props
+                ¦   FitAl.Data.csproj.nuget.g.targets
+                ¦   FitAlData.csproj.nuget.dgspec.json
+                ¦   FitAlData.csproj.nuget.g.props
+                ¦   FitAlData.csproj.nuget.g.targets
+                ¦   project.assets.json
+                ¦   project.nuget.cache
+                ¦   
+                +---Debug
+                    +---net8.0
+                        ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+                        ¦   FitAl.Data.AssemblyInfo.cs
+                        ¦   FitAl.Data.AssemblyInfoInputs.cache
+                        ¦   FitAl.Data.assets.cache
+                        ¦   FitAl.Data.csproj.AssemblyReference.cache
+                        ¦   FitAl.Data.csproj.CoreCompileInputs.cache
+                        ¦   FitAl.Data.csproj.FileListAbsolute.txt
+                        ¦   FitAl.Data.dll
+                        ¦   FitAl.Data.GeneratedMSBuildEditorConfig.editorconfig
+                        ¦   FitAl.Data.GlobalUsings.g.cs
+                        ¦   FitAl.Data.pdb
+                        ¦   FitAlData.AssemblyInfo.cs
+                        ¦   FitAlData.AssemblyInfoInputs.cache
+                        ¦   FitAlData.assets.cache
+                        ¦   FitAlData.GeneratedMSBuildEditorConfig.editorconfig
+                        ¦   FitAlData.GlobalUsings.g.cs
+                        ¦   
+                        +---ref
+                        ¦       FitAl.Data.dll
+                        ¦       
+                        +---refint
+                                FitAl.Data.dll
+                                
