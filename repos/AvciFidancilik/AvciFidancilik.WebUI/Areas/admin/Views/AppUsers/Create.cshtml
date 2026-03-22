@@ -1,0 +1,786 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = "Yeni Kullanıcı Ekle";
+}
+
+<div class="container-fluid mt-4">
+    <!-- Başlık ve Navigasyon -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Kullanıcı Yönetimi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yeni Kullanıcı</li>
+                </ol>
+            </nav>
+            <h2 class="mb-0">
+                <i class="fas fa-user-plus text-success me-2"></i>Yeni Kullanıcı Oluştur
+            </h2>
+            <p class="text-muted mb-0">Sisteme yeni bir kullanıcı eklemek için formu doldurun.</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Sol Panel: Kullanıcı Formu -->
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-light py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-user-circle text-primary me-2"></i>Kullanıcı Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Hata Özeti -->
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                            <h6 class="alert-heading mb-2">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Formda düzeltilmesi gereken hatalar var
+                            </h6>
+                            <div asp-validation-summary="ModelOnly" class="mb-0 small"></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post" id="createUserForm">
+                        <div class="row g-3">
+                            <!-- Ad -->
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label fw-bold required">
+                                    <i class="fas fa-user text-primary me-1"></i>Ad
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-card"></i>
+                                    </span>
+                                    <input asp-for="Name" class="form-control" 
+                                           placeholder="Kullanıcının adını giriniz" 
+                                           maxlength="50" />
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Maksimum 50 karakter</small>
+                                        <small class="text-muted">
+                                            <span id="nameCharCount">0</span>/50
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Soyad -->
+                            <div class="col-md-6">
+                                <label asp-for="SurName" class="form-label fw-bold required">
+                                    <i class="fas fa-user-tag text-primary me-1"></i>Soyad
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-card"></i>
+                                    </span>
+                                    <input asp-for="SurName" class="form-control" 
+                                           placeholder="Kullanıcının soyadını giriniz" 
+                                           maxlength="50" />
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="SurName" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Maksimum 50 karakter</small>
+                                        <small class="text-muted">
+                                            <span id="surnameCharCount">0</span>/50
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- E-posta -->
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-bold required">
+                                    <i class="fas fa-envelope text-danger me-1"></i>E-posta
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-at"></i>
+                                    </span>
+                                    <input asp-for="Email" type="email" class="form-control" 
+                                           placeholder="ornek@mail.com" 
+                                           maxlength="100" />
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Geçerli bir e-posta adresi giriniz</small>
+                                        <small class="text-muted">
+                                            <span id="emailCharCount">0</span>/100
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Telefon -->
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label fw-bold required">
+                                    <i class="fas fa-phone text-success me-1"></i>Telefon
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </span>
+                                    <input asp-for="Phone" type="tel" class="form-control" 
+                                           placeholder="(5XX) XXX XX XX" 
+                                           maxlength="15" 
+                                           pattern="[0-9+\s\(\)\-]*" />
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Maksimum 15 karakter</small>
+                                        <small class="text-muted">
+                                            <span id="phoneCharCount">0</span>/15
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kullanıcı Adı -->
+                            <div class="col-md-6">
+                                <label asp-for="UserName" class="form-label fw-bold required">
+                                    <i class="fas fa-user-alt text-info me-1"></i>Kullanıcı Adı
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <input asp-for="UserName" class="form-control" 
+                                           placeholder="kullanici_adi" 
+                                           pattern="[a-zA-Z0-9_]+"
+                                           title="Sadece harf, rakam ve alt çizgi kullanılabilir"
+                                           maxlength="50" />
+                                    <button class="btn btn-outline-secondary" type="button" 
+                                            onclick="generateUsername()" 
+                                            title="Otomatik Kullanıcı Adı Oluştur">
+                                        <i class="fas fa-magic"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="UserName" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">Sadece harf, rakam ve alt çizgi</small>
+                                        <small class="text-muted">
+                                            <span id="usernameCharCount">0</span>/50
+                                        </small>
+                                    </div>
+                                    <small class="text-muted d-block mt-1">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Oturum açmak için kullanılacak benzersiz kullanıcı adı
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Şifre -->
+                            <div class="col-md-6">
+                                <label asp-for="PasswordHash" class="form-label fw-bold required">
+                                    <i class="fas fa-lock text-warning me-1"></i>Şifre
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-key"></i>
+                                    </span>
+                                    <input asp-for="PasswordHash" type="password" 
+                                           class="form-control" 
+                                           placeholder="En az 6 karakter" 
+                                           minlength="6" 
+                                           maxlength="100" 
+                                           id="passwordInput" />
+                                    <button class="btn btn-outline-secondary" type="button" 
+                                            onclick="togglePasswordVisibility()">
+                                        <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                                    </button>
+                                    <button class="btn btn-outline-info" type="button" 
+                                            onclick="generatePassword()" 
+                                            title="Güçlü Şifre Oluştur">
+                                        <i class="fas fa-random"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-1">
+                                    <span asp-validation-for="PasswordHash" class="text-danger small"></span>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">En az 6 karakter</small>
+                                        <small class="text-muted">
+                                            <span id="passwordCharCount">0</span>/100
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Şifre Güçlülük Göstergesi -->
+                                <div class="mt-2">
+                                    <div class="password-strength">
+                                        <div class="progress" style="height: 4px;">
+                                            <div class="progress-bar" id="passwordStrengthBar" 
+                                                 style="width: 0%" role="progressbar"></div>
+                                        </div>
+                                        <small class="text-muted d-block mt-1" id="passwordStrengthText">
+                                            Şifre gücü: Zayıf
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kullanıcı Ayarları -->
+                            <div class="col-12">
+                                <div class="card border mt-3">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-cog text-secondary me-2"></i>Kullanıcı Ayarları
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" 
+                                                           asp-for="IsActive" checked>
+                                                    <label class="form-check-label fw-bold" asp-for="IsActive">
+                                                        <i class="fas fa-toggle-on text-success me-1"></i>
+                                                        Aktif Kullanıcı
+                                                    </label>
+                                                </div>
+                                                <small class="text-muted">
+                                                    Aktif olmayan kullanıcılar sisteme giriş yapamaz.
+                                                </small>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" 
+                                                           asp-for="IsAdmin">
+                                                    <label class="form-check-label fw-bold" asp-for="IsAdmin">
+                                                        <i class="fas fa-user-shield text-warning me-1"></i>
+                                                        Yönetici Yetkisi
+                                                    </label>
+                                                </div>
+                                                <small class="text-muted">
+                                                    Yönetici kullanıcılar tüm sistem özelliklerine erişebilir.
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Butonları -->
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                    <a asp-action="Index" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-2"></i>İptal
+                                    </a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-outline-info" onclick="resetForm()">
+                                            <i class="fas fa-redo me-2"></i>Formu Temizle
+                                        </button>
+                                        <button type="submit" class="btn btn-success px-4" id="submitBtn">
+                                            <i class="fas fa-user-plus me-2"></i>Kullanıcıyı Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Panel: Yardım ve Önizleme -->
+        <div class="col-lg-4">
+            <!-- Yardım Kartı -->
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle me-2"></i>Yardım ve İpuçları
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="helpAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#help1" aria-expanded="true">
+                                    <i class="fas fa-user-check me-2"></i>Zorunlu Alanlar
+                                </button>
+                            </h2>
+                            <div id="help1" class="accordion-collapse collapse show" 
+                                 data-bs-parent="#helpAccordion">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled small">
+                                        <li class="mb-2">
+                                            <i class="fas fa-circle text-danger me-1"></i>
+                                            <strong>Ad ve Soyad:</strong> Kullanıcının gerçek adı
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-circle text-danger me-1"></i>
+                                            <strong>E-posta:</strong> Geçerli bir e-posta adresi
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-circle text-danger me-1"></i>
+                                            <strong>Kullanıcı Adı:</strong> Benzersiz ve sistemde kullanılacak
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-circle text-danger me-1"></i>
+                                            <strong>Şifre:</strong> En az 6 karakter
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" 
+                                        data-bs-toggle="collapse" data-bs-target="#help2">
+                                    <i class="fas fa-shield-alt me-2"></i>Güvenlik İpuçları
+                                </button>
+                            </h2>
+                            <div id="help2" class="accordion-collapse collapse" 
+                                 data-bs-parent="#helpAccordion">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled small">
+                                        <li class="mb-2">
+                                            <i class="fas fa-key text-warning me-1"></i>
+                                            Şifreler güçlü ve karmaşık olmalıdır
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-user-shield text-warning me-1"></i>
+                                            Yönetici yetkisini sadece gerekli kullanıcılara verin
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-toggle-on text-success me-1"></i>
+                                            Kullanıcı aktif değilse sisteme giriş yapamaz
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Önizleme Kartı -->
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>Kullanıcı Önizleme
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="user-preview text-center">
+                        <div class="preview-avatar mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        <div class="preview-info">
+                            <h5 id="previewName" class="text-primary mb-1">Ad Soyad</h5>
+                            <p class="text-muted small mb-2" id="previewEmail">E-posta</p>
+                            <div class="badges mb-3">
+                                <span class="badge bg-success" id="previewStatus">Aktif</span>
+                                <span class="badge bg-warning" id="previewRole">Normal Kullanıcı</span>
+                            </div>
+                            <div class="row small text-muted">
+                                <div class="col-6">
+                                    <i class="fas fa-user me-1"></i>
+                                    <div id="previewUsername">kullanici_adi</div>
+                                </div>
+                                <div class="col-6">
+                                    <i class="fas fa-phone me-1"></i>
+                                    <div id="previewPhone">(5XX) XXX XX XX</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form İstatistikleri -->
+            <div class="card shadow border-0">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Form İstatistikleri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush small">
+                        <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <span>Form Tamamlama</span>
+                            <div class="progress" style="width: 100px; height: 6px;">
+                                <div class="progress-bar bg-success" id="completionProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <span>Doldurulan Alanlar</span>
+                            <span class="badge bg-primary" id="filledFields">0/7</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <span>Şifre Gücü</span>
+                            <span class="badge bg-danger" id="passwordStrengthBadge">Zayıf</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <span>Son Güncelleme</span>
+                            <small class="text-muted">@DateTime.Now.ToString("HH:mm")</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Karakter sayacı fonksiyonları
+            function setupCharCounter(inputId, counterId, maxLength) {
+                const input = document.getElementById(inputId);
+                const counter = document.getElementById(counterId);
+                
+                if (input && counter) {
+                    function updateCounter() {
+                        const length = input.value.length;
+                        counter.textContent = length;
+                        counter.className = length > maxLength ? 'text-danger' : 'text-success';
+                        updateCompletionProgress();
+                    }
+                    
+                    input.addEventListener('input', updateCounter);
+                    updateCounter(); // İlk yükleme
+                }
+            }
+            
+            // Karakter sayaçlarını başlat
+            setupCharCounter('Name', 'nameCharCount', 50);
+            setupCharCounter('SurName', 'surnameCharCount', 50);
+            setupCharCounter('Email', 'emailCharCount', 100);
+            setupCharCounter('Phone', 'phoneCharCount', 15);
+            setupCharCounter('UserName', 'usernameCharCount', 50);
+            setupCharCounter('passwordInput', 'passwordCharCount', 100);
+            
+            // Şifre göster/gizle
+            window.togglePasswordVisibility = function() {
+                const passwordInput = document.getElementById('passwordInput');
+                const icon = document.getElementById('passwordToggleIcon');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.className = 'fas fa-eye-slash';
+                } else {
+                    passwordInput.type = 'password';
+                    icon.className = 'fas fa-eye';
+                }
+            };
+            
+            // Şifre gücü kontrolü
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                let strengthText = 'Zayıf';
+                let strengthClass = 'danger';
+                let barWidth = 25;
+                
+                if (password.length >= 8) strength++;
+                if (password.length >= 12) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                if (strength >= 5) {
+                    strengthText = 'Çok Güçlü';
+                    strengthClass = 'success';
+                    barWidth = 100;
+                } else if (strength >= 4) {
+                    strengthText = 'Güçlü';
+                    strengthClass = 'success';
+                    barWidth = 75;
+                } else if (strength >= 3) {
+                    strengthText = 'Orta';
+                    strengthClass = 'warning';
+                    barWidth = 50;
+                } else if (strength >= 2) {
+                    strengthText = 'Zayıf';
+                    strengthClass = 'danger';
+                    barWidth = 25;
+                } else {
+                    strengthText = 'Çok Zayıf';
+                    strengthClass = 'danger';
+                    barWidth = 10;
+                }
+                
+                // Güncelle
+                $('#passwordStrengthBar')
+                    .removeClass('bg-danger bg-warning bg-success')
+                    .addClass('bg-' + strengthClass)
+                    .css('width', barWidth + '%');
+                
+                $('#passwordStrengthText')
+                    .removeClass('text-danger text-warning text-success')
+                    .addClass('text-' + strengthClass)
+                    .text('Şifre gücü: ' + strengthText);
+                
+                $('#passwordStrengthBadge')
+                    .removeClass('bg-danger bg-warning bg-success')
+                    .addClass('bg-' + strengthClass)
+                    .text(strengthText);
+            }
+            
+            // Şifre input'una event listener ekle
+            $('#passwordInput').on('input', function() {
+                checkPasswordStrength(this.value);
+            });
+            
+            // Otomatik kullanıcı adı oluştur
+            window.generateUsername = function() {
+                const name = $('#Name').val().toLowerCase().replace(/[^a-z]/g, '');
+                const surname = $('#SurName').val().toLowerCase().replace(/[^a-z]/g, '');
+                
+                if (name && surname) {
+                    const randomNum = Math.floor(Math.random() * 999) + 1;
+                    const username = name.charAt(0) + surname + randomNum;
+                    $('#UserName').val(username.substring(0, 50));
+                    $('#usernameCharCount').text(username.length > 50 ? 50 : username.length);
+                    updatePreview();
+                } else {
+                    alert('Önce ad ve soyad bilgilerini giriniz.');
+                }
+            };
+            
+            // Rastgele şifre oluştur
+            window.generatePassword = function() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@@#$%^&*()';
+                let password = '';
+                const length = 12;
+                
+                for (let i = 0; i < length; i++) {
+                    password += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                
+                $('#passwordInput').val(password);
+                $('#passwordCharCount').text(password.length);
+                checkPasswordStrength(password);
+                updatePreview();
+            };
+            
+            // Form tamamlama progress bar'ı
+            function updateCompletionProgress() {
+                let completed = 0;
+                const totalFields = 7; // Ad, Soyad, Email, Phone, Username, Password, IsActive
+                
+                // Kontrol edilecek alanlar
+                const fields = [
+                    $('#Name').val().trim(),
+                    $('#SurName').val().trim(),
+                    $('#Email').val().trim(),
+                    $('#Phone').val().trim(),
+                    $('#UserName').val().trim(),
+                    $('#passwordInput').val().trim(),
+                    true // IsActive her zaman true olarak başlıyor
+                ];
+                
+                fields.forEach(field => {
+                    if (field && field !== '') completed++;
+                });
+                
+                const percentage = (completed / totalFields) * 100;
+                $('#completionProgress').css('width', percentage + '%');
+                $('#filledFields').text(completed + '/' + totalFields);
+            }
+            
+            // Canlı önizleme güncelleme
+            function updatePreview() {
+                // Ad Soyad
+                const name = $('#Name').val() || 'Ad';
+                const surname = $('#SurName').val() || 'Soyad';
+                $('#previewName').text(name + ' ' + surname);
+                
+                // Email
+                const email = $('#Email').val() || 'ornek@mail.com';
+                $('#previewEmail').text(email);
+                
+                // Username
+                const username = $('#UserName').val() || 'kullanici_adi';
+                $('#previewUsername').text(username);
+                
+                // Phone
+                const phone = $('#Phone').val() || '(5XX) XXX XX XX';
+                $('#previewPhone').text(phone);
+                
+                // Status
+                const isActive = $('#IsActive').is(':checked');
+                $('#previewStatus')
+                    .text(isActive ? 'Aktif' : 'Pasif')
+                    .removeClass('bg-success bg-secondary')
+                    .addClass(isActive ? 'bg-success' : 'bg-secondary');
+                
+                // Role
+                const isAdmin = $('#IsAdmin').is(':checked');
+                $('#previewRole')
+                    .text(isAdmin ? 'Yönetici' : 'Normal Kullanıcı')
+                    .removeClass('bg-warning bg-info')
+                    .addClass(isAdmin ? 'bg-warning' : 'bg-info');
+            }
+            
+            // Form alanları için event listener'lar
+            $('input').on('input change', function() {
+                updatePreview();
+                updateCompletionProgress();
+            });
+            
+            // Form sıfırlama
+            window.resetForm = function() {
+                if (confirm('Formdaki tüm bilgileri sıfırlamak istediğinize emin misiniz?')) {
+                    document.getElementById('createUserForm').reset();
+                    $('.char-counter').text('0');
+                    updatePreview();
+                    updateCompletionProgress();
+                    checkPasswordStrength('');
+                }
+            };
+            
+            // Form gönderimi
+            $('#createUserForm').on('submit', function() {
+                $('#submitBtn').prop('disabled', true)
+                    .html('<i class="fas fa-spinner fa-spin me-2"></i>Ekleniyor...');
+            });
+            
+            // İlk yükleme
+            updatePreview();
+            updateCompletionProgress();
+            checkPasswordStrength('');
+            
+            // Telefon formatı
+            $('#Phone').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                if (value.length > 0) {
+                    value = '(' + value.substring(0, 3) + ') ' + value.substring(3, 6) + ' ' + value.substring(6, 8) + ' ' + value.substring(8, 10);
+                }
+                $(this).val(value.substring(0, 15));
+            });
+        });
+    </script>
+
+    <style>
+        .required:after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        }
+        
+        .card {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            border-radius: 10px 10px 0 0 !important;
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-right: none;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+        }
+        
+        .input-group .form-control:focus {
+            border-left: none;
+            border-color: #ced4da;
+            box-shadow: none;
+        }
+        
+        .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .form-check-input:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        }
+        
+        .password-strength .progress {
+            background-color: #e9ecef;
+        }
+        
+        .user-preview {
+            transition: all 0.3s ease;
+        }
+        
+        .user-preview:hover {
+            transform: translateY(-2px);
+        }
+        
+        .preview-avatar {
+            transition: transform 0.3s ease;
+        }
+        
+        .preview-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .list-group-item {
+            border: none;
+            padding: 0.5rem 0;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(0,0,0,.125);
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        
+        @@media (max-width: 768px) {
+            .btn-group {
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                flex: 1;
+            }
+            
+            .preview-avatar {
+                width: 60px !important;
+                height: 60px !important;
+            }
+        }
+        
+        /* Animasyonlar */
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+}

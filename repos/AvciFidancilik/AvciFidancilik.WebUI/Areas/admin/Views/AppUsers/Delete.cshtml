@@ -1,0 +1,809 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = "Kullanıcı Sil";
+    var createdDateLocal = Model.CreatedDate.ToLocalTime();
+    var userAge = DateTime.Now.Subtract(Model.CreatedDate).Days;
+    var isAdmin = Model.IsAdmin ? "Yönetici" : "Normal Kullanıcı";
+    var isActive = Model.IsActive ? "Aktif" : "Pasif";
+    var statusColor = Model.IsActive ? "success" : "secondary";
+    var roleColor = Model.IsAdmin ? "warning" : "info";
+}
+
+<div class="container-fluid mt-4">
+    <!-- Başlık ve Navigasyon -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Kullanıcı Yönetimi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kullanıcı Sil</li>
+                </ol>
+            </nav>
+            <h2 class="mb-0">
+                <i class="fas fa-user-times text-danger me-2"></i>Kullanıcı Silme İşlemi
+            </h2>
+            <p class="text-muted mb-0">ID: @Model.Id | Kullanıcı Adı: @Model.UserName</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+        </a>
+    </div>
+
+    <!-- Uyarı Kartı -->
+    <div class="card border-danger border-2 shadow mb-4">
+        <div class="card-header bg-danger text-white">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                <div>
+                    <h4 class="mb-0">DİKKAT! Kullanıcı Silinecek</h4>
+                    <p class="mb-0">Bu işlem geri alınamaz!</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger border-danger">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="fas fa-radiation fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="alert-heading">Kritik İşlem Uyarısı</h5>
+                        <p class="mb-2">
+                            <strong>@Model.Name @Model.SurName</strong> adlı kullanıcıyı silmek üzeresiniz.
+                            Bu işlem aşağıdaki verileri kalıcı olarak silecektir:
+                        </p>
+                        <ul class="mb-0">
+                            <li>Kullanıcının tüm kişisel bilgileri</li>
+                            <li>Kullanıcıya ait sipariş geçmişi</li>
+                            <li>Kullanıcının adres bilgileri</li>
+                            <li>Favori ürün listesi</li>
+                            <li>Tüm sistem etkinlik kayıtları</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sol Panel: Kullanıcı Bilgileri -->
+        <div class="col-lg-8">
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-circle text-primary me-2"></i>Silinecek Kullanıcı Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <!-- Temel Bilgiler -->
+                        <div class="col-md-6">
+                            <div class="card border h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-id-card text-primary me-2"></i>Kişisel Bilgiler
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="info-item">
+                                                <small class="text-muted d-block">Ad</small>
+                                                <strong class="d-block">@Model.Name</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="info-item">
+                                                <small class="text-muted d-block">Soyad</small>
+                                                <strong class="d-block">@Model.SurName</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="info-item mt-2">
+                                                <small class="text-muted d-block">Tam Ad</small>
+                                                <strong class="d-block fs-5 text-primary">
+                                                    @Model.Name @Model.SurName
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- İletişim Bilgileri -->
+                        <div class="col-md-6">
+                            <div class="card border h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-address-book text-success me-2"></i>İletişim Bilgileri
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-item mb-3">
+                                        <small class="text-muted d-block">
+                                            <i class="fas fa-envelope me-1"></i>E-posta
+                                        </small>
+                                        <strong class="d-block">@Model.Email</strong>
+                                    </div>
+                                    <div class="info-item">
+                                        <small class="text-muted d-block">
+                                            <i class="fas fa-phone me-1"></i>Telefon
+                                        </small>
+                                        <strong class="d-block">@Model.Phone</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hesap Bilgileri -->
+                        <div class="col-md-6">
+                            <div class="card border h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-key text-warning me-2"></i>Hesap Bilgileri
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-item mb-3">
+                                        <small class="text-muted d-block">Kullanıcı Adı</small>
+                                        <strong class="d-block">
+                                            <i class="fas fa-user me-1"></i>@Model.UserName
+                                        </strong>
+                                    </div>
+                                    <div class="info-item">
+                                        <small class="text-muted d-block">Şifre (Hash)</small>
+                                        <div class="d-flex align-items-center">
+                                            <code class="text-truncate" style="max-width: 200px;">
+                                                @(Model.PasswordHash.Length > 30 ? Model.PasswordHash.Substring(0, 30) + "..." : Model.PasswordHash)
+                                            </code>
+                                            <button class="btn btn-sm btn-outline-secondary ms-2"
+                                                    type="button"
+                                                    onclick="togglePasswordVisibility()">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sistem Bilgileri -->
+                        <div class="col-md-6">
+                            <div class="card border h-100">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-cog text-secondary me-2"></i>Sistem Bilgileri
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-item mb-2">
+                                        <small class="text-muted d-block">Durum</small>
+                                        <span class="badge bg-@statusColor fs-6">@isActive</span>
+                                    </div>
+                                    <div class="info-item mb-2">
+                                        <small class="text-muted d-block">Rol</small>
+                                        <span class="badge bg-@roleColor fs-6">@isAdmin</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <small class="text-muted d-block">Oluşturulma Tarihi</small>
+                                        <strong class="d-block">
+                                            @createdDateLocal.ToString("dd.MM.yyyy HH:mm")
+                                            <small class="text-muted ms-1">
+                                                (@userAge gün önce)
+                                            </small>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kullanıcı İstatistikleri -->
+                        <div class="col-12">
+                            <div class="card border">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-chart-bar text-info me-2"></i>Kullanıcı İstatistikleri
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center g-3">
+                                        <div class="col-md-3 col-6">
+                                            <div class="stat-item p-3 border rounded bg-light">
+                                                <div class="stat-icon text-primary mb-2">
+                                                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                                                </div>
+                                                <div class="stat-number h4 mb-1">@(Model.Addresses?.Count ?? 0)</div>
+                                                <div class="stat-label text-muted small">Adres</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <div class="stat-item p-3 border rounded bg-light">
+                                                <div class="stat-icon text-success mb-2">
+                                                    <i class="fas fa-shopping-cart fa-2x"></i>
+                                                </div>
+                                                <div class="stat-number h4 mb-1">@(Model.Orders?.Count ?? 0)</div>
+                                                <div class="stat-label text-muted small">Sipariş</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <div class="stat-item p-3 border rounded bg-light">
+                                                <div class="stat-icon text-danger mb-2">
+                                                    <i class="fas fa-heart fa-2x"></i>
+                                                </div>
+                                                <div class="stat-number h4 mb-1">@(Model.Favorites?.Count ?? 0)</div>
+                                                <div class="stat-label text-muted small">Favori</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <div class="stat-item p-3 border rounded bg-light">
+                                                <div class="stat-icon text-warning mb-2">
+                                                    <i class="fas fa-comments fa-2x"></i>
+                                                </div>
+                                                <div class="stat-number h4 mb-1">@(Model.Contacts?.Count ?? 0)</div>
+                                                <div class="stat-label text-muted small">İletişim</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Panel: Silme Onayı -->
+        <div class="col-lg-4">
+            <!-- Onay Kartı -->
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-skull-crossbones me-2"></i>Silme Onayı
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Delete" method="post" id="deleteForm">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="UserName" id="userNameHidden" />
+
+                        <!-- Onay Adımları -->
+                        <div class="mb-4">
+                            <div class="step-item mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="step-number bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 30px; height: 30px;">
+                                        1
+                                    </div>
+                                    <h6 class="mb-0">Silme Onayınız</h6>
+                                </div>
+                                <p class="small text-muted ps-5">
+                                    Bu kullanıcıyı silmek istediğinize emin misiniz?
+                                </p>
+                            </div>
+
+                            <div class="step-item mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="step-number bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 30px; height: 30px;">
+                                        2
+                                    </div>
+                                    <h6 class="mb-0">Kullanıcı Adı Doğrulama</h6>
+                                </div>
+                                <p class="small text-muted ps-5">
+                                    Silme işlemini onaylamak için kullanıcı adını girin:
+                                </p>
+                                <div class="ps-5">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Kullanıcı Adı</label>
+                                        <input type="text" class="form-control form-control-lg"
+                                               id="userNameConfirm"
+                                               placeholder="@Model.UserName"
+                                               autocomplete="off" />
+                                        <small class="text-muted">Yukarıda gösterilen kullanıcı adını girin</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="step-number bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 30px; height: 30px;">
+                                        3
+                                    </div>
+                                    <h6 class="mb-0">Son Onay</h6>
+                                </div>
+                                <div class="ps-5">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="confirmDelete"
+                                               onchange="updateDeleteButton()">
+                                        <label class="form-check-label fw-bold text-danger" for="confirmDelete">
+                                            <i class="fas fa-exclamation-triangle me-1"></i>
+                                            Bu işlemin geri alınamayacağını anlıyorum
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="confirmIrreversible"
+                                               onchange="updateDeleteButton()">
+                                        <label class="form-check-label fw-bold text-danger" for="confirmIrreversible">
+                                            <i class="fas fa-radiation me-1"></i>
+                                            Tüm verilerin kalıcı olarak silineceğini kabul ediyorum
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Silme Butonu -->
+                        <div class="d-grid gap-2">
+                            <button type="button"
+                                    class="btn btn-lg btn-danger"
+                                    id="deleteButton"
+                                    onclick="confirmDelete()"
+                                    disabled>
+                                <i class="fas fa-trash-alt me-2"></i>
+                                <span id="buttonText">KULLANICIYI SİL</span>
+                            </button>
+
+                            <!-- Geri Sayım -->
+                            <div class="text-center mt-2" id="countdownContainer" style="display: none;">
+                                <div class="spinner-border spinner-border-sm text-danger me-2" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                                <small class="text-danger" id="countdownText">
+                                    Siliniyor... 3
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- İptal Butonu -->
+                    <div class="text-center mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times me-2"></i>İptal Et ve Listeye Dön
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternatif İşlemler -->
+            <div class="card shadow border-0 mt-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>Alternatif İşlemler
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+                            <i class="fas fa-edit me-2"></i>Kullanıcıyı Düzenle
+                        </a>
+                        @if (Model.IsActive)
+                        {
+                            <button type="button" class="btn btn-outline-secondary"
+                                    onclick="suggestDeactivate()">
+                                <i class="fas fa-toggle-off me-2"></i>Pasifleştir (Alternatif)
+                            </button>
+                        }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-success">
+                                <i class="fas fa-toggle-on me-2"></i>Aktifleştir
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-info">
+                            <i class="fas fa-info-circle me-2"></i>Detayları Görüntüle
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Silme Sonrası Etkiler -->
+            <div class="card shadow border-0 mt-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="fas fa-exclamation-circle text-danger me-2"></i>Silme Sonrası Etkiler
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled small mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-times-circle text-danger me-2"></i>
+                            Kullanıcı sistemden tamamen kaldırılacak
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-database text-danger me-2"></i>
+                            Tüm ilişkili veriler silinecek
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-history text-danger me-2"></i>
+                            Geçmiş siparişler kaybolacak
+                        </li>
+                        <li>
+                            <i class="fas fa-ban text-danger me-2"></i>
+                            Bu işlem geri alınamaz
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alternatif Öneri Modal -->
+<div class="modal fade" id="alternativeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title">
+                    <i class="fas fa-lightbulb me-2"></i>Alternatif Öneri
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-slash text-warning fa-3x mb-3"></i>
+                    <h4>Kullanıcıyı Pasifleştirmeyi Düşünün</h4>
+                </div>
+                <p>
+                    <strong>@Model.Name @Model.SurName</strong> kullanıcısını silmek yerine
+                    <strong>pasifleştirmeyi</strong> düşünebilirsiniz:
+                </p>
+                <ul>
+                    <li>Kullanıcı verileri korunur</li>
+                    <li>Geçmiş siparişler saklanır</li>
+                    <li>İleride tekrar aktifleştirilebilir</li>
+                    <li>Veri bütünlüğü korunmuş olur</li>
+                </ul>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Öneri:</strong> Eğer kullanıcı geçici olarak erişimi kaldırmak istiyorsanız,
+                    silmek yerine pasifleştirmek daha iyi bir seçenektir.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Vazgeç
+                </button>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="fas fa-toggle-off me-2"></i>Pasifleştir
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            console.log('Silme sayfası yüklendi:', {
+                userId: @Model.Id,
+                userName: '@Model.UserName',
+                name: '@Model.Name @Model.SurName',
+                isAdmin: @Model.IsAdmin.ToString().ToLower(),
+                isActive: @Model.IsActive.ToString().ToLower()
+            });
+
+            // Şifre görünürlüğü
+            let passwordVisible = false;
+            window.togglePasswordVisibility = function() {
+                const passwordElement = document.querySelector('.info-item code');
+                if (passwordElement) {
+                    if (!passwordVisible) {
+                        passwordElement.textContent = '@Model.PasswordHash';
+                        passwordVisible = true;
+                    } else {
+                        passwordElement.textContent = '@(Model.PasswordHash.Length > 30 ? Model.PasswordHash.Substring(0, 30) + "..." : Model.PasswordHash)';
+                        passwordVisible = false;
+                    }
+                }
+            };
+
+            // Silme butonu durumunu güncelle
+            window.updateDeleteButton = function() {
+                const userNameConfirm = document.getElementById('userNameConfirm').value;
+                const confirmDelete = document.getElementById('confirmDelete').checked;
+                const confirmIrreversible = document.getElementById('confirmIrreversible').checked;
+                const deleteButton = document.getElementById('deleteButton');
+                const buttonText = document.getElementById('buttonText');
+
+                const isUserNameCorrect = userNameConfirm === '@Model.UserName';
+                const allConfirmed = isUserNameCorrect && confirmDelete && confirmIrreversible;
+
+                // Buton durumunu güncelle
+                deleteButton.disabled = !allConfirmed;
+
+                // Kullanıcı adı doğrulama durumunu göster
+                const userNameInput = document.getElementById('userNameConfirm');
+                if (userNameConfirm.length > 0) {
+                    if (isUserNameCorrect) {
+                        userNameInput.classList.remove('is-invalid');
+                        userNameInput.classList.add('is-valid');
+                    } else {
+                        userNameInput.classList.remove('is-valid');
+                        userNameInput.classList.add('is-invalid');
+                    }
+                } else {
+                    userNameInput.classList.remove('is-valid', 'is-invalid');
+                }
+
+                // Buton metnini güncelle
+                if (allConfirmed) {
+                    buttonText.innerHTML = '<i class="fas fa-skull-crossbones me-2"></i>KULLANICIYI SİL';
+                    deleteButton.classList.remove('btn-secondary');
+                    deleteButton.classList.add('btn-danger');
+                } else {
+                    buttonText.innerHTML = '<i class="fas fa-lock me-2"></i>ONAY BEKLİYOR';
+                    deleteButton.classList.remove('btn-danger');
+                    deleteButton.classList.add('btn-secondary');
+                }
+            };
+
+            // Silme onayı
+            window.confirmDelete = function() {
+                const userNameConfirm = document.getElementById('userNameConfirm').value;
+
+                if (userNameConfirm !== '@Model.UserName') {
+                    alert('Kullanıcı adı doğru değil! Lütfen silmek istediğiniz kullanıcının adını doğru girin.');
+                    document.getElementById('userNameConfirm').focus();
+                    return;
+                }
+
+                if (!document.getElementById('confirmDelete').checked ||
+                    !document.getElementById('confirmIrreversible').checked) {
+                    alert('Lütfen tüm onay kutularını işaretleyin!');
+                    return;
+                }
+
+                // Son onay
+                const confirmationMessage =
+                    `SON ONAY:\n\n` +
+                    `Kullanıcı: @Model.Name @Model.SurName\n` +
+                    `Kullanıcı Adı: @Model.UserName\n` +
+                    `E-posta: @Model.Email\n` +
+                    `ID: @Model.Id\n\n` +
+                    `Bu kullanıcıyı ve TÜM verilerini KALICI olarak silmek istediğinize emin misiniz?\n\n` +
+                    `Bu işlem GERİ ALINAMAZ!`;
+
+                if (confirm(confirmationMessage)) {
+                    // Geri sayım başlat
+                    startCountdown();
+                }
+            };
+
+            // Geri sayım fonksiyonu
+            function startCountdown() {
+                const deleteButton = document.getElementById('deleteButton');
+                const countdownContainer = document.getElementById('countdownContainer');
+                const countdownText = document.getElementById('countdownText');
+
+                // Butonu devre dışı bırak ve geri sayımı göster
+                deleteButton.disabled = true;
+                deleteButton.style.display = 'none';
+                countdownContainer.style.display = 'block';
+
+                let countdown = 3;
+                countdownText.textContent = `Siliniyor... ${countdown}`;
+
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        countdownText.textContent = `Siliniyor... ${countdown}`;
+                    } else {
+                        clearInterval(countdownInterval);
+                        countdownText.textContent = 'Siliniyor...';
+
+                        // Formu gönder
+                        setTimeout(() => {
+                            document.getElementById('deleteForm').submit();
+                        }, 1000);
+                    }
+                }, 1000);
+            }
+
+            // Alternatif öneri modal'ını göster
+            window.suggestDeactivate = function() {
+                const alternativeModal = new bootstrap.Modal(document.getElementById('alternativeModal'));
+                alternativeModal.show();
+            };
+
+            // Kullanıcı adı input'u için real-time kontrol
+            $('#userNameConfirm').on('input', function() {
+                updateDeleteButton();
+            });
+
+            // Klavye kısayolları
+            document.addEventListener('keydown', function(e) {
+                // ESC: İptal
+                if (e.key === 'Escape') {
+                    window.location.href = '@Url.Action("Index")';
+                }
+                // Ctrl+Enter: Sil (eğer onaylanmışsa)
+                if (e.ctrlKey && e.key === 'Enter') {
+                    const deleteButton = document.getElementById('deleteButton');
+                    if (!deleteButton.disabled) {
+                        confirmDelete();
+                    }
+                }
+            });
+
+            // Sayfa yüklendiğinde buton durumunu güncelle
+            updateDeleteButton();
+        });
+    </script>
+
+    <style>
+        .card {
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+            .card.border-danger {
+                border-width: 2px;
+            }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            transition: all 0.3s ease;
+            border: 1px solid #dee2e6;
+        }
+
+            .stat-item:hover {
+                border-color: #dc3545;
+                box-shadow: 0 5px 15px rgba(220, 53, 69, 0.1);
+                transform: translateY(-2px);
+            }
+
+        .step-item {
+            padding-left: 10px;
+            border-left: 2px solid #dee2e6;
+        }
+
+        .step-number {
+            font-weight: bold;
+        }
+
+        .form-check-input:checked {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .form-check-input:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+
+        #deleteButton:disabled {
+            cursor: not-allowed;
+        }
+
+        #deleteButton.btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+        }
+
+            #deleteButton.btn-danger:hover {
+                background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5);
+            }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding-left: 0;
+        }
+
+        .alert-danger {
+            border-left: 4px solid #dc3545;
+        }
+
+        .badge {
+            font-weight: 500;
+            padding: 0.5em 1em;
+        }
+
+        /* Animasyonlar */
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .card.border-danger {
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .container-fluid {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Responsive düzenlemeler */
+        @@media (max-width: 768px) {
+            .stat-item
+
+        {
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .card-header h5, .card-header h6 {
+            font-size: 1rem;
+        }
+
+        .btn-lg {
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+
+        }
+
+        /* Yazdırma için stiller */
+        @@media print {
+            .btn, .form-control, .form-check-input, #deleteButton, #countdownContainer, .modal, .alert
+
+        {
+            display: none !important;
+        }
+
+        .card {
+            border: 1px solid #000 !important;
+            box-shadow: none !important;
+            margin-bottom: 20px !important;
+        }
+
+        .card-header {
+            background: #fff !important;
+            color: #000 !important;
+            border-bottom: 2px solid #000 !important;
+        }
+
+        .badge {
+            border: 1px solid #000 !important;
+            background: #fff !important;
+            color: #000 !important;
+        }
+
+        }
+    </style>
+}

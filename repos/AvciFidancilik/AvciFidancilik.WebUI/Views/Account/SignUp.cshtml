@@ -1,0 +1,290 @@
+﻿@{
+    ViewData["Title"] = "Kayıt Ol - Avcı Fidancılık";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auth-container">
+    <div class="auth-wrapper">
+        <!-- SOL TARAFA FORM -->
+        <div class="auth-form-section">
+            <div class="auth-form-header">
+                <a href="/" class="auth-logo">
+                    <img src="~/Img/logo/avciLogo.png" alt="Avcı Fidancılık" height="40">
+                </a>
+                <h2>Yeni Hesap Oluşturun</h2>
+                <p class="text-muted">Sadece birkaç dakikanızı alacak</p>
+            </div>
+
+            <form class="auth-form" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="firstName">Adınız</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" id="firstName" name="firstName" class="form-control"
+                                       placeholder="Adınız" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lastName">Soyadınız</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" id="lastName" name="lastName" class="form-control"
+                                       placeholder="Soyadınız" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-posta Adresiniz</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" id="email" name="email" class="form-control"
+                               placeholder="ornek@email.com" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" id="password" name="password" class="form-control"
+                                       placeholder="Şifreniz" required>
+                                <button type="button" class="btn btn-outline-secondary password-toggle"
+                                        data-target="password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength mt-2">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="passwordStrength"></div>
+                                </div>
+                                <small class="text-muted">Şifre gücü: <span id="strengthText">Zayıf</span></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirmPassword">Şifre Tekrar</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" id="confirmPassword" name="confirmPassword"
+                                       class="form-control" placeholder="Şifrenizi tekrar girin" required>
+                                <button type="button" class="btn btn-outline-secondary password-toggle"
+                                        data-target="confirmPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <small id="passwordMatch" class="text-danger" style="display: none;">
+                                Şifreler eşleşmiyor
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefon Numarası</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="tel" id="phone" name="phone" class="form-control"
+                               placeholder="5XX XXX XX XX" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" class="form-check-input" required>
+                        <label for="terms" class="form-check-label">
+                            <a href="/Terms" class="text-decoration-underline">Kullanım koşullarını</a>
+                            ve <a href="/Privacy" class="text-decoration-underline">gizlilik politikasını</a>
+                            okudum ve kabul ediyorum
+                        </label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input type="checkbox" id="newsletter" class="form-check-input" checked>
+                        <label for="newsletter" class="form-check-label">
+                            Kampanyalar ve indirimler hakkında e-posta almak istiyorum
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-auth-primary w-100">
+                    <i class="fas fa-user-plus me-2"></i> Hesap Oluştur
+                </button>
+
+                <div class="auth-divider">
+                    <span>veya</span>
+                </div>
+
+                <a href="/Account/SıgnIn" class="btn btn-auth-outline w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i> Zaten Hesabım Var
+                </a>
+
+                <div class="auth-footer">
+                    <p class="text-center mb-0">
+                        Zaten hesabınız var mı?
+                        <a href="/Account/SıgnIn" class="auth-link">Giriş Yapın</a>
+                    </p>
+                    <p class="text-center mt-2">
+                        <a href="/" class="back-home">
+                            <i class="fas fa-arrow-left me-1"></i> Ana Sayfaya Dön
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <!-- SAĞ TARAFA BİLGİ -->
+        <div class="auth-info-section">
+            <div class="auth-info-content">
+                <h3>Avcı Fidancılık'ta Kayıt Olmanın Avantajları</h3>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h5>Özel İndirimler</h5>
+                            <p>Üyelere özel fırsatlardan ve erken erişim kampanyalarından yararlanın</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h5>Hızlı Sipariş</h5>
+                            <p>Kayıtlı bilgilerinizle tek tıkla hızlı alışveriş yapın</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h5>Sipariş Takibi</h5>
+                            <p>Tüm sipariş geçmişinizi ve teslimat durumlarını görüntüleyin</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h5>Favori Listesi</h5>
+                            <p>Beğendiğiniz ürünleri favorilerinize ekleyin, sonra kolayca bulun</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Şifre gücü kontrolü
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirmPassword');
+        const strengthFill = document.getElementById('passwordStrength');
+        const strengthText = document.getElementById('strengthText');
+        const passwordMatch = document.getElementById('passwordMatch');
+
+        function checkPasswordStrength(password) {
+            let strength = 0;
+
+            // Uzunluk kontrolü
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 25;
+
+            // Karakter çeşitliliği
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+
+            strength = Math.min(strength, 100);
+
+            // Görsel güncelleme
+            strengthFill.style.width = strength + '%';
+
+            // Renk ve metin güncelleme
+            if (strength < 40) {
+                strengthFill.style.backgroundColor = '#dc3545';
+                strengthText.textContent = 'Zayıf';
+            } else if (strength < 70) {
+                strengthFill.style.backgroundColor = '#ffc107';
+                strengthText.textContent = 'Orta';
+            } else {
+                strengthFill.style.backgroundColor = '#28a745';
+                strengthText.textContent = 'Güçlü';
+            }
+        }
+
+        function checkPasswordMatch() {
+            if (confirmInput.value && passwordInput.value !== confirmInput.value) {
+                passwordMatch.style.display = 'block';
+            } else {
+                passwordMatch.style.display = 'none';
+            }
+        }
+
+        passwordInput.addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+            checkPasswordMatch();
+        });
+
+        confirmInput.addEventListener('input', checkPasswordMatch);
+
+        // Şifre göster/gizle
+        document.querySelectorAll('.password-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Form gönderimi
+        document.querySelector('.auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (passwordInput.value !== confirmInput.value) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+
+            if (!document.getElementById('terms').checked) {
+                alert('Lütfen kullanım koşullarını kabul edin.');
+                return;
+            }
+
+            // Burada AJAX ile kayıt işlemi yapılabilir
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                password: passwordInput.value,
+                phone: document.getElementById('phone').value
+            };
+
+            console.log('Kayıt denemesi:', formData);
+            // Gerçek kayıt işlemi burada yapılacak
+        });
+    </script>
+}

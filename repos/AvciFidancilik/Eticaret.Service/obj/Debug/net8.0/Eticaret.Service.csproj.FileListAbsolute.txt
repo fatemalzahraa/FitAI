@@ -1,0 +1,17 @@
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Service.deps.json
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Service.dll
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Service.pdb
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Core.dll
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Data.dll
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Data.pdb
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\bin\Debug\net8.0\Eticaret.Core.pdb
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.csproj.AssemblyReference.cache
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.AssemblyInfoInputs.cache
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.AssemblyInfo.cs
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.csproj.CoreCompileInputs.cache
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.16464E91.Up2Date
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.dll
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\refint\Eticaret.Service.dll
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\Eticaret.Service.pdb
+C:\Users\avcia\source\repos\AvciFidancilik\Eticaret.Service\obj\Debug\net8.0\ref\Eticaret.Service.dll

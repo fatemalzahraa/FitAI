@@ -1,0 +1,132 @@
+﻿@model Eticaret.Core.Entities.Contact
+
+@{
+    ViewData["Title"] = "İletişim Mesajını Düzenle";
+}
+
+<div class="container-fluid px-4">
+
+    <!-- Başlık -->
+    <div class="row mb-4">
+        <div class="col-xl-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0">
+                                <i class="fas fa-edit me-2"></i>@ViewData["Title"]
+                            </h4>
+                            <small class="opacity-75">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Mesaj ID: @Model.Id • Gönderim: @Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                            </small>
+                        </div>
+                        <div>
+                            @if (Model.UserId > 0)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-user-check me-1"></i>Kayıtlı Kullanıcı
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-user me-1"></i>Misafir
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success / Error -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-4">
+            <i class="fas fa-check-circle me-2"></i>
+            @TempData["Success"]
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mb-4">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            @TempData["Error"]
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Kullanıcı Seçimi -->
+                <div class="mb-3">
+                    <label asp-for="UserId" class="form-label fw-bold">Kullanıcı</label>
+                    <select asp-for="UserId" class="form-select">
+                        @foreach (var user in ViewBag.Users)
+                        {
+                            <option value="@user.Value" selected="@(user.Value == Model.UserId.ToString())">
+                                @user.Text
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+
+                <!-- İsim -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-bold"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-bold"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Konu -->
+                <div class="mb-3">
+                    <label asp-for="Subject" class="form-label fw-bold"></label>
+                    <input asp-for="Subject" class="form-control" />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+
+                <!-- Mesaj -->
+                <div class="mb-3">
+                    <label asp-for="Message" class="form-label fw-bold"></label>
+                    <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                    </a>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

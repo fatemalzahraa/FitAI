@@ -1,0 +1,227 @@
+﻿@model Eticaret.Core.Entities.CartItem
+
+@{
+    ViewData["Title"] = "Sepete Ürün Ekle";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="fas fa-cart-plus me-2"></i>Yeni Ürün Ekle</h4>
+                        <a asp-action="Index" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>Listeye Dön
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Create" id="cartItemForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="CartId" class="form-label fw-bold">
+                                        <i class="fas fa-shopping-cart me-1"></i>Sepet
+                                    </label>
+                                    <select asp-for="CartId" class="form-control form-control-lg"
+                                            asp-items="ViewBag.CartId" id="cartSelect">
+                                        <option value="">-- Lütfen sepet seçin --</option>
+                                    </select>
+                                    <span asp-validation-for="CartId" class="text-danger small"></span>
+                                    <div class="form-text">Ürünün ekleneceği sepeti seçin</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="ProductId" class="form-label fw-bold">
+                                        <i class="fas fa-box me-1"></i>Ürün
+                                    </label>
+                                    <select asp-for="ProductId" class="form-control form-control-lg"
+                                            asp-items="ViewBag.ProductId" id="productSelect">
+                                        <option value="">-- Lütfen ürün seçin --</option>
+                                    </select>
+                                    <span asp-validation-for="ProductId" class="text-danger small"></span>
+                                    <div class="form-text">Sepete eklemek istediğiniz ürünü seçin</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Quantity" class="form-label fw-bold">
+                                        <i class="fas fa-hashtag me-1"></i>Adet
+                                    </label>
+                                    <div class="input-group input-group-lg">
+                                        <button type="button" class="btn btn-outline-secondary" id="decreaseBtn">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input asp-for="Quantity" class="form-control text-center"
+                                               value="1" min="1" id="quantityInput" />
+                                        <button type="button" class="btn btn-outline-secondary" id="increaseBtn">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Quantity" class="text-danger small"></span>
+                                    <div class="form-text">En az 1 adet seçebilirsiniz</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6 class="fw-bold"><i class="fas fa-info-circle me-2"></i>Bilgilendirme</h6>
+                                    <ul class="list-unstyled small mb-0">
+                                        <li class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Ürün stoğu kontrol edilir</li>
+                                        <li class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Toplam tutar otomatik hesaplanır</li>
+                                        <li><i class="fas fa-check-circle text-success me-1"></i> Sepet özeti güncellenir</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-outline-secondary" id="resetBtn">
+                                <i class="fas fa-redo me-1"></i>Formu Temizle
+                            </button>
+                            <div>
+                                <button type="submit" class="btn btn-success btn-lg px-4">
+                                    <i class="fas fa-check-circle me-2"></i>Ürünü Sepete Ekle
+                                </button>
+                                <a asp-action="Index" class="btn btn-outline-primary btn-lg ms-2 px-4">
+                                    <i class="fas fa-list me-2"></i>Tümünü Gör
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Adet artır/azalt butonları
+            $('#increaseBtn').click(function() {
+                var quantityInput = $('#quantityInput');
+                var currentValue = parseInt(quantityInput.val());
+                quantityInput.val(currentValue + 1);
+            });
+
+            $('#decreaseBtn').click(function() {
+                var quantityInput = $('#quantityInput');
+                var currentValue = parseInt(quantityInput.val());
+                if (currentValue > 1) {
+                    quantityInput.val(currentValue - 1);
+                }
+            });
+
+            // Form temizleme
+            $('#resetBtn').click(function() {
+                $('#cartItemForm')[0].reset();
+                $('#quantityInput').val(1);
+            });
+
+            // Seçim değişikliklerinde bilgi gösterimi
+            $('#cartSelect, #productSelect').change(function() {
+                if ($('#cartSelect').val() && $('#productSelect').val()) {
+                    $('#cartItemForm button[type="submit"]').prop('disabled', false);
+                }
+            });
+
+            // Sayfa yüklendiğinde seçili öğe yoksa butonu devre dışı bırak
+            if (!$('#cartSelect').val() || !$('#productSelect').val()) {
+                $('#cartItemForm button[type="submit"]').prop('disabled', true);
+            }
+
+            // Bootstrap tooltip aktif etme
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+
+    <style>
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.5rem;
+        }
+
+        .form-control-lg {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+            .form-control-lg:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+
+        .input-group .btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+        }
+
+            .input-group .btn:hover {
+                background-color: #f8f9fa;
+            }
+
+        #quantityInput {
+            border-left: none;
+            border-right: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-lg {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-success:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            }
+
+        .form-label {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important;
+            border: 1px dashed #dee2e6 !important;
+        }
+    </style>
+}

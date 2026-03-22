@@ -1,0 +1,356 @@
+﻿@model Eticaret.Core.Entities.UserRole
+
+@{
+    ViewData["Title"] = "Kullanıcı Rolü Sil";
+    var userEmail = Model.User?.Email ?? "Bilinmeyen Kullanıcı";
+    var roleName = Model.Role?.Name ?? "Bilinmeyen Rol";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0">@ViewData["Title"]</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="/admin">Yönetim</a></li>
+                        <li class="breadcrumb-item"><a asp-action="Index">Kullanıcı Rolleri</a></li>
+                        <li class="breadcrumb-item active">Sil</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Silme Onayı
+                    </h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- HATA ve BAŞARI MESAJLARI -->
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <div class="alert alert-warning" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-exclamation-circle me-2"></i>Bu işlem geri alınamaz!
+                        </h5>
+                        <p class="mb-0">Aşağıdaki kullanıcı rolünü silmek istediğinizden emin misiniz?</p>
+                    </div>
+
+                    <div class="delete-details">
+                        <div class="detail-card">
+                            <div class="detail-header">
+                                <i class="fas fa-user-circle me-2"></i>Kullanıcı Bilgileri
+                            </div>
+                            <div class="detail-body">
+                                <div class="row">
+                                    <div class="col-md-4 detail-label">
+                                        <i class="fas fa-user me-2"></i>Kullanıcı:
+                                    </div>
+                                    <div class="col-md-8 detail-value">
+                                        @userEmail
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4 detail-label">
+                                        <i class="fas fa-id-card me-2"></i>Kullanıcı ID:
+                                    </div>
+                                    <div class="col-md-8 detail-value">
+                                        @Html.DisplayFor(model => model.UserId)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-card mt-4">
+                            <div class="detail-header">
+                                <i class="fas fa-user-tag me-2"></i>Rol Bilgileri
+                            </div>
+                            <div class="detail-body">
+                                <div class="row">
+                                    <div class="col-md-4 detail-label">
+                                        <i class="fas fa-tag me-2"></i>Rol:
+                                    </div>
+                                    <div class="col-md-8 detail-value">
+                                        @roleName
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4 detail-label">
+                                        <i class="fas fa-id-card me-2"></i>Rol ID:
+                                    </div>
+                                    <div class="col-md-8 detail-value">
+                                        @Html.DisplayFor(model => model.RoleId)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-card mt-4 bg-light">
+                            <div class="detail-header">
+                                <i class="fas fa-info-circle me-2"></i>Kayıt Bilgileri
+                            </div>
+                            <div class="detail-body">
+                                <div class="row">
+                                    <div class="col-md-4 detail-label">
+                                        <i class="fas fa-hashtag me-2"></i>Kayıt ID:
+                                    </div>
+                                    <div class="col-md-8 detail-value">
+                                        @Html.DisplayFor(model => model.Id)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="mt-5" id="deleteForm">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4" id="backButton">
+                                            <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-danger btn-lg px-5" id="deleteButton">
+                                            <i class="fas fa-trash-alt me-2"></i>Sil
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Temel kart stil */
+        .card {
+            border: none;
+            box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.08);
+            border-radius: 15px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.25rem 1.5rem;
+        }
+
+        /* Detay kartları */
+        .detail-card {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .detail-card:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                transform: translateY(-2px);
+            }
+
+        .detail-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .detail-body {
+            padding: 1.25rem;
+            background-color: white;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #6c757d;
+            padding: 0.5rem 0;
+        }
+
+        .detail-value {
+            padding: 0.5rem 0;
+            font-weight: 500;
+            color: #212529;
+        }
+
+        /* Buton stilleri */
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+        }
+
+            .btn-danger:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+            }
+
+            .btn-danger:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+        .btn-outline-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.2);
+        }
+
+        /* Uyarı kutusu */
+        .alert-warning {
+            border-radius: 10px;
+            border: 1px solid #ffeeba;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+        }
+
+        .alert-heading {
+            color: #856404;
+            font-weight: 600;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .breadcrumb-item a {
+            color: #6c757d;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .breadcrumb-item a:hover {
+                color: #5c9ded;
+            }
+
+        .breadcrumb-item.active {
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        /* Page title */
+        .page-title-box {
+            padding: 24px 0;
+        }
+
+        /* Responsive düzenlemeler */
+        @@media (max-width: 768px) {
+            .detail-label, .detail-value {
+                text-align: left !important;
+                margin-bottom: 0.5rem;
+            }
+
+            .btn-lg {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .d-flex.justify-content-between {
+                flex-direction: column;
+            }
+
+                .d-flex.justify-content-between > div {
+                    width: 100%;
+                    margin-bottom: 1rem;
+                }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButton = document.getElementById('deleteButton');
+            const backButton = document.getElementById('backButton');
+            const form = document.getElementById('deleteForm');
+            const userEmail = '@Html.Raw(userEmail)';
+            const roleName = '@Html.Raw(roleName)';
+
+            // Sil butonuna tıklanınca
+            deleteButton.addEventListener('click', function(e) {
+                e.preventDefault(); // Formun otomatik submit'ini engelle
+
+                const confirmMessage = `"${userEmail}" kullanıcısından "${roleName}" rolünü silmek istediğinizden emin misiniz?\n\nBu işlem geri alınamaz!`;
+
+                if (confirm(confirmMessage)) {
+                    // Butonu güncelle
+                    deleteButton.disabled = true;
+                    deleteButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Siliniyor...';
+
+                    // Geri butonunu devre dışı bırak
+                    backButton.style.pointerEvents = 'none';
+                    backButton.style.opacity = '0.6';
+
+                    // Formu submit et
+                    form.submit();
+                }
+                // İptal edilirse hiçbir şey yapma
+            });
+
+            // Sayfa yüklendiğinde eski buton durumlarını temizle
+            window.addEventListener('pageshow', function(event) {
+                // Sayfa cache'den yüklendiyse butonları sıfırla
+                if (event.persisted) {
+                    deleteButton.disabled = false;
+                    deleteButton.innerHTML = '<i class="fas fa-trash-alt me-2"></i>Sil';
+                    backButton.style.pointerEvents = 'auto';
+                    backButton.style.opacity = '1';
+                }
+            });
+
+            // Geri butonuna tıklanırsa
+            backButton.addEventListener('click', function() {
+                // Buton durumlarını sıfırla
+                deleteButton.disabled = false;
+                deleteButton.innerHTML = '<i class="fas fa-trash-alt me-2"></i>Sil';
+            });
+
+            // Form submit olayını dinle (fallback)
+            form.addEventListener('submit', function() {
+                // Bu fonksiyon çalışıyorsa, butonu güncelle
+                deleteButton.disabled = true;
+                deleteButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Siliniyor...';
+                backButton.style.pointerEvents = 'none';
+                backButton.style.opacity = '0.6';
+            });
+        });
+    </script>
+}

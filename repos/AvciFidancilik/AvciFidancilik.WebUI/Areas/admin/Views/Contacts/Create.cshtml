@@ -1,0 +1,216 @@
+﻿@model Eticaret.Core.Entities.Contact
+
+@{
+    ViewData["Title"] = "Yeni İletişim Mesajı Oluştur";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>@ViewData["Title"]
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Başarı Mesajı -->
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <!-- Hata Mesajı -->
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post" id="createForm">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Validation Summary -->
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <h5><i class="fas fa-exclamation-triangle me-2"></i>Lütfen aşağıdaki hataları düzeltin:</h5>
+                                <div asp-validation-summary="All" class="mb-0"></div>
+                            </div>
+                        }
+
+                        <!-- Kişisel Bilgiler -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label fw-bold">Ad Soyad <span class="text-danger">*</span></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Adınız ve soyadınız" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="form-label fw-bold">E-posta <span class="text-danger">*</span></label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="ornek@email.com" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Konu -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Subject" class="form-label fw-bold">Konu <span class="text-danger">*</span></label>
+                            <input asp-for="Subject" class="form-control" placeholder="Mesajınızın konusu" />
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Mesaj -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Message" class="form-label fw-bold">Mesaj <span class="text-danger">*</span></label>
+                            <textarea asp-for="Message" class="form-control" rows="6" placeholder="Mesajınızı buraya yazın..."></textarea>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span asp-validation-for="Message" class="text-danger small"></span>
+                                <small class="text-muted">En az 10, en fazla 5000 karakter</small>
+                            </div>
+                        </div>
+
+                        <!-- Kullanıcı Seçimi -->
+                        <div class="form-group mb-4">
+                            <label asp-for="UserId" class="form-label fw-bold">Kullanıcı (Opsiyonel)</label>
+                            <select asp-for="UserId" asp-items="ViewBag.Users" class="form-control">
+                                <option value="0">-- Kullanıcı Yok (Misafir) --</option>
+                            </select>
+                            <span asp-validation-for="UserId" class="text-danger small"></span>
+                            <small class="text-muted">Kayıtlı bir kullanıcıya bağlamak istiyorsanız seçin. Yoksa "Kullanıcı Yok (Misafir)" seçeneğini bırakın.</small>
+                        </div>
+
+                        <!-- Butonlar -->
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Listeye Dön
+                            </a>
+
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <i class="fas fa-paper-plane me-1"></i>Gönder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Form submit işlemi
+            $('#createForm').on('submit', function(e) {
+                // Form validasyonunu kontrol et
+                if (!$(this).valid()) {
+                    return false;
+                }
+
+                // Submit butonunu disable et ve loading state'e geçir
+                $('#submitBtn').prop('disabled', true)
+                    .html('<i class="fas fa-spinner fa-spin me-1"></i>Gönderiliyor...');
+
+                return true; // Form submit olmaya devam etsin
+            });
+
+            // Sayfa yeniden yüklendiğinde butonu aktifleştir
+            $(window).on('pageshow', function() {
+                $('#submitBtn').prop('disabled', false)
+                    .html('<i class="fas fa-paper-plane me-1"></i>Gönder');
+            });
+
+            // Mesaj karakter sayacı
+            $('#Message').on('input', function() {
+                const charCount = $(this).val().length;
+                const counter = $('#charCounter');
+
+                if (!counter.length) {
+                    $(this).after('<div id="charCounter" class="text-muted small mt-1"></div>');
+                }
+
+                $('#charCounter').text(`${charCount}/5000 karakter`);
+
+                if (charCount < 10) {
+                    $('#charCounter').removeClass('text-success text-danger').addClass('text-warning');
+                } else if (charCount > 5000) {
+                    $('#charCounter').removeClass('text-success text-warning').addClass('text-danger');
+                } else {
+                    $('#charCounter').removeClass('text-warning text-danger').addClass('text-success');
+                }
+            });
+
+            // İlk yüklemede karakter sayısını göster
+            if ($('#Message').val().length > 0) {
+                $('#Message').trigger('input');
+            }
+        });
+    </script>
+
+    <style>
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+
+            .btn-primary:hover:not(:disabled) {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
+
+        .btn-secondary:hover {
+            transform: translateX(-2px);
+        }
+
+        .alert ul {
+            margin-bottom: 0;
+            padding-left: 1.5rem;
+        }
+
+        .alert li {
+            margin-bottom: 0.25rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        @@media (max-width: 768px) {
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+}

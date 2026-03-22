@@ -1,0 +1,240 @@
+﻿@model Eticaret.Data.Entities.ChatLog
+
+@{
+    ViewData["Title"] = "Yeni Sohbet Kaydı";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-success text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-comment-medical fa-2x me-3"></i>
+                        <div>
+                            <h1 class="h3 mb-0">Yeni Sohbet Kaydı</h1>
+                            <p class="mb-0 opacity-75">Sohbet bilgilerini aşağıdaki form üzerinden giriniz</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="chatForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="KullaniciMesaj" class="form-label fw-bold mb-2">
+                                        <i class="fas fa-user me-2 text-primary"></i>Kullanıcı Mesajı
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-primary text-white">
+                                            <i class="fas fa-comment"></i>
+                                        </span>
+                                        <textarea asp-for="KullaniciMesaj" class="form-control chat-textarea"
+                                                  rows="3" placeholder="Kullanıcının mesajını giriniz..."
+                                                  id="userMessage"></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <span asp-validation-for="KullaniciMesaj" class="text-danger small"></span>
+                                        <small class="text-muted">
+                                            <span id="userCharCount">0</span>/500 karakter
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="BotCevap" class="form-label fw-bold mb-2">
+                                        <i class="fas fa-robot me-2 text-success"></i>Bot Cevabı
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-success text-white">
+                                            <i class="fas fa-reply"></i>
+                                        </span>
+                                        <textarea asp-for="BotCevap" class="form-control chat-textarea"
+                                                  rows="3" placeholder="Bot'un cevabını giriniz..."
+                                                  id="botResponse"></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <span asp-validation-for="BotCevap" class="text-danger small"></span>
+                                        <small class="text-muted">
+                                            <span id="botCharCount">0</span>/500 karakter
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Tarih" class="form-label fw-bold mb-2">
+                                        <i class="fas fa-calendar-alt me-2 text-warning"></i>Sohbet Tarihi
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-warning">
+                                            <i class="fas fa-clock"></i>
+                                        </span>
+                                        <input asp-for="Tarih" class="form-control datetime-picker"
+                                               value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                                    </div>
+                                    <span asp-validation-for="Tarih" class="text-danger small"></span>
+                                    <small class="text-muted d-block mt-1">
+                                        <i class="fas fa-info-circle me-1"></i>Geçerli tarih otomatik olarak seçilmiştir.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-preview mb-4 p-3 border rounded bg-light">
+                            <h6 class="mb-3 text-muted"><i class="fas fa-eye me-2"></i>Sohbet Önizleme</h6>
+                            <div class="chat-messages">
+                                <div class="message user-message-preview mb-2 p-3 rounded">
+                                    <div class="message-header d-flex align-items-center mb-1">
+                                        <i class="fas fa-user-circle text-primary me-2"></i>
+                                        <small class="fw-bold">Kullanıcı</small>
+                                        <small class="ms-auto text-muted" id="previewTime"></small>
+                                    </div>
+                                    <div class="message-body" id="previewUserMessage">Örnek kullanıcı mesajı...</div>
+                                </div>
+                                <div class="message bot-message-preview mb-2 p-3 rounded">
+                                    <div class="message-header d-flex align-items-center mb-1">
+                                        <i class="fas fa-robot text-success me-2"></i>
+                                        <small class="fw-bold">ChatBot</small>
+                                    </div>
+                                    <div class="message-body" id="previewBotResponse">Örnek bot cevabı...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn">
+                                <i class="fas fa-paper-plane me-2"></i>Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .chat-textarea {
+            resize: vertical;
+            min-height: 100px;
+            border-left: none !important;
+        }
+
+            .chat-textarea:focus {
+                box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+                border-color: #198754;
+            }
+
+        .input-group-text {
+            border-right: none;
+        }
+
+        .chat-preview {
+            border: 2px dashed #dee2e6 !important;
+        }
+
+        .user-message-preview {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+
+        .bot-message-preview {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .message-header {
+            font-size: 0.85rem;
+        }
+
+        .message-body {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .datetime-picker {
+            border-left: none !important;
+        }
+
+            .datetime-picker:focus {
+                box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+                border-color: #ffc107;
+            }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Karakter sayacı
+            function updateCharCount(textareaId, counterId) {
+                $(textareaId).on('input', function() {
+                    const count = $(this).val().length;
+                    $(counterId).text(count);
+
+                    if (count > 500) {
+                        $(counterId).addClass('text-danger');
+                    } else {
+                        $(counterId).removeClass('text-danger');
+                    }
+                }).trigger('input');
+            }
+
+            updateCharCount('#userMessage', '#userCharCount');
+            updateCharCount('#botResponse', '#botCharCount');
+
+            // Önizleme güncelleme
+            function updatePreview() {
+                $('#previewUserMessage').text($('#userMessage').val() || 'Örnek kullanıcı mesajı...');
+                $('#previewBotResponse').text($('#botResponse').val() || 'Örnek bot cevabı...');
+
+                const dateTime = $('.datetime-picker').val();
+                if (dateTime) {
+                    const date = new Date(dateTime);
+                    $('#previewTime').text(date.toLocaleString('tr-TR'));
+                }
+            }
+
+            $('#userMessage, #botResponse, .datetime-picker').on('input change', updatePreview);
+            updatePreview();
+
+            // Form submit
+            $('#chatForm').submit(function() {
+                if ($('#userMessage').val().length > 500 || $('#botResponse').val().length > 500) {
+                    alert('Mesajlar 500 karakteri geçemez!');
+                    return false;
+                }
+
+                $('#submitBtn').html('<i class="fas fa-spinner fa-spin me-2"></i>Kaydediliyor...');
+                $('#submitBtn').prop('disabled', true);
+                return true;
+            });
+
+            // Tarih picker için bugün butonu
+            const todayBtn = $('<button type="button" class="btn btn-sm btn-outline-warning mt-2">Bugün</button>');
+            $('.datetime-picker').after(todayBtn);
+
+            todayBtn.click(function() {
+                const now = new Date();
+                const formatted = now.toISOString().slice(0, 16);
+                $('.datetime-picker').val(formatted);
+                updatePreview();
+            });
+        });
+    </script>
+}

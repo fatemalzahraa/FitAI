@@ -1,0 +1,236 @@
+﻿@model Eticaret.Core.Entities.Cart
+
+@{
+    ViewData["Title"] = "Sepet Sil";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-danger text-white py-3">
+            <h3 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Sepet Silme İşlemi</h3>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="alert alert-warning border-warning">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle fa-2x me-3 text-warning"></i>
+                    <div>
+                        <h5 class="alert-heading mb-1">Bu işlem geri alınamaz!</h5>
+                        <p class="mb-0">Silmek istediğiniz sepeti ve içindeki tüm ürünleri kalıcı olarak silmek üzeresiniz.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="confirmation-section bg-light p-4 rounded mb-4">
+                <h5 class="text-dark mb-3"><i class="fas fa-shopping-cart me-2 text-primary"></i>Silinecek Sepet Bilgileri</h5>
+
+                <dl class="row mt-3">
+                    <dt class="col-sm-3 col-md-2 text-muted">
+                        <i class="fas fa-user me-1"></i>Kullanıcı:
+                    </dt>
+                    <dd class="col-sm-9 col-md-10">
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-envelope me-1"></i>@Html.DisplayFor(model => model.User.Email)
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-3 col-md-2 text-muted">
+                        <i class="fas fa-hashtag me-1"></i>Sepet ID:
+                    </dt>
+                    <dd class="col-sm-9 col-md-10">
+                        <span class="badge bg-info text-dark p-2">
+                            #@Html.DisplayFor(model => model.Id)
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="card border-danger mb-4">
+                <div class="card-body">
+                    <h6 class="text-danger mb-3"><i class="fas fa-radiation-alt me-2"></i>Dikkat Edilmesi Gerekenler:</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i>Sepet içindeki tüm ürünler silinecek</li>
+                        <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i>Bu işlem geri alınamaz</li>
+                        <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i>Kullanıcının aktif sepeti olmayacak</li>
+                        <li><i class="fas fa-times-circle text-danger me-2"></i>Yeni bir sepet oluşturulana kadar alışveriş yapamayacak</li>
+                    </ul>
+                </div>
+            </div>
+
+            <form asp-action="Delete" id="deleteForm">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-danger btn-lg px-4 flex-fill">
+                        <i class="fas fa-trash-alt me-2"></i>Evet, Sepeti Sil
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4 flex-fill">
+                        <i class="fas fa-times me-2"></i>İptal ve Listeye Dön
+                    </a>
+                </div>
+
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" id="confirmCheck" required>
+                    <label class="form-check-label text-muted" for="confirmCheck">
+                        Yukarıdaki bilgileri okudum ve sepeti silmek istediğimi onaylıyorum
+                    </label>
+                    <div class="invalid-feedback">
+                        Devam etmek için bu kutuyu işaretlemelisiniz.
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer bg-light py-3">
+            <div class="text-center">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    İşlem tamamlandıktan sonra sepet listesi sayfasına yönlendirileceksiniz.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 5px solid #ffc107;
+        }
+
+        .confirmation-section {
+            background: linear-gradient(to right, #ffffff, #f8f9fa);
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-danger:hover {
+                background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+            }
+
+            .btn-danger:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        .badge {
+            font-size: 0.9em;
+            font-weight: 500;
+            padding: 0.5em 0.8em;
+        }
+
+        .form-check-input:checked {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .form-check-input:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+
+        .card-footer {
+            border-radius: 0 0 15px 15px;
+        }
+
+        .list-unstyled li {
+            padding: 0.3rem 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+
+            .list-unstyled li:last-child {
+                border-bottom: none;
+            }
+
+        /* ✔ Mobil uyumluluk fixlenmiş */
+        @@media (max-width: 768px) {
+            .d-flex
+
+        {
+            flex-direction: column;
+        }
+
+        .btn-lg {
+            font-size: 1rem;
+            padding: 0.8rem;
+        }
+
+        .flex-fill {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        dt, dd {
+            width: 100%;
+            text-align: left;
+            display: block;
+        }
+
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const deleteBtn = $('#deleteForm button[type="submit"]');
+            const confirmCheck = $('#confirmCheck');
+
+            deleteBtn.prop('disabled', true);
+
+            confirmCheck.on('change', function() {
+                deleteBtn.prop('disabled', !$(this).is(':checked'));
+            });
+
+            $('#deleteForm').on('submit', function(e) {
+                if (!confirmCheck.is(':checked')) {
+                    e.preventDefault();
+                    alert('Lütfen onay kutusunu işaretleyiniz.');
+                    return false;
+                }
+
+                if (!confirm('Sepeti silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                deleteBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Siliniyor...');
+                deleteBtn.prop('disabled', true);
+                $(this).find('input, button').prop('disabled', true);
+            });
+        });
+    </script>
+}

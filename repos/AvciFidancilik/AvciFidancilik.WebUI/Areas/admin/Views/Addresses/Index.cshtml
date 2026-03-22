@@ -1,0 +1,182 @@
+﻿@model IEnumerable<Eticaret.Core.Entities.Address>
+
+@{
+    ViewData["Title"] = "Adres Yönetimi";
+    var activeCount = Model.Count(a => a.IsActive);
+    var inactiveCount = Model.Count(a => !a.IsActive);
+}
+
+<div class="container-fluid px-4">
+    <nav aria-label="breadcrumb" class="bg-light p-3 rounded mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/admin">Yönetim Paneli</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adres Yönetimi</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-address-book me-2 text-primary"></i>Adres Yönetimi
+                    </h1>
+                    <p class="text-muted mb-0">Sistemde kayıtlı tüm adresleri yönetin</p>
+                </div>
+                <div>
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i>Yeni Adres Ekle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Toplam Adres
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count()</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Aktif Adresler
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@activeCount</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Pasif Adresler
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@inactiveCount</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Farklı Şehirler
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Select(a => a.City).Distinct().Count()</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-city fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tablo ve işlemler kısmı burada aynı şekilde, sadece User ve IdentityNumber nullable kontrolü eklendi -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-table me-2"></i>Adres Listesi
+                <span class="badge bg-primary ms-2">@Model.Count() Kayıt</span>
+            </h6>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="addressTable" width="100%" cellspacing="0">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Başlık</th>
+                                <th>Adres</th>
+                                <th>Şehir</th>
+                                <th>İlçe</th>
+                                <th>Kullanıcı</th>
+                                <th>Durum</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderByDescending(a => a.Id))
+                            {
+                                <tr class="@(!item.IsActive ? "table-secondary" : "")">
+                                    <td>@item.Id</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.Line</td>
+                                    <td>@item.City</td>
+                                    <td>@item.District</td>
+                                    <td>
+                                        @if (item.User != null)
+                                        {
+                                            @item.User.Email
+                                        }
+                                        else
+                                        {
+                                            <span class="text-warning">Kullanıcı Yok</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Pasif</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Düzenle</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <h4 class="text-muted">Henüz adres kaydı yok</h4>
+                    <a asp-action="Create" class="btn btn-primary">Yeni Adres Ekle</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

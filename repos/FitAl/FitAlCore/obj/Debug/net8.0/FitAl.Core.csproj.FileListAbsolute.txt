@@ -1,0 +1,11 @@
+C:\Users\avcia\source\repos\FitAl\FitAlCore\bin\Debug\net8.0\FitAl.Core.deps.json
+C:\Users\avcia\source\repos\FitAl\FitAlCore\bin\Debug\net8.0\FitAl.Core.dll
+C:\Users\avcia\source\repos\FitAl\FitAlCore\bin\Debug\net8.0\FitAl.Core.pdb
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.AssemblyInfoInputs.cache
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.AssemblyInfo.cs
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.csproj.CoreCompileInputs.cache
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.dll
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\refint\FitAl.Core.dll
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\FitAl.Core.pdb
+C:\Users\avcia\source\repos\FitAl\FitAlCore\obj\Debug\net8.0\ref\FitAl.Core.dll

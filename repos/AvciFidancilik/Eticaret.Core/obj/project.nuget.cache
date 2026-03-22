@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "V3OQbHQbf1Q=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\avcia\\source\\repos\\AvciFidancilik\\Eticaret.Core\\Eticaret.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\avcia\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

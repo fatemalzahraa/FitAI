@@ -1,0 +1,259 @@
+﻿@model Eticaret.Core.Entities.Favorite
+
+@{
+    ViewData["Title"] = "Yeni Favori Ekle";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-heart me-3 fs-4"></i>
+                        <div>
+                            <h1 class="h3 mb-0">Yeni Favori Ürün Ekle</h1>
+                            <p class="mb-0 opacity-75">Kullanıcı için yeni favori ürün kaydı oluşturun</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="favoriteForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="UserId" class="form-label fw-bold">
+                                        <i class="fas fa-user me-2 text-primary"></i>Kullanıcı
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light">
+                                            <i class="fas fa-chevron-down text-primary"></i>
+                                        </span>
+                                        <select asp-for="UserId" class="form-control form-control-lg" asp-items="ViewBag.UserId">
+                                            <option value="">Kullanıcı seçiniz</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="UserId" class="text-danger small mt-1 d-block"></span>
+                                    <div class="form-text mt-1">
+                                        Favori ürün eklenecek kullanıcıyı seçiniz.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="ProductId" class="form-label fw-bold">
+                                        <i class="fas fa-box me-2 text-primary"></i>Ürün
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light">
+                                            <i class="fas fa-chevron-down text-primary"></i>
+                                        </span>
+                                        <select asp-for="ProductId" class="form-control form-control-lg" asp-items="ViewBag.ProductId">
+                                            <option value="">Ürün seçiniz</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="ProductId" class="text-danger small mt-1 d-block"></span>
+                                    <div class="form-text mt-1">
+                                        Kullanıcının favorilerine eklenecek ürünü seçiniz.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info d-flex align-items-center mb-4">
+                            <i class="fas fa-info-circle fs-5 me-3"></i>
+                            <div>
+                                <strong class="d-block">Bilgilendirme:</strong>
+                                Bir kullanıcı aynı ürünü favorilerine yalnızca bir kez ekleyebilir.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary px-5 py-2">
+                                <i class="fas fa-plus-circle me-2"></i>Favori Ekle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Özel stiller */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e1e5eb;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #4b6cb7;
+                box-shadow: 0 0 0 0.25rem rgba(75, 108, 183, 0.25);
+            }
+
+        .form-control-lg {
+            font-size: 1rem;
+            height: calc(3rem + 2px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .input-group-text {
+            border-radius: 10px 0 0 10px;
+            border: 2px solid #e1e5eb;
+            border-right: none;
+            background-color: #f8f9fa;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(75, 108, 183, 0.4);
+            }
+
+        .btn-outline-secondary {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+            }
+
+        .alert-info {
+            background-color: #e8f4fd;
+            border-color: #b6e0fe;
+            color: #0c5460;
+            border-radius: 10px;
+            border-left: 5px solid #4b6cb7;
+        }
+
+        .form-text {
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive düzenlemeler */
+        @@media (max-width: 768px) {
+            .card-body
+
+        {
+            padding: 1.5rem !important;
+        }
+
+        .btn-primary, .btn-outline-secondary {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .d-flex.justify-content-between {
+            flex-direction: column;
+        }
+
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Form gönderiminde butonu devre dışı bırak
+        document.getElementById('favoriteForm').addEventListener('submit', function() {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>İşleniyor...';
+        });
+
+        // Select elemanlarına dinleyici ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        this.classList.remove('is-invalid');
+                    }
+                });
+            });
+
+            // Form doğrulama
+            const form = document.getElementById('favoriteForm');
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                const userId = document.getElementById('UserId');
+                const productId = document.getElementById('ProductId');
+
+                if (!userId.value) {
+                    userId.classList.add('is-invalid');
+                    isValid = false;
+                }
+
+                if (!productId.value) {
+                    productId.classList.add('is-invalid');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    event.preventDefault();
+
+                    // Hata mesajı göster
+                    const errorDiv = document.querySelector('.alert-danger');
+                    if (errorDiv) {
+                        errorDiv.innerHTML = '<strong>Lütfen tüm zorunlu alanları doldurunuz.</strong>';
+                        errorDiv.style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>
+}

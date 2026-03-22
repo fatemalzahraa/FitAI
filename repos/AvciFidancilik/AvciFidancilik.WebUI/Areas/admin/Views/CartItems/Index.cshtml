@@ -1,0 +1,749 @@
+﻿@model IEnumerable<Eticaret.Core.Entities.CartItem>
+
+@{
+    ViewData["Title"] = "Sepet Öğeleri Yönetimi";
+    var totalItems = Model?.Count() ?? 0;
+    var totalQuantity = Model?.Sum(item => item.Quantity) ?? 0;
+}
+
+<div class="container-fluid mt-4">
+    <!-- Başlık ve İstatistikler -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-primary">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Sepet Öğeleri</h4>
+                        <small class="opacity-75">Tüm sepet ürünlerinizi buradan yönetebilirsiniz</small>
+                    </div>
+                    <a asp-action="Create" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus-circle me-2"></i>Yeni Öğe Ekle
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card bg-info text-white">
+                                <div class="stat-icon">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5 class="stat-number">@totalItems</h5>
+                                    <p class="stat-label">Toplam Öğe</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card bg-success text-white">
+                                <div class="stat-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5 class="stat-number">@totalQuantity</h5>
+                                    <p class="stat-label">Toplam Adet</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card bg-warning text-white">
+                                <div class="stat-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5 class="stat-number">@(Model?.GroupBy(x => x.CartId).Count() ?? 0)</h5>
+                                    <p class="stat-label">Aktif Sepet</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card bg-danger text-white">
+                                <div class="stat-icon">
+                                    <i class="fas fa-cubes"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h5 class="stat-number">@(Model?.GroupBy(x => x.ProductId).Count() ?? 0)</h5>
+                                    <p class="stat-label">Farklı Ürün</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtreleme ve Arama -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtreleme ve Arama</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Ürün veya Sepet ara...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="cartFilter">
+                                <option value="">Tüm Sepetler</option>
+                                @if (Model != null)
+                                {
+                                    var cartIds = Model.Select(x => x.CartId).Distinct().OrderBy(x => x);
+                                    foreach (var cartId in cartIds)
+                                    {
+                                        <option value="@cartId">Sepet @cartId</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="quantityFilter">
+                                <option value="">Tüm Adetler</option>
+                                <option value="1-10">1-10 Adet</option>
+                                <option value="11-50">11-50 Adet</option>
+                                <option value="51-100">51-100 Adet</option>
+                                <option value="101+">100+ Adet</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary w-100" id="resetFilters">
+                                    <i class="fas fa-redo me-1"></i>Filtreleri Temizle
+                                </button>
+                                <button class="btn btn-primary w-100" id="applyFilters">
+                                    <i class="fas fa-filter me-1"></i>Filtrele
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tablo -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Sepet Öğeleri Listesi</h5>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3 small text-muted" id="itemCount">@totalItems öğe</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog me-1"></i>Ayarlar
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="exportToExcel()"><i class="fas fa-file-excel me-2"></i>Excel'e Aktar</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="printTable()"><i class="fas fa-print me-2"></i>Yazdır</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="refreshTable"><i class="fas fa-sync-alt me-2"></i>Sayfayı Yenile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="cartItemsTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th width="5%">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                        </div>
+                                    </th>
+                                    <th width="10%">ID</th>
+                                    <th width="20%">
+                                        <a href="#" class="text-white text-decoration-none sortable" data-sort="cart">
+                                            <i class="fas fa-shopping-cart me-1"></i>Sepet
+                                            <i class="fas fa-sort ms-1"></i>
+                                        </a>
+                                    </th>
+                                    <th width="30%">
+                                        <a href="#" class="text-white text-decoration-none sortable" data-sort="product">
+                                            <i class="fas fa-box me-1"></i>Ürün
+                                            <i class="fas fa-sort ms-1"></i>
+                                        </a>
+                                    </th>
+                                    <th width="15%">
+                                        <a href="#" class="text-white text-decoration-none sortable" data-sort="quantity">
+                                            <i class="fas fa-hashtag me-1"></i>Adet
+                                            <i class="fas fa-sort ms-1"></i>
+                                        </a>
+                                    </th>
+                                    <th width="20%" class="text-center">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr class="cart-item-row">
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input row-checkbox" type="checkbox" value="@item.Id">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">#@item.Id</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="cart-icon me-2">
+                                                        <i class="fas fa-shopping-cart text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold">Sepet @item.CartId</div>
+                                                        <small class="text-muted">ID: @item.Cart?.Id</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="product-icon me-2">
+                                                        <i class="fas fa-box text-success"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div class="fw-bold">@(item.Product?.Name ?? "Ürün")</div>
+                                                        <small class="text-muted">@(item.Product?.Description ?? "Açıklama yok")</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="quantity-display">
+                                                    <div class="progress" style="height: 8px;">
+                                                        @{
+                                                            var progressWidth = Math.Min(item.Quantity * 2, 100);
+                                                        }
+                                                        <div class="progress-bar @(item.Quantity > 50 ? "bg-success" : item.Quantity > 20 ? "bg-warning" : "bg-info")"
+                                                             role="progressbar" style="width: @progressWidth%"
+                                                             aria-valuenow="@progressWidth" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <div class="mt-1">
+                                                        <span class="badge @(item.Quantity > 50 ? "bg-success" : item.Quantity > 20 ? "bg-warning" : "bg-info")">
+                                                            @item.Quantity adet
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group" role="group">
+                                                    <a asp-action="Details" asp-route-id="@item.Id"
+                                                       class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Detaylar">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a asp-action="Edit" asp-route-id="@item.Id"
+                                                       class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Düzenle">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.Id"
+                                                       class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Sil">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#"><i class="fas fa-copy me-2"></i>Kopyala</a></li>
+                                                            <li><a class="dropdown-item" href="#"><i class="fas fa-chart-line me-2"></i>İstatistikler</a></li>
+                                                            <li><hr class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-ban me-2"></i>Devre Dışı Bırak</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <div class="empty-state">
+                                                <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                                                <h5>Sepet Öğesi Bulunamadı</h5>
+                                                <p class="text-muted">Henüz hiç sepet öğesi eklenmemiş.</p>
+                                                <a asp-action="Create" class="btn btn-primary mt-2">
+                                                    <i class="fas fa-plus-circle me-2"></i>İlk Öğeyi Ekle
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sayfalama ve Toplu İşlemler -->
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-outline-danger btn-sm me-2" id="deleteSelected" disabled>
+                                <i class="fas fa-trash-alt me-1"></i>Seçili Olanları Sil
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" id="selectAllBtn">
+                                <i class="fas fa-check-square me-1"></i>Tümünü Seç
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="me-3 small text-muted">Sayfa 1 / 1</span>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary btn-sm" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm" disabled>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı İşlemler -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Hızlı İşlemler</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a asp-action="Create" class="btn btn-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-plus-circle fa-2x mb-2"></i>
+                                <span>Yeni Öğe Ekle</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3" onclick="exportToExcel()">
+                                <i class="fas fa-file-excel fa-2x mb-2"></i>
+                                <span>Excel'e Aktar</span>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3" onclick="printTable()">
+                                <i class="fas fa-print fa-2x mb-2"></i>
+                                <span>Listeyi Yazdır</span>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-secondary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3" id="refreshPage">
+                                <i class="fas fa-sync-alt fa-2x mb-2"></i>
+                                <span>Sayfayı Yenile</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Tooltip'leri aktif et
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Tümünü seç
+            $('#selectAll').change(function() {
+                $('.row-checkbox').prop('checked', $(this).is(':checked'));
+                updateDeleteButton();
+            });
+
+            $('#selectAllBtn').click(function() {
+                $('#selectAll').prop('checked', true).trigger('change');
+            });
+
+            // Satır checkbox'ları değiştiğinde
+            $('.row-checkbox').change(function() {
+                updateDeleteButton();
+                updateSelectAllCheckbox();
+            });
+
+            // Filtreleme işlemleri
+            $('#applyFilters').click(function() {
+                applyFilters();
+            });
+
+            $('#resetFilters').click(function() {
+                $('#searchInput').val('');
+                $('#cartFilter').val('');
+                $('#quantityFilter').val('');
+                applyFilters();
+            });
+
+            // Enter tuşu ile arama
+            $('#searchInput').keypress(function(e) {
+                if (e.which === 13) {
+                    applyFilters();
+                }
+            });
+
+            // Sayfayı yenile
+            $('#refreshPage, #refreshTable').click(function(e) {
+                e.preventDefault();
+                location.reload();
+            });
+
+            // Seçili olanları sil butonu
+            $('#deleteSelected').click(function() {
+                var selectedIds = [];
+                $('.row-checkbox:checked').each(function() {
+                    selectedIds.push($(this).val());
+                });
+
+                if (selectedIds.length > 0 && confirm('Seçili ' + selectedIds.length + ' öğeyi silmek istediğinize emin misiniz?')) {
+                    // Burada AJAX ile silme işlemi yapılabilir
+                    alert(selectedIds.length + ' öğe silinecek (AJAX entegrasyonu gereklidir)');
+                }
+            });
+
+            // Sıralama işlemleri
+            $('.sortable').click(function(e) {
+                e.preventDefault();
+                var sortType = $(this).data('sort');
+                sortTable(sortType);
+            });
+
+            // İlk filtreleme
+            applyFilters();
+        });
+
+        function updateDeleteButton() {
+            var checkedCount = $('.row-checkbox:checked').length;
+            if (checkedCount > 0) {
+                $('#deleteSelected').prop('disabled', false);
+                $('#deleteSelected').html('<i class="fas fa-trash-alt me-1"></i>Seçili ' + checkedCount + ' Öğeyi Sil');
+            } else {
+                $('#deleteSelected').prop('disabled', true);
+                $('#deleteSelected').html('<i class="fas fa-trash-alt me-1"></i>Seçili Olanları Sil');
+            }
+        }
+
+        function updateSelectAllCheckbox() {
+            var allChecked = $('.row-checkbox:not(:checked)').length === 0;
+            $('#selectAll').prop('checked', allChecked);
+        }
+
+        function applyFilters() {
+            var searchText = $('#searchInput').val().toLowerCase();
+            var cartFilter = $('#cartFilter').val();
+            var quantityFilter = $('#quantityFilter').val();
+
+            var visibleCount = 0;
+
+            $('.cart-item-row').each(function() {
+                var row = $(this);
+                var cartId = row.find('td:nth-child(3) .fw-bold').text().toLowerCase();
+                var productText = row.find('td:nth-child(4) .fw-bold, td:nth-child(4) small').text().toLowerCase();
+                var quantity = parseInt(row.find('.badge').first().text());
+
+                var showRow = true;
+
+                // Arama filtresi
+                if (searchText) {
+                    showRow = cartId.includes(searchText) || productText.includes(searchText);
+                }
+
+                // Sepet filtresi
+                if (showRow && cartFilter) {
+                    var cartNumber = cartId.replace('sepet', '').trim();
+                    showRow = cartNumber === cartFilter;
+                }
+
+                // Adet filtresi
+                if (showRow && quantityFilter) {
+                    switch(quantityFilter) {
+                        case '1-10':
+                            showRow = quantity >= 1 && quantity <= 10;
+                            break;
+                        case '11-50':
+                            showRow = quantity >= 11 && quantity <= 50;
+                            break;
+                        case '51-100':
+                            showRow = quantity >= 51 && quantity <= 100;
+                            break;
+                        case '101+':
+                            showRow = quantity > 100;
+                            break;
+                    }
+                }
+
+                if (showRow) {
+                    row.show();
+                    visibleCount++;
+                } else {
+                    row.hide();
+                }
+            });
+
+            // Öğe sayısını güncelle
+            $('#itemCount').text(visibleCount + ' öğe');
+
+            // Eğer hiç öğe görünmüyorsa
+            if (visibleCount === 0 && $('.cart-item-row').length > 0) {
+                $('tbody').append(`
+                    <tr id="noResultsRow">
+                        <td colspan="6" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                                <h5>Sonuç Bulunamadı</h5>
+                                <p class="text-muted">Filtrelerinizle eşleşen öğe bulunamadı.</p>
+                                <button class="btn btn-outline-primary mt-2" onclick="$('#resetFilters').click()">
+                                    <i class="fas fa-redo me-2"></i>Filtreleri Temizle
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+            } else {
+                $('#noResultsRow').remove();
+            }
+        }
+
+        function sortTable(sortType) {
+            // Sıralama işlemi burada yapılacak
+            // Backend entegrasyonu için AJAX çağrısı yapılabilir
+            alert(sortType + ' sütununa göre sıralanacak (Backend entegrasyonu gereklidir)');
+        }
+
+        function exportToExcel() {
+            alert('Excel aktarımı (Backend entegrasyonu gereklidir)');
+            // window.location.href = '@Url.Action("ExportToExcel", "CartItem")';
+        }
+
+        function printTable() {
+            var printContents = document.getElementById('cartItemsTable').outerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = `
+                <html>
+                    <head>
+                        <title>Sepet Öğeleri Listesi</title>
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            table { width: 100%; border-collapse: collapse; }
+                            th { background-color: #343a40; color: white; padding: 10px; text-align: left; }
+                            td { padding: 8px; border-bottom: 1px solid #ddd; }
+                            .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; }
+                            .bg-secondary { background-color: #6c757d; }
+                            .bg-success { background-color: #198754; }
+                            .bg-warning { background-color: #ffc107; color: #000; }
+                            .bg-info { background-color: #0dcaf0; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>Sepet Öğeleri Listesi</h2>
+                        <p>Tarih: ${new Date().toLocaleDateString('tr-TR')}</p>
+                        ${printContents}
+                    </body>
+                </html>
+            `;
+
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload();
+        }
+    </script>
+
+    <style>
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1rem 1.5rem;
+        }
+
+        .stat-card {
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            opacity: 0.8;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+            .table thead th {
+                border-bottom: 2px solid #dee2e6;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                letter-spacing: 0.5px;
+            }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .cart-item-row td {
+            vertical-align: middle;
+            padding: 1rem;
+        }
+
+        .cart-icon, .product-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+
+        .product-icon {
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+
+        .quantity-display .progress {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .badge {
+            border-radius: 12px;
+            padding: 0.35em 0.65em;
+            font-weight: 500;
+        }
+
+        .btn-group .btn {
+            border-radius: 6px !important;
+        }
+
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+        }
+
+            .empty-state i {
+                opacity: 0.5;
+            }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: none;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 2px;
+        }
+
+            .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        @@media (max-width: 768px) {
+            .stat-card
+
+        {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group {
+            flex-wrap: wrap;
+        }
+
+            .btn-group .btn {
+                margin-bottom: 0.25rem;
+            }
+
+        .table-responsive {
+            border: none;
+        }
+
+        }
+
+        @@media print {
+            .card-header, .card-footer, .btn, .dropdown, .stat-card, #searchInput, #cartFilter, #quantityFilter, #applyFilters, #resetFilters, #deleteSelected, #selectAllBtn
+
+        {
+            display: none !important;
+        }
+
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .table {
+            border: 1px solid #dee2e6;
+        }
+
+        }
+    </style>
+}

@@ -1,0 +1,884 @@
+﻿@model Eticaret.Core.Entities.ProductImage
+
+@{
+    ViewData["Title"] = "Ürün Resmi Ekle";
+
+    // ViewBag değerlerini güvenli şekilde al
+    string productName = ViewBag.ProductName as string ?? "";
+    int? productId = null;
+
+    // ViewBag.SelectedProductId'yi kontrol et
+    if (ViewBag.SelectedProductId != null)
+    {
+        if (ViewBag.SelectedProductId is int id)
+        {
+            productId = id;
+        }
+        else if (int.TryParse(ViewBag.SelectedProductId.ToString(), out int parsedId))
+        {
+            productId = parsedId;
+        }
+    }
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <!-- Header -->
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-plus-circle me-2"></i>@ViewData["Title"]
+                            @if (!string.IsNullOrEmpty(productName))
+                            {
+                                <span class="text-light">- @productName</span>
+                            }
+                        </h4>
+                        <a asp-action="@(productId.HasValue ? "Product" : "Index")"
+                           asp-route-productId="@productId"
+                           class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>Geri Dön
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data" id="productImageForm">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hata ve Başarı Mesajları -->
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <h5 class="alert-heading">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>Lütfen aşağıdaki hataları düzeltin:
+                                </h5>
+                                <div asp-validation-summary="All" class="mb-0"></div>
+                            </div>
+                        }
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show">
+                                <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+
+                        <!-- Ürün Seçimi Bölümü -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ProductId" class="form-label fw-bold">
+                                        <i class="fas fa-shopping-bag me-2"></i>Ürün Seçimi
+                                    </label>
+                                    @if (productId.HasValue)
+                                    {
+                                        <input type="hidden" asp-for="ProductId" value="@productId.Value" />
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="@productName" readonly>
+                                            <span class="input-group-text bg-success text-white">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <small class="text-muted mt-1">
+                                            <i class="fas fa-info-circle me-1"></i>Ürün seçimi sabitlenmiştir
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <!-- DÜZELTME: ViewBag.ProductList kullan -->
+                                        <select asp-for="ProductId" class="form-select"
+                                                asp-items="@ViewBag.ProductList" required>
+                                            <option value="">-- Lütfen bir ürün seçin --</option>
+                                        </select>
+                                        <small class="text-muted mt-1">
+                                            <i class="fas fa-info-circle me-1"></i>Resim eklemek istediğiniz ürünü seçin
+                                        </small>
+                                    }
+                                    <span asp-validation-for="ProductId" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="form-check form-switch me-3">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                   id="isMainSwitch" asp-for="IsMain">
+                                            <label class="form-check-label fw-bold" for="isMainSwitch">
+                                                <i class="fas fa-star me-2"></i>Ana Resim
+                                            </label>
+                                        </div>
+                                        <span class="badge bg-warning text-dark ms-2" id="mainBadge" style="display: none;">
+                                            <i class="fas fa-crown me-1"></i>Ana Resim
+                                        </span>
+                                    </div>
+                                    <div class="alert alert-info py-2">
+                                        <i class="fas fa-lightbulb me-2"></i>
+                                        <small>
+                                            Bu resmi ürünün ana görseli olarak ayarla.
+                                            Ana resim ürün listelerinde ve detay sayfasında öne çıkar.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resim Ekleme Bölümü -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card border">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-upload me-2"></i>Resim Yükleme
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Dosya Yükleme Bölümü -->
+                                        <div id="fileUploadSection" class="upload-section">
+                                            <div class="card border-dashed p-4 mb-3 text-center"
+                                                 id="dropZone"
+                                                 style="border: 3px dashed #007bff; background: linear-gradient(135deg, #f8f9fa, #e9ecef); cursor: pointer; border-radius: 15px;">
+                                                <div class="upload-icon mb-3">
+                                                    <i class="fas fa-cloud-upload-alt fa-4x text-primary opacity-75"></i>
+                                                </div>
+                                                <h4 class="mb-3">Resimleri Buraya Sürükleyin</h4>
+                                                <p class="text-muted mb-4">veya bilgisayarınızdan seçmek için tıklayın</p>
+
+                                                <input type="file" class="d-none" id="imageFiles"
+                                                       name="files" multiple accept="image/*">
+
+                                                <button type="button" class="btn btn-primary btn-lg px-4" id="selectFilesBtn">
+                                                    <i class="fas fa-folder-open me-2"></i>Resim Seç
+                                                </button>
+
+                                                <div class="mt-4">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-8">
+                                                            <div class="alert alert-info text-start">
+                                                                <h6 class="alert-heading">
+                                                                    <i class="fas fa-info-circle me-2"></i>Dikkat Edilecekler:
+                                                                </h6>
+                                                                <ul class="mb-0">
+                                                                    <li>Maksimum 10 resim yükleyebilirsiniz</li>
+                                                                    <li>Her resim maksimum 5MB olmalıdır</li>
+                                                                    <li>Desteklenen formatlar: JPG, PNG, GIF, WebP</li>
+                                                                    <li>İlk resim otomatik olarak ana resim olabilir</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Seçilen Dosya Listesi -->
+                                            <div id="fileListSection" class="mt-4" style="display: none;">
+                                                <h6 class="fw-bold mb-3">
+                                                    <i class="fas fa-list me-2"></i>Seçilen Resimler
+                                                    <span class="badge bg-primary ms-2" id="selectedCount">0</span>
+                                                </h6>
+                                                <div class="row g-3" id="fileList">
+                                                    <!-- Dosya kartları buraya eklenecek -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Önizleme Bölümü -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card border">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-eye me-2"></i>Resim Önizleme
+                                        </h5>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="autoPreview" checked>
+                                            <label class="form-check-label small" for="autoPreview">
+                                                Otomatik önizleme
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Önizleme Görseli -->
+                                            <div class="col-md-6 mb-3 mb-md-0">
+                                                <div class="preview-container border rounded-3 p-3 text-center"
+                                                     style="background: linear-gradient(135deg, #ffffff, #f8f9fa); min-height: 300px;">
+                                                    <img id="previewImage" class="img-fluid rounded shadow-sm"
+                                                         style="max-height: 250px; display: none; object-fit: contain;">
+                                                    <div id="previewPlaceholder" class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                        <i class="fas fa-image fa-5x text-muted mb-3 opacity-50"></i>
+                                                        <h5 class="text-muted mb-2">Önizleme Hazır</h5>
+                                                        <p class="text-muted mb-0 small">Bir resim seçin</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Önizleme Bilgileri -->
+                                            <div class="col-md-6">
+                                                <div class="preview-info h-100 d-flex flex-column">
+                                                    <div class="mb-3">
+                                                        <h6 class="fw-bold text-primary mb-3">
+                                                            <i class="fas fa-info-circle me-2"></i>Resim Bilgileri
+                                                        </h6>
+                                                        <div class="row g-2">
+                                                            <div class="col-6">
+                                                                <div class="info-card bg-light p-3 rounded-3">
+                                                                    <small class="text-muted d-block mb-1">
+                                                                        <i class="fas fa-file-signature me-1"></i>Dosya Adı
+                                                                    </small>
+                                                                    <span id="previewFileName" class="fw-bold">-</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="info-card bg-light p-3 rounded-3">
+                                                                    <small class="text-muted d-block mb-1">
+                                                                        <i class="fas fa-weight-hanging me-1"></i>Boyut
+                                                                    </small>
+                                                                    <span id="previewFileSize" class="fw-bold">-</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="info-card bg-light p-3 rounded-3">
+                                                                    <small class="text-muted d-block mb-1">
+                                                                        <i class="fas fa-file-code me-1"></i>Tür
+                                                                    </small>
+                                                                    <span id="previewFileType" class="fw-bold">-</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="info-card bg-light p-3 rounded-3">
+                                                                    <small class="text-muted d-block mb-1">
+                                                                        <i class="fas fa-expand-alt me-1"></i>Boyutlar
+                                                                    </small>
+                                                                    <span id="previewDimensions" class="fw-bold">-</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-auto">
+                                                        <div class="alert alert-secondary">
+                                                            <h6 class="alert-heading">
+                                                                <i class="fas fa-tips me-2"></i>İpuçları:
+                                                            </h6>
+                                                            <ul class="mb-0 small">
+                                                                <li>Resim yüklemeden önce önizlemeyi kontrol edin</li>
+                                                                <li>Yüksek kaliteli resimler ürün satışını artırır</li>
+                                                                <li>En az 800x600 piksel çözünürlük önerilir</li>
+                                                                <li>Beyaz arka planlı resimler daha profesyonel görünür</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Butonları -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card border">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <button type="button" class="btn btn-outline-secondary" id="clearFormBtn">
+                                                    <i class="fas fa-broom me-2"></i>Formu Temizle
+                                                </button>
+                                            </div>
+                                            <div class="d-flex gap-3">
+                                                <a asp-action="@(productId.HasValue ? "Product" : "Index")"
+                                                   asp-route-productId="@productId"
+                                                   class="btn btn-outline-danger px-4">
+                                                    <i class="fas fa-times me-2"></i>İptal
+                                                </a>
+                                                <button type="submit" class="btn btn-success px-4" id="submitBtn">
+                                                    <i class="fas fa-save me-2"></i>Resimleri Kaydet
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementleri seç
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('imageFiles');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const fileListSection = document.getElementById('fileListSection');
+            const fileList = document.getElementById('fileList');
+            const selectedCount = document.getElementById('selectedCount');
+            const previewImage = document.getElementById('previewImage');
+            const previewPlaceholder = document.getElementById('previewPlaceholder');
+            const previewFileName = document.getElementById('previewFileName');
+            const previewFileSize = document.getElementById('previewFileSize');
+            const previewFileType = document.getElementById('previewFileType');
+            const previewDimensions = document.getElementById('previewDimensions');
+            const form = document.getElementById('productImageForm');
+            const isMainSwitch = document.getElementById('isMainSwitch');
+            const mainBadge = document.getElementById('mainBadge');
+            const productIdSelect = document.getElementById('ProductId');
+            const clearFormBtn = document.getElementById('clearFormBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const autoPreview = document.getElementById('autoPreview');
+
+            let selectedFiles = [];
+
+            // Ana resim switch'i değişikliği
+            isMainSwitch.addEventListener('change', function() {
+                if (this.checked) {
+                    mainBadge.style.display = 'inline-block';
+                } else {
+                    mainBadge.style.display = 'none';
+                }
+            });
+
+            // Dosya seç butonu
+            selectFilesBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // Sürükle-bırak olayları
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#28a745';
+                this.style.background = 'linear-gradient(135deg, #e8f5e9, #d4edda)';
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#007bff';
+                this.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#007bff';
+                this.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+
+                if (e.dataTransfer.files.length > 0) {
+                    handleFiles(e.dataTransfer.files);
+                    const dataTransfer = new DataTransfer();
+                    selectedFiles.forEach(file => dataTransfer.items.add(file));
+                    fileInput.files = dataTransfer.files;
+                }
+            });
+
+            // Dosya input değişikliği
+            fileInput.addEventListener('change', function(e) {
+                if (this.files.length > 0) {
+                    handleFiles(this.files);
+                }
+            });
+
+            // Dosyaları işleme
+            function handleFiles(files) {
+                // Dosya sayısı kontrolü
+                if (selectedFiles.length + files.length > 10) {
+                    alert('Maksimum 10 resim yükleyebilirsiniz!');
+                    return;
+                }
+
+                Array.from(files).forEach(file => {
+                    // Dosya boyutu kontrolü
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert(`"${file.name}" - Maksimum 5MB olmalıdır!`);
+                        return;
+                    }
+
+                    // Dosya tipi kontrolü
+                    if (!file.type.startsWith('image/')) {
+                        alert(`"${file.name}" - Geçerli bir resim dosyası değil!`);
+                        return;
+                    }
+
+                    // Aynı dosyayı kontrol et
+                    if (!selectedFiles.some(f => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified)) {
+                        selectedFiles.push(file);
+                    }
+                });
+
+                updateFileList();
+
+                // İlk dosyayı önizleme için göster
+                if (selectedFiles.length > 0 && autoPreview.checked) {
+                    showPreview(selectedFiles[0]);
+                } else {
+                    resetPreview();
+                }
+            }
+
+            // Dosya listesini güncelle
+            function updateFileList() {
+                fileList.innerHTML = '';
+
+                if (selectedFiles.length > 0) {
+                    fileListSection.style.display = 'block';
+                    selectedCount.textContent = selectedFiles.length;
+
+                    selectedFiles.forEach((file, index) => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-6 col-lg-4';
+
+                        col.innerHTML = `
+                            <div class="card file-card border h-100">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="file-icon me-3">
+                                            <i class="fas fa-file-image fa-2x text-primary"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 text-truncate" title="${file.name}">${file.name}</h6>
+                                            <div class="d-flex justify-content-between small text-muted mb-2">
+                                                <span>${formatFileSize(file.size)}</span>
+                                                <span>${file.type.split('/')[1].toUpperCase() || 'Resim'}</span>
+                                            </div>
+                                            <div class="progress mb-2" style="height: 4px;">
+                                                <div class="progress-bar bg-success" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                                                onclick="removeFile(${index})">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top py-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input preview-radio" type="radio"
+                                               name="previewFile" ${index === 0 ? 'checked' : ''}
+                                               id="preview${index}" onchange="showSelectedPreview(${index})">
+                                        <label class="form-check-label small" for="preview${index}">
+                                            Önizle
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        fileList.appendChild(col);
+                    });
+                } else {
+                    fileListSection.style.display = 'none';
+                }
+            }
+
+            // Dosya boyutunu formatla
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+            // Dosya önizleme
+            function showPreview(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    previewPlaceholder.style.display = 'none';
+
+                    previewFileName.textContent = file.name;
+                    previewFileSize.textContent = formatFileSize(file.size);
+                    previewFileType.textContent = file.type.split('/')[1].toUpperCase() || 'Resim';
+
+                    // Resim boyutlarını al
+                    const img = new Image();
+                    img.onload = function() {
+                        previewDimensions.textContent = `${this.width} × ${this.height} px`;
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Önizlemeyi sıfırla
+            function resetPreview() {
+                previewImage.style.display = 'none';
+                previewPlaceholder.style.display = 'flex';
+                previewFileName.textContent = '-';
+                previewFileSize.textContent = '-';
+                previewFileType.textContent = '-';
+                previewDimensions.textContent = '-';
+            }
+
+            // Global fonksiyonlar
+            window.showSelectedPreview = function(index) {
+                if (selectedFiles[index] && autoPreview.checked) {
+                    showPreview(selectedFiles[index]);
+                }
+            };
+
+            window.removeFile = function(index) {
+                if (confirm('Bu resmi listeden kaldırmak istediğinize emin misiniz?')) {
+                    selectedFiles.splice(index, 1);
+                    updateFileList();
+
+                    const dataTransfer = new DataTransfer();
+                    selectedFiles.forEach(file => dataTransfer.items.add(file));
+                    fileInput.files = dataTransfer.files;
+
+                    if (selectedFiles.length > 0 && autoPreview.checked) {
+                        showPreview(selectedFiles[0]);
+                        const firstRadio = document.querySelector('.preview-radio');
+                        if (firstRadio) firstRadio.checked = true;
+                    } else {
+                        resetPreview();
+                    }
+                }
+            };
+
+            // Form temizleme
+            clearFormBtn.addEventListener('click', function() {
+                if (confirm('Formdaki tüm verileri temizlemek istediğinize emin misiniz?')) {
+                    selectedFiles = [];
+                    updateFileList();
+
+                    // Eğer ürün ID'si sabitlenmemişse temizle
+                    const isProductFixed = @(productId.HasValue ? "true" : "false");
+                    if (!isProductFixed && productIdSelect && productIdSelect.tagName === 'SELECT') {
+                        productIdSelect.value = '';
+                    }
+
+                    isMainSwitch.checked = false;
+                    mainBadge.style.display = 'none';
+                    resetPreview();
+                    fileInput.value = '';
+                }
+            });
+
+            // Form gönderimi
+            form.addEventListener('submit', function(e) {
+                // Ürün kontrolü
+                const productIdValue = document.getElementById('ProductId').value;
+                if (!productIdValue) {
+                    e.preventDefault();
+                    alert('Lütfen bir ürün seçin!');
+                    return false;
+                }
+
+                // Dosya kontrolü
+                if (selectedFiles.length === 0) {
+                    e.preventDefault();
+                    alert('Lütfen en az bir resim dosyası seçin!');
+                    return false;
+                }
+
+                if (selectedFiles.length > 10) {
+                    e.preventDefault();
+                    alert('Maksimum 10 resim yükleyebilirsiniz!');
+                    return false;
+                }
+
+                // Butonu devre dışı bırak
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Kaydediliyor...';
+
+                return true;
+            });
+
+            // İlk yüklemede ana resim badge'ini kontrol et
+            if (isMainSwitch.checked) {
+                mainBadge.style.display = 'inline-block';
+            }
+        });
+    </script>
+
+    <style>
+        /* Genel Stiller */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            }
+
+        .card-header {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Border-dashed efekti */
+        .border-dashed {
+            border-style: dashed !important;
+        }
+
+        /* Upload bölgesi hover efekti */
+        #dropZone {
+            transition: all 0.3s ease;
+        }
+
+            #dropZone:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15);
+            }
+
+        /* Dosya kartları */
+        .file-card {
+            transition: all 0.3s ease;
+        }
+
+            .file-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 8px;
+        }
+
+        /* Önizleme konteyneri */
+        .preview-container {
+            transition: all 0.3s ease;
+        }
+
+            .preview-container:hover {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+        /* Info kartları */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+
+            .info-card:hover {
+                background: linear-gradient(135deg, #ffffff, #f8f9fa) !important;
+                transform: translateY(-2px);
+            }
+
+        /* Butonlar */
+        .btn {
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, #0056b3, #004085);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            border: none;
+        }
+
+            .btn-success:hover {
+                background: linear-gradient(135deg, #1e7e34, #155724);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+            }
+
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+            .btn-outline-danger:hover {
+                background: linear-gradient(135deg, #dc3545, #c82333);
+                border-color: #dc3545;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                border-color: #6c757d;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+        /* Form kontrolleri */
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            }
+
+        /* Switch stili */
+        .form-check-input:checked {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+        }
+
+        /* Badge'ler */
+        .badge {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Alert'ler */
+        .alert {
+            border-radius: 12px;
+            border: none;
+        }
+
+        /* Progress bar */
+        .progress {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+        }
+
+        /* Animasyonlar */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border-radius: 5px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #0056b3, #004085);
+            }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .card-body {
+                padding: 1.5rem !important;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            #dropZone {
+                padding: 2rem 1rem !important;
+            }
+
+            .file-card {
+                margin-bottom: 1rem;
+            }
+
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .d-flex.gap-3 {
+                flex-direction: column;
+                width: 100%;
+            }
+
+                .d-flex.gap-3 .btn {
+                    width: 100%;
+                    margin-bottom: 0.5rem;
+                }
+        }
+
+        @@media (max-width: 576px) {
+            .card-header h4 {
+                font-size: 1.25rem;
+            }
+
+            .preview-container {
+                min-height: 250px !important;
+            }
+
+            .info-card {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+}

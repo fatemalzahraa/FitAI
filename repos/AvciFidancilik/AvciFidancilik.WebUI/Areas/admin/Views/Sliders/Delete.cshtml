@@ -1,0 +1,101 @@
+﻿@model Eticaret.Core.Entities.Slider
+
+@{
+    ViewData["Title"] = "Slider Sil";
+}
+
+<form asp-action="Delete" method="post" id="deleteForm">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="container-fluid mt-4">
+        <div class="card shadow border-danger">
+
+            <!-- HEADER -->
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-trash-alt me-2"></i> Slider Silme Onayı
+                </h5>
+                <span class="badge bg-light text-danger">
+                    ID: @Model.Id
+                </span>
+            </div>
+
+            <div class="card-body">
+
+                <!-- UYARI -->
+                <div class="alert alert-danger">
+                    <h6 class="fw-bold mb-2">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Dikkat!
+                    </h6>
+                    <p class="mb-0">
+                        Bu slider <strong>kalıcı olarak silinecektir</strong>.
+                        Bu işlem <u>geri alınamaz</u>.
+                        Devam etmek istediğinize emin misiniz?
+                    </p>
+                </div>
+
+                <!-- SLIDER BİLGİLERİ -->
+                <dl class="row mb-4">
+                    <dt class="col-md-3">Başlık</dt>
+                    <dd class="col-md-9 fw-bold">@Model.Title</dd>
+
+                    <dt class="col-md-3">Alt Başlık</dt>
+                    <dd class="col-md-9">@Model.SubTitle</dd>
+
+                    <dt class="col-md-3">Durum</dt>
+                    <dd class="col-md-9">
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i> Aktif
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-times-circle me-1"></i> Pasif
+                            </span>
+                        }
+                    </dd>
+                </dl>
+
+                <!-- MEVCUT GÖRSEL -->
+                <h6 class="fw-bold mb-2">
+                    <i class="fas fa-image me-1"></i> Slider Görseli
+                </h6>
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="text-center mb-3">
+                        <img src="@Model.ImageUrl"
+                             class="img-fluid rounded shadow"
+                             style="max-height:220px;"
+                             alt="Slider Görseli" />
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-image me-1"></i>
+                        Bu slider için tanımlı bir görsel bulunmamaktadır.
+                    </div>
+                }
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="card-footer d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Vazgeç
+                </a>
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i> Slider’ı Kalıcı Olarak Sil
+                </button>
+            </div>
+
+        </div>
+    </div>
+</form>

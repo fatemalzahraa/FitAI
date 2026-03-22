@@ -1,0 +1,248 @@
+﻿@model Eticaret.Core.Entities.City
+
+@{
+    ViewData["Title"] = "Şehir Sil";
+}
+
+<div class="container mt-4">
+    <div class="card border-danger shadow">
+        <div class="card-header bg-danger text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-trash-alt me-2"></i>Şehir Sil
+                </h3>
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning animate__animated animate__headShake">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="alert-heading mb-2">Dikkat!</h5>
+                        <p class="mb-0">
+                            Bu şehir kaydını silmek üzeresiniz. Bu işlem geri alınamaz ve şehre bağlı tüm kayıtları etkileyebilir.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="city-detail-card text-center">
+                        <div class="city-icon-large mb-3">
+                            <i class="fas fa-city fa-4x text-danger"></i>
+                        </div>
+                        <h4 class="city-name">@Model.Name</h4>
+                        <div class="city-info mt-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="info-item">
+                                        <div class="info-label">Kayıt ID</div>
+                                        <div class="info-value">#@Model.Id</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="info-item">
+                                        <div class="info-label">Tür</div>
+                                        <div class="info-value">Şehir</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <form asp-action="Delete" id="deleteForm">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <div class="card border-warning">
+                                <div class="card-body">
+                                    <h6 class="card-title text-warning">
+                                        <i class="fas fa-shield-alt me-2"></i>Son Kontroller
+                                    </h6>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                                        <label class="form-check-label" for="confirmDelete">
+                                            Bu şehir kaydını silmek istediğimi onaylıyorum
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            Lütfen onay kutusunu işaretleyin
+                                        </div>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="understandRisks">
+                                        <label class="form-check-label" for="understandRisks">
+                                            Silme işleminin geri alınamaz olduğunu anlıyorum
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4 text-center">
+                        <button type="submit" class="btn btn-danger px-5" id="deleteBtn" disabled>
+                            <i class="fas fa-trash-alt me-2"></i>Sil
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary ms-2 px-4">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .warning-icon {
+            animation: shake 0.5s infinite;
+        }
+
+        @@keyframes shake {
+            0%, 100%
+
+        {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: rotate(-10deg);
+        }
+
+        75% {
+            transform: rotate(10deg);
+        }
+
+        }
+
+        .city-detail-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+            .city-detail-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            }
+
+        .city-icon-large {
+            color: #dc3545;
+        }
+
+        .city-name {
+            color: #333;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 10px 0;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0d6efd;
+        }
+
+        .form-check-input:checked {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Enable/disable delete button based on confirmation
+            function updateDeleteButton() {
+                const confirmChecked = $('#confirmDelete').is(':checked');
+                const understandChecked = $('#understandRisks').is(':checked');
+
+                if (confirmChecked && understandChecked) {
+                    $('#deleteBtn').prop('disabled', false);
+                } else {
+                    $('#deleteBtn').prop('disabled', true);
+                }
+            }
+
+            $('#confirmDelete, #understandRisks').change(updateDeleteButton);
+
+            // Delete button countdown
+            $('#deleteBtn').click(function(e) {
+                e.preventDefault();
+
+                if (!$(this).prop('disabled')) {
+                    const btn = $(this);
+                    const originalText = btn.html();
+                    let countdown = 5;
+
+                    btn.prop('disabled', true);
+                    btn.html(`<i class="fas fa-clock me-2"></i>${countdown}...`);
+
+                    const interval = setInterval(function() {
+                        countdown--;
+                        if (countdown > 0) {
+                            btn.html(`<i class="fas fa-clock me-2"></i>${countdown}...`);
+                        } else {
+                            clearInterval(interval);
+                            btn.html(`<i class="fas fa-bomb me-2"></i>Siliniyor...`);
+
+                            // Short delay before submission
+                            setTimeout(() => {
+                                $('#deleteForm').submit();
+                            }, 1000);
+                        }
+                    }, 1000);
+                }
+            });
+
+            // Form validation
+            var form = document.getElementById('deleteForm');
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+
+            // Initialize
+            updateDeleteButton();
+
+            // Toast container
+            if ($('#toastContainer').length === 0) {
+                $('body').append('<div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>');
+            }
+        });
+    </script>
+}

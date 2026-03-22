@@ -1,0 +1,491 @@
+﻿@model IEnumerable<Eticaret.Core.Entities.ProductAgricultureProfile>
+
+@{
+    ViewData["Title"] = "Tarım Profilleri";
+}
+
+<div class="container-fluid px-4">
+    <!-- Başlık ve İstatistikler -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 text-success fw-bold">
+                <i class="fas fa-seedling me-3"></i>Tarım Profilleri
+            </h1>
+            <p class="text-muted mb-0">Sistemdeki tüm akıllı tarım profillerini yönetin</p>
+        </div>
+        <a asp-action="Create" class="btn btn-success btn-lg shadow">
+            <i class="fas fa-plus-circle me-2"></i>Yeni Profil Ekle
+        </a>
+    </div>
+
+    <!-- İstatistik Kartları -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-success border-4 shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">Toplam Profil</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.Count()</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-seedling fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-warning border-4 shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">Ort. Verim Skoru</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">
+                                @(Model.Any() ? Math.Round(Model.Average(x => x.HarvestEfficiencyScore), 1) : 0)/100
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-info border-4 shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">Soğuğa Dayanıklı</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">
+                                @Model.Count(x => x.FrostResistant)
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-snowflake fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-primary border-4 shadow-sm h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">Aktif Kategori</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">
+                                @Model.Select(x => x.CategoryId).Distinct().Count()
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtreleme -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Ürün adı ara...">
+                </div>
+                <div class="col-md-3">
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">Tüm Kategoriler</option>
+                        @foreach (var category in Model.Select(x => x.Category?.Name).Distinct())
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="frostFilter" class="form-select">
+                        <option value="">Tümü</option>
+                        <option value="true">Soğuğa Dayanıklı</option>
+                        <option value="false">Dayanıklı Değil</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex">
+                    <button id="resetFilters" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button id="exportBtn" class="btn btn-outline-primary">
+                        <i class="fas fa-download me-1"></i>Dışa Aktar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tablo -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-gradient bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-table me-2"></i>Tarım Profil Listesi
+            </h5>
+            <span class="badge bg-light text-dark">@Model.Count() kayıt</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="profilesTable">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Ürün</th>
+                            <th>Kategori</th>
+                            <th class="text-center">Verim</th>
+                            <th class="text-center">İlk Hasat</th>
+                            <th class="text-center">Soğuk</th>
+                            <th class="text-center">pH Aralığı</th>
+                            <th class="text-center">Skor</th>
+                            <th class="text-end pe-4">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="align-middle profile-row"
+                                data-product="@item.Product?.Description?.ToLower()"
+                                data-category="@item.Category?.Name"
+                                data-frost="@item.FrostResistant.ToString().ToLower()">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-circle bg-success bg-opacity-10 me-3">
+                                            <i class="fas fa-seedling text-success"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">@item.Product?.Description</div>
+                                            <small class="text-muted">ID: @item.Id</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info">
+                                        @item.Category?.Name
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="fw-bold">@item.AverageYieldPerTreeKg kg</span>
+                                    <small class="d-block text-muted">/ağaç</small>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning">
+                                        @item.FirstHarvestYear. yıl
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    @if (item.FrostResistant)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle me-1"></i>Evet
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-times-circle me-1"></i>Hayır
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-primary fw-bold">@item.PhMin-@item.PhMax</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="progress-score" data-score="@item.HarvestEfficiencyScore">
+                                        <div class="progress" style="height: 8px; width: 80px; margin: 0 auto;">
+                                            <div class="progress-bar @GetScoreColor(item.HarvestEfficiencyScore)"
+                                                 role="progressbar"
+                                                 style="width: @item.HarvestEfficiencyScore%">
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">@item.HarvestEfficiencyScore%</small>
+                                    </div>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.Id"
+                                           class="btn btn-outline-info" title="Detaylar">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="btn btn-outline-warning" title="Düzenle">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="btn btn-outline-danger" title="Sil">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>Listelenen: <span id="rowCount">@Model.Count()</span> profil
+                </small>
+                <div>
+                    <button id="prevPage" class="btn btn-sm btn-outline-secondary" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="mx-2" id="pageInfo">Sayfa 1</span>
+                    <button id="nextPage" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetScoreColor(int score)
+    {
+        if (score >= 80) return "bg-success";
+        if (score >= 60) return "bg-warning";
+        if (score >= 40) return "bg-info";
+        return "bg-danger";
+    }
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('profilesTable');
+            const rows = Array.from(table.querySelectorAll('.profile-row'));
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const frostFilter = document.getElementById('frostFilter');
+            const resetBtn = document.getElementById('resetFilters');
+            const rowCount = document.getElementById('rowCount');
+            const prevPage = document.getElementById('prevPage');
+            const nextPage = document.getElementById('nextPage');
+            const pageInfo = document.getElementById('pageInfo');
+            const exportBtn = document.getElementById('exportBtn');
+
+            let currentPage = 1;
+            const rowsPerPage = 10;
+            let filteredRows = rows;
+
+            function filterRows() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value.toLowerCase();
+                const selectedFrost = frostFilter.value.toLowerCase();
+
+                filteredRows = rows.filter(row => {
+                    const product = row.dataset.product || '';
+                    const category = row.dataset.category || '';
+                    const frost = row.dataset.frost || '';
+
+                    const matchesSearch = product.includes(searchTerm);
+                    const matchesCategory = !selectedCategory || category === selectedCategory;
+                    const matchesFrost = !selectedFrost || frost === selectedFrost;
+
+                    return matchesSearch && matchesCategory && matchesFrost;
+                });
+
+                updateTable();
+                updateRowCount();
+            }
+
+            function updateTable() {
+                const start = (currentPage - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                const pageRows = filteredRows.slice(start, end);
+
+                // Tüm satırları gizle
+                rows.forEach(row => row.style.display = 'none');
+
+                // Sadece ilgili sayfadaki satırları göster
+                pageRows.forEach(row => row.style.display = '');
+
+                updatePagination();
+            }
+
+            function updateRowCount() {
+                rowCount.textContent = filteredRows.length;
+            }
+
+            function updatePagination() {
+                const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+                prevPage.disabled = currentPage === 1;
+                nextPage.disabled = currentPage === totalPages;
+
+                pageInfo.textContent = `Sayfa ${currentPage} / ${totalPages || 1}`;
+            }
+
+            function goToPage(page) {
+                currentPage = page;
+                updateTable();
+            }
+
+            // Event Listeners
+            searchInput.addEventListener('input', function() {
+                currentPage = 1;
+                filterRows();
+            });
+
+            categoryFilter.addEventListener('change', function() {
+                currentPage = 1;
+                filterRows();
+            });
+
+            frostFilter.addEventListener('change', function() {
+                currentPage = 1;
+                filterRows();
+            });
+
+            resetBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                categoryFilter.value = '';
+                frostFilter.value = '';
+                currentPage = 1;
+                filterRows();
+            });
+
+            prevPage.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    goToPage(currentPage - 1);
+                }
+            });
+
+            nextPage.addEventListener('click', function() {
+                const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+                if (currentPage < totalPages) {
+                    goToPage(currentPage + 1);
+                }
+            });
+
+            exportBtn.addEventListener('click', function() {
+                alert('Excel dışa aktarma özelliği aktifleştirilecek...');
+                // Burada Excel export işlemi yapılabilir
+            });
+
+            // İlerleme çubuklarını renklendir
+            document.querySelectorAll('.progress-score').forEach(score => {
+                const progressBar = score.querySelector('.progress-bar');
+                const scoreValue = parseInt(score.dataset.score);
+
+                if (scoreValue >= 80) {
+                    progressBar.classList.add('bg-success');
+                } else if (scoreValue >= 60) {
+                    progressBar.classList.add('bg-warning');
+                } else if (scoreValue >= 40) {
+                    progressBar.classList.add('bg-info');
+                } else {
+                    progressBar.classList.add('bg-danger');
+                }
+            });
+
+            // İlk yükleme
+            filterRows();
+        });
+    </script>
+
+    <style>
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+        }
+
+        .table thead th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+            padding: 1rem;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress {
+            border-radius: 10px;
+            background-color: #e9ecef;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        .badge {
+            padding: 0.4em 0.8em;
+            font-weight: 500;
+        }
+
+        .btn-group .btn {
+            border-radius: 6px !important;
+            margin: 0 2px;
+        }
+
+        .btn-group .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .border-start {
+            border-left-width: 4px !important;
+        }
+
+        .bg-gradient {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        @@media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+            }
+        }
+    </style>
+}

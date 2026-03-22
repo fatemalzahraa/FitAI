@@ -1,0 +1,164 @@
+﻿@model Eticaret.Core.Entities.Category
+
+@{
+    ViewData["Title"] = "Kategori Oluştur";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <h3 class="mb-0"><i class="fas fa-folder-plus me-2"></i>Yeni Kategori Oluştur</h3>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row">
+                <!-- Form Alanı -->
+                <div class="col-lg-6">
+                    <form asp-action="Create" id="createForm">
+                        <div class="form-floating mb-4">
+                            <input asp-for="Name" class="form-control" placeholder="Kategori adı giriniz" id="categoryName" />
+                            <label asp-for="Name" class="form-label"><i class="fas fa-font me-1"></i>Kategori Adı</label>
+                            <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <!-- Kategori İkonu -->
+                        <div class="mb-4">
+                            <label class="form-label"><i class="fas fa-image me-1"></i>Kategori İkonu</label>
+                            <div class="d-flex flex-wrap gap-2" id="iconContainer">
+                                @foreach (var fruit in new string[] { "badem", "dut", "elma", "fistik", "golden_elma", "incir", "kayisi", "kiraz", "kirmizi_elma", "nar", "seftali", "siyah_erik" })
+                                {
+                                    <div class="icon-option p-1 border rounded text-center"
+                                         style="width:70px; cursor:pointer;"
+                                         data-icon="@fruit">
+                                        <img src="/Img/categories/@(fruit).jpg" class="img-fluid" style="height:60px; width:60px; object-fit:cover;" onerror="this.src='/Img/placeholder.jpg'" />
+                                        <small class="d-block text-truncate mt-1">@fruit.Replace("_", " ")</small>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" id="selectedIcon" name="Icon" value="badem" />
+                        </div>
+
+                        <!-- Kategori Rengi -->
+                        <div class="mb-4">
+                            <label class="form-label"><i class="fas fa-palette me-1"></i>Kategori Rengi</label>
+                            <div class="d-flex gap-2 flex-wrap" id="colorContainer">
+                                @foreach (var color in new string[] { "#4361ee", "#3a0ca3", "#f72585", "#4cc9f0", "#2ec4b6", "#ff9f1c" })
+                                {
+                                    <div class="color-option rounded" style="width:40px; height:40px; cursor:pointer; background-color:@color;" data-color="@color"></div>
+                                }
+                            </div>
+                            <input type="hidden" id="selectedColor" name="Color" value="#4361ee" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100"><i class="fas fa-plus-circle me-2"></i>Oluştur</button>
+                    </form>
+                </div>
+
+                <!-- Önizleme Alanı -->
+                <div class="col-lg-6 mt-4 mt-lg-0">
+                    <div class="card h-100">
+                        <div class="card-header bg-transparent border-info">
+                            <h5 class="mb-0 text-info"><i class="fas fa-eye me-2"></i>Önizleme</h5>
+                        </div>
+                        <div class="card-body text-center d-flex align-items-center justify-content-center">
+                            <div class="category-preview p-4 border rounded w-100">
+                                <div class="mb-3">
+                                    <img id="previewIcon" src="/Img/categories/badem.jpg" class="img-fluid rounded" style="height:80px; width:80px; object-fit:cover;" onerror="this.src='/Img/placeholder.jpg'" />
+                                </div>
+                                <h4 id="previewName" class="mb-2" style="color:#4361ee;">Kategori Adı</h4>
+                                <div class="preview-badge mt-2">
+                                    <span class="badge p-2 fs-6" id="previewColor" style="background-color:#4361ee;">Yeni Kategori</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .icon-option {
+            transition: 0.2s;
+            overflow: hidden;
+        }
+
+            .icon-option:hover {
+                transform: translateY(-2px);
+                border-color: #4361ee;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .icon-option.selected {
+                border: 2px solid #28a745 !important;
+                box-shadow: 0 0 0 2px rgba(40,167,69,0.2);
+            }
+
+        .color-option {
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+
+            .color-option:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            .color-option.selected {
+                border: 2px solid #000 !important;
+                box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
+            }
+
+        .category-preview img, #previewColor, #previewName {
+            transition: all 0.3s ease;
+        }
+
+        #previewColor {
+            font-size: 1rem;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function() {
+            // Başlangıçta varsayılan seçimler
+            $('.icon-option[data-icon="badem"]').addClass('selected');
+            $('.color-option[data-color="#4361ee"]').addClass('selected');
+
+            // İkon tıklama
+            $('#iconContainer').on('click', '.icon-option', function() {
+                $('.icon-option').removeClass('selected');
+                $(this).addClass('selected');
+                const icon = $(this).data('icon');
+                $('#selectedIcon').val(icon);
+                $('#previewIcon').attr('src', `/Img/categories/${icon}.jpg`);
+            });
+
+            // Renk tıklama
+            $('#colorContainer').on('click', '.color-option', function() {
+                $('.color-option').removeClass('selected');
+                $(this).addClass('selected');
+                const color = $(this).data('color');
+                $('#selectedColor').val(color);
+                $('#previewColor').css('background-color', color);
+                $('#previewName').css('color', color);
+            });
+
+            // Kategori adı güncelleme
+            $('#categoryName').on('input', function() {
+                const val = $(this).val();
+                $('#previewName').text(val || 'Kategori Adı');
+            });
+
+            // Resim yükleme hatası için placeholder
+            $('img').on('error', function() {
+                $(this).attr('src', '/Img/placeholder.jpg');
+            });
+        });
+    </script>
+}

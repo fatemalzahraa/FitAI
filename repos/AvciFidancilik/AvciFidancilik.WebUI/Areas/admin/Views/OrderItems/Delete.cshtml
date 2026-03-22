@@ -1,0 +1,222 @@
+﻿@model Eticaret.Core.Entities.OrderItem
+
+@{
+    ViewData["Title"] = "Sipariş Kalemi Sil";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm border-danger">
+                <!-- Başlık -->
+                <div class="card-header bg-danger text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Sipariş Kalemi Silme İşlemi
+                        </h3>
+                        <span class="badge bg-light text-danger">Yönetici İşlemi</span>
+                    </div>
+                </div>
+
+                <!-- Uyarı Mesajı -->
+                <div class="card-body">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+                        <strong>Dikkat!</strong> Bu işlem geri alınamaz. Aşağıdaki sipariş kalemi kalıcı olarak silinecektir.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Silinecek Kayıt Bilgileri -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-muted mb-3">Silinecek Sipariş Kalemi Detayları</h5>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-3 border-start border-primary border-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Sipariş Bilgisi</h6>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-receipt text-primary me-2"></i>
+                                        <span class="fw-bold">Sipariş No:</span>
+                                        <span class="ms-2">@Html.DisplayFor(model => model.Order.Id)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-info-circle text-primary me-2"></i>
+                                        <span class="fw-bold">Durum:</span>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-3 border-start border-success border-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Ürün Bilgisi</h6>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-box-seam text-success me-2"></i>
+                                        <span class="fw-bold">Ürün:</span>
+                                        <span class="ms-2">@Html.DisplayFor(model => model.Product.Name)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-upc text-success me-2"></i>
+                                        <span class="fw-bold">Stok Kodu:</span>
+                                        <span class="ms-2">@Html.DisplayFor(model => model.Product.Id)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detaylı Bilgiler Tablosu -->
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Özellik</th>
+                                    <th>Değer</th>
+                                    <th>Açıklama</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">Adet</td>
+                                    <td>
+                                        <span class="badge bg-info rounded-pill">
+                                            @Html.DisplayFor(model => model.Quantity) adet
+                                        </span>
+                                    </td>
+                                    <td class="small text-muted">Sipariş edilen ürün miktarı</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Birim Fiyat</td>
+                                    <td>
+                                        <span class="text-success fw-bold">
+                                            @Html.DisplayFor(model => model.UnitPrice) ₺
+                                        </span>
+                                    </td>
+                                    <td class="small text-muted">Ürünün birim fiyatı</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Toplam Tutar</td>
+                                    <td>
+                                        <span class="text-danger fw-bold fs-5">
+                                            @(Model.Quantity* Model.UnitPrice) ₺
+                                        </span>
+                                    </td>
+                                    <td class="small text-muted">Adet × Birim Fiyat</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Kayıt Tarihi</td>
+                                    <td>
+                                        <i class="bi bi-calendar-event me-1"></i>
+                                        @DateTime.Now.ToString("dd.MM.yyyy HH:mm")
+                                    </td>
+                                    <td class="small text-muted">Silme işlemi tarihi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Silme Formu -->
+                    <form asp-action="Delete" class="needs-validation" novalidate>
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Onay Checkbox -->
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                            <label class="form-check-label" for="confirmDelete">
+                                <strong>Bu sipariş kalemini kalıcı olarak silmek istediğimi onaylıyorum.</strong>
+                                <small class="d-block text-muted">Bu işlem geri alınamaz ve tüm veriler kaybolacaktır.</small>
+                            </label>
+                        </div>
+
+                        <!-- Butonlar -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-primary">
+                                <i class="bi bi-arrow-left-circle"></i> Vazgeç ve Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-danger" id="deleteButton" disabled>
+                                <i class="bi bi-trash-fill"></i> Kalıcı Olarak Sil
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer text-center text-muted small">
+                    <i class="bi bi-shield-lock"></i> Avcı Fidançılık - Yönetici Silme Paneli
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Onay checkbox'ını kontrol et ve butonu aktif/pasif yap
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmCheckbox = document.getElementById('confirmDelete');
+            const deleteButton = document.getElementById('deleteButton');
+
+            confirmCheckbox.addEventListener('change', function() {
+                deleteButton.disabled = !this.checked;
+
+                if (this.checked) {
+                    deleteButton.classList.remove('btn-secondary');
+                    deleteButton.classList.add('btn-danger');
+                } else {
+                    deleteButton.classList.remove('btn-danger');
+                    deleteButton.classList.add('btn-secondary');
+                }
+            });
+
+            // Silme butonuna tıklandığında ek onay
+            deleteButton.addEventListener('click', function(e) {
+                if (!confirm('❌ Bu kaydı kesinlikle silmek istediğinize emin misiniz?\n\nBu işlem GERİ ALINAMAZ!')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            border-bottom: none;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .border-start {
+            border-left-width: 4px !important;
+        }
+
+        .badge {
+            font-size: 0.85em;
+            padding: 0.35em 0.65em;
+        }
+
+        #deleteButton:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+    </style>
+}

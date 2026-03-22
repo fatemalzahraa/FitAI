@@ -1,0 +1,363 @@
+﻿@model Eticaret.Core.Entities.ProductImage
+
+@{
+    ViewData["Title"] = "Resim Sil";
+
+    var productName = Model?.Product?.Name ?? "Bilinmeyen Ürün";
+    var productId = Model?.ProductId ?? 0;
+    var isMain = Model?.IsMain ?? false;
+
+    // Model null kontrolü
+    if (Model == null)
+    {
+        <div class="container-fluid py-4">
+            <div class="alert alert-danger">
+                <h4><i class="fas fa-exclamation-triangle me-2"></i>Resim bulunamadı!</h4>
+                <p>Görüntülemek istediğiniz resim bulunamadı veya silinmiş olabilir.</p>
+                <a asp-action="ProductImages" asp-route-productId="@productId" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-1"></i>Resim Listesine Dön
+                </a>
+            </div>
+        </div>
+        return;
+    }
+}
+
+<div class="container-fluid py-4">
+    <!-- Breadcrumb -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                            <i class="fas fa-home text-primary"></i> Anasayfa
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="Products" asp-action="Index">
+                            <i class="fas fa-box text-primary"></i> Ürünler
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-action="ProductImages" asp-route-productId="@productId">
+                            <i class="fas fa-images text-primary"></i> @productName Resimleri
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <i class="fas fa-trash text-primary"></i> Resim Sil
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-danger text-white py-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-trash-alt me-2"></i>@ViewData["Title"]
+                        </h4>
+                        <a asp-action="ProductImages" asp-route-productId="@productId" class="btn btn-light btn-sm">
+                            <i class="fas fa-times me-1"></i>Vazgeç
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Uyarı Mesajı -->
+                    <div class="alert alert-warning border-warning">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-exclamation-triangle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">Dikkat!</h5>
+                                <p class="mb-2">
+                                    Bu resmi silmek istediğinizden emin misiniz? Bu işlem <strong>geri alınamaz</strong>.
+                                </p>
+                                <ul class="mb-0">
+                                    <li>Resim ID: <strong>#@Model.Id</strong></li>
+                                    <li>Ürün: <strong>@productName</strong></li>
+                                    @if (isMain)
+                                    {
+                                        <li class="text-danger">
+                                            <strong>Bu resim ana resimdir! Silerseniz başka bir resmi ana resim yapmanız gerekecektir.</strong>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resim Bilgileri -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 bg-light-subtle h-100">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-info-circle me-2"></i>Resim Bilgileri
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-borderless mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-muted" style="width: 45%;">
+                                                    <i class="fas fa-id-badge me-2"></i>Resim ID
+                                                </td>
+                                                <td class="fw-bold">
+                                                    <span class="badge bg-primary">#@Model.Id</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-top">
+                                                <td class="text-muted">
+                                                    <i class="fas fa-crown me-2"></i>Ana Resim Durumu
+                                                </td>
+                                                <td>
+                                                    @if (isMain)
+                                                    {
+                                                        <span class="badge bg-warning text-dark px-3">
+                                                            <i class="fas fa-star me-1"></i>Ana Resim
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-secondary px-3">
+                                                            <i class="fas fa-image me-1"></i>Normal Resim
+                                                        </span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            <tr class="border-top">
+                                                <td class="text-muted">
+                                                    <i class="fas fa-cube me-2"></i>Ürün
+                                                </td>
+                                                <td class="fw-bold">
+                                                    @productName
+                                                </td>
+                                            </tr>
+                                            <tr class="border-top">
+                                                <td class="text-muted">
+                                                    <i class="fas fa-hashtag me-2"></i>Ürün ID
+                                                </td>
+                                                <td class="fw-bold">
+                                                    #@productId
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resim Önizleme -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-image me-2"></i>Silinecek Resim
+                                    </h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        <div class="mb-3">
+                                            <img src="@Url.Content(Model.ImageUrl)"
+                                                 class="img-fluid rounded border"
+                                                 style="max-height: 200px; object-fit: contain;"
+                                                 alt="@productName - Resim @Model.Id"
+                                                 onerror="this.src='/img/no-image.png';">
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">
+                                                <i class="fas fa-link"></i>
+                                            </span>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   value="@Model.ImageUrl"
+                                                   readonly>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="py-4">
+                                            <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                                            <p class="text-muted">Resim URL'si bulunamadı</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Silme Formu -->
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- DÜZELTME: asp-action="Delete" olarak değiştirildi -->
+                            <form asp-action="Delete" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" name="productId" value="@productId" />
+
+                                <div class="card border-danger">
+                                    <div class="card-header bg-danger bg-opacity-10 text-danger">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-exclamation-circle me-2"></i>Silme Onayı
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-danger">
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       id="confirmDelete"
+                                                       required>
+                                                <label class="form-check-label fw-bold" for="confirmDelete">
+                                                    Bu resmi silmek istediğimi onaylıyorum. Bu işlem geri alınamaz!
+                                                </label>
+                                            </div>
+                                            <div class="mt-2">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Onaylamak için yukarıdaki kutucuğu işaretleyin.
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <a asp-action="ProductImages" asp-route-productId="@productId"
+                                                   class="btn btn-outline-secondary">
+                                                    <i class="fas fa-arrow-left me-2"></i>Vazgeç
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <button type="submit"
+                                                        class="btn btn-danger"
+                                                        disabled
+                                                        id="deleteButton">
+                                                    <i class="fas fa-trash-alt me-2"></i>Resmi Sil
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Silme onayı kontrolü
+            const confirmCheckbox = document.getElementById('confirmDelete');
+            const deleteButton = document.getElementById('deleteButton');
+
+            if (confirmCheckbox && deleteButton) {
+                confirmCheckbox.addEventListener('change', function() {
+                    deleteButton.disabled = !this.checked;
+                });
+
+                // Form submit kontrolü
+                const form = document.querySelector('form');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        if (!confirmCheckbox.checked) {
+                            e.preventDefault();
+                            alert('Lütfen silme işlemini onaylayın!');
+                            return false;
+                        }
+
+                        const isMain = @Json.Serialize(isMain);
+                        let confirmMessage = 'Bu resmi silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz!';
+
+                        if (isMain) {
+                            confirmMessage = '⚠️ UYARI: Bu resim ana resimdir!\n\nAna resmi silerseniz, ürün için yeni bir ana resim seçmeniz gerekecektir.\n\nDevam etmek istiyor musunuz?';
+                        }
+
+                        if (!confirm(confirmMessage)) {
+                            e.preventDefault();
+                            return false;
+                        }
+
+                        return true;
+                    });
+                }
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        }
+
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .bg-gradient-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%) !important;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 24px;
+            transition: all 0.3s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+            }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            border: none;
+        }
+
+            .btn-danger:hover {
+                background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+                box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+            }
+
+            .btn-danger:disabled {
+                background: #cbd5e0;
+                border-color: #cbd5e0;
+                cursor: not-allowed;
+            }
+
+        .alert-warning {
+            border-left: 4px solid #d69e2e;
+        }
+
+        .alert-danger {
+            border-left: 4px solid #e53e3e;
+        }
+
+        .form-check-input:checked {
+            background-color: #e53e3e;
+            border-color: #e53e3e;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+        }
+
+        .input-group-text {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+}

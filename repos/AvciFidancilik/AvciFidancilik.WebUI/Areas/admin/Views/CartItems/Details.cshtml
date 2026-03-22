@@ -1,0 +1,548 @@
+﻿@model Eticaret.Core.Entities.CartItem
+
+@{
+    ViewData["Title"] = "Sepet Öğesi Detayları";
+    // Ürün bilgilerini daha iyi göstermek için ek özellikler
+    var productName = Model.Product?.Name ?? "Ürün Adı Yok";
+    var productPrice = Model.Product?.Price ?? 0;
+    var totalPrice = productPrice * Model.Quantity;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Başlık Kartı -->
+            <div class="card shadow-sm mb-4 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Sepet Öğesi Detayları</h4>
+                            <small class="opacity-75">ID: @Model.Id</small>
+                        </div>
+                        <a asp-action="Index" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>Listeye Dön
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ana İçerik -->
+            <div class="row">
+                <!-- Sol Kolon: Detaylar -->
+                <div class="col-md-8">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-info bg-opacity-10">
+                            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Temel Bilgiler</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Sepet Bilgisi -->
+                                <div class="col-md-6 mb-4">
+                                    <div class="info-card">
+                                        <div class="info-icon bg-primary">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h6 class="info-label">Sepet Bilgisi</h6>
+                                            <div class="info-details">
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Sepet ID:</span>
+                                                    <span class="detail-value fw-bold">@Model.CartId</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Kayıt No:</span>
+                                                    <span class="detail-value">@Model.Cart?.Id</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Durum:</span>
+                                                    <span class="detail-value">
+                                                        <span class="badge bg-success">Aktif</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Ürün Bilgisi -->
+                                <div class="col-md-6 mb-4">
+                                    <div class="info-card">
+                                        <div class="info-icon bg-success">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h6 class="info-label">Ürün Bilgisi</h6>
+                                            <div class="info-details">
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Ürün ID:</span>
+                                                    <span class="detail-value fw-bold">@Model.ProductId</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Ürün Adı:</span>
+                                                    <span class="detail-value">@productName</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Açıklama:</span>
+                                                    <span class="detail-value">@(Model.Product?.Description ?? "Açıklama yok")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Adet ve Fiyat Bilgileri -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="info-card">
+                                        <div class="info-icon bg-warning">
+                                            <i class="fas fa-hashtag"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h6 class="info-label">Adet Bilgisi</h6>
+                                            <div class="text-center py-3">
+                                                <div class="display-4 fw-bold text-primary">@Model.Quantity</div>
+                                                <small class="text-muted">Sepetteki ürün adedi</small>
+                                            </div>
+                                            <div class="progress mb-2" style="height: 8px;">
+                                                @{
+                                                    var progressWidth = Math.Min(Model.Quantity * 10, 100);
+                                                }
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                     style="width: @progressWidth%"
+                                                     aria-valuenow="@progressWidth"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                            <small class="text-muted">Miktar seviyesi</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="info-card">
+                                        <div class="info-icon bg-danger">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h6 class="info-label">Fiyat Bilgileri</h6>
+                                            <div class="price-details">
+                                                <div class="price-item">
+                                                    <span class="price-label">Birim Fiyat:</span>
+                                                    <span class="price-value">@productPrice.ToString("C")</span>
+                                                </div>
+                                                <div class="price-item">
+                                                    <span class="price-label">Adet:</span>
+                                                    <span class="price-value">@Model.Quantity adet</span>
+                                                </div>
+                                                <hr class="my-2">
+                                                <div class="price-item total">
+                                                    <span class="price-label">Toplam Tutar:</span>
+                                                    <span class="price-value fw-bold">@totalPrice.ToString("C")</span>
+                                                </div>
+                                                <small class="text-muted d-block mt-2">KDV dahildir</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ek Bilgiler -->
+                            <div class="card border-secondary mb-4">
+                                <div class="card-header bg-secondary bg-opacity-10">
+                                    <h6 class="mb-0"><i class="fas fa-clock me-2"></i>Zaman Bilgileri</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="time-info">
+                                                <i class="fas fa-calendar-plus text-primary me-2"></i>
+                                                <div>
+                                                    <small>Oluşturulma Tarihi</small>
+                                                    <p class="mb-0 fw-bold">@DateTime.Now.ToString("dd MMMM yyyy")</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="time-info">
+                                                <i class="fas fa-history text-warning me-2"></i>
+                                                <div>
+                                                    <small>Son Güncelleme</small>
+                                                    <p class="mb-0 fw-bold">@DateTime.Now.ToString("dd MMMM yyyy HH:mm")</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Kolon: İşlemler ve İstatistikler -->
+                <div class="col-md-4">
+                    <!-- Hızlı İşlemler -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-success bg-opacity-10">
+                            <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Hızlı İşlemler</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
+                                    <i class="fas fa-edit me-2"></i>Düzenle
+                                </a>
+                                <a asp-action="Index" class="btn btn-outline-primary btn-lg">
+                                    <i class="fas fa-list me-2"></i>Tüm Sepet Öğeleri
+                                </a>
+                                <button type="button" class="btn btn-outline-info btn-lg" onclick="printDetails()">
+                                    <i class="fas fa-print me-2"></i>Yazdır
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- İstatistikler -->
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-purple bg-opacity-10">
+                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>İstatistikler</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-item">
+                                <i class="fas fa-sort-amount-up text-success me-2"></i>
+                                <div class="flex-grow-1">
+                                    <small>Ortalama Adet</small>
+                                    <p class="mb-0 fw-bold">@(Model.Quantity) adet</p>
+                                </div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="stat-item">
+                                <i class="fas fa-percentage text-primary me-2"></i>
+                                <div class="flex-grow-1">
+                                    <small>Stok Oranı</small>
+                                    <p class="mb-0 fw-bold">
+                                        @{
+                                            var stockPercentage = Math.Min(Model.Quantity * 5, 100);
+                                        }
+                                        %@stockPercentage
+                                    </p>
+                                </div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="stat-item">
+                                <i class="fas fa-tags text-warning me-2"></i>
+                                <div class="flex-grow-1">
+                                    <small>Toplam Değer</small>
+                                    <p class="mb-0 fw-bold">@totalPrice.ToString("C")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hızlı Bilgiler -->
+                    <div class="card shadow-sm mt-4 border-info">
+                        <div class="card-header bg-info bg-opacity-10">
+                            <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Hızlı Bilgiler</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <small>Bu ürün sepetinizde mevcut</small>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <small>Stok durumu kontrol edildi</small>
+                                </li>
+                                <li>
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <small>Ödeme için hazır</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alt Butonlar -->
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                    </a>
+                </div>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+                        <i class="fas fa-edit me-2"></i>Düzenle
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i>Sil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function printDetails() {
+            window.print();
+        }
+
+        $(document).ready(function() {
+            // Tooltip'leri aktif et
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Yazdırma işlemi için stil ayarı
+            var originalTitle = document.title;
+            document.title = "Sepet Öğesi Detayları - ID: @Model.Id";
+
+            window.onafterprint = function() {
+                document.title = originalTitle;
+            };
+        });
+    </script>
+
+    <style>
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1rem 1.5rem;
+        }
+
+        .info-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+            .info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .bg-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+        }
+
+        .bg-success {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+        }
+
+        .bg-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .bg-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+        }
+
+        .bg-purple {
+            background: linear-gradient(135deg, #6f42c1 0%, #d63384 100%);
+        }
+
+        .info-label {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-details {
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+            .detail-item:last-child {
+                border-bottom: none;
+            }
+
+        .detail-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #212529;
+            font-weight: 500;
+        }
+
+        .price-details {
+            padding: 1rem 0;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+            .price-item.total {
+                background: #f8f9fa;
+                padding: 0.75rem;
+                border-radius: 8px;
+                margin-top: 0.5rem;
+            }
+
+        .price-label {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .price-value {
+            color: #198754;
+            font-weight: 600;
+        }
+
+        .time-info {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+            .time-info i {
+                font-size: 1.5rem;
+            }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .btn-lg {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%);
+            border: none;
+            color: #000;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%);
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .badge {
+            border-radius: 20px;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+        }
+
+        .progress {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+        }
+
+        .display-4 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-opacity-10 {
+            background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+        }
+
+        .bg-info.bg-opacity-10 {
+            background-color: rgba(13, 202, 240, 0.1) !important;
+        }
+
+        .bg-success.bg-opacity-10 {
+            background-color: rgba(25, 135, 84, 0.1) !important;
+        }
+
+        .bg-purple.bg-opacity-10 {
+            background-color: rgba(111, 66, 193, 0.1) !important;
+        }
+
+        .bg-secondary.bg-opacity-10 {
+            background-color: rgba(108, 117, 125, 0.1) !important;
+        }
+
+        @@media print {
+            .btn, .card-header, .d-flex.justify-content-between
+
+        {
+            display: none !important;
+        }
+
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        }
+
+        @@media (max-width: 768px) {
+            .display-4
+
+        {
+            font-size: 2.5rem;
+        }
+
+        .btn-lg {
+            width: 100%;
+        }
+
+        .d-flex.justify-content-between {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        }
+    </style>
+}

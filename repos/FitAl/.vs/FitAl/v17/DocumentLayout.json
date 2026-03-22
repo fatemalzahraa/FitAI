@@ -1,0 +1,309 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\avcia\\source\\repos\\FitAl\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\magaza.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\magaza.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\nlpbulgusu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\nlpbulgusu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\onboardingadim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\onboardingadim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\bildirim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\bildirim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\yorum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\yorum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\widgetsorgulog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\widgetsorgulog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\kullaniciprofil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\kullaniciprofil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\kullanici.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\kullanici.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\senkronizasyonlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\senkronizasyonlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\komisyonkaydi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\komisyonkaydi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\aitalimat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\aitalimat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\vucutuyumskoru.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\vucutuyumskoru.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\urun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\urun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\entity\\platformbaglantisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\entity\\platformbaglantisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57127C43-2038-4136-9E31-A2885F58683A}|FitAlData\\FitAl.Data.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitaldata\\fital.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{57127C43-2038-4136-9E31-A2885F58683A}|FitAlData\\FitAl.Data.csproj|solutionrelative:fitaldata\\fital.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{905B0E08-2EF2-470A-8F9B-0854944F8F9E}|FitAl.Service\\FitAl.Service.csproj|c:\\users\\avcia\\source\\repos\\fital\\fital.service\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{905B0E08-2EF2-470A-8F9B-0854944F8F9E}|FitAl.Service\\FitAl.Service.csproj|solutionrelative:fital.service\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57127C43-2038-4136-9E31-A2885F58683A}|FitAlData\\FitAl.Data.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitaldata\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{57127C43-2038-4136-9E31-A2885F58683A}|FitAlData\\FitAl.Data.csproj|solutionrelative:fitaldata\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|c:\\users\\avcia\\source\\repos\\fital\\fitalcore\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E08784B5-CC09-4672-909B-171DF4EE8406}|FitAlCore\\FitAl.Core.csproj|solutionrelative:fitalcore\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FitAl.Data.csproj",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlData\\FitAl.Data.csproj",
+              "RelativeDocumentMoniker": "FitAlData\\FitAl.Data.csproj",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlData\\FitAl.Data.csproj",
+              "RelativeToolTip": "FitAlData\\FitAl.Data.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-19T18:14:54.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OnboardingAdim.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\OnboardingAdim.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\OnboardingAdim.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\OnboardingAdim.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\OnboardingAdim.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:32:05.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NlpBulgusu.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\NlpBulgusu.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\NlpBulgusu.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\NlpBulgusu.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\NlpBulgusu.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:21:34.725Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Magaza.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Magaza.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\Magaza.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Magaza.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\Magaza.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:17:12.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Bildirim.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Bildirim.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\Bildirim.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Bildirim.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\Bildirim.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:31:43.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Yorum.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Yorum.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\Yorum.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Yorum.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\Yorum.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAQwCEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:31:21.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "WidgetSorguLog.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\WidgetSorguLog.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\WidgetSorguLog.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\WidgetSorguLog.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\WidgetSorguLog.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:30:51.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "KullaniciProfil.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\KullaniciProfil.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\KullaniciProfil.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\KullaniciProfil.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\KullaniciProfil.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:30:17.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Kullanici.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Kullanici.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\Kullanici.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Kullanici.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\Kullanici.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAQwB8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:29:52.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SenkronizasyonLog.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\SenkronizasyonLog.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\SenkronizasyonLog.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\SenkronizasyonLog.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\SenkronizasyonLog.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAQwCMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:22:59.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "KomisyonKaydi.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\KomisyonKaydi.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\KomisyonKaydi.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\KomisyonKaydi.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\KomisyonKaydi.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wCgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:22:36.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AiTalimat.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\AiTalimat.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\AiTalimat.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\AiTalimat.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\AiTalimat.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:22:14.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "VucutUyumSkoru.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\VucutUyumSkoru.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\VucutUyumSkoru.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\VucutUyumSkoru.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\VucutUyumSkoru.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAQwCMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:21:11.016Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Urun.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Urun.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\Urun.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\Urun.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\Urun.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAA1wC4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:20:44.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PlatformBaglantisi.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\PlatformBaglantisi.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Entity\\PlatformBaglantisi.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Entity\\PlatformBaglantisi.cs",
+              "RelativeToolTip": "FitAlCore\\Entity\\PlatformBaglantisi.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwCIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:17:51.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAl.Service\\Class1.cs",
+              "RelativeDocumentMoniker": "FitAl.Service\\Class1.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAl.Service\\Class1.cs",
+              "RelativeToolTip": "FitAl.Service\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:14:37.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlData\\Class1.cs",
+              "RelativeDocumentMoniker": "FitAlData\\Class1.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlData\\Class1.cs",
+              "RelativeToolTip": "FitAlData\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:13:47.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Class1.cs",
+              "RelativeDocumentMoniker": "FitAlCore\\Class1.cs",
+              "ToolTip": "C:\\Users\\avcia\\source\\repos\\FitAl\\FitAlCore\\Class1.cs",
+              "RelativeToolTip": "FitAlCore\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T18:12:56.732Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

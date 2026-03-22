@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Eticaret.Core.Entities.Role>
+
+@{
+    ViewData["Title"] = "Rol Listesi";
+}
+
+<style>
+    .index-card {
+        margin: 40px auto;
+        padding: 25px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-weight: 600;
+        color: #212529;
+    }
+
+    .table thead {
+        background-color: #f1f3f5;
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .action-links a {
+        margin-right: 8px;
+        text-decoration: none;
+    }
+
+    .badge-role {
+        background-color: #e7f1ff;
+        color: #0d6efd;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="index-card">
+    <div class="page-header">
+        <h2 class="page-title">Rol Listesi</h2>
+
+        <a asp-action="Create" class="btn btn-success">
+            + Yeni Rol Ekle
+        </a>
+    </div>
+
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Rol Adı</th>
+                <th class="text-end">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <span class="badge-role">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </span>
+                    </td>
+                    <td class="text-end action-links">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
+                            Detay
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                            Düzenle
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                            Sil
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

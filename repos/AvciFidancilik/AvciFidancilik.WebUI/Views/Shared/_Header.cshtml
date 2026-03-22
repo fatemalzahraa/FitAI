@@ -1,0 +1,1548 @@
+﻿@{
+    var isHomePage = Context.Request.Path == "/" || Context.Request.Path == "/Home/Index";
+}
+
+<!-- Profesyonel Fidan Satış Sitesi Header CSS -->
+<style>
+    /* YENİLENMİŞ PREMİUM RENK PALETİ - SADECE SİYAH & SARI TONLARI */
+    /* ============================================================= */
+    :root {
+        /* Arkaplan ve Metin için Siyah Tonları */
+        --bg-dark-rich: #0D0D0D; /* Daha derin, lüks siyah */
+        --bg-dark-surface: #1A1A1A; /* Kartlar ve bölümler için */
+        --text-light: #F2F2F2; /* Okunabilirliği yüksek off-white */
+        /* Gold/Sarı Tonları (Daha sofistike) */
+        --accent-gold: #FFC107; /* Ana vurgu rengi - #FFD700 yerine #FFC107 */
+        --accent-gold-hover: #FFD54F; /* Hover için daha açık sarı */
+        --accent-soft: rgba(255, 193, 7, 0.1); /* Yumuşak sarı arkaplan */
+        /* Nötr Tonlar - Siyahın Tonları */
+        --gray-border: #2A2A2A; /* Border'lar için */
+        --white: #FFFFFF; /* Saf beyaz */
+        /* WhatsApp için Yeşil - SADECE WHATSAPP İÇİN */
+        --whatsapp-green: #25D366; /* WhatsApp orijinal yeşili */
+    }
+
+    /* GENEL STİLLER */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Montserrat', 'Segoe UI', sans-serif;
+        line-height: 1.6;
+        background-color: #f8f9fa; /* DEĞİŞTİRİLDİ: İçerik alanı için çok hafif gri */
+        color: var(--bg-dark-rich);
+    }
+
+    .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* 1. ÜST BİLGİ BAR - Ultra Modern */
+    /* DEĞİŞİKLİK: Daha dar ve şık tasarım */
+    .premium-top-bar {
+        background: var(--bg-dark-rich);
+        padding: 12px 0; /* DEĞİŞTİRİLDİ: 20px'ten 12px'e */
+        border-bottom: 2px solid var(--accent-gold); /* DEĞİŞTİRİLDİ: 3px'ten 2px'e */
+    }
+
+    .top-bar-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* =========================================== */
+    /* LOGO ALANI - AYNI KALDI (GAYET İYİ DEDİNİZ) */
+    /* =========================================== */
+
+    /* Logo container - Logo ve metni yan yana hizalar */
+    .premium-logo-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+
+        /* Logo container hover efekti */
+        .premium-logo-container:hover {
+            transform: translateY(-2px);
+        }
+
+    /* Daire şeklindeki logo alanı - AYNI KALDI */
+    .logo-circle-premium {
+        width: 110px; /* GAYET İYİ - DEĞİŞTİRİLMEDİ */
+        height: 110px; /* GAYET İYİ - DEĞİŞTİRİLMEDİ */
+        border-radius: 50%;
+        border: 4px solid var(--accent-gold);
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+        /* Logo image elementi - AYNI KALDI */
+        .logo-circle-premium img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        /* Logo hover animasyonu - AYNI KALDI */
+        .logo-circle-premium:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 193, 7, 0.35);
+        }
+
+    /* Hover'da logo resmi büyütme - AYNI KALDI */
+    .premium-logo-container:hover .logo-circle-premium img {
+        transform: scale(1.1);
+    }
+
+    /* Logo metin alanı */
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Logo ana metin - AYNI KALDI */
+    .logo-main-text {
+        color: var(--accent-gold);
+        font-size: 2.2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        line-height: 1;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Logo alt metin - AYNI KALDI */
+    .logo-sub-text {
+        color: var(--accent-gold-hover);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        margin-top: 8px;
+        opacity: 0.95;
+    }
+
+    /* İletişim Bilgileri - WHATSAPP ALANI GÜNCELLENDİ */
+    .premium-contact-info {
+        display: flex;
+        gap: 20px; /* DEĞİŞTİRİLDİ: 25px'ten 20px'e */
+        align-items: center;
+    }
+
+    /* WHATSAPP VE TELEFON ITEM'İ - GÜNCELLENDİ */
+    .premium-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        transition: all 0.3s;
+        padding: 12px 20px; /* DEĞİŞTİRİLDİ: 15px 25px'ten - DAHA KOMPAKT */
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 193, 7, 0.2);
+        max-width: 280px; /* EKLENDİ: Maksimum genişlik */
+        min-width: 250px; /* EKLENDİ: Minimum genişlik */
+    }
+
+        .premium-contact-item:hover {
+            background: rgba(255, 193, 7, 0.15);
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.2);
+        }
+
+    .contact-icon-premium {
+        width: 45px; /* DEĞİŞTİRİLDİ: 48px'ten 45px'e - DAHA KÜÇÜK */
+        height: 45px; /* DEĞİŞTİRİLDİ: 48px'ten 45px'e - DAHA KÜÇÜK */
+        border-radius: 50%;
+        background: var(--accent-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--bg-dark-rich);
+        font-size: 1.1rem; /* DEĞİŞTİRİLDİ: 1.2rem'den 1.1rem'e */
+        transition: all 0.3s;
+        flex-shrink: 0; /* EKLENDİ: Boyutun sabit kalması için */
+    }
+
+    .premium-contact-item:hover .contact-icon-premium {
+        transform: scale(1.1); /* DEĞİŞTİRİLDİ: 1.15'ten 1.1'e - DAHA AZ */
+        background: var(--accent-gold-hover);
+    }
+
+    .contact-text-premium {
+        color: var(--white);
+        font-weight: 700;
+        font-size: 0.95rem; /* DEĞİŞTİRİLDİ: 1.05rem'den 0.95rem'e - DAHA KÜÇÜK */
+        line-height: 1.3; /* DEĞİŞTİRİLDİ: Daha sıkı line-height */
+        white-space: nowrap; /* EKLENDİ: Tek satırda kalması için */
+    }
+
+    /* WHATSAPP BADGE - GÜNCELLENDİ: DAHA KOMPAKT */
+    .whatsapp-badge {
+        background: var(--whatsapp-green);
+        color: var(--white);
+        padding: 4px 12px; /* DEĞİŞTİRİLDİ: 5px 15px'ten - DAHA KOMPAKT */
+        border-radius: 15px; /* DEĞİŞTİRİLDİ: 20px'ten 15px'e */
+        font-size: 0.75rem; /* DEĞİŞTİRİLDİ: 0.85rem'den 0.75rem'e - DAHA KÜÇÜK */
+        font-weight: 700;
+        margin-top: 4px; /* DEĞİŞTİRİLDİ: 6px'ten 4px'e */
+        display: inline-block;
+        box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3); /* DEĞİŞTİRİLDİ: 8px'ten 6px'e */
+        white-space: nowrap; /* EKLENDİ: Tek satırda kalması için */
+    }
+
+    /* EMAIL ITEM'İ - GÜNCELLENDİ: WIDTH DAHA DA ARTTIRILDI */
+    .premium-contact-item.email-item {
+        padding: 12px 25px; /* DEĞİŞTİRİLDİ: 12px 20px'ten 12px 25px'e */
+        min-width: 320px; /* DEĞİŞTİRİLDİ: 280px'ten 320px'e - DAHA GENİŞ */
+        max-width: 350px; /* DEĞİŞTİRİLDİ: 300px'ten 350px'e - DAHA GENİŞ */
+        flex-shrink: 0; /* EKLENDİ: Email alanının küçülmesini engelle */
+    }
+
+    .email-item .contact-text-premium {
+        font-size: 1rem; /* DEĞİŞTİRİLDİ: Email için biraz daha büyük font */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* EKLENDİ: Çok uzun olursa ... ile göster */
+    }
+
+    /* SOSYAL MEDYA - GÜNCELLENDİ: SAĞA KAYDIRILDI */
+    .premium-social-media {
+        display: flex;
+        gap: 15px; /* DEĞİŞTİRİLDİ: 18px'ten 15px'e */
+        align-items: center;
+        margin-left: 40px; /* DEĞİŞTİRİLDİ: 20px'ten 40px'e - DAHA SAĞA KAYDIRILDI */
+    }
+
+    .social-link-premium {
+        width: 45px; /* DEĞİŞTİRİLDİ: 50px'ten 45px'e - DAHA KÜÇÜK */
+        height: 45px; /* DEĞİŞTİRİLDİ: 50px'ten 45px'e - DAHA KÜÇÜK */
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-gold);
+        text-decoration: none;
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+
+        .social-link-premium:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark-rich);
+            transform: translateY(-3px) scale(1.1); /* DEĞİŞTİRİLDİ: -4px'ten -3px'e */
+            border-color: var(--accent-gold);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.25);
+        }
+
+    /* 2. ANA HEADER */
+    .premium-main-header {
+        background: var(--white);
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 3px 20px rgba(0, 0, 0, 0.12);
+        border-bottom: 2px solid var(--accent-gold);
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 35px;
+    }
+
+    /* Kategori Butonu */
+    .premium-categories-btn {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: var(--accent-gold);
+        color: var(--bg-dark-rich);
+        border: none;
+        padding: 18px 35px;
+        border-radius: 15px;
+        font-weight: 800;
+        font-size: 1.15rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 180px;
+        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.25);
+    }
+
+        .premium-categories-btn:hover {
+            background: var(--accent-gold-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.35);
+        }
+
+    /* Arama Alanı - YENİLENDİ */
+    .premium-search-container {
+        flex: 1;
+        max-width: 700px;
+        margin: 0 30px;
+    }
+
+    .premium-search-form {
+        display: flex;
+        width: 100%;
+        border-radius: 50px;
+        overflow: hidden;
+        border: 1px solid var(--gray-border);
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        background: var(--white);
+        padding: 5px;
+    }
+
+        .premium-search-form:focus-within {
+            border-color: var(--accent-gold);
+            box-shadow: 0 6px 25px rgba(255, 193, 7, 0.2);
+        }
+
+    .premium-search-input {
+        flex: 1;
+        padding: 12px 25px;
+        border: none;
+        font-size: 1.1rem;
+        color: var(--bg-dark-rich);
+        background-color: var(--white);
+        outline: none;
+        border-radius: 50px 0 0 50px;
+    }
+
+        .premium-search-input::placeholder {
+            color: var(--gray-border);
+            font-weight: 500;
+        }
+
+    .premium-category-select {
+        padding: 12px 25px;
+        border: none;
+        border-left: 1px solid var(--gray-border);
+        background-color: var(--white);
+        color: var(--bg-dark-rich);
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        min-width: 240px;
+        outline: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FFC107' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 25px center;
+        background-size: 18px;
+        padding-right: 60px;
+    }
+
+        .premium-category-select:hover {
+            background-color: #f8f9fa;
+        }
+
+    .premium-search-button {
+        background: var(--bg-dark-rich);
+        color: var(--accent-gold);
+        border: none;
+        padding: 0 30px;
+        font-size: 1.15rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-radius: 50px;
+    }
+
+        .premium-search-button:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark-rich);
+            transform: scale(1.02);
+        }
+
+    /* Hesabım Butonu */
+    .premium-account-btn {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: var(--white);
+        border: 3px solid var(--accent-gold);
+        color: var(--bg-dark-rich);
+        padding: 18px 35px;
+        border-radius: 15px;
+        font-weight: 800;
+        font-size: 1.15rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 170px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+        .premium-account-btn:hover {
+            background: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+        }
+
+    /* 3. NAVİGASYON MENÜSÜ - SADE VE ŞIK */
+    .premium-navigation {
+        background: var(--bg-dark-surface);
+        padding: 5px 0;
+        border-bottom: 4px solid var(--accent-gold);
+    }
+
+    .premium-nav-container {
+        display: flex;
+        justify-content: center;
+        gap: 70px;
+    }
+
+    .premium-nav-link {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 15px 0;
+        position: relative;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        letter-spacing: 1px;
+        opacity: 0.85;
+    }
+
+        .premium-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .premium-nav-link:hover::after,
+        .premium-nav-link.active::after {
+            width: 100%;
+        }
+
+        .premium-nav-link:hover,
+        .premium-nav-link.active {
+            color: var(--accent-gold) !important;
+            opacity: 1;
+        }
+
+        .premium-nav-link i {
+            font-size: 1.3rem;
+        }
+
+    /* 4. HERO BANNER - GÜNCELLENDİ: SLIDER İLE ARASINA BOŞLUK EKLENDİ */
+    .premium-hero-banner {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        color: var(--white);
+        position: relative;
+        overflow: hidden;
+        min-height: 550px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 60px; /* EKLENDİ: Slider ile arasına 60px boşluk */
+    }
+
+        .premium-hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 193, 7, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+            .hero-content h1 .highlight {
+                color: var(--accent-gold);
+                display: block;
+                text-shadow: 0 2px 10px rgba(255, 193, 7, 0.3);
+            }
+
+            .hero-content h1 i {
+                color: var(--accent-gold);
+                margin-right: 15px;
+                font-size: 2.5rem;
+            }
+
+        .hero-content .lead {
+            font-size: 1.1rem;
+            color: var(--accent-gold-hover);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 550px;
+            font-weight: 500;
+        }
+
+            .hero-content .lead .highlight {
+                color: var(--accent-gold);
+                font-weight: 700;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            }
+
+    .premium-badge {
+        background: rgba(255, 255, 255, 0.15);
+        color: var(--accent-gold);
+        padding: 12px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border: 2px solid rgba(255, 193, 7, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+        margin-bottom: 10px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .premium-badge:hover {
+            background: rgba(255, 193, 7, 0.25);
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+        }
+
+        .premium-badge i {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .premium-badge:hover i {
+            color: var(--white);
+        }
+
+    .btn-premium {
+        background: var(--accent-gold);
+        color: var(--bg-dark-rich);
+        border: none;
+        padding: 15px 35px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.2);
+    }
+
+        .btn-premium:hover {
+            background: var(--accent-gold-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(255, 193, 7, 0.4);
+        }
+
+    .btn-premium-outline {
+        background: transparent;
+        color: var(--accent-gold);
+        border: 2px solid var(--accent-gold);
+        padding: 15px 35px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 5px 20px rgba(255, 193, 7, 0.1);
+    }
+
+        .btn-premium-outline:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark-rich);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+        }
+
+    /* NEDEN BİZİ SEÇMELİSİNİZ ALANI - GÜNCELLENDİ: TAMAMEN SOLA HİZALANDI */
+    .premium-feature-box {
+        background: rgba(26, 26, 26, 0.85);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid var(--accent-gold);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+        .premium-feature-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gold);
+        }
+
+        .premium-feature-box h4 {
+            color: var(--accent-gold);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            text-align: left !important; /* !important EKLENDİ */
+        }
+
+            .premium-feature-box h4 i {
+                color: var(--accent-gold-hover);
+                font-size: 1.4rem;
+            }
+
+    /* FEATURE LIST - GÜNCELLENDİ: TAMAMEN SOLA HİZALANDI */
+    .premium-feature-list {
+        text-align: left !important; /* !important EKLENDİ */
+        width: 100%;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+        text-align: left !important; /* !important EKLENDİ */
+        width: 100%;
+    }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--accent-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--bg-dark-rich);
+        font-size: 1.4rem;
+        flex-shrink: 0;
+        transition: all 0.3s;
+        box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        margin-right: 20px;
+    }
+
+    .feature-item:hover .feature-icon {
+        transform: scale(1.15) rotate(10deg);
+        background: var(--accent-gold-hover);
+    }
+
+    .feature-item h5 {
+        color: var(--accent-gold-hover);
+        font-weight: 700;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+        text-align: left !important; /* !important EKLENDİ */
+        width: 100%;
+    }
+
+    .feature-item p {
+        color: var(--white);
+        opacity: 0.9;
+        margin-bottom: 0;
+        font-size: 1rem;
+        line-height: 1.5;
+        text-align: left !important; /* !important EKLENDİ */
+        width: 100%;
+    }
+
+    /* ÜRÜNLER BÖLÜMÜ İÇİN BOŞLUK (SCROLL İÇİN) */
+    .urunler-bolum-target {
+        position: relative;
+        top: -100px; /* Header yüksekliği kadar */
+        visibility: hidden;
+        height: 0;
+    }
+
+    /* 5. RESPONSIVE DÜZENLEMELER - WHATSAPP ALANI İÇİN GÜNCELLENDİ */
+    @@media (max-width: 1200px) {
+        .premium-nav-container {
+            gap: 50px;
+        }
+
+        .logo-circle-premium {
+            width: 100px;
+            height: 100px;
+        }
+
+        .logo-main-text {
+            font-size: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .premium-hero-banner {
+            padding: 80px 0;
+            margin-bottom: 50px; /* RESPONSIVE: 60px'ten 50px'e */
+        }
+        /* WHATSAPP RESPONSIVE */
+        .premium-contact-info {
+            gap: 15px;
+        }
+
+        .premium-contact-item {
+            padding: 10px 16px;
+            min-width: 220px;
+            max-width: 240px;
+        }
+
+            .premium-contact-item.email-item {
+                min-width: 280px; /* RESPONSIVE: 320px'ten 280px'e */
+                max-width: 300px; /* RESPONSIVE: 350px'ten 300px'e */
+            }
+
+        .premium-social-media {
+            margin-left: 30px; /* RESPONSIVE: 40px'ten 30px'e */
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .top-bar-content {
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .premium-contact-info {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo-circle-premium {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 15px;
+        }
+
+        .header-content {
+            flex-wrap: wrap;
+        }
+
+        .premium-search-container {
+            order: 3;
+            width: 100%;
+            margin: 25px 0 0 0;
+        }
+
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .premium-hero-banner {
+            padding: 70px 0;
+            min-height: 480px;
+            margin-bottom: 40px; /* RESPONSIVE: 50px'ten 40px'e */
+        }
+
+        .premium-feature-box {
+            margin-top: 40px;
+        }
+        /* WHATSAPP RESPONSIVE - TABLET */
+        .premium-contact-item {
+            padding: 10px 15px;
+            min-width: 200px;
+            max-width: 220px;
+        }
+
+            .premium-contact-item.email-item {
+                min-width: 250px; /* RESPONSIVE: 280px'ten 250px'e */
+                max-width: 270px; /* RESPONSIVE: 300px'ten 270px'e */
+                padding: 10px 20px;
+            }
+
+        .contact-icon-premium {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .contact-text-premium {
+            font-size: 0.9rem;
+        }
+
+        .email-item .contact-text-premium {
+            font-size: 0.95rem; /* RESPONSIVE: Email için biraz küçült */
+        }
+
+        .whatsapp-badge {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+        }
+
+        .premium-social-media {
+            margin-left: 20px; /* RESPONSIVE: 30px'ten 20px'e */
+        }
+
+        .social-link-premium {
+            width: 40px;
+            height: 40px;
+        }
+        /* FEATURE ITEM RESPONSIVE */
+        .feature-item {
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+            font-size: 1.3rem;
+            margin-right: 15px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .premium-nav-container {
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .premiumSearchForm {
+            flex-direction: column;
+            border-radius: 15px;
+        }
+
+        .premium-search-input,
+        .premium-category-select,
+        .premium-search-button {
+            width: 100%;
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid var(--gray-border);
+        }
+
+        .premium-category-select {
+            border-left: none;
+        }
+
+        .hero-content h1 {
+            font-size: 1.9rem;
+        }
+
+        .hero-content .lead {
+            font-size: 1rem;
+        }
+
+        .premium-hero-banner {
+            padding: 60px 0;
+            min-height: 420px;
+            margin-bottom: 30px; /* RESPONSIVE: 40px'ten 30px'e */
+        }
+
+        .btn-premium,
+        .btn-premium-outline {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-circle-premium {
+            width: 80px;
+            height: 80px;
+        }
+
+        .premium-badge {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+        }
+        /* WHATSAPP RESPONSIVE - MOBİL */
+        .premium-contact-info {
+            flex-direction: column;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .premium-contact-item {
+            width: 100%;
+            max-width: 320px;
+            min-width: unset;
+            justify-content: center;
+        }
+
+            .premium-contact-item.email-item {
+                width: 100%;
+                max-width: 320px;
+                min-width: unset;
+                padding: 12px 20px;
+            }
+
+        .premium-social-media {
+            margin-left: 0;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        /* FEATURE ITEM RESPONSIVE - MOBİL */
+        .feature-item {
+            flex-direction: column;
+            align-items: center;
+            text-align: center !important;
+            margin-bottom: 25px;
+        }
+
+        .feature-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h5,
+        .feature-item p {
+            text-align: center !important;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .logo-circle-premium {
+            width: 70px;
+            height: 70px;
+            border-width: 3px;
+        }
+
+        .logo-main-text {
+            font-size: 1.8rem;
+        }
+
+        .logo-sub-text {
+            font-size: 0.85rem;
+        }
+
+        .premium-contact-item {
+            flex-direction: column;
+            text-align: center;
+            padding: 12px 15px;
+        }
+
+            .premium-contact-item.email-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 12px 15px;
+            }
+
+        .premium-categories-btn,
+        .premium-account-btn {
+            width: 100%;
+            justify-content: center;
+            font-size: 1.1rem;
+            padding: 16px 30px;
+        }
+
+        .hero-content h1 {
+            font-size: 1.7rem;
+        }
+
+        .hero-content .lead {
+            font-size: 0.95rem;
+        }
+
+        .premium-hero-banner {
+            padding: 50px 0;
+            min-height: 380px;
+            margin-bottom: 25px; /* RESPONSIVE: 30px'ten 25px'e */
+        }
+
+        .premium-badge {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+        /* WHATSAPP RESPONSIVE - KÜÇÜK MOBİL */
+        .contact-icon-premium {
+            width: 35px;
+            height: 35px;
+            font-size: 0.9rem;
+        }
+
+        .contact-text-premium {
+            font-size: 0.85rem;
+        }
+
+        .email-item .contact-text-premium {
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            margin-top: 3px;
+        }
+
+        .social-link-premium {
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    /* Animasyonlar */
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .premium-top-bar {
+        animation: fadeInDown 0.5s ease-out;
+    }
+
+    .premium-main-header {
+        animation: slideIn 0.4s ease-out 0.2s both;
+    }
+    /* ========== ÜRÜNLER SCROLL DÜZENTİCİ ========== */
+    #urunlerimiz {
+        scroll-margin-top: 120px; /* Header yüksekliği kadar boşluk bırak */
+    }
+
+    #site-footer,
+    .footer-iletisim,
+    .premium-footer {
+        scroll-margin-top: 100px; 
+</style>
+
+<header>
+   
+    <!-- 1. ÜST BİLGİ BAR - Ultra Modern -->
+    <div class="premium-top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <!-- Logo - DEĞİŞTİRİLMEDİ (GAYET İYİ) -->
+                <a asp-controller="Home" asp-action="Index" class="premium-logo-container">
+                    <div class="logo-circle-premium">
+                        <img src="~/Img/logo/avciLogo.png" alt="Avcı Fidancılık">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main-text">AVCI FİDANCILIK</span>
+                        <span class="logo-sub-text">Premium Fidan & Bahçe Ürünleri</span>
+                    </div>
+                </a>
+
+                <!-- İletişim Bilgileri - WHATSAPP ALANI GÜNCELLENDİ -->
+                <div class="d-flex align-items-center">
+                    <div class="premium-contact-info">
+                        <!-- Telefon & WhatsApp - GÜNCELLENDİ -->
+                        <a href="tel:05327436282" class="premium-contact-item">
+                            <div class="contact-icon-premium">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="contact-text-premium">0532 743 62 82</div>
+                                <div class="whatsapp-badge">
+                                    <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Email - GÜNCELLENDİ: WIDTH DAHA DA ARTTIRILDI -->
+                        <a href="mailto:avcifidancilik44@gmail.com" class="premium-contact-item email-item">
+                            <div class="contact-icon-premium">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text-premium">avcifidancilik44@gmail.com</div>
+                        </a>
+
+                        <!-- Sosyal Medya - GÜNCELLENDİ: SAĞA KAYDIRILDI -->
+                        <div class="premium-social-media">
+                            <a href="https://www.instagram.com/avcifidancilik44" target="_blank"
+                               class="social-link-premium" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/17NVqeZwSn/" target="_blank"
+                               class="social-link-premium" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ANA HEADER -->
+    <div class="premium-main-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Kategoriler Butonu -->
+                @await Component.InvokeAsync("Categories")
+
+                <!-- Arama Alanı - YENİ YUVARLAK TASARIM -->
+                <div class="premium-search-container">
+                    <form id="premiumSearchForm" class="premium-search-form"
+                          asp-controller="Home"
+                          asp-action="Index"
+                          asp-fragment="urunlerimiz"
+                          method="get">
+                        <input type="text"
+                               name="q"
+                               class="premium-search-input"
+                               placeholder="Her türlü sertifikalı fidan ara..."
+                               required />
+                        <button type="submit" class="premium-search-button">
+                            <i class="fas fa-search"></i> ARA
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Hesabım Butonu -->
+                <button class="premium-account-btn" id="accountBtn" onclick="window.location.href='/Account/SıgnIn'">
+                    <i class="fas fa-user-circle"></i>
+                    <span>HESABIM</span>
+                </button>
+                    
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. NAVİGASYON MENÜSÜ - SADE VE ŞIK -->
+    <nav class="premium-navigation">
+        <div class="container">
+            <div class="premium-nav-container">
+                <a class="premium-nav-link @(isHomePage ? "active" : "")" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                    <span>ANASAYFA</span>
+                </a>
+                <a class="premium-nav-link" asp-controller="Home" asp-action="About">
+                    <i class="fas fa-info-circle"></i>
+                    <span>HAKKIMIZDA</span>
+                </a>
+             
+                <!-- ÜRÜNLER Linki - GÜNCELLENDİ: onclick event'i eklendi -->
+                <a class="premium-nav-link" href="@Url.Action("Index", "Home")#urunlerimiz">
+                    <i class="fas fa-info-circle"></i>
+                    <span>ÜRÜNLERİMİZ</span>
+                </a>
+
+                <a class="premium-nav-link" href="#site-footer" onclick="scrollToFooter(event)">
+                    <i class="fas fa-phone"></i> <!-- İkonu iletişim için daha uygun olanı ile değiştirebilirsiniz -->
+                    <span>İLETİŞİM</span>
+                </a>
+                <a class="premium-nav-link" href="/Blog">
+                    <i class="fas fa-blog"></i>
+                    <span>BLOG</span>
+                </a>
+              
+            </div>
+        </div>
+    </nav>
+</header>
+
+@if (isHomePage)
+{
+    <!-- HERO BANNER - GÜNCELLENDİ: DAHA KISA VE KÜÇÜK YAZILAR -->
+    <section class="premium-hero-banner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="hero-content">
+                        <h1 class="mb-4">
+                            <i class="fas fa-seedling"></i>
+                            DOĞANIN KALİTESİ<br>
+                            <span class="highlight">BAHÇENİZDE</span>
+                        </h1>
+                        <p class="lead mb-4">
+                            Premium fidanlar, profesyonel bahçe ekipmanları ve uzman desteği ile
+                            <span class="highlight">bahçenizi bir cennete dönüştürün.</span>
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-3 mb-4">
+                            <div class="premium-badge">
+                                <i class="fas fa-truck"></i> 81 İL'E KARGO
+                            </div>
+                            <div class="premium-badge">
+                                <i class="fas fa-shield-alt"></i> 2 YIL GARANTİ
+                            </div>
+                            <div class="premium-badge">
+                                <i class="fas fa-headset"></i> 7/24 DESTEK
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3 flex-wrap">
+                            <!-- ALIŞVERİŞE BAŞLA Linki - GÜNCELLENDİ: onclick event'i eklendi -->
+                            <a href="/Product" class="btn-premium" onclick="handleProductsClick(event)">
+                                <i class="fas fa-shopping-cart me-2"></i> ALIŞVERİŞE BAŞLA
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mt-5 mt-lg-0" data-aos="fade-left">
+                    <div class="premium-feature-box">
+                        <h4 class="mb-4">
+                            <i class="fas fa-crown me-2"></i>NEDEN BİZİ SEÇMELİSİNİZ?
+                        </h4>
+
+                        <div class="premium-feature-list">
+                            <div class="feature-item mb-4 d-flex align-items-start">
+                                <div class="feature-icon me-3">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div>
+                                    <h5>30+ YILLIK TECRÜBE</h5>
+                                    <p>Sektörde lider, güvenilir firma</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item mb-4 d-flex align-items-start">
+                                <div class="feature-icon me-3">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div>
+                                    <h5>TARIM BAKANLIĞI ONAYLI</h5>
+                                    <p>Sertifikalı ürünler, premium kalite</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item d-flex align-items-start">
+                                <div class="feature-icon me-3">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div>
+                                    <h5>KALİTE GARANTİSİ</h5>
+                                    <!-- DEĞİŞTİRİLDİ: Yüzde Yüz Güven -->
+                                    <p>100% Güven,Mutlu Müşteri</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- JavaScript -->
+<script>
+        // ÜRÜNLER Linki için özel işleyici
+    function handleProductsClick(event) {
+        // Anasayfa olup olmadığını kontrol et
+        const currentPath = window.location.pathname;
+        const isHomePage = currentPath === '/' ||
+                         currentPath === '/Home/Index' ||
+                         currentPath === '/Home' ||
+                         currentPath === '';
+
+        if (isHomePage) {
+            // Anasayfadaysa, scroll yap
+            event.preventDefault();
+            event.stopPropagation();
+
+            // URL'yi güncelle (geri butonu için)
+            history.pushState(null, null, '#urunler');
+
+            // Ürünler bölümünü bul (ID ile)
+            let productsSection = document.getElementById('urunlerimiz');
+
+            // Eğer ID ile bulamazsak, class ile dene
+            if (!productsSection) {
+                productsSection = document.querySelector('.urunler-section, .products-section, .product-list, .urunler');
+            }
+
+            // Eğer ürünler bölümü bulunduysa, scroll yap
+            if (productsSection) {
+                // Modern tarayıcılar için scrollIntoView
+                productsSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                console.log('Ürünler bölümüne scroll yapıldı:', productsSection);
+            } else {
+                // Ürünler bölümü bulunamazsa Product sayfasına git
+                console.log('Ürünler bölümü bulunamadı, Product sayfasına yönlendiriliyor...');
+                window.location.href = '/Product';
+            }
+        }
+        // Anasayfada değilse, normal şekilde Product sayfasına gider
+    }
+
+    // İLETİŞİM Linki için yeni işleyici - FOOTER'a scroll yapacak
+    function handleContactClick(event) {
+        // TÜM sayfalarda çalışacak - her sayfanın footer'ına scroll yap
+        event.preventDefault();
+        event.stopPropagation();
+
+        // URL'yi güncelle (geri butonu için)
+        history.pushState(null, null, '#footer-iletisim');
+
+        // Footer'ı bul (farklı ID'ler deneyelim)
+        let footerSection = document.getElementById('site-footer');
+        if (!footerSection) footerSection = document.getElementById('footer-iletisim');
+        if (!footerSection) footerSection = document.querySelector('.premium-footer, footer');
+
+        // Footer bulunduysa, scroll yap
+        if (footerSection) {
+            footerSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end'  // Footer'ın tamamını göster
+            });
+
+            console.log('Footer iletişim bölümüne scroll yapıldı:', footerSection);
+        } else {
+            // Footer bulunamazsa sayfanın en altına scroll yap
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+            console.log('Footer bulunamadı, sayfa sonuna scroll yapıldı');
+        }
+    }
+        // Hesabım butonu işlevselliği
+    document.addEventListener('DOMContentLoaded', function () {
+        // Kategori butonu işlevselliği
+        const categoriesBtn = document.getElementById('categoriesNavBtn');
+        const categoriesBtn2 = document.getElementById('categoriesNavBtn2');
+
+        if (categoriesBtn) {
+            categoriesBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = '/Product';
+            });
+        }
+
+        // HESABIM BUTONU - BU KISMI EKLEYİN
+        const accountBtn = document.getElementById('accountBtn');
+        if (accountBtn) {
+            accountBtn.addEventListener('click', function () {
+                window.location.href = '/Account/SıgnIn';
+            });
+        }
+
+        // Arama formu validasyonu
+        const searchForm = document.querySelector('.premium-search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function (e) {
+                const searchInput = this.querySelector('.premium-search-input');
+                if (searchInput && searchInput.value.trim().length < 2) {
+                    e.preventDefault();
+                    alert('Lütfen en az 2 karakter giriniz');
+                    searchInput.focus();
+                }
+            });
+        }
+    });
+    // Sayfa yüklendiğinde URL'de hash varsa scroll yap
+    window.addEventListener('load', function() {
+        // #urunler hash'i varsa
+        if (window.location.hash === '#urunler') {
+            setTimeout(() => {
+                const productsSection = document.getElementById('urunlerimiz');
+                if (productsSection) {
+                    productsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    console.log('Sayfa yüklendi, #urunler hash\'i algılandı');
+                }
+            }, 500);
+        }
+
+        // #footer-iletisim hash'i varsa
+        if (window.location.hash === '#footer-iletisim') {
+            setTimeout(() => {
+                let footerSection = document.getElementById('site-footer');
+                if (!footerSection) footerSection = document.getElementById('footer-iletisim');
+                if (!footerSection) footerSection = document.querySelector('.premium-footer, footer');
+
+                if (footerSection) {
+                    footerSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'end'
+                    });
+                    console.log('Sayfa yüklendi, #footer-iletisim hash\'i algılandı');
+                }
+            }, 500);
+        }
+    });
+
+    // Geri/ileri butonları için
+    window.addEventListener('hashchange', function() {
+        // #urunler için
+        if (window.location.hash === '#urunler') {
+            const productsSection = document.getElementById('urunlerimiz');
+            if (productsSection) {
+                productsSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                console.log('Hash değişti, #urunler hash\'i algılandı');
+            }
+        }
+
+        // #footer-iletisim için
+        if (window.location.hash === '#footer-iletisim') {
+            let footerSection = document.getElementById('site-footer');
+            if (!footerSection) footerSection = document.getElementById('footer-iletisim');
+            if (!footerSection) footerSection = document.querySelector('.premium-footer, footer');
+
+            if (footerSection) {
+                footerSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end'
+                });
+                console.log('Hash değişti, #footer-iletisim hash\'i algılandı');
+            }
+        }
+
+            document.addEventListener('DOMContentLoaded', function () {
+        // Kategori butonu
+        const categoriesBtn = document.getElementById('categoriesNavBtn');
+        if (categoriesBtn) { // <-- BU KONTROL ŞART
+            categoriesBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = '/Product';
+            });
+        }
+
+        // Hesap butonu
+        const accountBtn = document.getElementById('accountBtn');
+        if (accountBtn) { // <-- BU KONTROL ŞART
+            accountBtn.addEventListener('click', function () {
+                window.location.href = '/Account/SıgnIn';
+            });
+        }
+        window.addEventListener('load', function() {
+        // Eğer URL'de hash #urunler varsa scroll yap
+        if (window.location.hash === '#urunler') {
+            const section = document.getElementById('urunler');
+            if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Arama parametresi varsa inputu doldur
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('searchTerm');
+        if (searchTerm) {
+            const searchInput = document.querySelector('.premium-search-input');
+            if (searchInput) searchInput.value = searchTerm;
+        }
+       document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.getElementById('premiumSearchForm');
+
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // sayfa reload’u durdur
+
+            const searchInput = this.querySelector('.premium-search-input');
+            const searchTerm = searchInput.value.trim();
+
+            if (searchTerm.length < 2) {
+                alert('Lütfen en az 2 karakter giriniz');
+                searchInput.focus();
+                return;
+            }
+
+            // 🔹 Filtreleme fonksiyonunu çağır
+            filterAndSortProducts(searchTerm);
+
+            // 🔹 #urunlerimiz bölümüne scroll
+            const section = document.getElementById('urunlerimiz');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+            // Footer'a smooth scroll fonksiyonu
+    function scrollToFooter(event) {
+        // Sadece aynı sayfadaysak scroll yapalım
+        event.preventDefault();
+
+        const footer = document.getElementById('site-footer');
+        if (footer) {
+            // Smooth scroll efekti
+            footer.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+            // URL'yi güncelle (geri/ileri butonu için)
+            history.pushState(null, null, '#site-footer');
+        } else {
+            // Footer bulunamazsa ana sayfaya yönlendir
+            window.location.href = '/#site-footer';
+        }
+    }
+
+    // Sayfa yüklendiğinde URL'de #site-footer varsa scroll yap
+    window.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash === '#site-footer') {
+            const footer = document.getElementById('site-footer');
+            if (footer) {
+                setTimeout(() => {
+                    footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+    });
+
+    });
+</script>

@@ -1,0 +1,390 @@
+﻿@model Eticaret.Core.DTOs.AdminKdsDto
+@{
+    ViewData["Title"] = "Avcı Fidancılık - Stratejik Karar Destek Sistemi";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <style>
+        /* --- PROFESYONEL KDS TASARIM SİSTEMİ --- */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            --secondary-gradient: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            --danger-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            --warning-gradient: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+            --info-gradient: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .kds-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            box-shadow: var(--card-shadow);
+        }
+
+            .kds-card:hover {
+                transform: translateY(-8px) scale(1.01);
+                box-shadow: var(--card-shadow-hover);
+            }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid transparent !important;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #2c3e50, #4a6491);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Modal Düzenlemeleri --- */
+        .critical-modal .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+        }
+
+        .critical-modal .modal-header {
+            background: var(--danger-gradient);
+            color: white;
+            padding: 1.2rem 1.5rem;
+        }
+
+        /* Modal içindeki tablonun kaymasını engellemek için fix */
+        .modal-body .table-responsive {
+            max-width: 100%;
+            margin: 0;
+        }
+
+        .critical-item td {
+            padding: 1rem !important;
+            vertical-align: middle;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trend-up {
+            color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .trend-down {
+            color: #c0392b;
+            background: rgba(192, 57, 43, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+    </style>
+}
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner-border text-primary mb-3" role="status"></div>
+    <div class="loading-text fw-bold">Veritabanı Analiz Ediliyor...</div>
+</div>
+
+<div class="container-fluid py-4">
+    <div class="dashboard-header bg-white p-4 rounded-4 shadow-sm mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="dashboard-title h2 mb-1 fw-bold text-dark">
+                    <i class="fas fa-brain text-success me-2"></i>Stratejik Karar Destek Sistemi
+                </h1>
+                <p class="text-muted mb-0 small">Avcı Fidancılık Akıllı Stok ve Satış Yönetimi</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="badge bg-light text-dark border p-2 me-2" id="currentDateTime"></span>
+                <button onclick="refreshKds()" class="btn btn-success btn-sm rounded-3">
+                    <i class="fas fa-sync-alt me-1"></i>Güncelle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card kds-card h-100 border-start border-success border-4">
+                <div class="card-body">
+                    <div class="text-muted small fw-bold text-uppercase">Aylık Ciro</div>
+                    <div class="stat-number my-2">@Model.MonthlySales.ToString("C0")</div>
+                    <div class="@(Model.SalesGrowth >= 0 ? "trend-up" : "trend-down")">
+                        <i class="fas @(Model.SalesGrowth >= 0 ? "fa-arrow-up" : "fa-arrow-down") me-1"></i>
+                        %@Math.Abs(Model.SalesGrowth).ToString("N1")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card kds-card h-100 border-start border-warning border-4">
+                <div class="card-body" style="cursor:pointer"  onclick="showAbandonedCartsModal()">
+                    <div class="text-muted small fw-bold text-uppercase">Kayıp Fırsatlar</div>
+                    <div class="stat-number my-2">@Model.AbandonedCartCount</div>
+                    <div class="text-warning small"><i class="fas fa-shopping-basket me-1"></i>Ödenmemiş Sepetler</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card kds-card h-100 border-start border-danger border-4" style="cursor: pointer;" onclick="showCriticalProductsModal()">
+                <div class="card-body">
+                    <div class="text-muted small fw-bold text-uppercase">Kritik Stoklar</div>
+                    <div class="stat-number my-2 text-danger">@Model.CriticalStockCount</div>
+                    <div class="text-danger small fw-bold"><i class="fas fa-bell me-1"></i>Acil Stok Ekle</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card kds-card h-100 border-start border-primary border-4">
+                <div class="card-body">
+                    <div class="text-muted small fw-bold text-uppercase">Aktif Müşteriler</div>
+                    <div class="stat-number my-2">@Model.ActiveCustomers</div>
+                    <div class="text-primary small"><i class="fas fa-users me-1"></i>Son 30 Gün</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card kds-card mb-4 shadow-sm">
+        <div class="card-header bg-transparent border-0 pt-4 px-4">
+            <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-seedling text-success me-2"></i>Mevsimsel Akıllı Öneriler</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-3">
+                @foreach (var suggestion in Model.SeasonalSuggestions)
+                {
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-4 bg-light">
+                            <h6 class="fw-bold text-success mb-1">@suggestion</h6>
+                            <small class="text-muted">Algoritma tarafından önerildi.</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card kds-card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="kdsTable">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th class="ps-4">Ürün Bilgisi</th>
+                            <th>Stok</th>
+                            <th>Lojistik</th>
+                            <th>Trend</th>
+                            <th class="text-end pe-4">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var alert in Model.StockWarnings)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold">@alert.ProductName</div>
+                                    <div class="text-muted x-small">SKU: @alert.ProductId.ToString("D5")</div>
+                                </td>
+                                <td>
+                                    <span class="badge @(alert.CurrentStock < 50 ? "bg-danger" : "bg-info")">@alert.CurrentStock Adet</span>
+                                </td>
+                                <td>@(alert.EstimatedDaysToExhaust ?? 0) Gün</td>
+                                <td>
+                                    <span class="@(alert.SalesTrendPercentage >= 0 ? "text-success" : "text-danger")">
+                                        <i class="fas fa-arrow-@(alert.SalesTrendPercentage >= 0 ? "up" : "down") me-1"></i>
+                                        %@Math.Abs(alert.SalesTrendPercentage)
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <button onclick="quickOrder(@alert.ProductId)" class="btn btn-sm btn-outline-dark rounded-pill">Sipariş</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade critical-modal" id="criticalProductsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Kritik Stok Seviyesi
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                @if (Model.StockWarnings.Any(x => x.AlertLevel == "Critical"))
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" style="width: 100%; table-layout: fixed;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4" style="width: 40%;">Ürün Adı</th>
+                                    <th style="width: 20%;">Stok</th>
+                                    <th style="width: 20%;">Tahmin</th>
+                                    <th class="text-end pe-4" style="width: 20%;">Aksiyon</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.StockWarnings.Where(x => x.AlertLevel == "Critical"))
+                                {
+                                    <tr class="critical-item">
+                                        <td class="ps-4 text-truncate fw-bold">@item.ProductName</td>
+                                        <td><span class="badge bg-danger">@item.CurrentStock Adet</span></td>
+                                        <td class="text-danger fw-bold">@(item.EstimatedDaysToExhaust?.ToString() ?? "0") Gün</td>
+                                        <td class="text-end pe-4">
+                                            <a href="/Admin/Product/Edit/@item.ProductId" class="btn btn-sm btn-danger rounded-pill px-3">Ekle</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                        <h4 class="fw-bold">Her Şey Yolunda!</h4>
+                        <p class="text-muted">Kritik stok seviyesinde ürün bulunamadı.</p>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="abandonedCartsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 bg-warning text-dark">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-shopping-basket me-2"></i>Kayıp Fırsat Analizi (Sepette Bekleyenler)
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                @if (Model.AbandonedDetails != null && Model.AbandonedDetails.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Ürün Adı</th>
+                                    <th>Adet</th>
+                                    <th>Birim Fiyat</th>
+                                    <th class="text-end pe-4">Toplam Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.AbandonedDetails)
+                                {
+                                    <tr>
+                                        <td class="ps-4 fw-bold">@item.ProductName</td>
+                                        <td><span class="badge bg-light text-dark border">@item.Quantity Adet</span></td>
+                                        <td>@item.Price.ToString("C2")</td>
+                                        <td class="text-end pe-4 fw-bold text-danger">@item.Total.ToString("C2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                        <h4 class="fw-bold text-muted">Sepetler Boş</h4>
+                        <p class="text-muted">Şu an sepette bekleyen ürün bulunmamaktadır.</p>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Saat ve Tarih
+            function updateClock() {
+                const now = new Date();
+                $('#currentDateTime').text(now.toLocaleString('tr-TR'));
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // DataTable
+            $('#kdsTable').DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json' },
+                pageLength: 10,
+                dom: 'ftip'
+            });
+        });
+
+        function showCriticalProductsModal() {
+            const myModal = new bootstrap.Modal(document.getElementById('criticalProductsModal'));
+            myModal.show();
+        }
+
+        function refreshKds() {
+            $('#loadingOverlay').css('display', 'flex');
+            setTimeout(() => location.reload(), 800);
+        }
+
+        function quickOrder(id) {
+            const qty = prompt("Hızlı sipariş miktarı girin:", "100");
+            if(qty) {
+                alert(id + " nolu ürün için " + qty + " adet sipariş talebi iletildi.");
+            }
+        }
+                function showAbandonedCartsModal() {
+            const myModal = new bootstrap.Modal(document.getElementById('abandonedCartsModal'));
+            myModal.show();
+        }
+    </script>
+}

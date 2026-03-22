@@ -1,0 +1,368 @@
+﻿@model Eticaret.Core.Entities.City
+
+@{
+    ViewData["Title"] = "Şehir Detayları";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-info text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Şehir Detayları
+                </h3>
+                <div class="city-header-icon">
+                    <i class="fas fa-map-marked-alt fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="city-profile mb-5">
+                        <div class="d-flex align-items-center">
+                            <div class="city-avatar me-4">
+                                <div class="avatar-circle">
+                                    <i class="fas fa-city"></i>
+                                </div>
+                            </div>
+                            <div class="city-profile-info">
+                                <h2 class="city-title">@Model.Name</h2>
+                                <p class="city-subtitle text-muted">
+                                    <i class="fas fa-tag me-1"></i>Şehir Kaydı
+                                </p>
+                                <div class="city-badges mt-2">
+                                    <span class="badge bg-primary me-2">
+                                        <i class="fas fa-hashtag me-1"></i>ID: @Model.Id
+                                    </span>
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-database me-1"></i>Veritabanı Kaydı
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-card mb-4">
+                                <div class="detail-card-header">
+                                    <i class="fas fa-id-card me-2"></i>Kimlik Bilgileri
+                                </div>
+                                <div class="detail-card-body">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Kayıt ID</div>
+                                        <div class="detail-value">#@Model.Id</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Şehir Adı</div>
+                                        <div class="detail-value">@Model.Name</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Kayıt Türü</div>
+                                        <div class="detail-value">Şehir</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-card mb-4">
+                                <div class="detail-card-header">
+                                    <i class="fas fa-chart-bar me-2"></i>İstatistikler
+                                </div>
+                                <div class="detail-card-body">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Karakter Sayısı</div>
+                                        <div class="detail-value">@Model.Name.Length</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Oluşturulma</div>
+                                        <div class="detail-value">@DateTime.Now.AddDays(-30).ToString("dd.MM.yyyy")</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Son Güncelleme</div>
+                                        <div class="detail-value">@DateTime.Now.ToString("dd.MM.yyyy HH:mm")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="fas fa-map-signs me-2"></i>Hızlı İşlemler
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap gap-2">
+                                <button class="btn btn-outline-primary copy-btn" data-text="@Model.Name">
+                                    <i class="fas fa-copy me-2"></i>Şehir Adını Kopyala
+                                </button>
+                                <button class="btn btn-outline-secondary" id="shareBtn">
+                                    <i class="fas fa-share-alt me-2"></i>Paylaş
+                                </button>
+                                <button class="btn btn-outline-info" id="printBtn">
+                                    <i class="fas fa-print me-2"></i>Yazdır
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="sticky-top" style="top: 20px;">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0"><i class="fas fa-map-pin me-2"></i>Şehir Kartı</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="city-card-preview mb-3">
+                                    <div class="city-card">
+                                        <div class="city-card-icon">
+                                            <i class="fas fa-city fa-3x"></i>
+                                        </div>
+                                        <h4 class="city-card-name mt-3">@Model.Name</h4>
+                                        <div class="city-card-id mt-2">
+                                            ID: <strong>@Model.Id</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="quick-actions mt-4">
+                                    <h6 class="text-muted mb-3">
+                                        <i class="fas fa-bolt me-2"></i>Hızlı Erişim
+                                    </h6>
+                                    <div class="d-grid gap-2">
+                                        <a asp-action="Edit" asp-route-id="@Model?.Id"
+                                           class="btn btn-warning">
+                                            <i class="fas fa-edit me-2"></i>Düzenle
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@Model?.Id"
+                                           class="btn btn-outline-danger">
+                                            <i class="fas fa-trash-alt me-2"></i>Sil
+                                        </a>
+                                        <a asp-action="Index" class="btn btn-outline-secondary">
+                                            <i class="fas fa-list me-2"></i>Tüm Şehirler
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .city-header-icon {
+            opacity: 0.7;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @@keyframes float {
+            0%, 100%
+
+        {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        }
+
+        .city-profile {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .city-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .city-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .city-badges .badge {
+            font-size: 0.85rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .detail-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .detail-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .detail-card-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .detail-card-body {
+            padding: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+            .detail-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .city-card {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+
+        .city-card-icon {
+            color: #0d6efd;
+        }
+
+        .city-card-name {
+            color: #333;
+            font-weight: 700;
+        }
+
+        .city-card-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .sticky-top {
+            z-index: 1;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Copy to clipboard
+            $('.copy-btn').click(function() {
+                const text = $(this).data('text');
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = $(this).html();
+                    $(this).html('<i class="fas fa-check me-2"></i>Kopyalandı!');
+                    $(this).removeClass('btn-outline-primary').addClass('btn-success');
+
+                    setTimeout(() => {
+                        $(this).html(originalText);
+                        $(this).removeClass('btn-success').addClass('btn-outline-primary');
+                    }, 2000);
+
+                    showToast('Şehir adı panoya kopyalandı!', 'success');
+                });
+            });
+
+            // Share functionality
+            $('#shareBtn').click(function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Şehir Bilgisi: @Model.Name',
+                        text: '@Model.Name şehri hakkında detaylı bilgi',
+                        url: window.location.href
+                    });
+                } else {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        showToast('Bağlantı panoya kopyalandı!', 'info');
+                    });
+                }
+            });
+
+            // Print functionality
+            $('#printBtn').click(function() {
+                window.print();
+            });
+
+            // Toast function
+            function showToast(message, type) {
+                const toast = $(`<div class="toast align-items-center text-white bg-${type} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>`);
+
+                $('#toastContainer').append(toast);
+                const bsToast = new bootstrap.Toast(toast[0]);
+                bsToast.show();
+
+                toast.on('hidden.bs.toast', function() {
+                    $(this).remove();
+                });
+            }
+
+            // Add toast container if not exists
+            if ($('#toastContainer').length === 0) {
+                $('body').append('<div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>');
+            }
+
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.detail-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+}

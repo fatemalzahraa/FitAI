@@ -1,0 +1,1346 @@
+﻿@{
+    ViewData["Title"] = "Ayarlar";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <!-- Başlık ve İstatistikler -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 fw-bold text-gradient text-primary">
+                        <i class="fas fa-sliders-h me-3"></i>Ayarlar Paneli
+                    </h1>
+                    <p class="text-muted mb-0">Sistem ve kullanıcı ayarlarınızı yönetin</p>
+                </div>
+                <div class="status-badge">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                        <i class="fas fa-circle me-1" style="font-size: 8px;"></i>
+                        Tüm sistemler çalışıyor
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sol Sidebar - Modern Menü -->
+        <div class="col-lg-3 col-xl-2 mb-4">
+            <div class="settings-sidebar card border-0 shadow-lg">
+                <div class="card-body p-3">
+                    <div class="user-info text-center mb-4 py-3">
+                        <div class="avatar-wrapper position-relative mb-3">
+                            <div class="avatar-circle-lg bg-gradient-primary shadow">
+                                <i class="fas fa-user-cog text-white fa-2x"></i>
+                            </div>
+                            <button class="btn-avatar-edit btn btn-sm btn-light rounded-circle shadow-sm position-absolute bottom-0 end-0">
+                                <i class="fas fa-pen fa-xs"></i>
+                            </button>
+                        </div>
+                        <h6 class="mb-1 fw-bold">@User.Identity?.Name</h6>
+                        <small class="text-muted d-block">Süper Admin</small>
+                        <div class="mt-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary">Premium</span>
+                        </div>
+                    </div>
+
+                    <nav class="nav flex-column settings-nav">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab-profile">
+                            <div class="nav-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <span>Profil</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-security">
+                            <div class="nav-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span>Güvenlik</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-notifications">
+                            <div class="nav-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <span>Bildirimler</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-appearance">
+                            <div class="nav-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <span>Görünüm</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-system">
+                            <div class="nav-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <span>Sistem</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-backup">
+                            <div class="nav-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <span>Yedekleme</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab-api">
+                            <div class="nav-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <span>API</span>
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        </a>
+                    </nav>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary btn-sm" onclick="exportSettings()">
+                                <i class="fas fa-download me-2"></i>Ayarları Dışa Aktar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ İçerik - Modern Tablar -->
+        <div class="col-lg-9 col-xl-10">
+            <div class="tab-content">
+                <!-- PROFİL TAB -->
+                <div class="tab-pane fade show active" id="tab-profile">
+                    <div class="card border-0 shadow-lg mb-4">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                            <h3 class="card-title fw-bold text-gradient text-primary">
+                                <i class="fas fa-user-circle me-2"></i>Profil Bilgileri
+                            </h3>
+                            <p class="text-muted mb-0">Kişisel bilgilerinizi güncelleyin</p>
+                        </div>
+                        <div class="card-body pt-0">
+                            <form class="profile-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group floating-label">
+                                            <input type="text" class="form-control" id="firstName" value="Admin" required>
+                                            <label for="firstName">Ad</label>
+                                            <div class="form-icon">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group floating-label">
+                                            <input type="text" class="form-control" id="lastName" value="User" required>
+                                            <label for="lastName">Soyad</label>
+                                            <div class="form-icon">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group floating-label mt-3">
+                                    <input type="email" class="form-control" id="email" value="admin@eticaret.com" required>
+                                    <label for="email">Email Adresi</label>
+                                    <div class="form-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group floating-label mt-3">
+                                    <input type="tel" class="form-control" id="phone" value="+90 555 123 4567">
+                                    <label for="phone">Telefon Numarası</label>
+                                    <div class="form-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group floating-label">
+                                            <select class="form-select" id="timezone">
+                                                <option>UTC +03:00 (İstanbul)</option>
+                                                <option>UTC +01:00 (Londra)</option>
+                                                <option>UTC -05:00 (New York)</option>
+                                            </select>
+                                            <label for="timezone">Zaman Dilimi</label>
+                                            <div class="form-icon">
+                                                <i class="fas fa-globe"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group floating-label">
+                                            <select class="form-select" id="language">
+                                                <option selected>Türkçe</option>
+                                                <option>English</option>
+                                                <option>Deutsch</option>
+                                            </select>
+                                            <label for="language">Dil</label>
+                                            <div class="form-icon">
+                                                <i class="fas fa-language"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end mt-5">
+                                    <button type="button" class="btn btn-light me-3">İptal</button>
+                                    <button type="submit" class="btn btn-primary px-4">
+                                        <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GÜVENLİK TAB -->
+                <div class="tab-pane fade" id="tab-security">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card border-0 shadow-lg mb-4">
+                                <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                                    <h3 class="card-title fw-bold text-gradient text-warning">
+                                        <i class="fas fa-shield-alt me-2"></i>Hesap Güvenliği
+                                    </h3>
+                                    <p class="text-muted mb-0">Hesabınızı güvende tutun</p>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <form class="security-form">
+                                        <div class="form-group floating-label">
+                                            <input type="password" class="form-control" id="currentPass" required>
+                                            <label for="currentPass">Mevcut Şifre</label>
+                                            <div class="form-icon">
+                                                <i class="fas fa-lock"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-4">
+                                            <div class="col-md-6">
+                                                <div class="form-group floating-label">
+                                                    <input type="password" class="form-control" id="newPass" required>
+                                                    <label for="newPass">Yeni Şifre</label>
+                                                    <div class="form-icon">
+                                                        <i class="fas fa-key"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="password-strength mt-3">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <small>Şifre Gücü</small>
+                                                        <small class="text-danger fw-bold" id="strengthText">Zayıf</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 6px;">
+                                                        <div class="progress-bar bg-danger" id="strengthBar" style="width: 25%"></div>
+                                                    </div>
+                                                    <div class="password-rules mt-2">
+                                                        <small class="text-muted d-block">
+                                                            <i class="fas fa-check-circle text-success me-1"></i>
+                                                            En az 8 karakter
+                                                        </small>
+                                                        <small class="text-muted d-block">
+                                                            <i class="fas fa-times-circle text-danger me-1"></i>
+                                                            Büyük/küçük harf
+                                                        </small>
+                                                        <small class="text-muted d-block">
+                                                            <i class="fas fa-times-circle text-danger me-1"></i>
+                                                            Rakam içermeli
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group floating-label">
+                                                    <input type="password" class="form-control" id="confirmPass" required>
+                                                    <label for="confirmPass">Yeni Şifre (Tekrar)</label>
+                                                    <div class="form-icon">
+                                                        <i class="fas fa-key"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end mt-5">
+                                            <button type="submit" class="btn btn-warning px-4">
+                                                <i class="fas fa-key me-2"></i>Şifreyi Güncelle
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!-- İki Faktörlü Kimlik Doğrulama -->
+                            <div class="card border-0 shadow-lg mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-circle p-3 me-3">
+                                            <i class="fas fa-mobile-alt fa-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">İki Faktörlü Doğrulama</h6>
+                                            <small class="text-muted">Ek güvenlik katmanı</small>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" id="2faSwitch">
+                                        <label class="form-check-label" for="2faSwitch"></label>
+                                    </div>
+                                    <div id="2faSettings" class="mt-3" style="display: none;">
+                                        <div class="qr-code-placeholder bg-light rounded p-4 text-center mb-3">
+                                            <i class="fas fa-qrcode fa-3x text-muted mb-2"></i>
+                                            <p class="small mb-0">Google Authenticator ile tarayın</p>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm" placeholder="6 haneli kodu girin">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Oturum Yönetimi -->
+                            <div class="card border-0 shadow-lg">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-desktop me-2"></i>Aktif Oturumlar
+                                    </h6>
+                                    <div class="session-item d-flex align-items-center mb-3 p-2 rounded bg-light">
+                                        <div class="session-icon me-3">
+                                            <i class="fas fa-desktop text-primary fa-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-semibold">Windows 10 - Chrome</div>
+                                            <small class="text-success">Şu anda aktif</small>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="session-item d-flex align-items-center p-2 rounded bg-light">
+                                        <div class="session-icon me-3">
+                                            <i class="fas fa-mobile-alt text-info fa-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-semibold">iPhone 13 - Safari</div>
+                                            <small class="text-muted">2 saat önce</small>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BİLDİRİMLER TAB -->
+                <div class="tab-pane fade" id="tab-notifications">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                            <h3 class="card-title fw-bold text-gradient text-info">
+                                <i class="fas fa-bell me-2"></i>Bildirim Tercihleri
+                            </h3>
+                            <p class="text-muted mb-0">Hangi bildirimleri almak istediğinizi seçin</p>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="notification-category mb-4">
+                                        <h6 class="fw-bold mb-3 text-primary">
+                                            <i class="fas fa-envelope me-2"></i>Email Bildirimleri
+                                        </h6>
+                                        <div class="form-check card-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notif1" checked>
+                                            <label class="form-check-label" for="notif1">
+                                                <span class="fw-semibold">Yeni Siparişler</span>
+                                                <small class="text-muted d-block">Müşterilerden gelen yeni siparişler</small>
+                                            </label>
+                                        </div>
+                                        <div class="form-check card-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notif2" checked>
+                                            <label class="form-check-label" for="notif2">
+                                                <span class="fw-semibold">Yeni Kullanıcılar</span>
+                                                <small class="text-muted d-block">Sisteme kayıt olan yeni kullanıcılar</small>
+                                            </label>
+                                        </div>
+                                        <div class="form-check card-check">
+                                            <input class="form-check-input" type="checkbox" id="notif3">
+                                            <label class="form-check-label" for="notif3">
+                                                <span class="fw-semibold">Sistem Güncellemeleri</span>
+                                                <small class="text-muted d-block">Yeni özellikler ve güncellemeler</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="notification-category">
+                                        <h6 class="fw-bold mb-3 text-warning">
+                                            <i class="fas fa-bell me-2"></i>Push Bildirimleri
+                                        </h6>
+                                        <div class="alert alert-warning alert-micro">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            Tarayıcı bildirimleri için izin gereklidir
+                                        </div>
+                                        <div class="form-check card-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notif4" checked>
+                                            <label class="form-check-label" for="notif4">
+                                                <span class="fw-semibold">Anlık Sipariş Bildirimleri</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check card-check">
+                                            <input class="form-check-input" type="checkbox" id="notif5">
+                                            <label class="form-check-label" for="notif5">
+                                                <span class="fw-semibold">Kritik Sistem Uyarıları</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <input type="time" class="form-control" value="09:00">
+                                        <label>Bildirim Başlangıç Saati</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <input type="time" class="form-control" value="18:00">
+                                        <label>Bildirim Bitiş Saati</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-5">
+                                <button type="button" class="btn btn-info px-4" onclick="saveNotifications()">
+                                    <i class="fas fa-save me-2"></i>Bildirim Ayarlarını Kaydet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GÖRÜNÜM TAB -->
+                <div class="tab-pane fade" id="tab-appearance">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                            <h3 class="card-title fw-bold text-gradient text-success">
+                                <i class="fas fa-palette me-2"></i>Tema ve Görünüm
+                            </h3>
+                            <p class="text-muted mb-0">Panelinizin görünümünü kişiselleştirin</p>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="theme-option text-center mb-4">
+                                        <div class="theme-preview mb-3 rounded overflow-hidden shadow-sm border">
+                                            <div class="theme-header bg-primary p-2"></div>
+                                            <div class="theme-content bg-white p-3">
+                                                <div class="bg-light rounded mb-2" style="height: 10px;"></div>
+                                                <div class="bg-light rounded mb-2" style="height: 10px; width: 80%;"></div>
+                                                <div class="bg-light rounded" style="height: 10px; width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="theme" id="theme1" checked>
+                                            <label class="form-check-label fw-semibold" for="theme1">
+                                                Açık Tema
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="theme-option text-center mb-4">
+                                        <div class="theme-preview mb-3 rounded overflow-hidden shadow-sm border">
+                                            <div class="theme-header bg-dark p-2"></div>
+                                            <div class="theme-content bg-gray-900 p-3">
+                                                <div class="bg-gray-700 rounded mb-2" style="height: 10px;"></div>
+                                                <div class="bg-gray-700 rounded mb-2" style="height: 10px; width: 80%;"></div>
+                                                <div class="bg-gray-700 rounded" style="height: 10px; width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="theme" id="theme2">
+                                            <label class="form-check-label fw-semibold" for="theme2">
+                                                Koyu Tema
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="theme-option text-center mb-4">
+                                        <div class="theme-preview mb-3 rounded overflow-hidden shadow-sm border">
+                                            <div class="theme-header bg-gradient-primary p-2"></div>
+                                            <div class="theme-content bg-white p-3">
+                                                <div class="bg-light rounded mb-2" style="height: 10px;"></div>
+                                                <div class="bg-light rounded mb-2" style="height: 10px; width: 80%;"></div>
+                                                <div class="bg-light rounded" style="height: 10px; width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="theme" id="theme3">
+                                            <label class="form-check-label fw-semibold" for="theme3">
+                                                Gradient Tema
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <select class="form-select" id="sidebarStyle">
+                                            <option value="default">Standart Sidebar</option>
+                                            <option value="compact">Compact Sidebar</option>
+                                            <option value="hidden">Gizli Sidebar</option>
+                                        </select>
+                                        <label for="sidebarStyle">Sidebar Stili</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <select class="form-select" id="navbarColor">
+                                            <option value="light">Açık Navbar</option>
+                                            <option value="dark" selected>Koyu Navbar</option>
+                                            <option value="primary">Renkli Navbar</option>
+                                        </select>
+                                        <label for="navbarColor">Navbar Rengi</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-5">
+                                <button type="button" class="btn btn-success px-4" onclick="applyTheme()">
+                                    <i class="fas fa-check me-2"></i>Temayı Uygula
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SİSTEM TAB -->
+                <div class="tab-pane fade" id="tab-system">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card border-0 shadow-lg mb-4">
+                                <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                                    <h3 class="card-title fw-bold text-gradient text-dark">
+                                        <i class="fas fa-server me-2"></i>Sistem Ayarları
+                                    </h3>
+                                    <p class="text-muted mb-0">Sistem genel ayarları</p>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group floating-label">
+                                                <input type="text" class="form-control" value="Avcı Fidancılık">
+                                                <label>Site Başlığı</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group floating-label">
+                                                <input type="text" class="form-control" value="Fidancılık ve Peyzaj">
+                                                <label>Site Sloganı</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group floating-label mt-3">
+                                        <textarea class="form-control" rows="3">Fidancılık ve peyzaj hizmetleri sunan profesyonel firma</textarea>
+                                        <label>Site Açıklaması</label>
+                                    </div>
+
+                                    <div class="system-toggle mt-4 p-4 rounded bg-light">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <h6 class="fw-bold mb-1">
+                                                    <i class="fas fa-tools me-2"></i>Bakım Modu
+                                                </h6>
+                                                <small class="text-muted">Siteyi geçici olarak kapatın</small>
+                                            </div>
+                                            <div class="form-check form-switch form-switch-lg">
+                                                <input class="form-check-input" type="checkbox" id="maintenanceSwitch">
+                                                <label class="form-check-label" for="maintenanceSwitch"></label>
+                                            </div>
+                                        </div>
+                                        <div id="maintenanceOptions" style="display: none;">
+                                            <textarea class="form-control mt-3" rows="2" placeholder="Bakım mesajınız..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!-- Sistem İstatistikleri -->
+                            <div class="card border-0 shadow-lg mb-4">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-4">
+                                        <i class="fas fa-chart-line me-2"></i>Sistem Durumu
+                                    </h6>
+                                    <div class="system-stat mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <small>CPU Kullanımı</small>
+                                            <small class="fw-bold text-success">24%</small>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-success" style="width: 24%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="system-stat mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <small>Bellek Kullanımı</small>
+                                            <small class="fw-bold text-warning">68%</small>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" style="width: 68%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="system-stat">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <small>Disk Kullanımı</small>
+                                            <small class="fw-bold text-primary">42%</small>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-primary" style="width: 42%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hızlı İşlemler -->
+                            <div class="card border-0 shadow-lg">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-bolt me-2"></i>Hızlı İşlemler
+                                    </h6>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-danger" onclick="clearCache()">
+                                            <i class="fas fa-broom me-2"></i>Önbelleği Temizle
+                                        </button>
+                                        <button class="btn btn-outline-warning">
+                                            <i class="fas fa-redo me-2"></i>Servisleri Yeniden Başlat
+                                        </button>
+                                        <button class="btn btn-outline-info">
+                                            <i class="fas fa-file-alt me-2"></i>Sistem Loglarını Görüntüle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YEDEKLEME TAB -->
+                <div class="tab-pane fade" id="tab-backup">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                            <h3 class="card-title fw-bold text-gradient text-success">
+                                <i class="fas fa-database me-2"></i>Yedekleme ve Geri Yükleme
+                            </h3>
+                            <p class="text-muted mb-0">Verilerinizi güvende tutun</p>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="backup-option text-center p-4 rounded border mb-4">
+                                        <div class="icon-shape bg-success bg-opacity-10 text-success rounded-circle p-4 mb-3 mx-auto">
+                                            <i class="fas fa-download fa-2x"></i>
+                                        </div>
+                                        <h6 class="fw-bold mb-3">Manuel Yedekleme</h6>
+                                        <p class="text-muted small mb-4">Veritabanınızın anlık yedeğini alın</p>
+                                        <button class="btn btn-success w-100" onclick="createBackup()">
+                                            <i class="fas fa-database me-2"></i>Yedek Oluştur
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="backup-option text-center p-4 rounded border mb-4">
+                                        <div class="icon-shape bg-info bg-opacity-10 text-info rounded-circle p-4 mb-3 mx-auto">
+                                            <i class="fas fa-robot fa-2x"></i>
+                                        </div>
+                                        <h6 class="fw-bold mb-3">Otomatik Yedekleme</h6>
+                                        <div class="form-group floating-label mt-3">
+                                            <select class="form-select">
+                                                <option>Günlük</option>
+                                                <option selected>Haftalık</option>
+                                                <option>Aylık</option>
+                                            </select>
+                                            <label>Sıklık</label>
+                                        </div>
+                                        <div class="form-check mt-3">
+                                            <input class="form-check-input" type="checkbox" id="autoBackup" checked>
+                                            <label class="form-check-label" for="autoBackup">
+                                                Otomatik yedeklemeyi aktif et
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Yedek Listesi -->
+                            <div class="mt-4">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="fas fa-history me-2"></i>Son Yedekler
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Tarih</th>
+                                                <th>Tür</th>
+                                                <th>Boyut</th>
+                                                <th>Durum</th>
+                                                <th>İşlem</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>15.01.2024 02:00</td>
+                                                <td><span class="badge bg-success">Tam Yedek</span></td>
+                                                <td>45 MB</td>
+                                                <td><span class="badge bg-success">Başarılı</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>08.01.2024 02:00</td>
+                                                <td><span class="badge bg-info">Artımlı</span></td>
+                                                <td>12 MB</td>
+                                                <td><span class="badge bg-success">Başarılı</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API TAB -->
+                <div class="tab-pane fade" id="tab-api">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-3">
+                            <h3 class="card-title fw-bold text-gradient text-purple">
+                                <i class="fas fa-code me-2"></i>API Yönetimi
+                            </h3>
+                            <p class="text-muted mb-0">API anahtarlarınızı yönetin</p>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="api-key-card p-4 rounded bg-light mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Ana API Anahtarı</h6>
+                                        <small class="text-muted">Tüm sistemler için geçerli</small>
+                                    </div>
+                                    <span class="badge bg-success">Aktif</span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="sk_live_51HbMo2K3..." readonly>
+                                    <button class="btn btn-outline-secondary" onclick="copyApiKey()">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn btn-outline-warning" onclick="generateApiKey()">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-exclamation-triangle text-warning me-1"></i>
+                                        Bu anahtarı kimseyle paylaşmayın
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <input type="number" class="form-control" value="60">
+                                        <label>Dakika Başına İstek Limiti</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group floating-label">
+                                        <input type="number" class="form-control" value="1000">
+                                        <label>Günlük İstek Limiti</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-5">
+                                <button type="button" class="btn btn-purple px-4">
+                                    <i class="fas fa-save me-2"></i>API Ayarlarını Kaydet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Premium Ayarlar Paneli yüklendi');
+
+        // Sidebar nav aktif class
+        const navLinks = document.querySelectorAll('.settings-nav .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Bakım modu toggle
+        document.getElementById('maintenanceSwitch').addEventListener('change', function() {
+            document.getElementById('maintenanceOptions').style.display =
+                this.checked ? 'block' : 'none';
+        });
+
+        // 2FA toggle
+        document.getElementById('2faSwitch').addEventListener('change', function() {
+            document.getElementById('2faSettings').style.display =
+                this.checked ? 'block' : 'none';
+        });
+
+        // Şifre gücü kontrolü
+        document.getElementById('newPass')?.addEventListener('input', function() {
+            updatePasswordStrength(this.value);
+        });
+
+        // Form submit
+        document.querySelector('.profile-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Profil başarıyla güncellendi!', 'success');
+        });
+
+        document.querySelector('.security-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('newPass').value;
+            const confirmPass = document.getElementById('confirmPass').value;
+
+            if (newPass !== confirmPass) {
+                showNotification('Şifreler uyuşmuyor!', 'error');
+                return;
+            }
+
+            showNotification('Şifre başarıyla güncellendi!', 'success');
+        });
+
+        // Avatar düzenleme
+        document.querySelector('.btn-avatar-edit').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                if (e.target.files[0]) {
+                    showNotification('Profil fotoğrafı güncelleniyor...', 'info');
+                    // Burada fotoğraf yükleme işlemi yapılabilir
+                }
+            };
+            input.click();
+        });
+    });
+
+    function updatePasswordStrength(password) {
+        let score = 0;
+        const rules = document.querySelectorAll('.password-rules small');
+
+        // Uzunluk kontrolü
+        if (password.length >= 8) {
+            score++;
+            rules[0].querySelector('i').className = 'fas fa-check-circle text-success me-1';
+        } else {
+            rules[0].querySelector('i').className = 'fas fa-times-circle text-danger me-1';
+        }
+
+        // Büyük/küçük harf kontrolü
+        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) {
+            score++;
+            rules[1].querySelector('i').className = 'fas fa-check-circle text-success me-1';
+        } else {
+            rules[1].querySelector('i').className = 'fas fa-times-circle text-danger me-1';
+        }
+
+        // Rakam kontrolü
+        if (/[0-9]/.test(password)) {
+            score++;
+            rules[2].querySelector('i').className = 'fas fa-check-circle text-success me-1';
+        } else {
+            rules[2].querySelector('i').className = 'fas fa-times-circle text-danger me-1';
+        }
+
+        // Özel karakter kontrolü
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+
+        const levels = [
+            { text: 'Çok Zayıf', color: 'danger', width: 25 },
+            { text: 'Zayıf', color: 'warning', width: 40 },
+            { text: 'Orta', color: 'info', width: 60 },
+            { text: 'Güçlü', color: 'primary', width: 80 },
+            { text: 'Çok Güçlü', color: 'success', width: 100 }
+        ];
+
+        const level = levels[Math.min(score, levels.length - 1)];
+
+        document.getElementById('strengthText').textContent = level.text;
+        document.getElementById('strengthText').className = `fw-bold text-${level.color}`;
+        document.getElementById('strengthBar').className = `progress-bar bg-${level.color}`;
+        document.getElementById('strengthBar').style.width = `${level.width}%`;
+    }
+
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                ${message}
+            </div>
+            <button class="notification-close">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Animasyonla göster
+        setTimeout(() => notification.classList.add('show'), 10);
+
+        // Kapat butonu
+        notification.querySelector('.notification-close').addEventListener('click', () => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        });
+
+        // Otomatik kapatma
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 4000);
+    }
+
+    function applyTheme() {
+        showNotification('Tema başarıyla uygulandı!', 'success');
+    }
+
+    function saveNotifications() {
+        showNotification('Bildirim ayarları kaydedildi', 'info');
+    }
+
+    function createBackup() {
+        showNotification('Yedekleme başlatıldı...', 'info');
+    }
+
+    function clearCache() {
+        if (confirm('Tüm önbellek temizlenecek. Emin misiniz?')) {
+            showNotification('Önbellek temizleniyor...', 'warning');
+        }
+    }
+
+    function copyApiKey() {
+        navigator.clipboard.writeText('sk_live_51HbMo2K3...');
+        showNotification('API anahtarı kopyalandı!', 'success');
+    }
+
+    function generateApiKey() {
+        if (confirm('Yeni API anahtarı oluşturulsun mu? Eski anahtar geçersiz olacak.')) {
+            showNotification('Yeni API anahtarı oluşturuluyor...', 'info');
+        }
+    }
+
+    function exportSettings() {
+        showNotification('Ayarlar dışa aktarılıyor...', 'info');
+    }
+</script>
+
+<style>
+    /* Modern Stiller */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+        --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --purple-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+
+    .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+        .text-gradient.text-primary {
+            background-image: var(--primary-gradient);
+        }
+
+        .text-gradient.text-success {
+            background-image: var(--success-gradient);
+        }
+
+        .text-gradient.text-warning {
+            background-image: var(--warning-gradient);
+        }
+
+        .text-gradient.text-info {
+            background-image: var(--info-gradient);
+        }
+
+        .text-gradient.text-purple {
+            background-image: var(--purple-gradient);
+        }
+
+    /* Sidebar Stilleri */
+    .settings-sidebar {
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .avatar-circle-lg {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .avatar-wrapper {
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    .btn-avatar-edit {
+        width: 32px;
+        height: 32px;
+        border: 2px solid white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Navigation */
+    .settings-nav .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        margin: 4px 0;
+        border-radius: 10px;
+        color: #495057;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        background: transparent;
+    }
+
+        .settings-nav .nav-link:hover {
+            background: rgba(13, 110, 253, 0.05);
+            color: #0d6efd;
+            transform: translateX(5px);
+        }
+
+        .settings-nav .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+    .settings-nav .nav-icon {
+        width: 24px;
+        text-align: center;
+        margin-right: 12px;
+        font-size: 1.1rem;
+    }
+
+    .settings-nav .nav-arrow {
+        margin-left: auto;
+        opacity: 0.5;
+        font-size: 0.8rem;
+    }
+
+    /* Form Stilleri */
+    .form-group.floating-label {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group.floating-label label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 1rem 0.75rem;
+            pointer-events: none;
+            border: 1px solid transparent;
+            transform-origin: 0 0;
+            transition: all 0.2s ease;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        .form-group.floating-label .form-control,
+        .form-group.floating-label .form-select {
+            padding-top: 1.5rem;
+            padding-bottom: 0.5rem;
+            height: calc(3.5rem + 2px);
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+            .form-group.floating-label .form-control:focus,
+            .form-group.floating-label .form-select:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+                .form-group.floating-label .form-control:focus ~ label,
+                .form-group.floating-label .form-control:not(:placeholder-shown) ~ label,
+                .form-group.floating-label .form-select:focus ~ label,
+                .form-group.floating-label .form-select:not([value=""]) ~ label {
+                    transform: translateY(-0.5rem) scale(0.85);
+                    color: #667eea;
+                }
+
+        .form-group.floating-label .form-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            pointer-events: none;
+        }
+
+    /* Card Checkbox */
+    .form-check.card-check {
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s;
+    }
+
+        .form-check.card-check:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.02);
+        }
+
+        .form-check.card-check .form-check-input {
+            margin-top: 0.3rem;
+        }
+
+    /* Notification */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 10px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 300px;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        z-index: 9999;
+        border-left: 4px solid;
+    }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+    .notification-success {
+        border-left-color: #28a745;
+    }
+
+    .notification-error {
+        border-left-color: #dc3545;
+    }
+
+    .notification-info {
+        border-left-color: #17a2b8;
+    }
+
+    .notification-warning {
+        border-left-color: #ffc107;
+    }
+
+    .notification-close {
+        background: none;
+        border: none;
+        color: #6c757d;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 1rem;
+    }
+
+    /* Progress bars */
+    .progress {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Badges */
+    .badge {
+        padding: 0.35em 0.65em;
+        font-weight: 500;
+        border-radius: 6px;
+    }
+
+    /* Theme preview */
+    .theme-preview {
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .theme-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        }
+
+    /* System toggle */
+    .system-toggle {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    /* Form switch */
+    .form-switch-lg .form-check-input {
+        width: 3.5em;
+        height: 1.75em;
+    }
+
+    /* Alert micro */
+    .alert-micro {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Button colors */
+    .btn-purple {
+        background: var(--purple-gradient);
+        border: none;
+        color: white;
+    }
+
+        .btn-purple:hover {
+            color: white;
+            opacity: 0.9;
+        }
+
+    /* Icon shapes */
+    .icon-shape {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Session items */
+    .session-item {
+        transition: all 0.3s;
+    }
+
+        .session-item:hover {
+            background: rgba(13, 110, 253, 0.05) !important;
+            transform: translateX(5px);
+        }
+
+    /* Backup options */
+    .backup-option {
+        transition: all 0.3s;
+    }
+
+        .backup-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+    /* API key card */
+    .api-key-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Page header */
+    .page-header {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    /* Status badge */
+    .status-badge .badge {
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    /* Floating animation */
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    }
+
+    .avatar-circle-lg:hover {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .settings-sidebar
+
+    {
+        margin-bottom: 1rem;
+    }
+
+    .notification {
+        min-width: auto;
+        width: calc(100% - 40px);
+    }
+
+    }
+</style>

@@ -1,0 +1,533 @@
+﻿@model Eticaret.Core.Entities.Address
+
+@{
+    ViewData["Title"] = "Adres Sil";
+    var maskedTc = !string.IsNullOrEmpty(Model.IdentityNumber) ?
+                   $"***{Model.IdentityNumber.Substring(Math.Max(0, Model.IdentityNumber.Length - 4))}" :
+                   "Belirtilmemiş";
+}
+
+<div class="container mt-4">
+    <!-- Breadcrumb Navigasyon -->
+    <nav aria-label="breadcrumb" class="bg-light p-3 rounded mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/admin">Yönetim Paneli</a></li>
+            <li class="breadcrumb-item"><a asp-area="admin" asp-controller="Addresses" asp-action="Index">Adresler</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adres Sil</li>
+        </ol>
+    </nav>
+
+    <!-- Başlık -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                    <div class="rounded-circle bg-danger p-3 me-3">
+                        <i class="fas fa-exclamation-triangle fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <h1 class="h3 text-danger mb-1">Adres Silme İşlemi</h1>
+                    <p class="text-muted mb-0">Bu işlem geri alınamaz! Lütfen silmek istediğinizden emin olun.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uyarı Kartı -->
+    <div class="alert alert-danger border-danger shadow-sm mb-4">
+        <div class="d-flex">
+            <div class="flex-shrink-0">
+                <i class="fas fa-radiation fa-2x"></i>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h4 class="alert-heading mb-2"><i class="fas fa-warning me-2"></i>Dikkat!</h4>
+                <p class="mb-2"><strong>"@Model.Title"</strong> adlı adresi silmek üzeresiniz.</p>
+                <p class="mb-0">Bu işlem geri alınamaz. Adres kalıcı olarak silinecektir.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Adres Detay Kartı -->
+            <div class="card border-danger shadow-lg">
+                <div class="card-header bg-danger text-white py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0"><i class="fas fa-trash-can me-2"></i>Silinecek Adres Detayları</h4>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-danger fs-6">ID: @Model.Id</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- Sol Kolon - Temel Bilgiler -->
+                        <div class="col-lg-6">
+                            <div class="info-section mb-4">
+                                <h5 class="text-primary mb-3 border-bottom pb-2">
+                                    <i class="fas fa-info-circle me-2"></i>Temel Bilgiler
+                                </h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small mb-1">
+                                        <i class="fas fa-heading me-2"></i>Adres Başlığı
+                                    </label>
+                                    <div class="p-3 bg-light rounded">
+                                        <i class="fas fa-tag text-primary me-2"></i>
+                                        @Model.Title
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small mb-1">
+                                        <i class="fas fa-user me-2"></i>Kullanıcı
+                                    </label>
+                                    <div class="p-3 bg-light rounded">
+                                        <i class="fas fa-envelope text-primary me-2"></i>
+                                        @(Model.User?.Email ?? "Kullanıcı Bulunamadı")
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-muted small mb-1">
+                                        <i class="fas fa-toggle-on me-2"></i>Durum
+                                    </label>
+                                    <div class="p-3 bg-light rounded">
+                                        @if (Model.IsActive)
+                                        {
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Aktif
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-times-circle me-1"></i>Pasif
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sağ Kolon - Adres Detayları -->
+                        <div class="col-lg-6">
+                            <div class="info-section mb-4">
+                                <h5 class="text-primary mb-3 border-bottom pb-2">
+                                    <i class="fas fa-map-location-dot me-2"></i>Adres Detayları
+                                </h5>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-muted small mb-1">
+                                            <i class="fas fa-city me-2"></i>Şehir
+                                        </label>
+                                        <div class="p-3 bg-light rounded">
+                                            @Model.City
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold text-muted small mb-1">
+                                            <i class="fas fa-map-pin me-2"></i>İlçe
+                                        </label>
+                                        <div class="p-3 bg-light rounded">
+                                            @Model.District
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold text-muted small mb-1">
+                                            <i class="fas fa-map me-2"></i>Tam Adres
+                                        </label>
+                                        <div class="p-3 bg-light rounded">
+                                            <pre class="mb-0" style="white-space: pre-wrap;">@Model.Line</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ek Bilgiler - Tam Genişlik -->
+                        <div class="col-12">
+                            <div class="info-section">
+                                <h5 class="text-primary mb-3 border-bottom pb-2">
+                                    <i class="fas fa-id-card me-2"></i>Ek Bilgiler
+                                </h5>
+
+                                <div class="row g-3">
+                                    @if (!string.IsNullOrEmpty(Model.PostalCode))
+                                    {
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-muted small mb-1">
+                                                <i class="fas fa-envelope me-2"></i>Posta Kodu
+                                            </label>
+                                            <div class="p-3 bg-light rounded">
+                                                <i class="fas fa-mail-bulk text-primary me-2"></i>
+                                                @Model.PostalCode
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Model.IdentityNumber))
+                                    {
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-muted small mb-1">
+                                                <i class="fas fa-shield-alt me-2"></i>TC Kimlik No
+                                            </label>
+                                            <div class="p-3 bg-light rounded">
+                                                <i class="fas fa-id-card text-primary me-2"></i>
+                                                @maskedTc
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Silme Onay Formu -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h5 class="text-danger mb-3">
+                            <i class="fas fa-question-circle me-2"></i>
+                            Bu adresi silmek istediğinizden emin misiniz?
+                        </h5>
+                        <p class="text-muted">
+                            Bu işlem geri alınamaz. Adres ve tüm ilişkili veriler kalıcı olarak silinecektir.
+                        </p>
+                    </div>
+
+                    <form asp-action="Delete" method="post" id="deleteForm">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5">
+                                <i class="fas fa-arrow-left me-2"></i>Vazgeç ve Listeye Dön
+                            </a>
+
+                            <button type="submit" class="btn btn-danger btn-lg px-5" id="deleteBtn">
+                                <i class="fas fa-trash-can me-2"></i>Evet, Adresi Sil
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Ek Uyarı -->
+                    <div class="alert alert-warning mt-4">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="alert-heading mb-1">Öneri:</h6>
+                                <p class="mb-0">
+                                    Adresi tamamen silmek yerine <strong>"Pasif"</strong> duruma getirebilirsiniz.
+                                    Bu sayede adres verileri korunur ancak kullanılamaz.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .container {
+            max-width: 1200px;
+        }
+
+        .breadcrumb {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+            .breadcrumb-item a:hover {
+                color: #764ba2;
+                text-decoration: underline;
+            }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            border-width: 2px;
+        }
+
+        .card-header {
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .info-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important;
+            border: 1px solid #e9ecef;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-danger:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+            }
+
+            .btn-danger:active {
+                transform: translateY(0);
+            }
+
+        .btn-outline-secondary {
+            border: 2px solid #6c757d;
+            color: #6c757d;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+                border-color: #6c757d;
+            }
+
+        .alert-danger {
+            border-left: 5px solid #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: 10px;
+        }
+
+        .alert-warning {
+            border-left: 5px solid #ffc107;
+            background-color: rgba(255, 193, 7, 0.1);
+            border-radius: 10px;
+        }
+
+        .rounded-circle.bg-danger {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+            }
+        }
+
+        pre {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+            color: #495057;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        .bg-success {
+            background-color: #28a745 !important;
+        }
+
+        .border-bottom {
+            border-bottom: 2px solid #dee2e6 !important;
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .btn-lg {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .d-md-flex {
+                flex-direction: column;
+            }
+
+            .rounded-circle.bg-danger {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            console.log('Adres Silme Sayfası Yüklendi');
+
+            // Silme butonuna tıklama olayı
+            $('#deleteBtn').click(function(e) {
+                e.preventDefault();
+
+                // Buton durumunu değiştir
+                const originalText = $(this).html();
+                $(this).prop('disabled', true)
+                       .html('<i class="fas fa-spinner fa-spin me-2"></i>Siliniyor...');
+
+                // Bootstrap Modal ile onay dialog'u göster
+                const modalHtml = `
+                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Son Onay
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-exclamation-triangle fa-4x text-danger mb-3"></i>
+                                    <h5 class="text-danger">"@Model.Title" adresini silmek istediğinizden emin misiniz?</h5>
+                                    <p class="text-muted">Bu işlem <strong>geri alınamaz!</strong></p>
+                                    <div class="mt-3 p-3 bg-light rounded">
+                                        <small class="text-muted d-block">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            ID: @Model.Id | Şehir: @Model.City
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="fas fa-times me-2"></i>İptal
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="finalConfirmDelete">
+                                        <i class="fas fa-trash-can me-2"></i>Evet, Sil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Modal'ı ekrana ekle
+                if ($('#confirmDeleteModal').length === 0) {
+                    $('body').append(modalHtml);
+                }
+
+                const modalElement = document.getElementById('confirmDeleteModal');
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+
+                // Final silme butonu
+                $('#finalConfirmDelete').off('click').on('click', function() {
+                    // Formu submit et
+                    $('#deleteForm').submit();
+                    modal.hide();
+                });
+
+                // Modal kapatıldığında butonu eski haline getir
+                $(modalElement).on('hidden.bs.modal', function() {
+                    $('#deleteBtn').prop('disabled', false).html(originalText);
+                });
+            });
+
+            // Vazgeç butonuna tıklama
+            $('a[href*="Index"]').click(function(e) {
+                e.preventDefault();
+
+                if (confirm('Silme işleminden vazgeçip adres listesine dönmek istiyor musunuz?')) {
+                    window.location.href = $(this).attr('href');
+                }
+            });
+
+            // Sayfa yüklendiğinde uyarı göster
+            if (!sessionStorage.getItem('deleteWarningShown')) {
+                setTimeout(() => {
+                    // Bootstrap toast notification göster
+                    const toastHtml = `
+                        <div class="toast-container position-fixed top-0 end-0 p-3">
+                            <div id="warningToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-info text-white">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong class="me-auto">Bilgilendirme</strong>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Adres silme sayfasındasınız. Lütfen işlemi dikkatli yapın.
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    $('body').append(toastHtml);
+                    const toastElement = document.getElementById('warningToast');
+                    const toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+
+                    // Toast kapatıldığında temizle
+                    $(toastElement).on('hidden.bs.toast', function() {
+                        $(this).closest('.toast-container').remove();
+                    });
+
+                    sessionStorage.setItem('deleteWarningShown', 'true');
+                }, 1000);
+            }
+        });
+    </script>
+}
