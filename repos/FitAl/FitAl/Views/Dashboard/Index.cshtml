@@ -15,10 +15,7 @@
     .alert-card.danger { background: #fff0f3; border-color: #FF6584; }
     .alert-card.info { background: #f0f4ff; border-color: #6C63FF; }
     .alert-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-    .chart-placeholder { height: 200px; background: linear-gradient(180deg, rgba(108,99,255,0.08) 0%, transparent 100%); border-radius: 12px; display: flex; align-items: flex-end; padding: 0 12px 12px; gap: 8px; }
-    .bar { border-radius: 6px 6px 0 0; background: #6C63FF; flex: 1; transition: height 0.5s; }
-    .bar:hover { background: #5a52d5; }
-    .platform-badge { display: inline-flex; align-items: center; gap: 6px; background: #f4f6fb; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; }
+    .chart-wrapper { position: relative; width: 100%; }
 </style>
 }
 
@@ -66,63 +63,72 @@
     </div>
 </div>
 
+<!-- GRAFİKLER SATIR 1 -->
 <div class="row g-3 mb-4">
-    <!-- KOMİSYON GRAFİĞİ -->
+    <!-- KOMİSYON LINE CHART -->
     <div class="col-xl-8">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Aylık Komisyon Geliri</span>
-                <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
-                    <option>Son 6 Ay</option>
-                    <option>Son 12 Ay</option>
-                </select>
+                <span>📈 Aylık Komisyon Geliri</span>
+                <div class="d-flex gap-2">
+                    <button onclick="switchChart('line')" id="btnLine" class="btn btn-sm" style="background:#6C63FF;color:white;border:none;border-radius:8px;font-weight:600">Çizgi</button>
+                    <button onclick="switchChart('bar')" id="btnBar" class="btn btn-sm" style="background:#f4f6fb;border:1px solid #e8ecf4;border-radius:8px;font-weight:600">Sütun</button>
+                </div>
             </div>
             <div class="card-body">
-                <div class="chart-placeholder">
-                    <div class="bar" style="height:60%"></div>
-                    <div class="bar" style="height:75%"></div>
-                    <div class="bar" style="height:55%"></div>
-                    <div class="bar" style="height:85%"></div>
-                    <div class="bar" style="height:70%"></div>
-                    <div class="bar" style="height:100%"></div>
-                </div>
-                <div class="d-flex justify-content-between mt-2" style="font-size:0.75rem;color:#8892a4;padding:0 8px">
-                    <span>Ekim</span><span>Kasım</span><span>Aralık</span>
-                    <span>Ocak</span><span>Şubat</span><span>Mart</span>
+                <div class="chart-wrapper" style="height:220px">
+                    <canvas id="komisyonChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PLATFORM DURUMU -->
+    <!-- PLATFORM DOUGHNUT -->
     <div class="col-xl-4">
         <div class="card h-100">
-            <div class="card-header">Platform Durumu</div>
+            <div class="card-header">🛍️ Platform Bazlı Satış</div>
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                <div class="chart-wrapper" style="height:180px;width:180px">
+                    <canvas id="platformChart"></canvas>
+                </div>
+                <div class="d-flex gap-4 mt-3">
+                    <div class="text-center">
+                        <div style="width:12px;height:12px;background:#6C63FF;border-radius:3px;display:inline-block;margin-right:6px"></div>
+                        <span style="font-size:0.8rem;font-weight:600">Trendyol</span>
+                        <div style="font-weight:800;font-size:1rem">%64</div>
+                    </div>
+                    <div class="text-center">
+                        <div style="width:12px;height:12px;background:#FF6584;border-radius:3px;display:inline-block;margin-right:6px"></div>
+                        <span style="font-size:0.8rem;font-weight:600">Hepsiburada</span>
+                        <div style="font-weight:800;font-size:1rem">%36</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GRAFİKLER SATIR 2 -->
+<div class="row g-3 mb-4">
+    <!-- VUCUT TİPİ BAR CHART -->
+    <div class="col-xl-6">
+        <div class="card h-100">
+            <div class="card-header">🧍 Vücut Tipine Göre Uyum Skoru</div>
             <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-3" style="background:#f4f6fb">
-                    <div class="d-flex align-items-center gap-3">
-                        <div style="font-size:1.5rem">🛍️</div>
-                        <div>
-                            <div style="font-weight:700;font-size:0.875rem">Trendyol</div>
-                            <div style="font-size:0.75rem;color:#8892a4">Son sync: 5 dk önce</div>
-                        </div>
-                    </div>
-                    <span class="badge" style="background:#43D9AD;color:white;border-radius:20px;padding:5px 12px">Aktif</span>
+                <div class="chart-wrapper" style="height:220px">
+                    <canvas id="vucutChart"></canvas>
                 </div>
-                <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background:#f4f6fb">
-                    <div class="d-flex align-items-center gap-3">
-                        <div style="font-size:1.5rem">🏪</div>
-                        <div>
-                            <div style="font-weight:700;font-size:0.875rem">Hepsiburada</div>
-                            <div style="font-size:0.75rem;color:#8892a4">Son sync: 12 dk önce</div>
-                        </div>
-                    </div>
-                    <span class="badge" style="background:#43D9AD;color:white;border-radius:20px;padding:5px 12px">Aktif</span>
-                </div>
-                <div class="mt-3 p-3 rounded-3" style="background:#f0f4ff">
-                    <div style="font-size:0.78rem;color:#6C63FF;font-weight:700">
-                        <i class="bi bi-arrow-repeat me-1"></i>Otomatik Sync: Her 15 dakikada bir
-                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- İADE RİSKİ CHART -->
+    <div class="col-xl-6">
+        <div class="card h-100">
+            <div class="card-header">⚠️ İade Riski Dağılımı</div>
+            <div class="card-body">
+                <div class="chart-wrapper" style="height:220px">
+                    <canvas id="iadeChart"></canvas>
                 </div>
             </div>
         </div>
@@ -142,21 +148,21 @@
                     <div class="alert-icon" style="background:#fff3cd"><i class="bi bi-info-circle" style="color:#FFB547"></i></div>
                     <div>
                         <div style="font-weight:700;font-size:0.85rem">Slim Fit Jean</div>
-                        <div style="font-size:0.78rem;color:#8892a4">12 müşteri kumaş kalınlığı sordu — bilgi ekleyin</div>
+                        <div style="font-size:0.78rem;color:#8892a4">12 müşteri kumaş kalınlığı sordu</div>
                     </div>
                 </div>
                 <div class="alert-card danger">
                     <div class="alert-icon" style="background:#ffe0e6"><i class="bi bi-exclamation-triangle" style="color:#FF6584"></i></div>
                     <div>
                         <div style="font-weight:700;font-size:0.85rem">Yazlık Elbise</div>
-                        <div style="font-size:0.78rem;color:#8892a4">8 yorumda "beden küçük çıktı" — beden tablosunu güncelleyin</div>
+                        <div style="font-size:0.78rem;color:#8892a4">8 yorumda "beden küçük çıktı"</div>
                     </div>
                 </div>
                 <div class="alert-card info">
                     <div class="alert-icon" style="background:#e8ecff"><i class="bi bi-lightbulb" style="color:#6C63FF"></i></div>
                     <div>
                         <div style="font-weight:700;font-size:0.85rem">Oversize Gömlek</div>
-                        <div style="font-size:0.78rem;color:#8892a4">6 kez "armut tipi için uygun mu?" — vücut tipi etiketi ekleyin</div>
+                        <div style="font-size:0.78rem;color:#8892a4">6 kez "armut tipi için uygun mu?"</div>
                     </div>
                 </div>
             </div>
@@ -230,3 +236,182 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    // ==========================================
+    // 1. KOMİSYON CHART (Line/Bar geçişli)
+    // ==========================================
+    const komisyonData = {
+        labels: ['Ekim', 'Kasım', 'Aralık', 'Ocak', 'Şubat', 'Mart'],
+        datasets: [{
+            label: 'Komisyon (₺)',
+            data: [12400, 15800, 13200, 18900, 21000, 24850],
+            backgroundColor: 'rgba(108,99,255,0.15)',
+            borderColor: '#6C63FF',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#6C63FF',
+            pointRadius: 5,
+            tension: 0.4,
+            fill: true
+        }]
+    };
+
+    const komisyonConfig = {
+        type: 'line',
+        data: komisyonData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: { color: '#f0f0f0' },
+                    ticks: {
+                        callback: val => '₺' + val.toLocaleString('tr-TR'),
+                        font: { size: 11 }
+                    }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    };
+
+    let komisyonChart = new Chart(document.getElementById('komisyonChart'), komisyonConfig);
+
+    function switchChart(type) {
+        komisyonChart.destroy();
+        komisyonConfig.type = type;
+        komisyonConfig.data.datasets[0].backgroundColor = type === 'bar'
+            ? 'rgba(108,99,255,0.7)'
+            : 'rgba(108,99,255,0.15)';
+        komisyonChart = new Chart(document.getElementById('komisyonChart'), komisyonConfig);
+        document.getElementById('btnLine').style.background = type === 'line' ? '#6C63FF' : '#f4f6fb';
+        document.getElementById('btnLine').style.color = type === 'line' ? 'white' : '#666';
+        document.getElementById('btnBar').style.background = type === 'bar' ? '#6C63FF' : '#f4f6fb';
+        document.getElementById('btnBar').style.color = type === 'bar' ? 'white' : '#666';
+    }
+
+    // ==========================================
+    // 2. PLATFORM DOUGHNUT CHART
+    // ==========================================
+    new Chart(document.getElementById('platformChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Trendyol', 'Hepsiburada'],
+            datasets: [{
+                data: [64, 36],
+                backgroundColor: ['#6C63FF', '#FF6584'],
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // ==========================================
+    // 3. VUCUT TİPİ BAR CHART
+    // ==========================================
+    new Chart(document.getElementById('vucutChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Kum Saati', 'Armut', 'Ters Üçgen', 'Elma', 'Dikdörtgen', 'Oval', 'Daire', 'Kare', 'Uzun İnce'],
+            datasets: [{
+                label: 'Uyum Skoru (%)',
+                data: [85, 52, 78, 41, 88, 45, 38, 72, 91],
+                backgroundColor: [
+                    '#43D9AD','#FF6584','#43D9AD','#FF6584',
+                    '#43D9AD','#FF6584','#FF6584','#FFB547','#43D9AD'
+                ],
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: '#f0f0f0' },
+                    ticks: {
+                        callback: val => '%' + val,
+                        font: { size: 10 }
+                    }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 9 } }
+                }
+            }
+        }
+    });
+
+    // ==========================================
+    // 4. İADE RİSKİ CHART
+    // ==========================================
+    new Chart(document.getElementById('iadeChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Eki', 'Kas', 'Ara', 'Oca', 'Şub', 'Mar'],
+            datasets: [
+                {
+                    label: 'İade Riski (%)',
+                    data: [18, 22, 19, 15, 14, 12],
+                    backgroundColor: 'rgba(255,101,132,0.7)',
+                    borderRadius: 8,
+                    borderSkipped: false
+                },
+                {
+                    label: 'Hedef (%)',
+                    data: [15, 15, 15, 15, 15, 15],
+                    type: 'line',
+                    borderColor: '#FFB547',
+                    borderWidth: 2,
+                    borderDash: [6, 3],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: { font: { size: 11 }, boxWidth: 12 }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 30,
+                    grid: { color: '#f0f0f0' },
+                    ticks: {
+                        callback: val => '%' + val,
+                        font: { size: 11 }
+                    }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                }
+            }
+        }
+    });
+</script>
+}

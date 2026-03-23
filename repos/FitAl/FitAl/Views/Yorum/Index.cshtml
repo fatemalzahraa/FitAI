@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "Yorumlar";
+    ViewData["ActiveMenu"] = "urun";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(108,99,255,0.1)"><i class="bi bi-chat-text" style="color:#6C63FF"></i></div>
+            <div class="stat-value">247</div>
+            <div class="stat-label">Toplam Yorum</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(67,217,173,0.1)"><i class="bi bi-check-circle" style="color:#43D9AD"></i></div>
+            <div class="stat-value">189</div>
+            <div class="stat-label">NLP İşlendi</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,181,71,0.1)"><i class="bi bi-star" style="color:#FFB547"></i></div>
+            <div class="stat-value">4.2</div>
+            <div class="stat-label">Ortalama Puan</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,101,132,0.1)"><i class="bi bi-emoji-frown" style="color:#FF6584"></i></div>
+            <div class="stat-value">34</div>
+            <div class="stat-label">Negatif Yorum</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Müşteri Yorumları</span>
+        <div class="d-flex gap-2">
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Tüm Ürünler</option>
+                <option>Slim Fit Jean</option>
+                <option>Yazlık Elbise</option>
+            </select>
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>Tüm Puanlar</option>
+                <option>⭐⭐⭐⭐⭐ 5</option>
+                <option>⭐⭐⭐⭐ 4</option>
+                <option>⭐⭐⭐ 3</option>
+                <option>⭐⭐ 2</option>
+                <option>⭐ 1</option>
+            </select>
+            <select class="form-select form-select-sm" style="width:auto;border-radius:8px">
+                <option>NLP Durumu</option>
+                <option>İşlendi</option>
+                <option>Bekliyor</option>
+            </select>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        @{
+            var yorumlar = new[] {
+                new { Urun="Slim Fit Jean", Yazar="Ayşe K.", Puan=2, Metin="Beden çok küçük çıktı, normalde 38 giyiyorum ama bu üründe 40 almam gerekti. Kumaş kalitesi iyi ama beden sorunu var.", Tarih="20 Mar 2026", NlpIslendi=true, Duygu="Negatif", DuyguColor="#FF6584" },
+                new { Urun="Kum Saati Elbise", Yazar="Fatma Y.", Puan=5, Metin="Harika bir elbise! Kum saati tipine çok yakışıyor, tam beden geldi. Kesinlikle tavsiye ederim.", Tarih="19 Mar 2026", NlpIslendi=true, Duygu="Pozitif", DuyguColor="#43D9AD" },
+                new { Urun="Yazlık Elbise", Yazar="Zeynep A.", Puan=3, Metin="Kumaş ince mi diye merak ediyordum, gerçekten çok ince. Yaz için uygun olabilir ama kalitesi beklentimin altında kaldı.", Tarih="18 Mar 2026", NlpIslendi=true, Duygu="Nötr", DuyguColor="#FFB547" },
+                new { Urun="A-Line Etek", Yazar="Merve B.", Puan=5, Metin="Armut tipim için mükemmel! AI önerisi sayesinde aldım ve çok memnun kaldım. Kesinlikle alın.", Tarih="17 Mar 2026", NlpIslendi=true, Duygu="Pozitif", DuyguColor="#43D9AD" },
+                new { Urun="Oversize Gömlek", Yazar="Selin C.", Puan=4, Metin="Genel olarak memnunum ama renk fotoğraftaki gibi değil, biraz daha koyu çıktı.", Tarih="16 Mar 2026", NlpIslendi=false, Duygu="—", DuyguColor="#8892a4" },
+            };
+        }
+        @foreach (var y in yorumlar)
+        {
+            <div style="padding:18px 20px;border-bottom:1px solid #e8ecf4">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width:38px;height:38px;background:#6C63FF22;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6C63FF">
+                            @y.Yazar[0]
+                        </div>
+                        <div>
+                            <div style="font-weight:700;font-size:0.875rem">@y.Yazar</div>
+                            <div style="font-size:0.75rem;color:#8892a4">@y.Urun · @y.Tarih</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div style="color:#FFB547">
+                            @for (int i = 0; i < y.Puan; i++) { <text>⭐</text> }
+                        </div>
+                        @if (y.NlpIslendi)
+                        {
+                            <span class="badge-pill" style="background:@(y.DuyguColor)22;color:@y.DuyguColor;font-size:0.72rem">@y.Duygu</span>
+                        }
+                        else
+                        {
+                            <span class="badge-pill" style="background:#f4f6fb;color:#8892a4;font-size:0.72rem">NLP Bekliyor</span>
+                        }
+                    </div>
+                </div>
+                <p style="font-size:0.875rem;color:#444;margin:0;padding-left:50px">@y.Metin</p>
+            </div>
+        }
+    </div>
+</div>
