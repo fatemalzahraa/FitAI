@@ -1,0 +1,15 @@
+C:\Projects\src\FitAI.Application.Contracts\bin\Debug\net9.0\FitAI.Application.Contracts.deps.json
+C:\Projects\src\FitAI.Application.Contracts\bin\Debug\net9.0\FitAI.Application.Contracts.dll
+C:\Projects\src\FitAI.Application.Contracts\bin\Debug\net9.0\FitAI.Application.Contracts.pdb
+C:\Projects\src\FitAI.Application.Contracts\bin\Debug\net9.0\FitAI.Domain.Shared.dll
+C:\Projects\src\FitAI.Application.Contracts\bin\Debug\net9.0\FitAI.Domain.Shared.pdb
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.csproj.AssemblyReference.cache
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.AssemblyInfoInputs.cache
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.AssemblyInfo.cs
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.csproj.CoreCompileInputs.cache
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Ap.F215EB9D.Up2Date
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.dll
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\refint\FitAI.Application.Contracts.dll
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\FitAI.Application.Contracts.pdb
+C:\Projects\src\FitAI.Application.Contracts\obj\Debug\net9.0\ref\FitAI.Application.Contracts.dll

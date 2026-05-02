@@ -1,0 +1,311 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
+        "projectName": "FitAI.Application.Contracts",
+        "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
+        "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
+          "C:\\Users\\avcia\\NuGet.Config",
+          "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Volo.Abp.Account.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.FeatureManagement.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.Identity.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.ObjectExtending": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.PermissionManagement.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.SettingManagement.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.TenantManagement.Application.Contracts": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
+        "projectName": "FitAI.Domain.Shared",
+        "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
+        "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
+          "C:\\Users\\avcia\\NuGet.Config",
+          "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.Extensions.FileProviders.Embedded": {
+              "target": "Package",
+              "version": "[9.0.5, )"
+            },
+            "Volo.Abp.AuditLogging.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.BackgroundJobs.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.FeatureManagement.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.Identity.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.OpenIddict.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.PermissionManagement.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.SettingManagement.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.TenantManagement.Domain.Shared": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
+        "projectName": "FitAI.HttpApi.Client",
+        "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
+        "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
+          "C:\\Users\\avcia\\NuGet.Config",
+          "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+                "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Volo.Abp.Account.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.FeatureManagement.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.Identity.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.PermissionManagement.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.SettingManagement.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            },
+            "Volo.Abp.TenantManagement.HttpApi.Client": {
+              "target": "Package",
+              "version": "[9.3.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

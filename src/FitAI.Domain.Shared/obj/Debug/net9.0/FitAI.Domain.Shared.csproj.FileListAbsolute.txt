@@ -1,0 +1,13 @@
+C:\Projects\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.deps.json
+C:\Projects\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.dll
+C:\Projects\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.pdb
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.csproj.AssemblyReference.cache
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.EmbeddedFilesManifest.cache
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.AssemblyInfoInputs.cache
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.AssemblyInfo.cs
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.csproj.CoreCompileInputs.cache
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.dll
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\refint\FitAI.Domain.Shared.dll
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.pdb
+C:\Projects\src\FitAI.Domain.Shared\obj\Debug\net9.0\ref\FitAI.Domain.Shared.dll
