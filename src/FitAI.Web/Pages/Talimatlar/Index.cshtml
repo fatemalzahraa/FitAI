@@ -1,0 +1,203 @@
+@page
+@using FitAI.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<FitAIResource> L
+@model FitAI.Web.Pages.Talimatlar.IndexModel
+
+<div class="fitai-page">
+
+    <!-- Sayfa Başlığı -->
+    <div class="page-header mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h2 class="page-title mb-0">
+                        <i class="fas fa-microchip me-2 text-primary"></i>AI Talimat Yönetimi
+                    </h2>
+                    <span class="badge bg-primary-soft text-primary">
+                        <i class="fas fa-robot me-1"></i>AI Kontrol Merkezi
+                    </span>
+                </div>
+                <p class="text-muted mb-0 small">AI modellerine gönderilen talimatları yönetin, yeni talimatlar ekleyin ve çalıştırın.</p>
+            </div>
+            <button class="btn btn-primary" id="yeniTalimatBtn">
+                <i class="fas fa-plus me-1"></i>Yeni Talimat
+            </button>
+        </div>
+    </div>
+
+    <!-- İstatistik Kartları -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="talimat-kpi-card border-primary">
+                <div class="talimat-kpi-ust">
+                    <span class="talimat-kpi-ikon bg-primary-soft text-primary">
+                        <i class="fas fa-list"></i>
+                    </span>
+                </div>
+                <div class="talimat-kpi-deger" id="toplamTalimat">—</div>
+                <div class="talimat-kpi-etiket">Toplam Talimat</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="talimat-kpi-card border-success">
+                <div class="talimat-kpi-ust">
+                    <span class="talimat-kpi-ikon bg-success-soft text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                </div>
+                <div class="talimat-kpi-deger" id="aktifTalimat">—</div>
+                <div class="talimat-kpi-etiket">Aktif Talimat</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="talimat-kpi-card border-warning">
+                <div class="talimat-kpi-ust">
+                    <span class="talimat-kpi-ikon bg-warning-soft text-warning">
+                        <i class="fas fa-clock"></i>
+                    </span>
+                </div>
+                <div class="talimat-kpi-deger" id="bekleyenTalimat">—</div>
+                <div class="talimat-kpi-etiket">Bekleyen</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="talimat-kpi-card border-info">
+                <div class="talimat-kpi-ust">
+                    <span class="talimat-kpi-ikon bg-info-soft text-info">
+                        <i class="fas fa-chart-line"></i>
+                    </span>
+                </div>
+                <div class="talimat-kpi-deger" id="bugunCalisan">—</div>
+                <div class="talimat-kpi-etiket">Bugün Çalışan</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Talimat Listesi Tablosu -->
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-tasks me-2 text-primary"></i>Tüm AI Talimatları
+            </h5>
+            <div class="d-flex gap-2">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" id="talimatAra" placeholder="Talimat ara...">
+                </div>
+                <select id="durumFiltre" class="form-select form-select-sm" style="width: auto;">
+                    <option value="all">Tüm Durumlar</option>
+                    <option value="aktif">Aktif</option>
+                    <option value="pasif">Pasif</option>
+                    <option value="beklemede">Beklemede</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table talimat-tablo mb-0">
+                    <thead>
+                        <tr>
+                            <th>Talimat Adı</th>
+                            <th>Açıklama</th>
+                            <th>Tetikleyici</th>
+                            <th>Çalışma Zamanı</th>
+                            <th>Durum</th>
+                            <th>Son Çalışma</th>
+                            <th style="width: 120px;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="talimatListesiTablosu">
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-spinner fa-spin me-2"></i>Talimatlar yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+            <span class="text-muted small" id="talimatSayac">0 talimat gösteriliyor</span>
+            <nav>
+                <ul class="pagination pagination-sm mb-0" id="talimatPagination"></ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===================== YENİ TALİMAT MODAL ===================== -->
+<div class="modal fade" id="yeniTalimatModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle me-2 text-primary"></i>Yeni AI Talimatı Oluştur
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="talimatForm">
+                    <div class="mb-3">
+                        <label class="form-label">Talimat Adı <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="talimatAd" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="talimatAciklama" rows="3"></textarea>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Tetikleyici Tipi</label>
+                            <select class="form-select" id="talimatTetikleyici">
+                                <option value="zamanli">Zamanlı (Cron)</option>
+                                <option value="olay">Olay Tabanlı</option>
+                                <option value="manuel">Manuel</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Çalışma Zamanı / Cron</label>
+                            <input type="text" class="form-control" id="talimatCron" placeholder="0 9 * * * (her gün 09:00)">
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Talimat İçeriği (AI Prompt)</label>
+                        <textarea class="form-control" id="talimatPrompt" rows="5" placeholder="AI modeline gönderilecek talimat/metin..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="talimatKaydetBtn">
+                    <i class="fas fa-save me-1"></i>Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== TALİMAT DETAY MODAL ===================== -->
+<div class="modal fade" id="talimatDetayModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-info-circle me-2 text-info"></i>Talimat Detayı
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="talimatDetayIcerik">
+                    <!-- Detaylar dinamik doldurulacak -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="talimatTestEtBtn">
+                    <i class="fas fa-play me-1"></i>Test Et
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

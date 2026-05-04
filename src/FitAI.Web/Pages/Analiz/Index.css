@@ -115,7 +115,6 @@
     color: #6b7280;
 }
 
-/* Border renkleri */
 .border-primary { border-left-color: #4f46e5 !important; }
 .border-success  { border-left-color: #10b981 !important; }
 .border-warning  { border-left-color: #f59e0b !important; }
@@ -135,17 +134,21 @@
     align-items: center;
 }
 
-.kelime-tag {
+.kelime-chip {
+    display: inline-block;
     padding: 0.3rem 0.75rem;
     border-radius: 20px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: default;
-    transition: transform 0.15s ease;
+    transition: all 0.15s ease;
     white-space: nowrap;
+    margin: 0.15rem;
+    border: 1px solid rgba(0,0,0,0.03);
 }
 
-.kelime-tag:hover {
-    transform: scale(1.08);
+.kelime-chip:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 /* =============================================
@@ -170,26 +173,41 @@
     color: #374151;
 }
 
-.analiz-tablo tbody tr:last-child td {
-    border-bottom: none;
-}
+.analiz-tablo tbody tr:last-child td { border-bottom: none; }
+.analiz-tablo tbody tr:hover td { background: rgba(79, 70, 229, 0.02); }
 
-.analiz-tablo tbody tr:hover td {
-    background: rgba(79, 70, 229, 0.02);
-}
-
-.sira-badge {
-    width: 28px;
-    height: 28px;
+.sira-rozeti {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: 700;
+    background: #f3f4f6;
+    color: #374151;
 }
 
-.performans-bar-kap {
+.sira-1 {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: white;
+    box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+}
+.sira-2 {
+    background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+    color: white;
+}
+.sira-3 {
+    background: linear-gradient(135deg, #cd7b5e, #d97743);
+    color: white;
+}
+.sira-diger {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.performans-bar {
     width: 80px;
     height: 6px;
     background: rgba(0,0,0,0.07);
@@ -216,6 +234,21 @@
     padding-bottom: 0.5rem;
 }
 
+.heatmap-satir {
+    display: grid;
+    grid-template-columns: 40px repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 3px;
+    align-items: center;
+}
+
+.heatmap-saat-etiket {
+    font-size: 0.65rem;
+    color: #6b7280;
+    text-align: right;
+    padding-right: 6px;
+}
+
 .heatmap-hucre {
     width: 14px;
     height: 14px;
@@ -225,44 +258,30 @@
     cursor: pointer;
 }
 
-.heatmap-hucre:hover {
-    transform: scale(1.3);
-}
-
-.heatmap-hucre.yogunluk-1 { background: rgba(79, 70, 229, 0.15); }
-.heatmap-hucre.yogunluk-2 { background: rgba(79, 70, 229, 0.30); }
-.heatmap-hucre.yogunluk-3 { background: rgba(79, 70, 229, 0.50); }
-.heatmap-hucre.yogunluk-4 { background: rgba(79, 70, 229, 0.70); }
-.heatmap-hucre.yogunluk-5 { background: rgba(79, 70, 229, 0.90); }
+.heatmap-hucre:hover { transform: scale(1.3); }
 
 .heatmap-legend-bar {
     width: 80px;
     height: 10px;
     border-radius: 5px;
-    background: linear-gradient(
-        90deg,
-        rgba(79,70,229,0.1) 0%,
-        rgba(79,70,229,0.9) 100%
-    );
+    background: linear-gradient(90deg, rgba(79,70,229,0.1) 0%, rgba(79,70,229,0.9) 100%);
 }
 
 .heatmap-gun-etiketleri {
-    display: flex;
+    display: grid;
+    grid-template-columns: 40px repeat(7, 1fr);
     gap: 3px;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
-/* =============================================
-   Soft Badge'ler (Analiz sayfası için tekrar)
-   ============================================= */
-.bg-success-soft  { background: rgba(16,185,129,0.1) !important; }
-.bg-info-soft     { background: rgba(14,165,233,0.1) !important; }
-.bg-warning-soft  { background: rgba(245,158,11,0.1) !important; }
-.bg-primary-soft  { background: rgba(79,70,229,0.1)  !important; }
-.bg-danger-soft   { background: rgba(239,68,68,0.1)  !important; }
-.bg-secondary-soft{ background: rgba(107,114,128,0.1) !important; }
+.heatmap-gun-ad {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-align: center;
+}
 
-/* Donut wrapper (Index.css'den kopyala - aynı sayfa bağımsız çalışsın) */
+/* Donut Wrapper */
 .donut-wrapper {
     position: relative;
     width: 200px;
@@ -317,17 +336,253 @@
     flex-shrink: 0;
 }
 
-.legend-ad    { color: #374151; }
+.legend-ad { color: #374151; }
 .legend-deger { font-weight: 600; color: #1a1a2e; }
 
-/* =============================================
-   btn-xs (Analiz sayfası için)
-   ============================================= */
+/* btn-xs */
 .btn-xs {
     padding: 0.2rem 0.45rem;
     font-size: 0.72rem;
     line-height: 1.3;
     border-radius: 6px;
+}
+
+/* Soft Badge'ler */
+.bg-success-soft  { background: rgba(16,185,129,0.1) !important; }
+.bg-info-soft     { background: rgba(14,165,233,0.1) !important; }
+.bg-warning-soft  { background: rgba(245,158,11,0.1) !important; }
+.bg-primary-soft  { background: rgba(79,70,229,0.1)  !important; }
+.bg-danger-soft   { background: rgba(239,68,68,0.1)  !important; }
+.bg-secondary-soft{ background: rgba(107,114,128,0.1) !important; }
+
+/* =============================================
+   17. Gün - Analiz Sayfası Geliştirmeleri
+   ============================================= */
+.urun-detay-karti {
+    background: #fff;
+    border-radius: 20px;
+    padding: 1.25rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-skor-karti {
+    background: linear-gradient(135deg, rgba(79,70,229,0.08), rgba(14,165,233,0.08));
+    border: 1px solid rgba(79,70,229,0.15);
+}
+
+.ai-skor-degeri {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    line-height: 1;
+}
+
+.urun-fiyat {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4f46e5;
+}
+
+.fixed-action-buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.action-float-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    color: #4f46e5;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-float-btn:hover {
+    transform: scale(1.08);
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+}
+
+/* Skeleton Loader */
+.skeleton-loader {
+    background: linear-gradient(90deg, #f0f2f5 25%, #e2e6ea 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.5s infinite;
+    border-radius: 8px;
+    min-height: 100px;
+}
+
+@keyframes skeletonShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Tam Ekran Modal */
+.chart-fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.chart-fullscreen-modal canvas {
+    max-width: 90%;
+    max-height: 90%;
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* =============================================
+   18. Gün - NLP Ekranı Geliştirmeleri
+   ============================================= */
+.nlp-ozet-karti {
+    height: 100%;
+}
+
+.ozet-baslik {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #374151;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.ozet-listesi {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ozet-listesi li {
+    padding: 0.4rem 0;
+    font-size: 0.8rem;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+}
+
+.ozet-oneri {
+    border-left: 3px solid #4f46e5;
+    font-size: 0.8rem;
+}
+
+.yorum-listesi {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.yorum-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: background 0.15s ease;
+}
+
+.yorum-item:hover {
+    background: rgba(79, 70, 229, 0.02);
+}
+
+.yorum-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.yorum-icerik {
+    flex: 1;
+}
+
+.yorum-ust {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.3rem;
+}
+
+.yorum-kullanici {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #1f2937;
+}
+
+.yorum-tarih {
+    font-size: 0.7rem;
+}
+
+.yorum-metin {
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.yorum-analiz {
+    font-size: 0.7rem;
+}
+
+.yorum-analiz .badge {
+    font-weight: 400;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.3rem;
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.duygu-filtre .btn-group .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+}
+
+.duygu-filtre .btn-group .btn.active {
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+}
+
+/* Sekme geçiş animasyonu */
+.analiz-tab-icerik {
+    animation: tabFadeIn 0.25s ease-out;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =============================================
@@ -340,7 +595,9 @@
 
 [data-bs-theme="dark"] .analiz-kpi-deger,
 [data-bs-theme="dark"] .donut-merkez-deger,
-[data-bs-theme="dark"] .legend-deger {
+[data-bs-theme="dark"] .legend-deger,
+[data-bs-theme="dark"] .urun-fiyat,
+[data-bs-theme="dark"] .ai-skor-degeri {
     color: #e2e8f0;
 }
 
@@ -361,155 +618,61 @@
 [data-bs-theme="dark"] .analiz-tablo tbody tr:hover td {
     background: rgba(255,255,255,0.03);
 }
-/* =============================================
-   16. Gün Eklentileri
-   ============================================= */
 
-/* Sıra Rozetleri */
-.sira-rozeti {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 700;
-    background: #f3f4f6;
-    color: #374151;
+[data-bs-theme="dark"] .urun-detay-karti {
+    background: var(--lpx-card-bg, #1e1e2e);
+    border-color: rgba(255,255,255,0.08);
 }
 
-.sira-1 {
-    background: linear-gradient(135deg, #f59e0b, #f97316);
-    color: white;
-    box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+[data-bs-theme="dark"] .action-float-btn {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.1);
+    color: #818cf8;
 }
 
-.sira-2 {
-    background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+[data-bs-theme="dark"] .action-float-btn:hover {
+    background: #4f46e5;
     color: white;
 }
 
-.sira-3 {
-    background: linear-gradient(135deg, #cd7b5e, #d97743);
-    color: white;
+[data-bs-theme="dark"] .chart-fullscreen-modal canvas {
+    background: #1e1e2e;
 }
 
-.sira-diger {
-    background: #e5e7eb;
-    color: #6b7280;
+[data-bs-theme="dark"] .yorum-item:hover {
+    background: rgba(255,255,255,0.03);
 }
 
-/* Performans Bar */
-.performans-bar {
-    width: 80px;
-    height: 6px;
-    background: rgba(0,0,0,0.07);
-    border-radius: 10px;
-    overflow: hidden;
-    display: inline-block;
+[data-bs-theme="dark"] .yorum-kullanici {
+    color: #e2e8f0;
 }
 
-.performans-bar-dolu {
-    height: 100%;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+[data-bs-theme="dark"] .yorum-metin {
+    color: #cbd5e1;
 }
 
-/* Kelime Chip (kelime bulutu için) */
-.kelime-chip {
-    display: inline-block;
-    padding: 0.3rem 0.75rem;
-    border-radius: 20px;
-    font-weight: 500;
-    cursor: default;
-    transition: all 0.15s ease;
-    white-space: nowrap;
-    margin: 0.15rem;
-    border: 1px solid rgba(0,0,0,0.03);
+[data-bs-theme="dark"] .ozet-baslik {
+    color: #cbd5e1;
+    border-color: rgba(255,255,255,0.08);
 }
 
-.kelime-chip:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+[data-bs-theme="dark"] .ozet-listesi li {
+    color: #9ca3af;
 }
 
-/* AI Skoru Gauge (16. Gün için yeni component) */
-.ai-skor-gauge {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
+[data-bs-theme="dark"] .skeleton-loader {
+    background: linear-gradient(90deg, #2d2d3a 25%, #3a3a4a 50%, #2d2d3a 75%);
 }
 
-.gauge-canvas {
-    width: 100%;
-    height: 100%;
+/* Responsive */
+@media (max-width: 768px) {
+    .fixed-action-buttons { bottom: 15px; right: 15px; }
+    .action-float-btn { width: 40px; height: 40px; font-size: 1rem; }
+    .urun-detay-karti .row > div { margin-bottom: 1rem; }
+    .kpi-value { font-size: 1.3rem; }
+    .analiz-kpi-deger { font-size: 1.2rem; }
 }
 
-.ai-skor-label {
-    text-align: center;
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-    color: #6b7280;
-}
-
-/* Ürün bilgi kartı (isteğe bağlı) */
-.urun-bilgi-karti {
-    background: linear-gradient(135deg, rgba(79,70,229,0.03), rgba(14,165,233,0.03));
-    border-radius: 16px;
-    padding: 1rem;
-    border: 1px solid rgba(79,70,229,0.1);
-}
-
-.urun-fiyat {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #4f46e5;
-}
-
-/* Sekme geçiş animasyonu */
-.analiz-tab-icerik {
-    animation: tabFadeIn 0.25s ease-out;
-}
-
-@keyframes tabFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Heatmap satır düzeni */
-.heatmap-satir {
-    display: grid;
-    grid-template-columns: 40px repeat(7, 1fr);
-    gap: 3px;
-    margin-bottom: 3px;
-    align-items: center;
-}
-
-.heatmap-saat-etiket {
-    font-size: 0.65rem;
-    color: #6b7280;
-    text-align: right;
-    padding-right: 6px;
-}
-
-.heatmap-gun-ad {
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: #6b7280;
-    text-align: center;
-}
-
-.heatmap-gun-etiketleri {
-    display: grid;
-    grid-template-columns: 40px repeat(7, 1fr);
-    gap: 3px;
-    margin-top: 6px;
+@media (min-width: 768px) and (max-width: 1200px) {
+    .kpi-value { font-size: 1.4rem; }
 }

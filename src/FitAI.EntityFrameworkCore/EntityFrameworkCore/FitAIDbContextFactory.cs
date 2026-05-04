@@ -12,9 +12,8 @@ public class FitAIDbContextFactory : IDesignTimeDbContextFactory<FitAIDbContext>
 
         var builder = new DbContextOptionsBuilder<FitAIDbContext>();
 
-        // SQL SERVER (ABP + EF Core uyumlu)
         builder.UseSqlServer(
-            "Server=AYSENUR;Database=FitAI;Trusted_Connection=True;TrustServerCertificate=True"
+            "Server=DESKTOP-RC79S3H\\SQLEXPRESS;Database=FitAI;Trusted_Connection=True;TrustServerCertificate=True"
         );
 
         return new FitAIDbContext(builder.Options);

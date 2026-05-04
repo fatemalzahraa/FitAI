@@ -4,7 +4,6 @@ C:.
 |   .gitattributes
 |   .gitignore
 |   .prettierrc
-|   appsettings.Development.json
 |   common.props
 |   FitAI.sln
 |   FitAI.sln.DotSettings
@@ -1427,14 +1426,23 @@ C:.
 |       |           |       Microsoft.CodeAnalysis.resources.dll
 |       |           |       
 |       |           +---Pages
-|       |           |   |   Index.css
-|       |           |   |   Index.js
-|       |           |   |   
+|       |           |   +---Analiz
+|       |           |   |       Index.css
+|       |           |   |       Index.js
+|       |           |   |       
+|       |           |   +---Dashboard
+|       |           |   |       Index.css
+|       |           |   |       Index.js
+|       |           |   |       
 |       |           |   +---Kullanicilar
 |       |           |   |       Index.css
 |       |           |   |       Index.js
 |       |           |   |       
 |       |           |   +---Magazalar
+|       |           |   |       Index.css
+|       |           |   |       Index.js
+|       |           |   |       
+|       |           |   +---Talimatlar
 |       |           |   |       Index.css
 |       |           |   |       Index.js
 |       |           |   |       
@@ -7588,7 +7596,7 @@ C:.
 |       |           |       32uk8rvyke-7oxygvcswx.gz
 |       |           |       3a5f515nsu-ekrek65t0o.gz
 |       |           |       3gwuzl07h1-4mnhety7so.gz
-|       |           |       3rsxufhtw6-2bh64ky2pt.gz
+|       |           |       3rsxufhtw6-7ro9qmowpt.gz
 |       |           |       3u4v8vfpu5-uvhjud2336.gz
 |       |           |       3wgo3wbj3s-azz0djvh3u.gz
 |       |           |       3wnf1qevg1-r70cem62p7.gz
@@ -8094,13 +8102,15 @@ C:.
 |       |                   
 |       +---Pages
 |       |   |   FitAIPageModel.cs
-|       |   |   Index.cshtml
-|       |   |   Index.cshtml.cs
-|       |   |   Index.css
-|       |   |   Index.js
 |       |   |   _ViewImports.cshtml
 |       |   |   
 |       |   +---Analiz
+|       |   |       Index.cshtml
+|       |   |       Index.cshtml.cs
+|       |   |       Index.css
+|       |   |       Index.js
+|       |   |       
+|       |   +---Dashboard
 |       |   |       Index.cshtml
 |       |   |       Index.cshtml.cs
 |       |   |       Index.css
@@ -8113,6 +8123,12 @@ C:.
 |       |   |       Index.js
 |       |   |       
 |       |   +---Magazalar
+|       |   |       Index.cshtml
+|       |   |       Index.cshtml.cs
+|       |   |       Index.css
+|       |   |       Index.js
+|       |   |       
+|       |   +---Talimatlar
 |       |   |       Index.cshtml
 |       |   |       Index.cshtml.cs
 |       |   |       Index.css
@@ -11038,14 +11054,23 @@ C:.
         |           |       Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
         |           |       
         |           +---Pages
-        |           |   |   Index.css
-        |           |   |   Index.js
-        |           |   |   
+        |           |   +---Analiz
+        |           |   |       Index.css
+        |           |   |       Index.js
+        |           |   |       
+        |           |   +---Dashboard
+        |           |   |       Index.css
+        |           |   |       Index.js
+        |           |   |       
         |           |   +---Kullanicilar
         |           |   |       Index.css
         |           |   |       Index.js
         |           |   |       
         |           |   +---Magazalar
+        |           |   |       Index.css
+        |           |   |       Index.js
+        |           |   |       
+        |           |   +---Talimatlar
         |           |   |       Index.css
         |           |   |       Index.js
         |           |   |       
