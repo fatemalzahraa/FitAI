@@ -738,3 +738,97 @@ $(function () {
     yukleGelirTab();
 
 });
+// =============================================
+// 16. Gün Eklentileri
+// =============================================
+
+// Ürün seçici değişikliği
+$('#urunSecici').on('change', function() {
+    var secilenUrun = $(this).val();
+    var secilenUrunAd = $(this).find('option:selected').text();
+    
+    abp.message.info('"' + secilenUrunAd + '" için analiz yükleniyor...', 'Ürün Değişti');
+    
+    // Tüm grafikleri yeniden yükle
+    grafiklerYuklendi = {};
+    tabGrafikleriniYukle(aktifTab);
+    grafiklerYuklendi[aktifTab] = true;
+});
+
+// AI Skoru Gauge Chart (gelir tabına eklenebilir)
+function yukleAiSkorGauge(skor) {
+    var canvas = document.getElementById('aiSkorGauge');
+    if (!canvas) return;
+    
+    var ctx = canvas.getContext('2d');
+    var width = canvas.width;
+    var height = canvas.height;
+    var centerX = width / 2;
+    var centerY = height / 2;
+    var radius = width * 0.4;
+    
+    // Gauge'u temizle
+    ctx.clearRect(0, 0, width, height);
+    
+    // Dairesel background (gri)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 10;
+    ctx.stroke();
+    
+    // Skor yüzdesine göre progress arc
+    var startAngle = -Math.PI / 2;
+    var endAngle = startAngle + (Math.PI * 2 * (skor / 100));
+    
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.strokeStyle = skor >= 70 ? '#10b981' : (skor >= 40 ? '#f59e0b' : '#ef4444');
+    ctx.lineWidth = 10;
+    ctx.stroke();
+    
+    // İç merkezde skor yazısı
+    ctx.font = 'bold 18px "Inter", sans-serif';
+    ctx.fillStyle = '#1a1a2e';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(skor + '', centerX, centerY);
+}
+
+// Ürün bazlı NLP analizi gösterme (seçilen ürüne göre)
+function urunBazliNlpGuncelle(urunId) {
+    if (!urunId || urunId === 'all') return;
+    
+    // Simüle edilmiş ürün bazlı veri
+    var urunVerileri = {
+        1: { pozitif: 342, negatif: 48, notr: 86, skor: 86, kelimeler: ['rahat', 'dayanıklı', 'kaliteli'] },
+        2: { pozitif: 218, negatif: 32, notr: 54, skor: 79, kelimeler: ['yumuşak', 'rahat', 'kaymaz'] },
+        3: { pozitif: 156, negatif: 24, notr: 38, skor: 82, kelimeler: ['dayanıklı', 'terletmiyor', 'iyi'] },
+        4: { pozitif: 98,  negatif: 12, notr: 24, skor: 85, kelimeler: ['şık', 'pratik', 'sağlam'] }
+    };
+    
+    var data = urunVerileri[urunId];
+    if (data) {
+        $('#nlp_pozitif').text(data.pozitif.toLocaleString('tr-TR'));
+        $('#nlp_negatif').text(data.negatif.toLocaleString('tr-TR'));
+        $('#nlp_notr').text(data.notr.toLocaleString('tr-TR'));
+        $('#nlp_toplam').text((data.pozitif + data.negatif + data.notr).toLocaleString('tr-TR'));
+        
+        // Kelime bulutunu güncelle
+        var $konteyner = $('#kelimeBulutu');
+        $konteyner.empty();
+        data.kelimeler.forEach(function(kelime, index) {
+            var boyut = [0.85, 0.95, 1.1][index % 3];
+            $konteyner.append(
+                '<span class="kelime-chip" style="font-size:' + boyut + 'rem; background:#4f46e51A; color:#4f46e5;">' + kelime + '</span>'
+            );
+        });
+    }
+}
+
+// Ürün seçici değiştiğinde NLP verilerini güncelle (eğer NLP tab'ı aktifse)
+$('#urunSecici').on('change', function() {
+    if (aktifTab === 'nlp') {
+        urunBazliNlpGuncelle($(this).val());
+    }
+});

@@ -417,3 +417,68 @@ $(function () {
     yukleMagazaTablosu();
 
 });
+// =============================================
+// 14. Gün UX İyileştirmeleri
+// =============================================
+
+// Sayfa yükleme animasyonu için body'ye class ekle
+$('body').addClass('fitai-page');
+
+// Yenileme butonu
+$('#refreshDashboardBtn').on('click', function() {
+    var $btn = $(this);
+    $btn.find('i').addClass('fa-spin');
+    
+    setTimeout(function() {
+        location.reload();
+    }, 300);
+});
+
+// Rapor indirme simülasyonu
+$('#exportDashboardBtn').on('click', function() {
+    abp.message.info('Rapor hazırlanıyor ve indirilecek...', 'Bilgi');
+});
+
+// Tablo satırlarına tıklanabilirlik
+$(document).on('click', '.dashboard-table tbody tr', function() {
+    var magazaAdi = $(this).find('td:first strong').text();
+    if(magazaAdi && magazaAdi !== '—') {
+        window.location.href = '/Magazalar/Detay?name=' + encodeURIComponent(magazaAdi);
+    }
+});
+
+// Kartlara hover animasyonu için gradient border effect
+$('.kpi-card').addClass('gradient-border glow-hover');
+$('.card').addClass('gradient-border');
+
+// Card header gradient çizgi
+$('.card-header').addClass('card-header-gradient');
+
+// Yükleme sırasında loading göstergesi (veri çekilirken)
+function showLoading($element) {
+    if($element.find('.loading-spinner').length === 0) {
+        $element.addClass('loading-overlay');
+        $element.append('<div class="loading-spinner"></div>');
+    }
+}
+
+function hideLoading($element) {
+    $element.removeClass('loading-overlay');
+    $element.find('.loading-spinner').remove();
+}
+
+// Örnek: KPI verileri yüklenirken loading göster
+// showLoading($('.kpi-card').parent());
+// ... veri geldikten sonra hideLoading(...)
+
+// Bildirimlere hover efekti
+$(document).on('mouseenter', '.bildirim-item', function() {
+    $(this).css('transform', 'translateX(4px)');
+}).on('mouseleave', '.bildirim-item', function() {
+    $(this).css('transform', '');
+});
+
+// Tooltip desteği (isteğe bağlı)
+if($.fn.tooltip) {
+    $('[data-bs-toggle="tooltip"]').tooltip();
+}

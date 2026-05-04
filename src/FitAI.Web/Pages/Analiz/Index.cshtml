@@ -10,12 +10,24 @@
     <div class="page-header mb-4">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-                <h2 class="page-title mb-1">
-                    <i class="fas fa-chart-line me-2 text-primary"></i>AI & Analiz Merkezi
-                </h2>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h2 class="page-title mb-0">
+                        <i class="fas fa-chart-line me-2 text-primary"></i>AI & Analiz Merkezi
+                    </h2>
+                    <span class="badge bg-primary-soft text-primary">
+                        <i class="fas fa-robot me-1"></i>AI Destekli
+                    </span>
+                </div>
                 <p class="text-muted mb-0 small">Platformun detaylı grafik ve istatistikleri</p>
             </div>
             <div class="d-flex align-items-center gap-2">
+                <select id="urunSecici" class="form-select form-select-sm" style="width:200px">
+                    <option value="all">Tüm Ürünler</option>
+                    <option value="1" selected>Premium Spor Ayakkabı</option>
+                    <option value="2">Yoga Matı</option>
+                    <option value="3">Fitness Eldiveni</option>
+                    <option value="4">Su Şişesi</option>
+                </select>
                 <select id="donemFiltre" class="form-select form-select-sm" style="width:auto">
                     <option value="7">Son 7 Gün</option>
                     <option value="30" selected>Son 30 Gün</option>
@@ -25,6 +37,45 @@
                 <button class="btn btn-sm btn-outline-secondary" id="yenileBtn">
                     <i class="fas fa-sync-alt me-1"></i>Yenile
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== 17. GÜN: ÜRÜN DETAY KARTI ===================== -->
+    <div class="urun-detay-karti mb-4" id="urunDetayKarti" style="display:none;">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-7">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="urun-gorsel-placeholder bg-primary-soft rounded-3 d-flex align-items-center justify-content-center" style="width:70px;height:70px;">
+                        <i class="fas fa-tshirt fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h4 class="mb-0" id="urunAdi">Premium Spor Ayakkabı</h4>
+                            <span class="badge bg-success-soft text-success" id="urunStokDurumu">Stokta Var</span>
+                        </div>
+                        <div class="d-flex gap-3 mt-1 flex-wrap">
+                            <span class="text-muted small"><i class="fas fa-tag me-1"></i>Kategori: <span id="urunKategori">Spor</span></span>
+                            <span class="text-muted small"><i class="fas fa-box me-1"></i>Stok: <span id="urunStok">1,240</span> adet</span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="urun-fiyat" id="urunFiyat">₺ 1,299</span>
+                            <span class="text-muted ms-2 small">KDV Dahil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="ai-skor-karti text-center p-3 rounded-3 bg-primary-soft">
+                    <div class="text-muted small mb-1">AI Performans Skoru</div>
+                    <div class="ai-skor-degeri" id="aiPerformansSkoru">86</div>
+                    <div class="progress mt-2" style="height:4px;">
+                        <div class="progress-bar bg-primary" id="aiSkorProgress" style="width:86%"></div>
+                    </div>
+                    <div class="text-muted small mt-2">
+                        <i class="fas fa-chart-line me-1"></i>Geçen aya göre <span class="text-success">+%4.2</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +107,6 @@
     <!-- ===================== SEKME 1: GELİR ANALİZİ ===================== -->
     <div id="tab-gelir" class="analiz-tab-icerik">
 
-        <!-- Özet KPI -->
         <div class="row g-3 mb-4">
             <div class="col-md-3">
                 <div class="analiz-kpi-card border-primary">
@@ -117,7 +167,6 @@
         </div>
 
         <div class="row g-3">
-            <!-- Zaman Serisi: Komisyon Geliri -->
             <div class="col-xl-8">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
@@ -125,6 +174,9 @@
                             <i class="fas fa-chart-area me-2 text-primary"></i>Komisyon Geliri Zaman Serisi
                         </h5>
                         <div class="d-flex gap-2">
+                            <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="gelirZamanChart" title="Tam Ekran">
+                                <i class="fas fa-expand"></i>
+                            </button>
                             <button class="btn btn-xs btn-outline-secondary active" onclick="gelirGrafikiDegistir('line', this)">
                                 <i class="fas fa-chart-line"></i>
                             </button>
@@ -138,14 +190,15 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Komisyon Paket Dağılımı -->
             <div class="col-xl-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-chart-pie me-2 text-warning"></i>Pakete Göre Gelir
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="gelirPaketChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                         <div class="donut-wrapper">
@@ -166,7 +219,6 @@
     <div id="tab-nlp" class="analiz-tab-icerik" style="display:none">
 
         <div class="row g-3 mb-4">
-            <!-- Özet KPI -->
             <div class="col-md-3">
                 <div class="analiz-kpi-card border-primary">
                     <div class="analiz-kpi-ust">
@@ -214,27 +266,30 @@
         </div>
 
         <div class="row g-3">
-            <!-- Duygu Dağılımı Zaman Serisi -->
             <div class="col-xl-8">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-chart-area me-2 text-primary"></i>Duygu Dağılımı Trendi
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="nlpTrendChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body">
                         <canvas id="nlpTrendChart" height="130"></canvas>
                     </div>
                 </div>
             </div>
-
-            <!-- Duygu Donut -->
             <div class="col-xl-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-heart me-2 text-danger"></i>Genel Duygu Dağılımı
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="nlpDuyguChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
                         <div class="donut-wrapper">
@@ -248,8 +303,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- En Çok Geçen Kelimeler -->
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-header">
@@ -262,14 +315,15 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Ürün Grubu NLP Skoru -->
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-tshirt me-2 text-warning"></i>Kategoriye Göre Memnuniyet
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="kategoriMemnuniyetChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body">
                         <canvas id="kategoriMemnuniyetChart" height="160"></canvas>
@@ -283,40 +337,43 @@
     <div id="tab-magaza" class="analiz-tab-icerik" style="display:none">
 
         <div class="row g-3">
-            <!-- Radar Chart -->
             <div class="col-xl-5">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-spider me-2 text-primary"></i>Mağaza Performans Radar
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="magazaRadarChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body d-flex align-items-center justify-content-center">
                         <canvas id="magazaRadarChart" width="320" height="320"></canvas>
                     </div>
                 </div>
             </div>
-
-            <!-- Mağaza Karşılaştırma Barları -->
             <div class="col-xl-7">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-chart-bar me-2 text-success"></i>Mağaza Komisyon Karşılaştırması
                         </h5>
-                        <select id="magazaMetrikSecim" class="form-select form-select-sm" style="width:auto">
-                            <option value="komisyon">Komisyon Geliri</option>
-                            <option value="urun">Ürün Sayısı</option>
-                            <option value="yorum">Yorum Sayısı</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <select id="magazaMetrikSecim" class="form-select form-select-sm" style="width:auto">
+                                <option value="komisyon">Komisyon Geliri</option>
+                                <option value="urun">Ürün Sayısı</option>
+                                <option value="yorum">Yorum Sayısı</option>
+                            </select>
+                            <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="magazaKarsilastirmaChart" title="Tam Ekran">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <canvas id="magazaKarsilastirmaChart" height="160"></canvas>
                     </div>
                 </div>
             </div>
-
-            <!-- Mağaza Sıralama Tablosu -->
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -352,17 +409,21 @@
     <div id="tab-aktivite" class="analiz-tab-icerik" style="display:none">
 
         <div class="row g-3">
-            <!-- Heatmap -->
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-th me-2 text-primary"></i>Haftalık Widget Sorgu Yoğunluğu
                         </h5>
-                        <div class="heatmap-legend d-flex align-items-center gap-2">
-                            <span class="text-muted small">Az</span>
-                            <div class="heatmap-legend-bar"></div>
-                            <span class="text-muted small">Çok</span>
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="heatmap-legend d-flex align-items-center gap-2">
+                                <span class="text-muted small">Az</span>
+                                <div class="heatmap-legend-bar"></div>
+                                <span class="text-muted small">Çok</span>
+                            </div>
+                            <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="heatmapKonteyner" title="Tam Ekran">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -371,28 +432,30 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Saat Bazlı Aktivite -->
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-clock me-2 text-info"></i>Saate Göre Yoğunluk
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="saatlikAktiviteChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body">
                         <canvas id="saatlikAktiviteChart" height="130"></canvas>
                     </div>
                 </div>
             </div>
-
-            <!-- Gün Bazlı Aktivite -->
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-calendar-week me-2 text-success"></i>Güne Göre Yoğunluk
                         </h5>
+                        <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="gunlukAktiviteChart" title="Tam Ekran">
+                            <i class="fas fa-expand"></i>
+                        </button>
                     </div>
                     <div class="card-body">
                         <canvas id="gunlukAktiviteChart" height="130"></canvas>
@@ -400,6 +463,19 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ===================== 17. GÜN: PDF/EXCEL AKSİYON BUTONLARI ===================== -->
+    <div class="fixed-action-buttons">
+        <button class="action-float-btn" id="exportPdfBtn" title="PDF Olarak Dışa Aktar">
+            <i class="fas fa-file-pdf"></i>
+        </button>
+        <button class="action-float-btn" id="exportExcelBtn" title="Excel Olarak Dışa Aktar">
+            <i class="fas fa-file-excel"></i>
+        </button>
+        <button class="action-float-btn" id="shareReportBtn" title="Raporu Paylaş">
+            <i class="fas fa-share-alt"></i>
+        </button>
     </div>
 
 </div>

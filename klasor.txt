@@ -4,6 +4,7 @@ C:.
 |   .gitattributes
 |   .gitignore
 |   .prettierrc
+|   appsettings.Development.json
 |   common.props
 |   FitAI.sln
 |   FitAI.sln.DotSettings
@@ -8100,9 +8101,10 @@ C:.
 |       |   |   _ViewImports.cshtml
 |       |   |   
 |       |   +---Analiz
-|       |   |       Inde.js
 |       |   |       Index.cshtml
+|       |   |       Index.cshtml.cs
 |       |   |       Index.css
+|       |   |       Index.js
 |       |   |       
 |       |   +---Kullanicilar
 |       |   |       Index.cshtml
