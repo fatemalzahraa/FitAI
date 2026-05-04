@@ -18,7 +18,6 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
@@ -101,12 +100,11 @@ public class FitAIWebModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
+     var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
         ConfigureAuthentication(context);
         ConfigureUrls(configuration);
-        ConfigureBundles();
         ConfigureAutoMapper();
         ConfigureVirtualFileSystem(hostingEnvironment);
         ConfigureNavigationServices();
@@ -131,19 +129,6 @@ public class FitAIWebModule : AbpModule
         });
     }
 
-    private void ConfigureBundles()
-    {
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
-    }
 
     private void ConfigureAutoMapper()
     {

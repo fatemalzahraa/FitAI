@@ -1,0 +1,307 @@
+/* =============================================
+   FitAI - Ürün Listeleme CSS (Liste.css)
+   ============================================= */
+
+.fitai-page { padding: 0.5rem 0; }
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--lpx-heading-color, #1a1a2e);
+}
+
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+
+/* =============================================
+   Filtre Paneli
+   ============================================= */
+.filtre-panel {
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    position: sticky;
+    top: 1rem;
+}
+
+.filtre-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* =============================================
+   Ürün Kartları
+   ============================================= */
+.urun-kart {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    height: 100%;
+}
+
+.urun-kart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-color: rgba(79,70,229,0.2);
+}
+
+.urun-kart-header {
+    padding: 1.5rem 1.25rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.urun-kart-ikon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.urun-kart-ad {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+}
+
+.urun-kart-magaza {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.urun-kart-body {
+    padding: 0 1.25rem 1rem;
+}
+
+.urun-kart-aciklama {
+    font-size: 0.8rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    min-height: 36px;
+}
+
+.urun-kart-badgeler {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+}
+
+.urun-kart-footer {
+    padding: 0.75rem 1.25rem;
+    background: rgba(0,0,0,0.02);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.puan-yildiz {
+    color: #f59e0b;
+    font-size: 0.8rem;
+}
+
+.yorum-sayisi {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* Silindi overlay */
+.urun-kart.silindi {
+    opacity: 0.55;
+}
+
+.urun-kart.silindi::after {
+    content: 'SİLİNDİ';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.urun-kart { position: relative; }
+
+/* Badge'ler */
+.kesim-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    background: rgba(79,70,229,0.1);
+    color: #4f46e5;
+}
+
+.kumas-esnek-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    background: rgba(16,185,129,0.1);
+    color: #059669;
+}
+
+.nlp-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+}
+
+.nlp-islendi   { background: rgba(14,165,233,0.1); color: #0284c7; }
+.nlp-bekliyor  { background: rgba(245,158,11,0.1); color: #b45309; }
+
+/* =============================================
+   Liste Görünümü Tablosu
+   ============================================= */
+.urun-liste-table thead th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+
+.urun-liste-table tbody td {
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.urun-liste-table tbody tr:last-child td { border-bottom: none; }
+.urun-liste-table tbody tr:hover td { background: rgba(79,70,229,0.02); cursor: pointer; }
+
+/* =============================================
+   Detay Modal
+   ============================================= */
+.urun-detay-kart {
+    background: rgba(79,70,229,0.04);
+    border: 1px solid rgba(79,70,229,0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.urun-detay-ikon {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+
+.urun-detay-aciklama {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.6;
+    padding: 0.75rem;
+    background: rgba(0,0,0,0.03);
+    border-radius: 8px;
+}
+
+.detay-stat-kart {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 0.75rem 0.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.detay-stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.detay-stat-label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* =============================================
+   Yorum Listesi
+   ============================================= */
+.yorum-listesi {
+    max-height: 420px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.yorum-kart {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+}
+
+.yorum-puan {
+    color: #f59e0b;
+    font-size: 0.8rem;
+}
+
+.yorum-metin {
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.5;
+    margin: 0.35rem 0;
+}
+
+.yorum-nlp-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+}
+
+/* Soft renk */
+.bg-primary-soft { background: rgba(79,70,229,0.1)  !important; }
+.bg-success-soft { background: rgba(16,185,129,0.1) !important; }
+.bg-warning-soft { background: rgba(245,158,11,0.1) !important; }
+.bg-info-soft    { background: rgba(14,165,233,0.1) !important; }
+
+/* Dark Mode */
+[data-bs-theme="dark"] .urun-kart,
+[data-bs-theme="dark"] .detay-stat-kart,
+[data-bs-theme="dark"] .yorum-kart {
+    background: var(--lpx-card-bg, #1e1e2e);
+    border-color: rgba(255,255,255,0.08);
+}
+
+[data-bs-theme="dark"] .urun-kart-ad,
+[data-bs-theme="dark"] .yorum-metin {
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .urun-kart-footer {
+    background: rgba(255,255,255,0.03);
+}

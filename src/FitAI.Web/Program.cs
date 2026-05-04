@@ -33,6 +33,7 @@ public class Program
                 .UseAutofac()
                 .UseSerilog();
             await builder.AddApplicationAsync<FitAIWebModule>();
+
             var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();

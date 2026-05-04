@@ -1,0 +1,200 @@
+/* =============================================
+   FitAI - Ürün Detay CSS (Detay.css)
+   ============================================= */
+
+.fitai-page { padding: 0.5rem 0; }
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--lpx-heading-color, #1a1a2e);
+}
+
+/* =============================================
+   Başlık İkon
+   ============================================= */
+.detay-baslik-ikon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   Bilgi Satırları
+   ============================================= */
+.bilgi-satir {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.bilgi-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.bilgi-deger {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1a1a2e;
+    text-align: right;
+}
+
+/* =============================================
+   Açıklama
+   ============================================= */
+.aciklama-metin {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.7;
+}
+
+/* =============================================
+   İstatistik Kartları
+   ============================================= */
+.istat-kart {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 0.85rem 0.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.istat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.istat-label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* =============================================
+   Puan Dağılımı
+   ============================================= */
+.puan-satir {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.45rem;
+}
+
+.puan-etiket {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6b7280;
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.puan-bar-wrapper {
+    flex: 1;
+    height: 8px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.puan-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: #f59e0b;
+    transition: width 0.6s ease;
+}
+
+.puan-adet {
+    font-size: 0.78rem;
+    color: #6b7280;
+    width: 30px;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   Yorum Listesi
+   ============================================= */
+.yorum-container {
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.yorum-item {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: background 0.15s ease;
+}
+
+.yorum-item:last-child { border-bottom: none; }
+.yorum-item:hover { background: rgba(0,0,0,0.01); }
+
+.yorum-puan-yildiz {
+    color: #f59e0b;
+    font-size: 0.8rem;
+}
+
+.yorum-metin {
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0.4rem 0;
+}
+
+.yorum-nlp-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.18rem 0.5rem;
+    border-radius: 20px;
+}
+
+.nlp-islendi  { background: rgba(14,165,233,0.1);  color: #0284c7; }
+.nlp-bekliyor { background: rgba(245,158,11,0.1);  color: #b45309; }
+
+/* Badge'ler */
+.kesim-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background: rgba(79,70,229,0.1);
+    color: #4f46e5;
+}
+
+.kumas-esnek-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    background: rgba(16,185,129,0.1);
+    color: #059669;
+}
+
+.durum-aktif  { background: rgba(16,185,129,0.1);  color: #059669; font-size:0.72rem; font-weight:600; padding:0.25rem 0.6rem; border-radius:20px; }
+.durum-silindi{ background: rgba(239,68,68,0.1);   color: #dc2626; font-size:0.72rem; font-weight:600; padding:0.25rem 0.6rem; border-radius:20px; }
+
+/* Dark Mode */
+[data-bs-theme="dark"] .istat-kart {
+    background: var(--lpx-card-bg, #1e1e2e);
+    border-color: rgba(255,255,255,0.08);
+}
+
+[data-bs-theme="dark"] .bilgi-deger,
+[data-bs-theme="dark"] .page-title {
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .yorum-metin {
+    color: #cbd5e1;
+}

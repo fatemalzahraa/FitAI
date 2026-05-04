@@ -11,11 +11,11 @@ namespace FitAI.Application.Auth
     public class AuthAppService : IdentityAppServiceBase, IAuthAppService
     {
         private readonly IdentityUserManager _userManager;
-        private readonly SignInManager<Volo.Abp.Identity.IdentityUser> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public AuthAppService(
             IdentityUserManager userManager,
-            SignInManager<Volo.Abp.Identity.IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -25,8 +25,6 @@ namespace FitAI.Application.Auth
         {
             var user = new IdentityUser(GuidGenerator.Create(), input.UserName, input.Email);
             var result = await _userManager.CreateAsync(user, input.Password);
-
-            // Hata yönetimi: ABP'nin CheckErrors() extension metodu
             result.CheckErrors();
         }
 

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using FitAI.Localization;
 using FitAI.MultiTenancy;
 using Volo.Abp.Identity.Web.Navigation;
@@ -23,14 +23,87 @@ public class FitAIMenuContributor : IMenuContributor
         var administration = context.Menu.GetAdministration();
         var l = context.GetLocalizer<FitAIResource>();
 
+        // Ana Sayfa / Dashboard
         context.Menu.Items.Insert(
             0,
             new ApplicationMenuItem(
                 FitAIMenus.Home,
                 l["Menu:Home"],
                 "~/",
-                icon: "fas fa-home",
+                icon: "fas fa-chart-pie",
                 order: 0
+            )
+        );
+
+        // Mağazalar
+        context.Menu.Items.Insert(
+            1,
+            new ApplicationMenuItem(
+                "FitAI.Magazalar",
+                "Mağazalar",
+                "~/Magazalar",
+                icon: "fas fa-store",
+                order: 1
+            )
+        );
+
+        // Ürünler
+        context.Menu.Items.Insert(
+            2,
+            new ApplicationMenuItem(
+                "FitAI.Urunler",
+                "Ürünler",
+                "~/Urunler",
+                icon: "fas fa-tshirt",
+                order: 2
+            )
+        );
+
+        // Kullanıcılar
+        context.Menu.Items.Insert(
+            3,
+            new ApplicationMenuItem(
+                "FitAI.Kullanicilar",
+                "Kullanıcılar",
+                "~/Kullanicilar",
+                icon: "fas fa-users",
+                order: 3
+            )
+        );
+
+        // AI & Analiz
+        context.Menu.Items.Insert(
+            4,
+            new ApplicationMenuItem(
+                "FitAI.Analiz",
+                "AI & Analiz",
+                "~/Analiz",
+                icon: "fas fa-brain",
+                order: 4
+            )
+        );
+
+        // Komisyonlar
+        context.Menu.Items.Insert(
+            5,
+            new ApplicationMenuItem(
+                "FitAI.Komisyonlar",
+                "Komisyonlar",
+                "~/Komisyonlar",
+                icon: "fas fa-lira-sign",
+                order: 5
+            )
+        );
+
+        // Bildirimler
+        context.Menu.Items.Insert(
+            6,
+            new ApplicationMenuItem(
+                "FitAI.Bildirimler",
+                "Bildirimler",
+                "~/Bildirimler",
+                icon: "fas fa-bell",
+                order: 6
             )
         );
 

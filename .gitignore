@@ -263,3 +263,8 @@ src/FitAI.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+
+# Development app settings
+**/appsettings.Development.json
+**/appsettings.*.json
+!**/appsettings.json
