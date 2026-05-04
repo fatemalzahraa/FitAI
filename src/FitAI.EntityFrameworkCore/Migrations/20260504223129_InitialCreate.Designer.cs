@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace FitAI.Migrations
 {
     [DbContext(typeof(FitAIDbContext))]
-    [Migration("20260501141303_Initial")]
-    partial class Initial
+    [Migration("20260504223129_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

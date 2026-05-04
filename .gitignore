@@ -265,6 +265,4 @@ src/FitAI.Blazor.Server.Tiered/Logs/*
 **/wwwroot/libs/*
 
 # Development app settings
-**/appsettings.Development.json
-**/appsettings.*.json
-!**/appsettings.json
+**/appsettings.secrets.json

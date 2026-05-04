@@ -1,0 +1,199 @@
+/* =============================================
+   Komisyon Yönetimi - Index.css
+   ============================================= */
+
+.fitai-page {
+    padding: 0.5rem 0;
+}
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--lpx-heading-color, #1a1a2e);
+}
+
+/* Komisyon KPI Kartları */
+.komisyon-kpi-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(0,0,0,0.07);
+    border-left-width: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.komisyon-kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.komisyon-kpi-ust {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.komisyon-kpi-ikon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.komisyon-kpi-degisim {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+}
+
+.komisyon-kpi-deger {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.1;
+}
+
+.komisyon-kpi-etiket {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.2rem;
+}
+
+.degisim-yukari {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.degisim-asagi {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.border-success { border-left-color: #10b981 !important; }
+.border-primary { border-left-color: #4f46e5 !important; }
+.border-warning { border-left-color: #f59e0b !important; }
+.border-info    { border-left-color: #0ea5e9 !important; }
+
+/* Komisyon Tablosu */
+.komisyon-tablo {
+    width: 100%;
+}
+
+.komisyon-tablo thead th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.04em;
+    padding: 0.85rem 1rem;
+    background: rgba(0,0,0,0.01);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.komisyon-tablo tbody td {
+    font-size: 0.85rem;
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    color: #374151;
+}
+
+.komisyon-tablo tbody tr:hover td {
+    background: rgba(79, 70, 229, 0.02);
+}
+
+/* Durum Badge'leri */
+.odeme-badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.odeme-odendi {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.odeme-beklemede {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.odeme-iptal {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* İşlem Butonu */
+.odeme-aksiyon-btn {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.odeme-aksiyon-btn.odeme-yap {
+    background: #10b981;
+    color: white;
+}
+
+.odeme-aksiyon-btn.odeme-yap:hover {
+    background: #059669;
+}
+
+.odeme-aksiyon-btn.detay {
+    background: #4f46e5;
+    color: white;
+}
+
+.odeme-aksiyon-btn.detay:hover {
+    background: #4338ca;
+}
+
+/* Dark Mode */
+[data-bs-theme="dark"] .komisyon-kpi-card {
+    background: var(--lpx-card-bg, #1e1e2e);
+    border-color: rgba(255,255,255,0.08);
+}
+
+[data-bs-theme="dark"] .komisyon-kpi-deger {
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .komisyon-tablo thead th {
+    background: rgba(255,255,255,0.02);
+    color: #94a3b8;
+}
+
+[data-bs-theme="dark"] .komisyon-tablo tbody td {
+    color: #cbd5e1;
+    border-color: rgba(255,255,255,0.04);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .komisyon-tablo thead th {
+        font-size: 0.65rem;
+        padding: 0.5rem;
+    }
+    .komisyon-tablo tbody td {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+    .komisyon-kpi-deger {
+        font-size: 1.2rem;
+    }
+}

@@ -13,7 +13,7 @@ public class FitAIDbContextFactory : IDesignTimeDbContextFactory<FitAIDbContext>
         var builder = new DbContextOptionsBuilder<FitAIDbContext>();
 
         builder.UseSqlServer(
-            "Server=DESKTOP-RC79S3H\\SQLEXPRESS;Database=FitAI;Trusted_Connection=True;TrustServerCertificate=True"
+            "Server=DESKTOP-RC79S3H\\SQLEXPRESS;Database=FitAI_New;Trusted_Connection=True;TrustServerCertificate=True"
         );
 
         return new FitAIDbContext(builder.Options);

@@ -1,0 +1,211 @@
+@page
+@using FitAI.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<FitAIResource> L
+@model FitAI.Web.Pages.Komisyonlar.IndexModel
+
+<div class="fitai-page">
+
+    <!-- Sayfa Başlığı -->
+    <div class="page-header mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h2 class="page-title mb-0">
+                        <i class="fas fa-lira-sign me-2 text-success"></i>Komisyon Yönetimi
+                    </h2>
+                    <span class="badge bg-success-soft text-success">
+                        <i class="fas fa-chart-line me-1"></i>Gelir Takibi
+                    </span>
+                </div>
+                <p class="text-muted mb-0 small">Mağaza komisyonlarını görüntüleyin, ödemeleri takip edin ve raporlayın.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary" id="raporIndirBtn">
+                    <i class="fas fa-file-excel me-1"></i>Excel Raporu
+                </button>
+                <button class="btn btn-sm btn-primary" id="odemeYapBtn">
+                    <i class="fas fa-money-bill-wave me-1"></i>Ödeme Yap
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Komisyon Özet Kartları -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="komisyon-kpi-card border-success">
+                <div class="komisyon-kpi-ust">
+                    <span class="komisyon-kpi-ikon bg-success-soft text-success">
+                        <i class="fas fa-lira-sign"></i>
+                    </span>
+                    <span class="komisyon-kpi-degisim degisim-yukari">
+                        <i class="fas fa-arrow-up"></i> +12%
+                    </span>
+                </div>
+                <div class="komisyon-kpi-deger" id="toplamKomisyon">₺ —</div>
+                <div class="komisyon-kpi-etiket">Toplam Komisyon</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="komisyon-kpi-card border-primary">
+                <div class="komisyon-kpi-ust">
+                    <span class="komisyon-kpi-ikon bg-primary-soft text-primary">
+                        <i class="fas fa-calendar-month"></i>
+                    </span>
+                    <span class="komisyon-kpi-degisim degisim-yukari">
+                        <i class="fas fa-arrow-up"></i> +8%
+                    </span>
+                </div>
+                <div class="komisyon-kpi-deger" id="aylikKomisyon">₺ —</div>
+                <div class="komisyon-kpi-etiket">Bu Ay Komisyon</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="komisyon-kpi-card border-warning">
+                <div class="komisyon-kpi-ust">
+                    <span class="komisyon-kpi-ikon bg-warning-soft text-warning">
+                        <i class="fas fa-clock"></i>
+                    </span>
+                    <span class="komisyon-kpi-degisim degisim-asagi">
+                        <i class="fas fa-arrow-down"></i> -3%
+                    </span>
+                </div>
+                <div class="komisyon-kpi-deger" id="bekleyenOdeme">₺ —</div>
+                <div class="komisyon-kpi-etiket">Bekleyen Ödeme</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="komisyon-kpi-card border-info">
+                <div class="komisyon-kpi-ust">
+                    <span class="komisyon-kpi-ikon bg-info-soft text-info">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                </div>
+                <div class="komisyon-kpi-deger" id="odendiKomisyon">₺ —</div>
+                <div class="komisyon-kpi-etiket">Ödenen Komisyon</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aylık Komisyon Grafiği -->
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2 text-primary"></i>Aylık Komisyon Trendi
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-xs btn-outline-secondary active" onclick="komisyonGrafikTipiDegistir('line', this)">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                        <button class="btn btn-xs btn-outline-secondary" onclick="komisyonGrafikTipiDegistir('bar', this)">
+                            <i class="fas fa-chart-bar"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="komisyonTrendChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mağaza Komisyon Listesi -->
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-store me-2 text-primary"></i>Mağaza Komisyon Listesi
+            </h5>
+            <div class="d-flex gap-2">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" id="magazaAra" placeholder="Mağaza ara...">
+                </div>
+                <select id="odemeDurumuFiltre" class="form-select form-select-sm" style="width: auto;">
+                    <option value="all">Tümü</option>
+                    <option value="odendi">Ödendi</option>
+                    <option value="beklemede">Beklemede</option>
+                    <option value="iptal">İptal</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table komisyon-tablo mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Mağaza Adı</th>
+                            <th>Paket</th>
+                            <th>Komisyon Oranı</th>
+                            <th>Bu Ay Komisyon</th>
+                            <th>Toplam Komisyon</th>
+                            <th>Durum</th>
+                            <th>Son Ödeme</th>
+                            <th style="width: 100px;">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="komisyonListesiTablosu">
+                        <tr>
+                            <td colspan="9" class="text-center py-4">
+                                <i class="fas fa-spinner fa-spin me-2"></i>Veriler yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+            <span class="text-muted small" id="komisyonSayac">0 mağaza gösteriliyor</span>
+            <nav>
+                <ul class="pagination pagination-sm mb-0" id="komisyonPagination"></ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===================== ÖDEME MODAL ===================== -->
+<div class="modal fade" id="odemeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-money-bill-wave me-2 text-success"></i>Ödeme Yap
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="odemeForm">
+                    <div class="mb-3">
+                        <label class="form-label">Mağaza</label>
+                        <input type="text" class="form-control" id="odemeMagazaAd" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ödenecek Tutar</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₺</span>
+                            <input type="number" class="form-control" id="odemeTutar" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ödeme Tarihi</label>
+                        <input type="date" class="form-control" id="odemeTarih">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="odemeAciklama" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" id="odemeOnaylaBtn">
+                    <i class="fas fa-check me-1"></i>Ödemeyi Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

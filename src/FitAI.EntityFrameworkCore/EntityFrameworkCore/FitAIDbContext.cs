@@ -1,4 +1,4 @@
-﻿using FitAI.Domain.Ai;
+﻿﻿using FitAI.Domain.Ai;
 using FitAI.Domain.Analytics;
 using FitAI.Domain.Commerce;
 using FitAI.Domain.Integration;
@@ -22,7 +22,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-
+using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 namespace FitAI.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
@@ -107,5 +107,6 @@ public class FitAIDbContext :
         builder.Entity<VucutUyumSkoru>();
 
         builder.Entity<WidgetSorguLog>();
+        builder.ConfigureBackgroundJobs(); 
     }
 }
