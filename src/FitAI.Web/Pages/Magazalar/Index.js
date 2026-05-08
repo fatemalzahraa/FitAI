@@ -18,27 +18,23 @@ $(function () {
         var cls = paket === 'Premium' ? 'paket-premium'
                 : paket === 'Standart' ? 'paket-standart'
                 : 'paket-baslangic';
-        var icon = paket === 'Premium' ? '👑 ' : '';
+        var icon = paket === 'Premium' ? '<i class="fas fa-crown me-1"></i>' : '';
         return '<span class="paket-badge ' + cls + '">' + icon + paket + '</span>';
     }
 
     function durumBadge(aktif) {
         return aktif
-            ? '<span class="badge durum-aktif"><i class="fas fa-circle me-1" style="font-size:0.45rem;vertical-align:middle"></i>Aktif</span>'
-            : '<span class="badge durum-pasif"><i class="fas fa-circle me-1" style="font-size:0.45rem;vertical-align:middle"></i>Pasif</span>';
+            ? '<span class="durum-aktif"><i class="fas fa-circle me-1" style="font-size:0.4rem;"></i>Aktif</span>'
+            : '<span class="durum-pasif"><i class="fas fa-circle me-1" style="font-size:0.4rem;"></i>Pasif</span>';
     }
 
     // =============================================
-    // Veri (Placeholder — Magaza entity alanlarına göre)
+    // Veri (Placeholder)
     // =============================================
     var tumMagazalar = [];
     var duzenlenecekId = null;
 
     function yukleMagazalar() {
-        // TODO: StoreController hazır olduğunda abp.ajax ile değiştirilecek
-        // abp.ajax({ url: abp.appPath + 'api/app/magaza' })
-        //     .done(function(data) { tumMagazalar = data.items; tabloYenile(); kpiGuncelle(); });
-
         tumMagazalar = [
             { id: 1, magazaAdi: 'SportZone TR', eposta: 'info@sporzone.com', komisyonOrani: 8,   minimumKomisyonEsigi: 500,  paketTuru: 'Premium',   aktifMi: true  },
             { id: 2, magazaAdi: 'FashionHub',   eposta: 'info@fashionhub.com', komisyonOrani: 5, minimumKomisyonEsigi: 300,  paketTuru: 'Standart',  aktifMi: true  },
@@ -90,8 +86,15 @@ $(function () {
         $tbody.empty();
 
         if (filtre.length === 0) {
-            $tbody.html('<tr><td colspan="8" class="text-center py-4 text-muted">Sonuç bulunamadı.</td></tr>');
-            $('#toplamKayitYazi').text('0 sonuç');
+            $tbody.html(
+                '<tr class="empty-row">' +
+                    '<td colspan="8" class="text-center py-5">' +
+                        '<i class="fas fa-store-slash fa-2x text-muted mb-2 d-block"></i>' +
+                        '<span class="text-muted">Mağaza bulunamadı</span>' +
+                    '</td>' +
+                '</tr>'
+            );
+            $('#toplamKayitYazi').text('0 mağaza');
             return;
         }
 
@@ -109,7 +112,7 @@ $(function () {
                     '<td class="text-muted">' + m.eposta + '</td>' +
                     '<td>' + paketBadge(m.paketTuru) + '</td>' +
                     '<td><strong>%' + m.komisyonOrani + '</strong></td>' +
-                    '<td class="text-muted">' + (m.minimumKomisyonEsigi ? '₺' + m.minimumKomisyonEsigi : '—') + '</td>' +
+                    '<td class="text-muted">' + (m.minimumKomisyonEsigi ? '₺' + m.minimumKomisyonEsigi.toLocaleString('tr-TR') : '—') + '</td>' +
                     '<td>' + durumBadge(m.aktifMi) + '</td>' +
                     '<td class="text-center">' +
                         '<div class="d-flex gap-1 justify-content-center">' +
@@ -125,7 +128,7 @@ $(function () {
             );
         });
 
-        $('#toplamKayitYazi').text(filtre.length + ' / ' + tumMagazalar.length + ' mağaza gösteriliyor');
+        $('#toplamKayitYazi').text(filtre.length + ' / ' + tumMagazalar.length + ' mağaza');
     }
 
     // =============================================
@@ -150,7 +153,7 @@ $(function () {
         duzenlenecekId = id;
         formTemizle();
         $('#magazaModalBaslik').html('<i class="fas fa-store me-2 text-warning"></i>Mağazayı Düzenle');
-        $('#sifreAlani').hide(); // düzenlemede şifre gösterilmez
+        $('#sifreAlani').hide();
 
         $('#f_magazaAdi').val(m.magazaAdi);
         $('#f_eposta').val(m.eposta);
@@ -168,7 +171,6 @@ $(function () {
     // =============================================
     $('#f_paketTuru').on('change', function () {
         paketBilgiGoster($(this).val());
-        // Pakete göre komisyon oranı otomatik ayarla
         var oranlar = { 'Baslangic': 3, 'Standart': 5, 'Premium': 8 };
         if (oranlar[$(this).val()]) {
             $('#f_komisyonOrani').val(oranlar[$(this).val()]);
@@ -178,9 +180,9 @@ $(function () {
     function paketBilgiGoster(paket) {
         if (paketBilgileri[paket]) {
             $('#paketBilgiText').text(paketBilgileri[paket]);
-            $('#paketBilgiKarti').show();
+            $('#paketBilgiKarti').slideDown(200);
         } else {
-            $('#paketBilgiKarti').hide();
+            $('#paketBilgiKarti').slideUp(200);
         }
     }
 
@@ -211,14 +213,10 @@ $(function () {
         };
 
         if (duzenlenecekId) {
-            // TODO: abp.ajax PUT - StoreController güncelle
-            console.log('Güncelle:', duzenlenecekId, veri);
             var idx = tumMagazalar.findIndex(function(m){ return m.id === duzenlenecekId; });
             if (idx !== -1) Object.assign(tumMagazalar[idx], veri);
             abp.notify.success('Mağaza başarıyla güncellendi.', 'Başarılı');
         } else {
-            // TODO: abp.ajax POST - StoreController oluştur
-            console.log('Oluştur:', veri);
             veri.id = tumMagazalar.length + 1;
             tumMagazalar.push(veri);
             abp.notify.success('Mağaza başarıyla oluşturuldu.', 'Başarılı');
@@ -286,7 +284,6 @@ $(function () {
 
     $('#silOnayBtn').on('click', function () {
         if (!silinecekId) return;
-        // TODO: abp.ajax DELETE - StoreController
         tumMagazalar = tumMagazalar.filter(function(m){ return m.id !== silinecekId; });
         abp.notify.warn('Mağaza silindi.', 'Silindi');
         bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
@@ -298,8 +295,12 @@ $(function () {
     // =============================================
     // Filtreler
     // =============================================
-    $('#aramaInput').on('input', tabloYenile);
-    $('#paketFiltre, #durumFiltre').on('change', tabloYenile);
+    $('#aramaInput').on('input', function() {
+        tabloYenile();
+    });
+    $('#paketFiltre, #durumFiltre').on('change', function() {
+        tabloYenile();
+    });
     $('#filtreTemizle').on('click', function () {
         $('#aramaInput').val('');
         $('#paketFiltre').val('');

@@ -107,6 +107,30 @@ public class FitAIMenuContributor : IMenuContributor
             )
         );
 
+        // Talimatlar
+        context.Menu.Items.Insert(
+            7,
+            new ApplicationMenuItem(
+                "FitAI.Talimatlar",
+                "Talimatlar",
+                "~/Talimatlar",
+                icon: "fas fa-microchip",
+                order: 7
+            )
+        );
+
+        // Yorumlar
+        context.Menu.Items.Insert(
+            8,
+            new ApplicationMenuItem(
+                "FitAI.Yorumlar",
+                "Yorumlar",
+                "~/Yorumlar",
+                icon: "fas fa-comments",
+                order: 8
+            )
+        );
+
         if (MultiTenancyConsts.IsEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);

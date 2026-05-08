@@ -21,7 +21,10 @@ $(function () {
         var toplam = talimatlar.length;
         var aktif = talimatlar.filter(function(t) { return t.durum === 'aktif'; }).length;
         var beklemede = talimatlar.filter(function(t) { return t.durum === 'beklemede'; }).length;
-        var bugunCalisan = talimatlar.filter(function(t) { return t.sonCalisma && t.sonCalisma.startsWith('2024-05-07'); }).length;
+        var bugun = new Date().toISOString().slice(0, 10);
+        var bugunCalisan = talimatlar.filter(function(t) { 
+            return t.sonCalisma && t.sonCalisma.startsWith(bugun);
+        }).length;
         
         $('#toplamTalimat').text(toplam);
         $('#aktifTalimat').text(aktif);
@@ -31,13 +34,13 @@ $(function () {
 
     // Filtreleme
     function filtrelenmisTalimatlar() {
-        var filtered = talimatlar;
+        var filtered = talimatlar.slice();
         
         if (aktifDurumFiltre !== 'all') {
             filtered = filtered.filter(function(t) { return t.durum === aktifDurumFiltre; });
         }
         
-        if (aramaKelimesi !== '') {
+        if (aramaKelimesi.trim() !== '') {
             filtered = filtered.filter(function(t) {
                 return t.ad.toLowerCase().includes(aramaKelimesi.toLowerCase()) ||
                        t.aciklama.toLowerCase().includes(aramaKelimesi.toLowerCase());
@@ -47,10 +50,27 @@ $(function () {
         return filtered;
     }
 
+    // Tetikleyici metni
+    function tetikleyiciText(tetikleyici) {
+        if (tetikleyici === 'zamanli') return '⏰ Zamanlı';
+        if (tetikleyici === 'olay') return '⚡ Olay';
+        return '👆 Manuel';
+    }
+
+    // Durum metni
+    function durumText(durum) {
+        if (durum === 'aktif') return 'Aktif';
+        if (durum === 'beklemede') return 'Beklemede';
+        return 'Pasif';
+    }
+
     // Tabloyu render et
     function talimatTablosunuRender() {
         var filtered = filtrelenmisTalimatlar();
-        var toplamSayfa = Math.ceil(filtered.length / sayfaBoyutu);
+        var toplamSayfa = Math.max(1, Math.ceil(filtered.length / sayfaBoyutu));
+        
+        if (aktifSayfa > toplamSayfa) aktifSayfa = 1;
+        
         var start = (aktifSayfa - 1) * sayfaBoyutu;
         var sayfaTalimatlar = filtered.slice(start, start + sayfaBoyutu);
         
@@ -58,7 +78,14 @@ $(function () {
         $tbody.empty();
         
         if (sayfaTalimatlar.length === 0) {
-            $tbody.append('<tr><td colspan="7" class="text-center py-4"><i class="fas fa-inbox me-2"></i>Talimat bulunamadı</td></tr>');
+            $tbody.html(
+                '<tr class="empty-row">' +
+                    '<td colspan="7" class="text-center py-5">' +
+                        '<i class="fas fa-inbox fa-2x text-muted mb-2 d-block"></i>' +
+                        '<span class="text-muted">Talimat bulunamadı</span>' +
+                    '</td>' +
+                '</tr>'
+            );
             $('#talimatSayac').text('0 talimat gösteriliyor');
             return;
         }
@@ -66,18 +93,18 @@ $(function () {
         sayfaTalimatlar.forEach(function(t) {
             var durumClass = t.durum === 'aktif' ? 'durum-aktif' : (t.durum === 'beklemede' ? 'durum-beklemede' : 'durum-pasif');
             var durumIcon = t.durum === 'aktif' ? 'fa-check-circle' : (t.durum === 'beklemede' ? 'fa-clock' : 'fa-pause-circle');
-            var tetikleyiciText = t.tetikleyici === 'zamanli' ? '⏰ Zamanlı' : (t.tetikleyici === 'olay' ? '⚡ Olay' : '👆 Manuel');
             var sonCalismaText = t.sonCalisma !== '-' ? t.sonCalisma : '—';
+            var aciklamaShort = t.aciklama.length > 35 ? t.aciklama.substring(0, 35) + '...' : t.aciklama;
             
             $tbody.append(
                 '<tr data-id="' + t.id + '">' +
-                    '<td><strong>' + t.ad + '</strong></td>' +
-                    '<td class="text-muted small">' + (t.aciklama.length > 40 ? t.aciklama.substring(0,40) + '...' : t.aciklama) + '</td>' +
-                    '<td>' + tetikleyiciText + '</td>' +
+                    '<td><strong>' + escapeHtml(t.ad) + '</strong></td>' +
+                    '<td class="text-muted small">' + escapeHtml(aciklamaShort) + '</td>' +
+                    '<td>' + tetikleyiciText(t.tetikleyici) + '</td>' +
                     '<td class="font-monospace small">' + (t.cron !== '-' ? t.cron : '—') + '</td>' +
-                    '<td><span class="durum-badge ' + durumClass + '"><i class="fas ' + durumIcon + ' me-1"></i>' + (t.durum === 'aktif' ? 'Aktif' : (t.durum === 'beklemede' ? 'Beklemede' : 'Pasif')) + '</span></td>' +
+                    '<td><span class="durum-badge ' + durumClass + '"><i class="fas ' + durumIcon + ' me-1"></i>' + durumText(t.durum) + '</span></td>' +
                     '<td class="small">' + sonCalismaText + '</td>' +
-                    '<td>' +
+                    '<td class="text-center">' +
                         '<div class="talimat-aksiyon">' +
                             '<button class="aksiyon-btn detay" data-id="' + t.id + '" data-aksiyon="detay" title="Detay"><i class="fas fa-eye"></i></button>' +
                             '<button class="aksiyon-btn calistir" data-id="' + t.id + '" data-aksiyon="calistir" title="Çalıştır"><i class="fas fa-play"></i></button>' +
@@ -92,6 +119,17 @@ $(function () {
         $('#talimatSayac').text(sayfaTalimatlar.length + ' talimat gösteriliyor (toplam ' + filtered.length + ')');
         paginationRender(toplamSayfa);
     }
+    
+    // XSS koruması için basit escape
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
     // Pagination render
     function paginationRender(toplamSayfa) {
@@ -100,22 +138,33 @@ $(function () {
         
         if (toplamSayfa <= 1) return;
         
-        for (var i = 1; i <= Math.min(toplamSayfa, 5); i++) {
+        // Previous
+        if (aktifSayfa > 1) {
+            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="prev"><i class="fas fa-chevron-left"></i></a></li>');
+        }
+        
+        // Sayfa numaraları
+        var startPage = Math.max(1, aktifSayfa - 2);
+        var endPage = Math.min(toplamSayfa, startPage + 4);
+        if (endPage - startPage < 4 && startPage > 1) startPage = Math.max(1, endPage - 4);
+        
+        for (var i = startPage; i <= endPage; i++) {
             $pagination.append('<li class="page-item ' + (i === aktifSayfa ? 'active' : '') + '"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
         }
         
-        if (toplamSayfa > 5) {
-            $pagination.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
-            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="' + toplamSayfa + '">' + toplamSayfa + '</a></li>');
+        // Next
+        if (aktifSayfa < toplamSayfa) {
+            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="next"><i class="fas fa-chevron-right"></i></a></li>');
         }
         
         $pagination.find('.page-link').on('click', function(e) {
             e.preventDefault();
             var page = $(this).data('page');
-            if (page) {
-                aktifSayfa = page;
-                talimatTablosunuRender();
-            }
+            if (page === 'prev' && aktifSayfa > 1) aktifSayfa--;
+            else if (page === 'next' && aktifSayfa < toplamSayfa) aktifSayfa++;
+            else if (!isNaN(parseInt(page))) aktifSayfa = parseInt(page);
+            else return;
+            talimatTablosunuRender();
         });
     }
 
@@ -140,22 +189,24 @@ $(function () {
         yeniTalimatModal.show();
     });
 
+    // Kaydet
     $('#talimatKaydetBtn').on('click', function() {
-        var yeniTalimat = {
-            id: talimatlar.length + 1,
-            ad: $('#talimatAd').val(),
-            aciklama: $('#talimatAciklama').val(),
-            tetikleyici: $('#talimatTetikleyici').val(),
-            cron: $('#talimatCron').val() || '-',
-            durum: 'aktif',
-            sonCalisma: '-',
-            prompt: $('#talimatPrompt').val()
-        };
-        
-        if (!yeniTalimat.ad) {
+        var ad = $('#talimatAd').val().trim();
+        if (!ad) {
             abp.message.warning('Lütfen talimat adını girin.', 'Uyarı');
             return;
         }
+        
+        var yeniTalimat = {
+            id: talimatlar.length + 1,
+            ad: ad,
+            aciklama: $('#talimatAciklama').val().trim() || '',
+            tetikleyici: $('#talimatTetikleyici').val(),
+            cron: $('#talimatCron').val().trim() || '-',
+            durum: 'aktif',
+            sonCalisma: '-',
+            prompt: $('#talimatPrompt').val().trim() || ''
+        };
         
         talimatlar.push(yeniTalimat);
         kpiGuncelle();
@@ -175,14 +226,14 @@ $(function () {
         if (aksiyon === 'detay') {
             $('#talimatDetayIcerik').html(
                 '<div class="talimat-detay-bilgi">' +
-                    '<p><strong>Talimat Adı:</strong> ' + talimat.ad + '</p>' +
-                    '<p><strong>Açıklama:</strong> ' + talimat.aciklama + '</p>' +
-                    '<p><strong>Tetikleyici:</strong> ' + (talimat.tetikleyici === 'zamanli' ? 'Zamanlı' : (talimat.tetikleyici === 'olay' ? 'Olay Tabanlı' : 'Manuel')) + '</p>' +
+                    '<p><strong>Talimat Adı:</strong> ' + escapeHtml(talimat.ad) + '</p>' +
+                    '<p><strong>Açıklama:</strong> ' + escapeHtml(talimat.aciklama || '—') + '</p>' +
+                    '<p><strong>Tetikleyici:</strong> ' + tetikleyiciText(talimat.tetikleyici) + '</p>' +
                     '<p><strong>Çalışma Zamanı:</strong> ' + (talimat.cron !== '-' ? talimat.cron : '—') + '</p>' +
-                    '<p><strong>Durum:</strong> ' + (talimat.durum === 'aktif' ? 'Aktif' : (talimat.durum === 'beklemede' ? 'Beklemede' : 'Pasif')) + '</p>' +
-                    '<p><strong>Son Çalışma:</strong> ' + talimat.sonCalisma + '</p>' +
+                    '<p><strong>Durum:</strong> ' + durumText(talimat.durum) + '</p>' +
+                    '<p><strong>Son Çalışma:</strong> ' + (talimat.sonCalisma !== '-' ? talimat.sonCalisma : '—') + '</p>' +
                     '<p><strong>AI Prompt:</strong></p>' +
-                    '<pre class="small bg-light p-2 rounded">' + talimat.prompt + '</pre>' +
+                    '<pre>' + escapeHtml(talimat.prompt || '—') + '</pre>' +
                 '</div>'
             );
             var detayModal = new bootstrap.Modal(document.getElementById('talimatDetayModal'));
@@ -191,9 +242,12 @@ $(function () {
         else if (aksiyon === 'calistir') {
             abp.message.info('"' + talimat.ad + '" talimatı çalıştırılıyor...', 'Talimat Çalıştırılıyor');
             setTimeout(function() {
-                talimat.sonCalisma = new Date().toISOString().slice(0,10).replace('T',' ') + ' ' + new Date().toTimeString().slice(0,8);
+                var now = new Date();
+                var formatted = now.toISOString().slice(0, 10).replace('T', ' ') + ' ' + now.toTimeString().slice(0, 8);
+                talimat.sonCalisma = formatted;
                 talimatTablosunuRender();
                 abp.message.success('"' + talimat.ad + '" talimatı başarıyla çalıştırıldı.', 'Başarılı');
+                kpiGuncelle();
             }, 1500);
         }
         else if (aksiyon === 'duzenle') {
@@ -214,8 +268,15 @@ $(function () {
         }
     });
 
+    // Test Et butonu (detay modalında)
+    $('#talimatTestEtBtn').on('click', function() {
+        var modal = bootstrap.Modal.getInstance(document.getElementById('talimatDetayModal'));
+        if (modal) modal.hide();
+        abp.message.info('Test çalıştırma özelliği yakında eklenecek.', 'Bilgi');
+    });
+
     // Başlangıç
     kpiGuncelle();
     talimatTablosunuRender();
 
-}); 
+});

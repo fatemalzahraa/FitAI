@@ -8,12 +8,15 @@
 
     <!-- Sayfa Başlığı -->
     <div class="page-header mb-4">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <h2 class="page-title mb-1">
-                    <i class="fas fa-store me-2 text-primary"></i>Mağaza Yönetimi
-                </h2>
-                <p class="text-muted mb-0 small">Platforma kayıtlı tüm mağazalar</p>
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="page-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div>
+                    <h2 class="page-title mb-1">Mağaza Yönetimi</h2>
+                    <p class="text-muted mb-0 small">Platforma kayıtlı tüm mağazaları yönetin</p>
+                </div>
             </div>
             <button class="btn btn-primary" id="yeniMagazaBtn">
                 <i class="fas fa-plus me-2"></i>Yeni Mağaza Ekle
@@ -21,69 +24,79 @@
         </div>
     </div>
 
-    <!-- Özet KPI -->
-    <div class="row g-3 mb-4">
+    <!-- Özet KPI Kartları -->
+    <div class="row g-4 mb-4">
         <div class="col-md-3">
-            <div class="magaza-kpi-card">
-                <div class="magaza-kpi-icon bg-primary-soft text-primary">
+            <div class="magaza-kpi-card" data-card="total">
+                <div class="magaza-kpi-icon">
                     <i class="fas fa-store"></i>
                 </div>
-                <div>
+                <div class="magaza-kpi-info">
                     <div class="magaza-kpi-value" id="toplamMagaza">—</div>
                     <div class="magaza-kpi-label">Toplam Mağaza</div>
+                    <div class="magaza-kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> +2 bu ay
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="magaza-kpi-card">
-                <div class="magaza-kpi-icon bg-success-soft text-success">
+            <div class="magaza-kpi-card" data-card="active">
+                <div class="magaza-kpi-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <div>
+                <div class="magaza-kpi-info">
                     <div class="magaza-kpi-value" id="aktifMagaza">—</div>
                     <div class="magaza-kpi-label">Aktif Mağaza</div>
+                    <div class="magaza-kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> +1 bu ay
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="magaza-kpi-card">
-                <div class="magaza-kpi-icon bg-warning-soft text-warning">
+            <div class="magaza-kpi-card" data-card="premium">
+                <div class="magaza-kpi-icon">
                     <i class="fas fa-crown"></i>
                 </div>
-                <div>
+                <div class="magaza-kpi-info">
                     <div class="magaza-kpi-value" id="premiumMagaza">—</div>
                     <div class="magaza-kpi-label">Premium Paket</div>
+                    <div class="magaza-kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> +%12 büyüme
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="magaza-kpi-card">
-                <div class="magaza-kpi-icon bg-info-soft text-info">
+            <div class="magaza-kpi-card" data-card="commission">
+                <div class="magaza-kpi-icon">
                     <i class="fas fa-percentage"></i>
                 </div>
-                <div>
+                <div class="magaza-kpi-info">
                     <div class="magaza-kpi-value" id="ortKomisyon">—</div>
-                    <div class="magaza-kpi-label">Ort. Komisyon Oranı</div>
+                    <div class="magaza-kpi-label">Ortalama Komisyon</div>
+                    <div class="magaza-kpi-trend trend-up">
+                        <i class="fas fa-chart-line"></i> Sektör üstü
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Filtre -->
-    <div class="card mb-3">
-        <div class="card-body py-3">
-            <div class="row g-2 align-items-center">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0">
-                            <i class="fas fa-search text-muted"></i>
-                        </span>
-                        <input type="text" id="aramaInput" class="form-control border-start-0"
-                               placeholder="Mağaza adı veya e-posta ara..." />
+    <!-- Filtre Kartı -->
+    <div class="filter-card mb-4">
+        <div class="filter-card-body">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-5">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="aramaInput" class="form-control search-input"
+                               placeholder="Mağaza adı veya e-posta ile ara...">
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <select id="paketFiltre" class="form-select">
+                    <select id="paketFiltre" class="form-select filter-select">
                         <option value="">Tüm Paketler</option>
                         <option value="Premium">Premium</option>
                         <option value="Standart">Standart</option>
@@ -91,15 +104,15 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select id="durumFiltre" class="form-select">
+                    <select id="durumFiltre" class="form-select filter-select">
                         <option value="">Tüm Durumlar</option>
                         <option value="aktif">Aktif</option>
                         <option value="pasif">Pasif</option>
                     </select>
                 </div>
-                <div class="col-md-2 text-end">
-                    <button class="btn btn-outline-secondary btn-sm" id="filtreTemizle">
-                        <i class="fas fa-times me-1"></i>Temizle
+                <div class="col-md-1">
+                    <button class="btn btn-outline-secondary w-100" id="filtreTemizle" title="Filtreleri Temizle">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -107,42 +120,48 @@
     </div>
 
     <!-- Mağaza Tablosu -->
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover magaza-table mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Mağaza Adı</th>
-                            <th>E-posta</th>
-                            <th>Paket</th>
-                            <th>Komisyon Oranı</th>
-                            <th>Min. Eşik</th>
-                            <th>Durum</th>
-                            <th class="text-center">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody id="magazaTablosu">
-                        <tr>
-                            <td colspan="8" class="text-center py-4 text-muted">
-                                <i class="fas fa-spinner fa-spin me-2"></i>Yükleniyor...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="table-card">
+        <div class="table-header">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-list-ul text-primary"></i>
+                <span class="fw-semibold">Mağaza Listesi</span>
             </div>
+            <span class="table-badge" id="toplamKayitYazi">—</span>
         </div>
-        <div class="card-footer d-flex align-items-center justify-content-between py-2">
-            <span class="text-muted small" id="toplamKayitYazi">—</span>
+        <div class="table-responsive">
+            <table class="magaza-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mağaza Adı</th>
+                        <th>E-posta</th>
+                        <th>Paket</th>
+                        <th>Komisyon Oranı</th>
+                        <th>Min. Eşik</th>
+                        <th>Durum</th>
+                        <th class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody id="magazaTablosu">
+                    <tr class="loading-row">
+                        <td colspan="8">
+                            <div class="d-flex justify-content-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                                <span class="ms-2 text-muted">Veriler yükleniyor...</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
 </div>
 
 <!-- Mağaza Oluştur / Düzenle Modal -->
 <div class="modal fade" id="magazaModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="magazaModalBaslik">
@@ -151,102 +170,109 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-
-                <div class="row g-3">
-                    <!-- Mağaza Adı -->
-                    <div class="col-md-6">
-                        <label class="form-label form-label-sm">
-                            Mağaza Adı <span class="text-danger">*</span>
-                        </label>
-                        <input type="text" id="f_magazaAdi" class="form-control"
-                               placeholder="örn. SportZone TR" />
-                        <div class="invalid-feedback" id="err_magazaAdi"></div>
-                    </div>
-
-                    <!-- E-posta -->
-                    <div class="col-md-6">
-                        <label class="form-label form-label-sm">
-                            E-posta <span class="text-danger">*</span>
-                        </label>
-                        <input type="email" id="f_eposta" class="form-control"
-                               placeholder="magaza@ornek.com" />
-                        <div class="invalid-feedback" id="err_eposta"></div>
-                    </div>
-
-                    <!-- Şifre -->
-                    <div class="col-md-6" id="sifreAlani">
-                        <label class="form-label form-label-sm">
-                            Şifre <span class="text-danger">*</span>
-                        </label>
-                        <div class="input-group">
-                            <input type="password" id="f_sifre" class="form-control"
-                                   placeholder="En az 8 karakter" />
-                            <button class="btn btn-outline-secondary" type="button" id="sifreGoster">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="invalid-feedback" id="err_sifre"></div>
-                    </div>
-
-                    <!-- Paket Türü -->
-                    <div class="col-md-6">
-                        <label class="form-label form-label-sm">Paket Türü</label>
-                        <select id="f_paketTuru" class="form-select">
-                            <option value="">Seçiniz</option>
-                            <option value="Baslangic">Başlangıç</option>
-                            <option value="Standart">Standart</option>
-                            <option value="Premium">Premium</option>
-                        </select>
-                    </div>
-
-                    <!-- Komisyon Oranı -->
-                    <div class="col-md-6">
-                        <label class="form-label form-label-sm">
-                            Komisyon Oranı (%) <span class="text-danger">*</span>
-                        </label>
-                        <div class="input-group">
-                            <input type="number" id="f_komisyonOrani" class="form-control"
-                                   placeholder="örn. 8" min="0" max="100" step="0.5" />
-                            <span class="input-group-text">%</span>
-                        </div>
-                        <div class="invalid-feedback" id="err_komisyonOrani"></div>
-                    </div>
-
-                    <!-- Minimum Komisyon Eşiği -->
-                    <div class="col-md-6">
-                        <label class="form-label form-label-sm">
-                            Minimum Komisyon Eşiği (₺)
-                            <span class="text-muted small">(opsiyonel)</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">₺</span>
-                            <input type="number" id="f_minimumEsik" class="form-control"
-                                   placeholder="örn. 500" min="0" step="10" />
-                        </div>
-                    </div>
-
-                    <!-- Aktif Mi -->
-                    <div class="col-12">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="f_aktifMi" checked />
-                            <label class="form-check-label" for="f_aktifMi">
-                                Mağaza aktif olarak başlasın
+                <form id="magazaForm">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Mağaza Adı <span class="text-danger">*</span>
                             </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-store text-muted"></i>
+                                </span>
+                                <input type="text" id="f_magazaAdi" class="form-control" 
+                                       placeholder="Örn: SportZone TR">
+                            </div>
+                            <div class="invalid-feedback" id="err_magazaAdi"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                E-posta <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-envelope text-muted"></i>
+                                </span>
+                                <input type="email" id="f_eposta" class="form-control"
+                                       placeholder="magaza@ornek.com">
+                            </div>
+                            <div class="invalid-feedback" id="err_eposta"></div>
+                        </div>
+                        <div class="col-md-6" id="sifreAlani">
+                            <label class="form-label">
+                                Şifre <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lock text-muted"></i>
+                                </span>
+                                <input type="password" id="f_sifre" class="form-control"
+                                       placeholder="En az 8 karakter">
+                                <button class="btn btn-outline-secondary" type="button" id="sifreGoster">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback" id="err_sifre"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Paket Türü</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-box text-muted"></i>
+                                </span>
+                                <select id="f_paketTuru" class="form-select">
+                                    <option value="">Seçiniz</option>
+                                    <option value="Baslangic">Başlangıç</option>
+                                    <option value="Standart">Standart</option>
+                                    <option value="Premium">Premium</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Komisyon Oranı (%) <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-percent text-muted"></i>
+                                </span>
+                                <input type="number" id="f_komisyonOrani" class="form-control"
+                                       placeholder="8" min="0" max="100" step="0.5">
+                            </div>
+                            <div class="invalid-feedback" id="err_komisyonOrani"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                Minimum Komisyon Eşiği (₺)
+                                <span class="text-muted small">(opsiyonel)</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lira-sign text-muted"></i>
+                                </span>
+                                <input type="number" id="f_minimumEsik" class="form-control"
+                                       placeholder="500" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="f_aktifMi" checked>
+                                <label class="form-check-label" for="f_aktifMi">
+                                    Mağaza aktif olarak başlasın
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12" id="paketBilgiKarti" style="display:none">
+                            <div class="package-info">
+                                <i class="fas fa-info-circle"></i>
+                                <span id="paketBilgiText"></span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Paket Bilgi Kartı -->
-                    <div class="col-12" id="paketBilgiKarti" style="display:none">
-                        <div class="paket-bilgi-alert alert mb-0">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <span id="paketBilgiText"></span>
-                        </div>
-                    </div>
-                </div>
-
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i>İptal
                 </button>
                 <button type="button" class="btn btn-primary" id="magazaKaydetBtn">
@@ -259,23 +285,21 @@
 
 <!-- Silme Onay Modal -->
 <div class="modal fade" id="silOnayModal" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-danger">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Mağazayı Sil
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body py-0">
-                <p class="text-muted">
+            <div class="modal-body text-center py-4">
+                <div class="warning-icon mb-3">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h5 class="mb-2">Mağazayı Sil</h5>
+                <p class="text-muted mb-0">
                     <strong id="silMagazaAdi"></strong> mağazasını silmek istediğinize emin misiniz?
-                    Bu işlem geri alınamaz.
+                    Bu işlem <strong>geri alınamaz</strong>.
                 </p>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                <button type="button" class="btn btn-danger btn-sm" id="silOnayBtn">
+            <div class="modal-footer justify-content-center border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-danger" id="silOnayBtn">
                     <i class="fas fa-trash me-1"></i>Evet, Sil
                 </button>
             </div>

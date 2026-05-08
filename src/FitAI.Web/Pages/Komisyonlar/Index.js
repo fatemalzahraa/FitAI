@@ -37,13 +37,16 @@ $(function () {
                     label: 'Komisyon Geliri (₺)',
                     data: gelirler,
                     borderColor: '#10b981',
-                    backgroundColor: tip === 'line' ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.2)',
-                    borderWidth: 2.5,
+                    backgroundColor: tip === 'line' ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.25)',
+                    borderWidth: 3,
                     fill: tip === 'line',
                     tension: 0.4,
                     pointRadius: tip === 'line' ? 4 : 0,
                     pointBackgroundColor: '#10b981',
-                    borderRadius: tip === 'bar' ? 6 : 0
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 6,
+                    borderRadius: tip === 'bar' ? 8 : 0
                 }]
             },
             options: {
@@ -70,7 +73,7 @@ $(function () {
     }
 
     window.komisyonGrafikTipiDegistir = function(tip, btn) {
-        $('.card-header .btn-xs').removeClass('active');
+        $('.card-header .btn-group .btn').removeClass('active');
         $(btn).addClass('active');
         komisyonTrendChartYukle(tip);
     };
@@ -90,13 +93,13 @@ $(function () {
 
     // Filtreleme
     function filtrelenmisMagazalar() {
-        var filtered = komisyonVerileri;
+        var filtered = komisyonVerileri.slice();
         
         if (aktifDurumFiltre !== 'all') {
             filtered = filtered.filter(function(m) { return m.durum === aktifDurumFiltre; });
         }
         
-        if (aramaKelimesi !== '') {
+        if (aramaKelimesi.trim() !== '') {
             filtered = filtered.filter(function(m) {
                 return m.magaza.toLowerCase().includes(aramaKelimesi.toLowerCase());
             });
@@ -108,7 +111,10 @@ $(function () {
     // Tabloyu render et
     function komisyonTablosunuRender() {
         var filtered = filtrelenmisMagazalar();
-        var toplamSayfa = Math.ceil(filtered.length / sayfaBoyutu);
+        var toplamSayfa = Math.max(1, Math.ceil(filtered.length / sayfaBoyutu));
+        
+        if (aktifSayfa > toplamSayfa) aktifSayfa = 1;
+        
         var start = (aktifSayfa - 1) * sayfaBoyutu;
         var sayfaMagazalar = filtered.slice(start, start + sayfaBoyutu);
         
@@ -116,7 +122,14 @@ $(function () {
         $tbody.empty();
         
         if (sayfaMagazalar.length === 0) {
-            $tbody.append('<tr><td colspan="9" class="text-center py-4"><i class="fas fa-inbox me-2"></i>Mağaza bulunamadı</td></tr>');
+            $tbody.append(
+                '<tr>' +
+                    '<td colspan="9" class="text-center py-5">' +
+                        '<i class="fas fa-inbox fa-2x text-muted mb-2 d-block"></i>' +
+                        '<span class="text-muted">Mağaza bulunamadı</span>' +
+                    '</td>' +
+                '</tr>'
+            );
             $('#komisyonSayac').text('0 mağaza gösteriliyor');
             return;
         }
@@ -125,20 +138,26 @@ $(function () {
             var durumClass = m.durum === 'odendi' ? 'odeme-odendi' : (m.durum === 'beklemede' ? 'odeme-beklemede' : 'odeme-iptal');
             var durumIcon = m.durum === 'odendi' ? 'fa-check-circle' : (m.durum === 'beklemede' ? 'fa-clock' : 'fa-times-circle');
             var durumText = m.durum === 'odendi' ? 'Ödendi' : (m.durum === 'beklemede' ? 'Beklemede' : 'İptal');
-            var paketBadge = m.paket === 'Premium' ? '<span class="badge bg-warning-soft text-warning"><i class="fas fa-crown me-1" style="font-size:.6rem"></i>' + m.paket + '</span>' : (m.paket === 'Standart' ? '<span class="badge bg-primary-soft text-primary">' + m.paket + '</span>' : '<span class="badge bg-secondary-soft text-secondary">' + m.paket + '</span>');
+            var paketBadge = m.paket === 'Premium' ? 
+                '<span class="badge bg-warning-soft text-warning"><i class="fas fa-crown me-1"></i>' + m.paket + '</span>' : 
+                (m.paket === 'Standart' ? 
+                    '<span class="badge bg-primary-soft text-primary">' + m.paket + '</span>' : 
+                    '<span class="badge bg-secondary-soft text-secondary">' + m.paket + '</span>');
             
             $tbody.append(
                 '<tr data-id="' + m.id + '">' +
-                    '<td>' + (start + index + 1) + '</td>' +
+                    '<td><span class="fw-semibold">' + (start + index + 1) + '</span></td>' +
                     '<td><strong>' + m.magaza + '</strong></td>' +
                     '<td>' + paketBadge + '</td>' +
-                    '<td>%' + m.oran + '</td>' +
-                    '<td class="fw-semibold text-success">₺ ' + m.buAy.toLocaleString('tr-TR') + '</td>' +
-                    '<td>₺ ' + m.toplam.toLocaleString('tr-TR') + '</td>' +
+                    '<td><span class="badge bg-light text-dark">%' + m.oran + '</span></td>' +
+                    '<td class="fw-bold text-success">₺ ' + m.buAy.toLocaleString('tr-TR') + '</td>' +
+                    '<td class="text-muted">₺ ' + m.toplam.toLocaleString('tr-TR') + '</td>' +
                     '<td><span class="odeme-badge ' + durumClass + '"><i class="fas ' + durumIcon + ' me-1"></i>' + durumText + '</span></td>' +
-                    '<td class="small">' + m.sonOdeme + '</span></td>' +
+                    '<td class="small">' + (m.sonOdeme || '—') + '</td>' +
                     '<td>' +
-                        (m.durum === 'beklemede' ? '<button class="odeme-aksiyon-btn odeme-yap" data-id="' + m.id + '" data-magaza="' + m.magaza + '" data-tutar="' + m.buAy + '"><i class="fas fa-money-bill-wave me-1"></i>Ödeme Yap</button>' : '<button class="odeme-aksiyon-btn detay" data-id="' + m.id + '" data-magaza="' + m.magaza + '">Detay</button>') +
+                        (m.durum === 'beklemede' ? 
+                            '<button class="odeme-aksiyon-btn odeme-yap" data-id="' + m.id + '" data-magaza="' + m.magaza + '" data-tutar="' + m.buAy + '"><i class="fas fa-money-bill-wave me-1"></i>Öde</button>' : 
+                            '<button class="odeme-aksiyon-btn detay" data-id="' + m.id + '" data-magaza="' + m.magaza + '"><i class="fas fa-info-circle me-1"></i>Detay</button>') +
                     '</td>' +
                 '</tr>'
             );
@@ -155,22 +174,33 @@ $(function () {
         
         if (toplamSayfa <= 1) return;
         
-        for (var i = 1; i <= Math.min(toplamSayfa, 5); i++) {
+        // Previous butonu
+        if (aktifSayfa > 1) {
+            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="prev"><i class="fas fa-chevron-left"></i></a></li>');
+        }
+        
+        // Sayfa numaraları (maks 5 göster)
+        var startPage = Math.max(1, aktifSayfa - 2);
+        var endPage = Math.min(toplamSayfa, startPage + 4);
+        if (endPage - startPage < 4 && startPage > 1) startPage = Math.max(1, endPage - 4);
+        
+        for (var i = startPage; i <= endPage; i++) {
             $pagination.append('<li class="page-item ' + (i === aktifSayfa ? 'active' : '') + '"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
         }
         
-        if (toplamSayfa > 5) {
-            $pagination.append('<li class="page-item disabled"><span class="page-link">...</span></li>');
-            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="' + toplamSayfa + '">' + toplamSayfa + '</a></li>');
+        // Next butonu
+        if (aktifSayfa < toplamSayfa) {
+            $pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="next"><i class="fas fa-chevron-right"></i></a></li>');
         }
         
         $pagination.find('.page-link').on('click', function(e) {
             e.preventDefault();
             var page = $(this).data('page');
-            if (page) {
-                aktifSayfa = page;
-                komisyonTablosunuRender();
-            }
+            if (page === 'prev' && aktifSayfa > 1) aktifSayfa--;
+            else if (page === 'next' && aktifSayfa < toplamSayfa) aktifSayfa++;
+            else if (!isNaN(parseInt(page))) aktifSayfa = parseInt(page);
+            else return;
+            komisyonTablosunuRender();
         });
     }
 
@@ -234,9 +264,9 @@ $(function () {
         var magaza = komisyonVerileri.find(function(m) { return m.id === magazaId; });
         if (magaza) {
             abp.message.info(
-                'Mağaza: ' + magaza.magaza + '\n' +
-                'Paket: ' + magaza.paket + '\n' +
-                'Komisyon Oranı: %' + magaza.oran + '\n' +
+                '<strong>' + magaza.magaza + '</strong><br>' +
+                'Paket: ' + magaza.paket + '<br>' +
+                'Komisyon Oranı: %' + magaza.oran + '<br>' +
                 'Toplam Komisyon: ₺ ' + magaza.toplam.toLocaleString('tr-TR'),
                 'Mağaza Detayı'
             );
@@ -245,7 +275,7 @@ $(function () {
 
     // Rapor indirme
     $('#raporIndirBtn').on('click', function() {
-        abp.message.info('Komisyon raporu Excel formatında hazırlanıyor ve indirilecek...', 'Rapor');
+        abp.message.info('Komisyon raporu Excel formatında hazırlanıyor...', 'Rapor');
     });
 
     $('#odemeYapBtn').on('click', function() {

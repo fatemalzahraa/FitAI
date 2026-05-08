@@ -12,6 +12,7 @@ C:.
 |   klasor.txt
 |   package-lock.json
 |   package.json
+|   Pages.zip
 |   Program.cs
 |   web.config
 |   yarn.lock
@@ -7052,6 +7053,8 @@ C:.
 |                   
 +---Pages
 |   |   FitAIPageModel.cs
+|   |   Index.cshtml
+|   |   Index.cshtml.cs
 |   |   _ViewImports.cshtml
 |   |   
 |   +---Analiz
@@ -7061,8 +7064,6 @@ C:.
 |   |       Index.js
 |   |       
 |   +---Dashboard
-|   |       Index.cshtml
-|   |       Index.cshtml.cs
 |   |       Index.css
 |   |       Index.js
 |   |       

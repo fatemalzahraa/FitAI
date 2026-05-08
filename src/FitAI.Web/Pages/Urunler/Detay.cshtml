@@ -8,111 +8,113 @@
 
     <!-- Geri Dön -->
     <div class="mb-3">
-        <a href="/Urunler/Liste" class="btn btn-sm btn-outline-secondary">
+        <a href="/Urunler/Liste" class="btn btn-outline-secondary back-btn">
             <i class="fas fa-arrow-left me-1"></i>Ürün Listesine Dön
         </a>
     </div>
 
-    <!-- Yükleniyor Overlay -->
+    <!-- Yükleniyor -->
     <div id="yukleniyor" class="text-center py-5">
-        <i class="fas fa-spinner fa-spin fa-2x text-primary mb-3 d-block"></i>
-        <span class="text-muted">Ürün bilgileri yükleniyor...</span>
+        <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+        <div class="text-muted">Ürün bilgileri yükleniyor...</div>
     </div>
 
     <!-- Ana İçerik -->
     <div id="anaIcerik" style="display:none">
 
         <!-- Başlık -->
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
-            <div class="d-flex align-items-center gap-3">
-                <div class="detay-baslik-ikon" id="baslikIkon"></div>
-                <div>
-                    <h2 class="page-title mb-1" id="baslikAd"></h2>
-                    <div class="text-muted small" id="baslikMagaza"></div>
+        <div class="detail-header mb-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="detail-icon" id="baslikIkon"></div>
+                    <div>
+                        <h2 class="detail-title mb-1" id="baslikAd"></h2>
+                        <div class="detail-magaza" id="baslikMagaza"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex gap-2">
-                <a href="#" class="btn btn-warning btn-sm" id="duzenleBtn">
-                    <i class="fas fa-pencil-alt me-1"></i>Düzenle
-                </a>
-                <button class="btn btn-danger btn-sm" id="silBtn">
-                    <i class="fas fa-trash me-1"></i>Sil
-                </button>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-warning btn-sm" id="duzenleBtn">
+                        <i class="fas fa-pencil-alt me-1"></i>Düzenle
+                    </a>
+                    <button class="btn btn-danger btn-sm" id="silBtn">
+                        <i class="fas fa-trash me-1"></i>Sil
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="row g-3">
+        <div class="row g-4">
 
             <!-- Sol Kolon -->
             <div class="col-xl-4">
 
                 <!-- Ürün Bilgi Kartı -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="card-title mb-0">
-                            <i class="fas fa-info-circle me-2 text-primary"></i>Ürün Bilgileri
-                        </h6>
+                <div class="info-card mb-4">
+                    <div class="info-card-header">
+                        <i class="fas fa-info-circle text-primary"></i>
+                        <span>Ürün Bilgileri</span>
                     </div>
-                    <div class="card-body">
-                        <div class="bilgi-satir">
-                            <span class="bilgi-label">Mağaza</span>
-                            <span class="bilgi-deger" id="bilgiMagaza">—</span>
+                    <div class="info-card-body">
+                        <div class="info-row">
+                            <span class="info-label">Mağaza</span>
+                            <span class="info-value" id="bilgiMagaza">—</span>
                         </div>
-                        <div class="bilgi-satir">
-                            <span class="bilgi-label">Kesim Türü</span>
-                            <span class="bilgi-deger" id="bilgiKesim">—</span>
+                        <div class="info-row">
+                            <span class="info-label">Kesim Türü</span>
+                            <span class="info-value" id="bilgiKesim">—</span>
                         </div>
-                        <div class="bilgi-satir">
-                            <span class="bilgi-label">Kumaş Tipi</span>
-                            <span class="bilgi-deger" id="bilgiKumas">—</span>
+                        <div class="info-row">
+                            <span class="info-label">Kumaş Tipi</span>
+                            <span class="info-value" id="bilgiKumas">—</span>
                         </div>
-                        <div class="bilgi-satir">
-                            <span class="bilgi-label">Durum</span>
-                            <span class="bilgi-deger" id="bilgiDurum">—</span>
+                        <div class="info-row">
+                            <span class="info-label">Durum</span>
+                            <span class="info-value" id="bilgiDurum">—</span>
                         </div>
-                        <div class="bilgi-satir border-0 pb-0">
-                            <span class="bilgi-label">Ürün ID</span>
-                            <span class="bilgi-deger text-muted" id="bilgiId">—</span>
+                        <div class="info-row border-0 pb-0">
+                            <span class="info-label">Ürün ID</span>
+                            <span class="info-value text-muted" id="bilgiId">—</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Açıklama -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h6 class="card-title mb-0">
-                            <i class="fas fa-align-left me-2 text-secondary"></i>Açıklama
-                        </h6>
+                <div class="info-card mb-4">
+                    <div class="info-card-header">
+                        <i class="fas fa-align-left text-secondary"></i>
+                        <span>Açıklama</span>
                     </div>
-                    <div class="card-body">
-                        <p class="aciklama-metin mb-0" id="aciklamaMetni">—</p>
+                    <div class="info-card-body">
+                        <p class="desc-text mb-0" id="aciklamaMetni">—</p>
                     </div>
                 </div>
 
                 <!-- İstatistik Kartları -->
                 <div class="row g-2">
                     <div class="col-6">
-                        <div class="istat-kart text-center">
-                            <div class="istat-value text-warning" id="istatOrtPuan">—</div>
-                            <div class="istat-label">Ort. Puan</div>
+                        <div class="stat-card text-center">
+                            <div class="stat-value text-warning" id="istatOrtPuan">—</div>
+                            <div class="stat-label">Ort. Puan</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="istat-kart text-center">
-                            <div class="istat-value text-primary" id="istatYorumSayisi">—</div>
-                            <div class="istat-label">Toplam Yorum</div>
+                        <div class="stat-card text-center">
+                            <div class="stat-value text-primary" id="istatYorumSayisi">—</div>
+                            <div class="stat-label">Toplam Yorum</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="istat-kart text-center">
-                            <div class="istat-value text-success" id="istatNlpIslendi">—</div>
-                            <div class="istat-label">NLP Analiz</div>
+                        <div class="stat-card text-center">
+                            <div class="stat-value text-success" id="istatNlpIslendi">—</div>
+                            <div class="stat-label">NLP Analiz</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="istat-kart text-center">
-                            <div class="istat-value text-warning" id="istatNlpBekliyor">—</div>
-                            <div class="istat-label">NLP Bekliyor</div>
+                        <div class="stat-card text-center">
+                            <div class="stat-value text-warning" id="istatNlpBekliyor">—</div>
+                            <div class="stat-label">NLP Bekliyor</div>
                         </div>
                     </div>
                 </div>
@@ -123,25 +125,23 @@
             <div class="col-xl-8">
 
                 <!-- Puan Dağılımı -->
-                <div class="card mb-3">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h6 class="card-title mb-0">
-                            <i class="fas fa-chart-bar me-2 text-warning"></i>Puan Dağılımı
-                        </h6>
-                        <span class="text-muted small" id="toplamYorumYazi">—</span>
+                <div class="info-card mb-4">
+                    <div class="info-card-header">
+                        <i class="fas fa-chart-bar text-warning"></i>
+                        <span>Puan Dağılımı</span>
+                        <span class="ms-auto text-muted small" id="toplamYorumYazi">—</span>
                     </div>
-                    <div class="card-body">
+                    <div class="info-card-body">
                         <div id="puanDagilimi"></div>
                     </div>
                 </div>
 
                 <!-- Yorum Listesi -->
-                <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h6 class="card-title mb-0">
-                            <i class="fas fa-comments me-2 text-info"></i>Kullanıcı Yorumları
-                        </h6>
-                        <div class="d-flex gap-2 align-items-center">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-comments text-info"></i>
+                        <span>Kullanıcı Yorumları</span>
+                        <div class="ms-auto d-flex gap-2">
                             <select id="yorumFiltre" class="form-select form-select-sm w-auto">
                                 <option value="hepsi">Tümü</option>
                                 <option value="nlp_islendi">NLP Analiz Edildi</option>
@@ -156,7 +156,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="card-body p-0">
+                    <div class="info-card-body p-0">
                         <div id="yorumListesi" class="yorum-container">
                             <!-- JS ile doldurulacak -->
                         </div>
@@ -171,27 +171,25 @@
     <div id="bulunamadi" style="display:none" class="text-center py-5">
         <i class="fas fa-exclamation-circle fa-3x text-muted mb-3 d-block"></i>
         <h5 class="text-muted">Ürün bulunamadı.</h5>
-        <a href="/Urunler/Liste" class="btn btn-outline-primary btn-sm mt-2">Listeye Dön</a>
+        <a href="/Urunler/Liste" class="btn btn-outline-primary mt-2">Listeye Dön</a>
     </div>
 
 </div>
 
 <!-- Silme Onay Modal -->
 <div class="modal fade" id="silOnayModal" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-danger">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Ürünü Sil
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-body text-center py-4">
+                <div class="warning-icon mb-3">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h5 class="mb-2">Ürünü Sil</h5>
+                <p class="text-muted mb-0">Bu ürünü silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
             </div>
-            <div class="modal-body py-0">
-                <p class="text-muted">Bu ürünü silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                <button type="button" class="btn btn-danger btn-sm" id="silOnayBtn">
+            <div class="modal-footer justify-content-center border-0 pt-0">
+                <button class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button class="btn btn-danger" id="silOnayBtn">
                     <i class="fas fa-trash me-1"></i>Evet, Sil
                 </button>
             </div>

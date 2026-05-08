@@ -21,7 +21,7 @@
                 <p class="text-muted mb-0 small">Platformun detaylı grafik ve istatistikleri</p>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <select id="urunSecici" class="form-select form-select-sm" style="width:200px">
+                <select id="urunSecici" class="form-select form-select-sm" style="width:220px">
                     <option value="all">Tüm Ürünler</option>
                     <option value="1" selected>Premium Spor Ayakkabı</option>
                     <option value="2">Yoga Matı</option>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <!-- ===================== 17. GÜN: ÜRÜN DETAY KARTI ===================== -->
+    <!-- Ürün Detay Kartı -->
     <div class="urun-detay-karti mb-4" id="urunDetayKarti" style="display:none;">
         <div class="row g-3 align-items-center">
             <div class="col-md-7">
@@ -215,7 +215,7 @@
         </div>
     </div>
 
-    <!-- ===================== SEKME 2: NLP & DUYGU ===================== -->
+    <!-- ===================== SEKME 2: NLP & DUYGU (Geliştirilmiş) ===================== -->
     <div id="tab-nlp" class="analiz-tab-icerik" style="display:none">
 
         <div class="row g-3 mb-4">
@@ -266,7 +266,7 @@
         </div>
 
         <div class="row g-3">
-            <div class="col-xl-8">
+            <div class="col-xl-7">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
@@ -281,7 +281,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-5">
                 <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
@@ -303,8 +303,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6">
-                <div class="card">
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-xl-5">
+                <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-tags me-2 text-info"></i>En Çok Geçen Anahtar Kelimeler
@@ -315,11 +318,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6">
-                <div class="card">
+            <div class="col-xl-7">
+                <div class="card h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-tshirt me-2 text-warning"></i>Kategoriye Göre Memnuniyet
+                            <i class="fas fa-star me-2 text-warning"></i>Kategoriye Göre Memnuniyet
                         </h5>
                         <button class="btn btn-xs btn-outline-secondary fullscreen-chart-btn" data-target="kategoriMemnuniyetChart" title="Tam Ekran">
                             <i class="fas fa-expand"></i>
@@ -327,6 +330,58 @@
                     </div>
                     <div class="card-body">
                         <canvas id="kategoriMemnuniyetChart" height="160"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yorum Listesi ve AI Özet Kartı (Yeni) -->
+        <div class="row g-3 mt-3">
+            <div class="col-xl-7">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-comments me-2 text-primary"></i>Kullanıcı Yorumları
+                        </h5>
+                        <div class="duygu-filtre">
+                            <div class="btn-group btn-group-sm" id="duyguFiltreBtnGrubu">
+                                <button class="btn btn-outline-secondary active" data-duygu="all">Tümü</button>
+                                <button class="btn btn-outline-success" data-duygu="pozitif">Pozitif</button>
+                                <button class="btn btn-outline-danger" data-duygu="negatif">Negatif</button>
+                                <button class="btn btn-outline-secondary" data-duygu="notr">Nötr</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="yorum-listesi" id="yorumListesi"></div>
+                        <div class="text-center py-3" id="yorumBos" style="display:none;">
+                            <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
+                            <p class="text-muted small mb-0">Bu filtreye uygun yorum bulunamadı.</p>
+                        </div>
+                        <div class="text-center pb-3" id="dahaFazlaYorumBtn" style="display:none;">
+                            <button class="btn btn-sm btn-outline-primary">Daha Fazla Yükle <i class="fas fa-chevron-down ms-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5">
+                <div class="card nlp-ozet-karti h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-robot me-2 text-primary"></i>AI Duygu Analizi Özeti
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="ozet-baslik mb-3">
+                            <i class="fas fa-chart-line me-1"></i> Trendler
+                        </div>
+                        <ul class="ozet-listesi" id="ozetListesi">
+                            <li><i class="fas fa-spinner fa-pulse me-2"></i> Yükleniyor...</li>
+                        </ul>
+                        <div class="ozet-oneri mt-3 p-3 bg-primary-soft rounded-3">
+                            <i class="fas fa-lightbulb text-primary me-2"></i>
+                            <span>AI Önerisi: Veriler analiz ediliyor...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,7 +411,7 @@
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-chart-bar me-2 text-success"></i>Mağaza Komisyon Karşılaştırması
+                            <i class="fas fa-chart-bar me-2 text-success"></i>Mağaza Karşılaştırması
                         </h5>
                         <div class="d-flex gap-2">
                             <select id="magazaMetrikSecim" class="form-select form-select-sm" style="width:auto">
@@ -465,7 +520,7 @@
         </div>
     </div>
 
-    <!-- ===================== 17. GÜN: PDF/EXCEL AKSİYON BUTONLARI ===================== -->
+    <!-- Aksiyon Butonları -->
     <div class="fixed-action-buttons">
         <button class="action-float-btn" id="exportPdfBtn" title="PDF Olarak Dışa Aktar">
             <i class="fas fa-file-pdf"></i>
