@@ -1,0 +1,231 @@
+@page
+@using FitAI.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<FitAIResource> L
+@model FitAI.Web.Pages.IndexModel
+
+@section styles {
+    <abp-style src="/Pages/Index.css" />
+}
+
+@section scripts {
+    <abp-script src="/Pages/Index.js" />
+}
+
+<div class="fitai-dashboard">
+
+    <!-- Üst Başlık -->
+    <div class="dashboard-header mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <div class="welcome-badge mb-2">
+                    <i class="fas fa-smile-wink me-1"></i> Hoş geldiniz, Admin
+                </div>
+                <h2 class="dashboard-title mb-1">
+                    FitAI Kontrol Paneli
+                    <span class="sistem-durum-badge ms-2">
+                        <span class="durum-nokta"></span> Sistem Aktif
+                    </span>
+                </h2>
+                <p class="dashboard-subtitle text-muted mb-0">
+                    Platformunuzun genel görünümü ve performans metrikleri
+                </p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="dashboard-date">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    <span id="currentDate"></span>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" id="refreshDashboardBtn" title="Yenile">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="action-btn" id="exportDashboardBtn" title="Rapor İndir">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI Kartları -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-card" data-card="magaza">
+                <div class="kpi-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="toplamMagaza">—</div>
+                    <div class="kpi-label">Toplam Mağaza</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-arrow-up"></i> +2 bu ay
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-card" data-card="kullanici">
+                <div class="kpi-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="toplamKullanici">—</div>
+                    <div class="kpi-label">Toplam Kullanıcı</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-user-plus"></i> +12 bu ay
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-card" data-card="urun">
+                <div class="kpi-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="toplamUrun">—</div>
+                    <div class="kpi-label">Toplam Ürün</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-plus-circle"></i> +8 bu ay
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-card" data-card="komisyon">
+                <div class="kpi-icon">
+                    <i class="fas fa-lira-sign"></i>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-value" id="toplamKomisyon">—</div>
+                    <div class="kpi-label">Bu Ay Komisyon</div>
+                    <div class="kpi-trend trend-up">
+                        <i class="fas fa-chart-line"></i> +%18 artış
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orta Alan -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-8">
+            <div class="card chart-card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-chart-line text-primary"></i>
+                        <h5 class="card-title mb-0">Aylık Komisyon Geliri</h5>
+                    </div>
+                    <span class="text-muted small">Son 6 Ay</span>
+                </div>
+                <div class="card-body">
+                    <canvas id="komisyonChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4">
+            <div class="stats-stack h-100">
+                <div class="stat-item">
+                    <div class="stat-icon bg-primary-soft">
+                        <i class="fas fa-brain text-primary"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Ort. Vücut Uyum Skoru</div>
+                        <div class="stat-value text-primary" id="ortalamaUyumSkoru">—</div>
+                        <div class="progress mt-2" style="height:6px;">
+                            <div class="progress-bar bg-primary" id="uyumSkoruBar" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon bg-success-soft">
+                        <i class="fas fa-mouse-pointer text-success"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Widget Sorguları (Bu Ay)</div>
+                        <div class="stat-value text-success" id="widgetSorguSayisi">—</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon bg-warning-soft">
+                        <i class="fas fa-shopping-cart text-warning"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Satın Alma Dönüşümü</div>
+                        <div class="stat-value text-warning" id="satinAlmaOrani">—</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon bg-info-soft">
+                        <i class="fas fa-robot text-info"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">AI Attribution Satışlar</div>
+                        <div class="stat-value text-info" id="aiAttributionSayi">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alt Alan -->
+    <div class="row g-4">
+        <div class="col-xl-6">
+            <div class="card notification-card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-bell text-warning"></i>
+                        <h5 class="card-title mb-0">Son Bildirimler</h5>
+                    </div>
+                    <a href="/Bildirimler" class="btn btn-sm btn-outline-secondary">Tümü</a>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="bildirim-listesi" id="bildirimListesi">
+                        <li class="bildirim-item loading-item">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                            <span class="ms-2 text-muted">Bildirimler yükleniyor...</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="card store-card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-store text-success"></i>
+                        <h5 class="card-title mb-0">Aktif Mağazalar</h5>
+                    </div>
+                    <a href="/Magazalar" class="btn btn-sm btn-outline-secondary">Tümü</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Mağaza Adı</th>
+                                    <th>Paket</th>
+                                    <th>Komisyon</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="magazaTablosu">
+                                <tr class="loading-row">
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-center py-4">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                                            <span class="ms-2 text-muted">Yükleniyor...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
