@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.DbMigrator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40f8f907ca995696baff38956238c8271a92ed68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2317572b608cb82fa3bfc24caa68fde7cfc03109")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.DbMigrator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.DbMigrator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

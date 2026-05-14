@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40f8f907ca995696baff38956238c8271a92ed68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92c70345fa282f1478611b70f45caa29cbe9cb67")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
