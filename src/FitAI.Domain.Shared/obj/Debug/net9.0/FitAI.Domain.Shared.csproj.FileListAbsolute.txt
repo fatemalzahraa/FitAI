@@ -25,3 +25,17 @@ C:\Users\metro\Github\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domai
 C:\Users\metro\Github\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\refint\FitAI.Domain.Shared.dll
 C:\Users\metro\Github\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.pdb
 C:\Users\metro\Github\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\ref\FitAI.Domain.Shared.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.deps.json
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\bin\Debug\net9.0\FitAI.Domain.Shared.pdb
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.csproj.AssemblyReference.cache
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.EmbeddedFilesManifest.cache
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.AssemblyInfoInputs.cache
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.AssemblyInfo.cs
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.csproj.CoreCompileInputs.cache
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.sourcelink.json
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\refint\FitAI.Domain.Shared.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\FitAI.Domain.Shared.pdb
+C:\Users\RAGHAD\FitAI\src\FitAI.Domain.Shared\obj\Debug\net9.0\ref\FitAI.Domain.Shared.dll
