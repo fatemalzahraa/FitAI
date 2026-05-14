@@ -9615,27 +9615,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\metro\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages": {},
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+      "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
       "projectName": "FitAI.EntityFrameworkCore",
-      "projectPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
-      "packagesPath": "C:\\Users\\metro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.EntityFrameworkCore\\obj\\",
+      "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+      "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\metro\\Github\\FitAI\\NuGet.Config",
-        "C:\\Users\\metro\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.1.config",
+        "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
+        "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -9644,15 +9641,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\DevExpress 24.1\\Components\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
-              "projectPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
+            "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
+              "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
             }
           }
         }
@@ -9667,7 +9663,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -9746,7 +9742,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
