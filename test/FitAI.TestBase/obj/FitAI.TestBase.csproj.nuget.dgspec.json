@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\test\\FitAI.TestBase\\FitAI.TestBase.csproj": {}
+    "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\test\\FitAI.TestBase\\FitAI.TestBase.csproj": {
+    "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\test\\FitAI.TestBase\\FitAI.TestBase.csproj",
+        "projectUniqueName": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj",
         "projectName": "FitAI.TestBase",
-        "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\test\\FitAI.TestBase\\FitAI.TestBase.csproj",
-        "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\test\\FitAI.TestBase\\obj\\",
+        "projectPath": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj",
+        "packagesPath": "C:\\Users\\metro\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
-          "C:\\Users\\avcia\\NuGet.Config",
-          "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\metro\\Github\\FitAI\\NuGet.Config",
+          "C:\\Users\\metro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.1.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -28,6 +29,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\DevExpress 24.1\\Components\\System\\Components\\Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -115,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

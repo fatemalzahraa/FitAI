@@ -4738,25 +4738,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\avcia\\.nuget\\packages\\": {},
+    "C:\\Users\\metro\\.nuget\\packages\\": {},
+    "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
+      "projectUniqueName": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
       "projectName": "FitAI.HttpApi.Client",
-      "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
-      "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.HttpApi.Client\\obj\\",
+      "projectPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.HttpApi.Client\\FitAI.HttpApi.Client.csproj",
+      "packagesPath": "C:\\Users\\metro\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.HttpApi.Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files\\DevExpress 24.1\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
-        "C:\\Users\\avcia\\NuGet.Config",
-        "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\metro\\Github\\FitAI\\NuGet.Config",
+        "C:\\Users\\metro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.1.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4765,14 +4767,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\DevExpress 24.1\\Components\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
-              "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
+            "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+              "projectPath": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
             }
           }
         }
@@ -4834,7 +4837,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
