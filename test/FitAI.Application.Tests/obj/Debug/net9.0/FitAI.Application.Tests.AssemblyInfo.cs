@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.Application.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c08649f75e50f6791fb255dba6955b9b833a5fb2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+987c0262a173378e881a9d71c39b5433cf81d5d0")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.Application.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.Application.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
