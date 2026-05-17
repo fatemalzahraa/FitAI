@@ -645,3 +645,5 @@ C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\obj\Debug\net9.0\refint
 C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\obj\Debug\net9.0\FitAI.Application.Tests.pdb
 C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\obj\Debug\net9.0\FitAI.Application.Tests.genruntimeconfig.cache
 C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\obj\Debug\net9.0\ref\FitAI.Application.Tests.dll
+C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\metro\Github\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll

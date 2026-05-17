@@ -163,6 +163,10 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MagazaId");
+
+                    b.HasIndex("UrunId");
+
                     b.ToTable("NlpBulgulari");
                 });
 
@@ -668,6 +672,8 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MagazaId");
+
                     b.ToTable("Urunler");
                 });
 
@@ -719,11 +725,20 @@ namespace FitAI.Migrations
                     b.Property<int>("UrunId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UrunId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("YorumMetni")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UrunId");
+
+                    b.HasIndex("UrunId1");
+
+                    b.HasIndex("MagazaId", "NlpIslendi");
 
                     b.ToTable("Yorumlar");
                 });
@@ -2283,6 +2298,42 @@ namespace FitAI.Migrations
                     b.HasOne("FitAI.Domain.Users.Kullanici", null)
                         .WithMany("AiTalimatlar")
                         .HasForeignKey("KullaniciId");
+                });
+
+            modelBuilder.Entity("FitAI.Domain.Products.Urun", b =>
+                {
+                    b.HasOne("FitAI.Domain.Commerce.Magaza", "Magaza")
+                        .WithMany()
+                        .HasForeignKey("MagazaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Magaza");
+                });
+
+            modelBuilder.Entity("FitAI.Domain.Products.Yorum", b =>
+                {
+                    b.HasOne("FitAI.Domain.Commerce.Magaza", "Magaza")
+                        .WithMany()
+                        .HasForeignKey("MagazaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FitAI.Domain.Products.Urun", null)
+                        .WithMany()
+                        .HasForeignKey("UrunId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FitAI.Domain.Products.Urun", "Urun")
+                        .WithMany()
+                        .HasForeignKey("UrunId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Magaza");
+
+                    b.Navigation("Urun");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRoleClaim", b =>

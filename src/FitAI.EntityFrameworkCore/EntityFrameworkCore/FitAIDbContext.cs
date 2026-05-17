@@ -1,4 +1,4 @@
-﻿﻿using FitAI.Domain.Ai;
+﻿using FitAI.Domain.Ai;
 using FitAI.Domain.Analytics;
 using FitAI.Domain.Commerce;
 using FitAI.Domain.Integration;
@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -23,6 +24,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+
 namespace FitAI.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
@@ -92,13 +94,39 @@ public class FitAIDbContext :
         builder.Entity<KullaniciProfil>();
 
         builder.Entity<Urun>();
-        builder.Entity<Yorum>();
+
+        // --- YORUMLAR TABLOSU PERFORMANS OPTİMİZASYONU & İLİŞKİ DÜZENLEMESİ ---
+        builder.Entity<Yorum>(b =>
+        {
+            b.ConfigureByConvention(); // ABP'nin standart alanlarını yapılandırır
+
+            // AI arka plan motorunun MagazaId ve NlpIslendi filtresini uçuracak index
+            b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
+            b.HasIndex(x => x.UrunId);
+
+            // MULTIPLE CASCADE PATHS ÇÖZÜMÜ:
+            // Ürün silindiğinde yorumların zincirleme (cascade) silinmesini kapatıyoruz.
+            // Bu sayede SQL Server'ın çakışma (cycle) koruması aşılmış oluyor.
+            b.HasOne<Urun>()
+             .WithMany()
+             .HasForeignKey(x => x.UrunId)
+             .OnDelete(DeleteBehavior.NoAction);
+        });
 
         builder.Entity<PlatformBaglantisi>();
         builder.Entity<SenkronizasyonLog>();
 
         builder.Entity<AiTalimat>();
-        builder.Entity<NlpBulgusu>();
+
+        // --- NLP BULGULARI TABLOSU PERFORMANS OPTİMİZASYONU ---
+        builder.Entity<NlpBulgusu>(b =>
+        {
+            b.ConfigureByConvention();
+
+            // Analytics servisinin GroupBy ve Where (MagazaId) sorgularını uçuracak index
+            b.HasIndex(x => x.MagazaId);
+            b.HasIndex(x => x.UrunId);
+        });
 
         builder.Entity<Bildirim>();
         builder.Entity<OnboardingAdim>();
@@ -107,6 +135,7 @@ public class FitAIDbContext :
         builder.Entity<VucutUyumSkoru>();
 
         builder.Entity<WidgetSorguLog>();
-        builder.ConfigureBackgroundJobs(); 
+
+        builder.ConfigureBackgroundJobs();
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -100,7 +101,7 @@ public class FitAIWebModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-     var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
         ConfigureAuthentication(context);
@@ -109,7 +110,7 @@ public class FitAIWebModule : AbpModule
         ConfigureVirtualFileSystem(hostingEnvironment);
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
-        ConfigureSwaggerServices(context.Services);
+        ConfigureSwaggerServices(context.Services); // Kritik: Bu metod aþaðýda güncellendi
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -128,7 +129,6 @@ public class FitAIWebModule : AbpModule
             options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
         });
     }
-
 
     private void ConfigureAutoMapper()
     {
@@ -169,6 +169,7 @@ public class FitAIWebModule : AbpModule
         });
     }
 
+    // --- GÜNCEL SWAGGER METODU ---
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
         services.AddAbpSwaggerGen(
@@ -177,6 +178,32 @@ public class FitAIWebModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "FitAI API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+
+                // Kilit butonu tanýmlamasý
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Örnek: 'Bearer 12345abcdef'"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             }
         );
     }
