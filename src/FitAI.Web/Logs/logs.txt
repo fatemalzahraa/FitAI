@@ -31803,3 +31803,8 @@ HelpLink.EvtID = 208
 HelpLink.BaseHelpUrl = https://go.microsoft.com/fwlink
 HelpLink.LinkId = 20476
 
+2026-05-15 01:51:56.296 +03:00 [INF] Lock is acquired for TokenCleanupBackgroundWorker
+2026-05-15 01:51:56.335 +03:00 [INF] Start cleanup.
+2026-05-15 01:51:56.335 +03:00 [INF] Start cleanup tokens.
+2026-05-15 01:51:56.518 +03:00 [INF] Start cleanup authorizations.
+2026-05-15 01:51:56.578 +03:00 [INF] Lock is released for TokenCleanupBackgroundWorker
