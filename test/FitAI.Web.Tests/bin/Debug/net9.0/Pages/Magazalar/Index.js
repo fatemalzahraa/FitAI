@@ -1,8 +1,14 @@
 $(function () {
 
-    // =============================================
-    // Yardımcı Fonksiyonlar
-    // =============================================
+    // ABP'nin dinamik proxy nesnesi koruması
+    var _magazaService = (window.fitAI && fitAI.magazalar && fitAI.magazalar.magaza) 
+                          ? fitAI.magazalar.magaza 
+                          : null;
+
+    if (!_magazaService) {
+        console.warn("ABP Servis Proxy yüklenemedi. Standart JQuery AJAX moduna geçiliyor.");
+    }
+
     var renkler = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
     function rastgeleRenk(id) { return renkler[id % renkler.length]; }
     function ilkHarf(ad) { return ad ? ad.charAt(0).toUpperCase() : '?'; }
@@ -15,264 +21,180 @@ $(function () {
 
     function paketBadge(paket) {
         if (!paket) return '<span class="text-muted">—</span>';
-        var cls = paket === 'Premium' ? 'paket-premium'
-                : paket === 'Standart' ? 'paket-standart'
-                : 'paket-baslangic';
-        var icon = paket === 'Premium' ? '<i class="fas fa-crown me-1"></i>' : '';
-        return '<span class="paket-badge ' + cls + '">' + icon + paket + '</span>';
+        var cls = paket === 'Premium' ? 'paket-premium' : paket === 'Standart' ? 'paket-standart' : 'paket-baslangic';
+        return '<span class="paket-badge ' + cls + '">' + paket + '</span>';
     }
 
     function durumBadge(aktif) {
-        return aktif
-            ? '<span class="durum-aktif"><i class="fas fa-circle me-1" style="font-size:0.4rem;"></i>Aktif</span>'
-            : '<span class="durum-pasif"><i class="fas fa-circle me-1" style="font-size:0.4rem;"></i>Pasif</span>';
+        return aktif 
+            ? '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2"><i class="fas fa-check-circle me-1"></i>Aktif</span>'
+            : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2"><i class="fas fa-times-circle me-1"></i>Pasif</span>';
     }
 
     // =============================================
-    // Veri (Placeholder)
+    // 1. VERİLERİ VERİTABANINDAN ÇEKME (GET)
     // =============================================
-    var tumMagazalar = [];
-    var duzenlenecekId = null;
+    var tumMagazalar = []; 
 
-    function yukleMagazalar() {
-        tumMagazalar = [
-            { id: 1, magazaAdi: 'SportZone TR', eposta: 'info@sporzone.com', komisyonOrani: 8,   minimumKomisyonEsigi: 500,  paketTuru: 'Premium',   aktifMi: true  },
-            { id: 2, magazaAdi: 'FashionHub',   eposta: 'info@fashionhub.com', komisyonOrani: 5, minimumKomisyonEsigi: 300,  paketTuru: 'Standart',  aktifMi: true  },
-            { id: 3, magazaAdi: 'ActiveWear',   eposta: 'info@activewear.com', komisyonOrani: 5, minimumKomisyonEsigi: null, paketTuru: 'Standart',  aktifMi: false },
-            { id: 4, magazaAdi: 'FitStyle',     eposta: 'info@fitstyle.com',   komisyonOrani: 3, minimumKomisyonEsigi: null, paketTuru: 'Baslangic', aktifMi: true  },
-            { id: 5, magazaAdi: 'RunnerShop',   eposta: 'info@runner.com',     komisyonOrani: 8, minimumKomisyonEsigi: 750,  paketTuru: 'Premium',   aktifMi: true  },
-        ];
-
-        tabloYenile();
-        kpiGuncelle();
+    function magazalariYukle() {
+        if (_magazaService) {
+            // ABP Proxy Modu
+            _magazaService.getList({ maxResultCount: 1000 })
+                .then(function (result) {
+                    tumMagazalar = result.items || []; 
+                    tabloYenile();
+                    kpiGuncelle();
+                })
+                .catch(function (err) {
+                    abp.notify.error('Veriler yüklenirken hata oluştu.');
+                    console.error(err);
+                });
+        } else {
+            // Standart Fallback AJAX Modu
+            $.ajax({
+                url: '/api/app/magaza?maxResultCount=1000',
+                type: 'GET',
+                success: function (result) {
+                    tumMagazalar = result.items || []; 
+                    tabloYenile();
+                    kpiGuncelle();
+                }
+            });
+        }
     }
 
-    // =============================================
-    // KPI Güncelle
-    // =============================================
-    function kpiGuncelle() {
-        var aktif   = tumMagazalar.filter(function(m){ return m.aktifMi; }).length;
-        var premium = tumMagazalar.filter(function(m){ return m.paketTuru === 'Premium'; }).length;
-        var ortKom  = tumMagazalar.length
-            ? (tumMagazalar.reduce(function(t,m){ return t + m.komisyonOrani; }, 0) / tumMagazalar.length).toFixed(1)
-            : 0;
-
-        $('#toplamMagaza').text(tumMagazalar.length);
-        $('#aktifMagaza').text(aktif);
-        $('#premiumMagaza').text(premium);
-        $('#ortKomisyon').text('%' + ortKom);
-    }
-
-    // =============================================
-    // Tabloyu Render Et
-    // =============================================
     function tabloYenile() {
         var arama = $('#aramaInput').val().toLowerCase();
         var paket = $('#paketFiltre').val();
         var durum = $('#durumFiltre').val();
 
-        var filtre = tumMagazalar.filter(function (m) {
-            var aramaUyumu = !arama ||
-                m.magazaAdi.toLowerCase().includes(arama) ||
-                m.eposta.toLowerCase().includes(arama);
-            var paketUyumu = !paket || m.paketTuru === paket;
-            var durumUyumu = !durum ||
-                (durum === 'aktif' && m.aktifMi) ||
-                (durum === 'pasif' && !m.aktifMi);
-            return aramaUyumu && paketUyumu && durumUyumu;
+        var filtrelenmis = tumMagazalar.filter(function (m) {
+            var mAd = (m.magazaAdi || '').toLowerCase();
+            var mEposta = (m.eposta || '').toLowerCase();
+            var uyarArama = !arama || mAd.includes(arama) || mEposta.includes(arama);
+            var uyarPaket = !paket || m.paketTuru === paket;
+            var uyarDurum = !durum || (durum === 'aktif' ? m.aktifMi : !m.aktifMi);
+            return uyarArama && uyarPaket && uyarDurum;
         });
 
-        var $tbody = $('#magazaTablosu');
-        $tbody.empty();
+        var tbody = $('#magazaTableBody');
+        tbody.empty();
 
-        if (filtre.length === 0) {
-            $tbody.html(
-                '<tr class="empty-row">' +
-                    '<td colspan="8" class="text-center py-5">' +
-                        '<i class="fas fa-store-slash fa-2x text-muted mb-2 d-block"></i>' +
-                        '<span class="text-muted">Mağaza bulunamadı</span>' +
-                    '</td>' +
-                '</tr>'
-            );
-            $('#toplamKayitYazi').text('0 mağaza');
+        if (filtrelenmis.length === 0) {
+            tbody.append('<tr><td colspan="5" class="text-center py-4 text-muted"><i class="fas fa-box-open me-2"></i>Kayıtlı mağaza bulunamadı.</td></tr>');
             return;
         }
 
-        filtre.forEach(function (m) {
-            var renk = rastgeleRenk(m.id);
-            $tbody.append(
-                '<tr>' +
-                    '<td class="text-muted small">' + m.id + '</td>' +
-                    '<td>' +
-                        '<div class="magaza-bilgi">' +
-                            '<div class="magaza-ikon" style="background:' + renk + '">' + ilkHarf(m.magazaAdi) + '</div>' +
-                            '<span class="magaza-ad">' + m.magazaAdi + '</span>' +
-                        '</div>' +
-                    '</td>' +
-                    '<td class="text-muted">' + m.eposta + '</td>' +
-                    '<td>' + paketBadge(m.paketTuru) + '</td>' +
-                    '<td><strong>%' + m.komisyonOrani + '</strong></td>' +
-                    '<td class="text-muted">' + (m.minimumKomisyonEsigi ? '₺' + m.minimumKomisyonEsigi.toLocaleString('tr-TR') : '—') + '</td>' +
-                    '<td>' + durumBadge(m.aktifMi) + '</td>' +
-                    '<td class="text-center">' +
-                        '<div class="d-flex gap-1 justify-content-center">' +
-                            '<button class="btn-islem btn-duzenle btn-duzenle-ac" data-id="' + m.id + '" title="Düzenle">' +
-                                '<i class="fas fa-pencil-alt"></i>' +
-                            '</button>' +
-                            '<button class="btn-islem btn-sil btn-sil-ac" data-id="' + m.id + '" data-ad="' + m.magazaAdi + '" title="Sil">' +
-                                '<i class="fas fa-trash"></i>' +
-                            '</button>' +
-                        '</div>' +
-                    '</td>' +
-                '</tr>'
+        filtrelenmis.forEach(function (m) {
+            var tr = $('<tr>');
+            var tdInfo = $('<td>').html(
+                '<div class="d-flex align-items-center">' +
+                    '<div class="avatar-circle me-3" style="background-color:' + rastgeleRenk(m.id) + '">' + ilkHarf(m.magazaAdi) + '</div>' +
+                    '<div><div class="fw-bold text-dark">' + m.magazaAdi + '</div><div class="text-muted small">' + m.eposta + '</div></div>' +
+                '</div>'
             );
+            var tdPaket = $('<td>').html(paketBadge(m.paketTuru));
+            var tdKomisyon = $('<td>').html('<span class="fw-semibold text-dark">%' + m.komisyonOrani + '</span>');
+            var tdDurum = $('<td>').html(durumBadge(m.aktifMi));
+            var tdAksiyon = $('<td>').addClass('text-end').html(
+                '<div class="btn-group">' +
+                    '<button class="btn btn-sm btn-icon border btn-duzenle-ac" data-id="' + m.id + '"><i class="fas fa-edit text-primary"></i></button>' +
+                    '<button class="btn btn-sm btn-icon border btn-sil-ac" data-id="' + m.id + '" data-ad="' + m.magazaAdi + '"><i class="fas fa-trash-alt text-danger"></i></button>' +
+                '</div>'
+            );
+            tr.append(tdInfo, tdPaket, tdKomisyon, tdDurum, tdAksiyon);
+            tbody.append(tr);
         });
-
-        $('#toplamKayitYazi').text(filtre.length + ' / ' + tumMagazalar.length + ' mağaza');
     }
 
-    // =============================================
-    // Modal: Yeni Mağaza Aç
-    // =============================================
-    $('#yeniMagazaBtn').on('click', function () {
-        duzenlenecekId = null;
-        formTemizle();
-        $('#magazaModalBaslik').html('<i class="fas fa-store me-2 text-primary"></i>Yeni Mağaza Ekle');
-        $('#sifreAlani').show();
-        new bootstrap.Modal(document.getElementById('magazaModal')).show();
-    });
-
-    // =============================================
-    // Modal: Düzenle Aç
-    // =============================================
-    $(document).on('click', '.btn-duzenle-ac', function () {
-        var id = $(this).data('id');
-        var m  = tumMagazalar.find(function(x){ return x.id === id; });
-        if (!m) return;
-
-        duzenlenecekId = id;
-        formTemizle();
-        $('#magazaModalBaslik').html('<i class="fas fa-store me-2 text-warning"></i>Mağazayı Düzenle');
-        $('#sifreAlani').hide();
-
-        $('#f_magazaAdi').val(m.magazaAdi);
-        $('#f_eposta').val(m.eposta);
-        $('#f_paketTuru').val(m.paketTuru || '');
-        $('#f_komisyonOrani').val(m.komisyonOrani);
-        $('#f_minimumEsik').val(m.minimumKomisyonEsigi || '');
-        $('#f_aktifMi').prop('checked', m.aktifMi);
-        paketBilgiGoster(m.paketTuru);
-
-        new bootstrap.Modal(document.getElementById('magazaModal')).show();
-    });
-
-    // =============================================
-    // Paket Seçilince Bilgi Göster
-    // =============================================
-    $('#f_paketTuru').on('change', function () {
-        paketBilgiGoster($(this).val());
-        var oranlar = { 'Baslangic': 3, 'Standart': 5, 'Premium': 8 };
-        if (oranlar[$(this).val()]) {
-            $('#f_komisyonOrani').val(oranlar[$(this).val()]);
-        }
-    });
-
-    function paketBilgiGoster(paket) {
-        if (paketBilgileri[paket]) {
-            $('#paketBilgiText').text(paketBilgileri[paket]);
-            $('#paketBilgiKarti').slideDown(200);
-        } else {
-            $('#paketBilgiKarti').slideUp(200);
-        }
+    function kpiGuncelle() {
+        $('#kpiToplam').text(tumMagazalar.length);
+        $('#kpiAktif').text(tumMagazalar.filter(function(m){ return m.aktifMi; }).length);
+        $('#kpiPremium').text(tumMagazalar.filter(function(m){ return m.paketTuru === 'Premium'; }).length);
     }
 
-    // =============================================
-    // Şifre Göster/Gizle
-    // =============================================
-    $('#sifreGoster').on('click', function () {
-        var inp = $('#f_sifre');
-        var tip = inp.attr('type') === 'password' ? 'text' : 'password';
-        inp.attr('type', tip);
-        $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+    // Modal Açma Tetikleyicisi (Eski kodda eksikti!)
+    $('#yeniMagazaBtn').on('click', function() {
+        new bootstrap.Modal(document.getElementById('yeniMagazaModal')).show();
     });
 
     // =============================================
-    // Form Doğrulama & Kaydet
+    // 2. MAĞAZA EKLEME (POST)
     // =============================================
-    $('#magazaKaydetBtn').on('click', function () {
-        if (!formDogrula()) return;
-
-        var veri = {
-            magazaAdi:             $('#f_magazaAdi').val().trim(),
-            eposta:                $('#f_eposta').val().trim(),
-            sifre:                 $('#f_sifre').val(),
-            paketTuru:             $('#f_paketTuru').val() || null,
-            komisyonOrani:         parseFloat($('#f_komisyonOrani').val()),
-            minimumKomisyonEsigi:  $('#f_minimumEsik').val() ? parseFloat($('#f_minimumEsik').val()) : null,
-            aktifMi:               $('#f_aktifMi').is(':checked')
+    $('#yeniMagazaForm').on('submit', function (e) {
+        e.preventDefault();
+        
+        var inputDto = {
+            magazaAdi: $('#magazaAdi').val().trim(),
+            eposta: $('#magazaEposta').val().trim(),
+            sifreHash: $('#magazaSifre').val(), 
+            paketTuru: $('#magazaPaket').val(),
+            komisyonOrani: parseFloat($('#magazaKomisyon').val()) || 0,
+            minimumKomisyonEsigi: 0,
+            aktifMi: $('#magazaAktif').is(':checked')
         };
 
-        if (duzenlenecekId) {
-            var idx = tumMagazalar.findIndex(function(m){ return m.id === duzenlenecekId; });
-            if (idx !== -1) Object.assign(tumMagazalar[idx], veri);
-            abp.notify.success('Mağaza başarıyla güncellendi.', 'Başarılı');
-        } else {
-            veri.id = tumMagazalar.length + 1;
-            tumMagazalar.push(veri);
-            abp.notify.success('Mağaza başarıyla oluşturuldu.', 'Başarılı');
-        }
+        var savePromise = _magazaService 
+            ? _magazaService.create(inputDto)
+            : $.ajax({ url: '/api/app/magaza', type: 'POST', contentType: 'application/json', data: JSON.stringify(inputDto) });
 
-        bootstrap.Modal.getInstance(document.getElementById('magazaModal')).hide();
-        tabloYenile();
-        kpiGuncelle();
+        Promise.resolve(savePromise).then(function () {
+            abp.notify.success('Mağaza başarıyla eklendi.');
+            bootstrap.Modal.getInstance(document.getElementById('yeniMagazaModal')).hide();
+            $('#yeniMagazaForm')[0].reset();
+            magazalariYukle();
+        }).catch(function(err) {
+            abp.notify.error('Ekleme başarısız.');
+        });
     });
 
-    function formDogrula() {
-        var gecerli = true;
+    // =============================================
+    // 3. MAĞAZA GÜNCELLEME (PUT)
+    // =============================================
+    var duzenlenecekId = null;
 
-        $('.is-invalid').removeClass('is-invalid');
-        $('.invalid-feedback').text('');
+    $(document).on('click', '.btn-duzenle-ac', function () {
+        duzenlenecekId = $(this).data('id');
+        var m = tumMagazalar.find(function(item){ return item.id === duzenlenecekId; });
+        if (!m) return;
 
-        if (!$('#f_magazaAdi').val().trim()) {
-            $('#f_magazaAdi').addClass('is-invalid');
-            $('#err_magazaAdi').text('Mağaza adı zorunludur.');
-            gecerli = false;
-        }
+        $('#editMagazaAdi').val(m.magazaAdi);
+        $('#editMagazaEposta').val(m.eposta);
+        $('#editMagazaPaket').val(m.paketTuru).trigger('change');
+        $('#editMagazaKomisyon').val(m.komisyonOrani);
+        $('#editMagazaAktif').prop('checked', m.aktifMi);
 
-        var eposta = $('#f_eposta').val().trim();
-        if (!eposta || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eposta)) {
-            $('#f_eposta').addClass('is-invalid');
-            $('#err_eposta').text('Geçerli bir e-posta giriniz.');
-            gecerli = false;
-        }
+        new bootstrap.Modal(document.getElementById('editMagazaModal')).show();
+    });
 
-        if (!duzenlenecekId && $('#f_sifre').val().length < 8) {
-            $('#f_sifre').addClass('is-invalid');
-            $('#err_sifre').text('Şifre en az 8 karakter olmalıdır.');
-            gecerli = false;
-        }
+    $('#editMagazaForm').on('submit', function (e) {
+        e.preventDefault();
+        if (!duzenlenecekId) return;
 
-        var oran = parseFloat($('#f_komisyonOrani').val());
-        if (isNaN(oran) || oran < 0 || oran > 100) {
-            $('#f_komisyonOrani').addClass('is-invalid');
-            $('#err_komisyonOrani').text('Geçerli bir oran girin (0-100).');
-            gecerli = false;
-        }
+        var updateDto = {
+            magazaAdi: $('#editMagazaAdi').val().trim(),
+            eposta: $('#editMagazaEposta').val().trim(),
+            sifreHash: "degismedi", 
+            paketTuru: $('#editMagazaPaket').val(),
+            komisyonOrani: parseFloat($('#editMagazaKomisyon').val()) || 0,
+            minimumKomisyonEsigi: 0,
+            aktifMi: $('#editMagazaAktif').is(':checked')
+        };
 
-        return gecerli;
-    }
+        var updatePromise = _magazaService 
+            ? _magazaService.update(duzenlenecekId, updateDto)
+            : $.ajax({ url: '/api/app/magaza/' + duzenlenecekId, type: 'PUT', contentType: 'application/json', data: JSON.stringify(updateDto) });
 
-    function formTemizle() {
-        $('#f_magazaAdi, #f_eposta, #f_sifre, #f_minimumEsik, #f_komisyonOrani').val('');
-        $('#f_paketTuru').val('');
-        $('#f_aktifMi').prop('checked', true);
-        $('#paketBilgiKarti').hide();
-        $('.is-invalid').removeClass('is-invalid');
-        $('.invalid-feedback').text('');
-    }
+        Promise.resolve(updatePromise).then(function () {
+            abp.notify.info('Mağaza güncellendi.');
+            bootstrap.Modal.getInstance(document.getElementById('editMagazaModal')).hide();
+            magazalariYukle();
+            duzenlenecekId = null;
+        });
+    });
 
     // =============================================
-    // Silme
+    // 4. MAĞAZA SİLME (DELETE)
     // =============================================
     var silinecekId = null;
 
@@ -284,23 +206,20 @@ $(function () {
 
     $('#silOnayBtn').on('click', function () {
         if (!silinecekId) return;
-        tumMagazalar = tumMagazalar.filter(function(m){ return m.id !== silinecekId; });
-        abp.notify.warn('Mağaza silindi.', 'Silindi');
-        bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
-        tabloYenile();
-        kpiGuncelle();
-        silinecekId = null;
+
+        var deletePromise = _magazaService ? _magazaService.delete(silinecekId) : $.ajax({ url: '/api/app/magaza/' + silinecekId, type: 'DELETE' });
+
+        Promise.resolve(deletePromise).then(function () {
+            abp.notify.warn('Mağaza silindi.');
+            bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
+            magazalariYukle();
+            silinecekId = null;
+        });
     });
 
-    // =============================================
-    // Filtreler
-    // =============================================
-    $('#aramaInput').on('input', function() {
-        tabloYenile();
-    });
-    $('#paketFiltre, #durumFiltre').on('change', function() {
-        tabloYenile();
-    });
+    // Filtre Değişimleri
+    $('#aramaInput').on('input', tabloYenile);
+    $('#paketFiltre, #durumFiltre').on('change', tabloYenile);
     $('#filtreTemizle').on('click', function () {
         $('#aramaInput').val('');
         $('#paketFiltre').val('');
@@ -308,9 +227,11 @@ $(function () {
         tabloYenile();
     });
 
-    // =============================================
-    // Başlat
-    // =============================================
-    yukleMagazalar();
+    $('#magazaPaket, #editMagazaPaket').on('change', function () {
+        var p = $(this).val();
+        $(this).closest('.mb-3').find('.paket-yardim').text(p ? paketBilgileri[p] : '');
+    });
 
+    // İlk yükleme tetiklemesi
+    magazalariYukle();
 });

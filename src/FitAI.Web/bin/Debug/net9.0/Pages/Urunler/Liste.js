@@ -1,121 +1,114 @@
-$(function () {
-
+   $(function () {
+   // =============================================
+    // Servis Tanımlamaları
     // =============================================
-    // Yardımcı
-    // =============================================
-    var renkler = ['#4f46e5', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-    function renk(id) { return renkler[id % renkler.length]; }
-
-    var magazaAdi = { 1: 'SportZone TR', 2: 'FashionHub', 3: 'ActiveWear', 4: 'FitStyle', 5: 'RunnerShop' };
-
-    function yildizlar(puan) {
-        if (!puan) return '<span class="text-muted small">—</span>';
-        var html = '';
-        for (var i = 1; i <= 5; i++) {
-            html += '<i class="fas fa-star' + (i <= puan ? '' : '-o') + ' puan-yildiz"></i>';
-        }
-        return html + ' <span class="text-muted small">(' + puan + ')</span>';
-    }
-
-    function nlpBadge(islendi) {
-        return islendi
-            ? '<span class="yorum-nlp-tag nlp-islendi"><i class="fas fa-robot me-1"></i>NLP Analiz Edildi</span>'
-            : '<span class="yorum-nlp-tag nlp-bekliyor"><i class="fas fa-clock me-1"></i>NLP Bekliyor</span>';
-    }
-
-    // =============================================
-    // Veri — Urun + Yorum entity alanlarına göre
-    // =============================================
+    var _urunService = null;
+    var _yorumService = null; // Yorum servisin olduğundan emin ol!
+    
     var tumUrunler = [];
     var tumYorumlar = [];
 
-    function yukleVeriler() {
-        // TODO: abp.ajax ile ProductController + ReviewController'dan çekilecek
-
-        tumUrunler = [
-            { id: 1, magazaId: 1, ad: 'Slim Fit Spor Tayt',       aciklama: 'Yüksek bel, dört yönlü esnek kumaş ile maksimum hareket özgürlüğü sağlar.',  kesimTuru: 'Slim',     kumasEsnek: true,  silindiMi: false },
-            { id: 2, magazaId: 1, ad: 'Regular Fit Koşu Şortu',   aciklama: 'Hafif ve nefes alabilir polyester, uzun koşular için ideal.',                  kesimTuru: 'Regular',  kumasEsnek: false, silindiMi: false },
-            { id: 3, magazaId: 2, ad: 'Oversize Kapüşonlu Sweat', aciklama: 'Günlük kullanım için bol kesim, %100 pamuk.',                                  kesimTuru: 'Oversize', kumasEsnek: false, silindiMi: false },
-            { id: 4, magazaId: 3, ad: 'Athletic Fit Tişört',      aciklama: 'Atletik vücut için özel tasarım, nem emici kumaş.',                             kesimTuru: 'Athletic', kumasEsnek: true,  silindiMi: false },
-            { id: 5, magazaId: 4, ad: 'Slim Fit Yoga Pantolonu',  aciklama: null,                                                                            kesimTuru: 'Slim',     kumasEsnek: true,  silindiMi: false },
-            { id: 6, magazaId: 5, ad: 'Regular Fit Antrenman Üstü', aciklama: 'Çok yönlü spor üstü, tüm spor dalları için uygundur.',                       kesimTuru: 'Regular',  kumasEsnek: true,  silindiMi: false },
-            { id: 7, magazaId: 2, ad: 'Eski Model Eşofman',       aciklama: 'Kaldırılan ürün.',                                                             kesimTuru: 'Regular',  kumasEsnek: null,  silindiMi: true  },
-        ];
-
-        // Yorum entity: UrunId, MagazaId, YorumMetni, Puan, NlpIslendi
-        tumYorumlar = [
-            { id: 1, urunId: 1, magazaId: 1, yorumMetni: 'Çok rahat, spor yaparken harika hissettiriyor.',       puan: 5, nlpIslendi: true  },
-            { id: 2, urunId: 1, magazaId: 1, yorumMetni: 'Beden biraz küçük geldi, bir beden büyük alın.',       puan: 3, nlpIslendi: true  },
-            { id: 3, urunId: 1, magazaId: 1, yorumMetni: 'Kumaş kalitesi mükemmel, tekrar alacağım.',            puan: 5, nlpIslendi: false },
-            { id: 4, urunId: 2, magazaId: 1, yorumMetni: 'Hafif ve dayanıklı, koşu için ideal.',                 puan: 4, nlpIslendi: true  },
-            { id: 5, urunId: 2, magazaId: 1, yorumMetni: 'Rengi biraz soluk ama kalite iyi.',                    puan: 3, nlpIslendi: false },
-            { id: 6, urunId: 3, magazaId: 2, yorumMetni: 'Tam aradığım oversize model, çok şık.',                puan: 5, nlpIslendi: true  },
-            { id: 7, urunId: 4, magazaId: 3, yorumMetni: 'Athletic kesim vücudu güzel gösteriyor.',              puan: 4, nlpIslendi: true  },
-            { id: 8, urunId: 4, magazaId: 3, yorumMetni: 'Dikişler sağlam, uzun ömürlü görünüyor.',              puan: 5, nlpIslendi: false },
-            { id: 9, urunId: 5, magazaId: 4, yorumMetni: 'Yoga derslerinde çok rahat kullanıyorum.',             puan: 5, nlpIslendi: true  },
-            { id:10, urunId: 6, magazaId: 5, yorumMetni: 'Her spora uyuyor, çok fonksiyonel.',                   puan: 4, nlpIslendi: false },
-        ];
-
-        tabloYenile();
+    // Servisleri kontrol eden yardımcı fonksiyon
+    function servisleriBaslat() {
+        if (typeof fitAI === 'undefined') {
+            abp.notify.error('ABP framework yüklenemedi! Sayfayı yenileyin.');
+            return false;
+        }
+        if (!fitAI.urunler || !fitAI.urunler.urun) {
+            abp.notify.error('Ürün servisi bulunamadı!');
+            return false;
+        }
+        if (fitAI.yorumlar && fitAI.yorumlar.yorum) {
+            _yorumService = fitAI.yorumlar.yorum;
+        } else {
+            console.warn("Yorum servisi bulunamadı, yorumlar gösterilemeyecek.");
+        }
+        _urunService = fitAI.urunler.urun;
+        return true;
     }
 
+    // Tüm verileri backend'den çek
+    function yukleVeriler() {
+        if (!servisleriBaslat()) return;
+
+        var urunPromise = _urunService.getList({ maxResultCount: 1000, skipCount: 0 });
+        // Yorum servisi varsa onu da çek, yoksa boş dizi kullan
+        var yorumPromise = _yorumService 
+            ? _yorumService.getList({ maxResultCount: 10000, skipCount: 0 }) 
+            : Promise.resolve({ items: [] });
+
+        Promise.all([urunPromise, yorumPromise])
+            .then(function ([urunResult, yorumResult]) {
+                tumUrunler = urunResult.items;
+                tumYorumlar = yorumResult.items;
+                tabloYenile(); // Veriler geldikten sonra sayfayı yenile
+            })
+            .catch(function (err) {
+                abp.notify.error('Veriler yüklenirken hata oluştu!');
+                console.error(err);
+            });
+    }
     // =============================================
     // Yorum istatistikleri hesapla
     // =============================================
-    function urunYorumIstatistik(urunId) {
-        var yorumlar = tumYorumlar.filter(function(y){ return y.urunId === urunId; });
-        var puanlar  = yorumlar.filter(function(y){ return y.puan; });
-        var nlpSayisi = yorumlar.filter(function(y){ return y.nlpIslendi; }).length;
-        var ortPuan  = puanlar.length
-            ? (puanlar.reduce(function(t,y){ return t + y.puan; }, 0) / puanlar.length).toFixed(1)
-            : null;
-        return { toplam: yorumlar.length, ortPuan: ortPuan, nlpSayisi: nlpSayisi, bekleyen: yorumlar.length - nlpSayisi };
-    }
-
+function urunYorumIstatistik(urunId) {
+    // DEĞİŞTİ: Sadece urunId'ye göre filtrele
+    var yorumlar = tumYorumlar.filter(function(y){ return y.urunId === urunId; });
+    
+    var puanlar  = yorumlar.filter(function(y){ return y.puan; });
+    var nlpSayisi = yorumlar.filter(function(y){ return y.nlpIslendi; }).length;
+    var ortPuan  = puanlar.length
+        ? (puanlar.reduce(function(t,y){ return t + y.puan; }, 0) / puanlar.length).toFixed(1)
+        : null;
+    return { toplam: yorumlar.length, ortPuan: ortPuan, nlpSayisi: nlpSayisi, bekleyen: yorumlar.length - nlpSayisi };
+}
     // =============================================
     // Filtreleme
     // =============================================
-    function filtreliUrunler() {
-        var arama  = $('#aramaInput').val().toLowerCase();
-        var magaza = $('#magazaFiltre').val();
-        var kumas  = $('input[name="kumasRadio"]:checked').val();
-        var nlp    = $('#nlpFiltre').val();
-        var seciliKesimler = [];
-        $('.kesim-check:checked').each(function(){ seciliKesimler.push($(this).val()); });
-        var siralama = $('#siralamaSelect').val();
+function filtreliUrunler() {
+    var arama  = $('#aramaInput').val().toLowerCase();
+    var magaza = $('#magazaFiltre').val();
+    var kumas  = $('input[name="kumasRadio"]:checked').val();
+    var nlp    = $('#nlpFiltre').val();
+    var seciliKesimler = [];
+    $('.kesim-check:checked').each(function(){ seciliKesimler.push($(this).val()); });
+    var siralama = $('#siralamaSelect').val();
 
-        var filtre = tumUrunler.filter(function(u) {
-            var aramaUyumu  = !arama  || u.ad.toLowerCase().includes(arama);
-            var magazaUyumu = !magaza || u.magazaId == magaza;
-            var kesimUyumu  = seciliKesimler.length === 0 || seciliKesimler.includes(u.kesimTuru);
-            var kumasUyumu  = !kumas  ||
-                (kumas === 'esnek'    && u.kumasEsnek === true) ||
-                (kumas === 'standart' && u.kumasEsnek === false);
-            var nlpUyumu = true;
-            if (nlp) {
-                var ist = urunYorumIstatistik(u.id);
-                nlpUyumu = nlp === 'islendi'   ? ist.nlpSayisi > 0
-                         : nlp === 'islenmedi' ? ist.bekleyen > 0
-                         : true;
-            }
-            return aramaUyumu && magazaUyumu && kesimUyumu && kumasUyumu && nlpUyumu;
-        });
-
-        // Sıralama
-        if (siralama === 'ad') {
-            filtre.sort(function(a,b){ return a.ad.localeCompare(b.ad, 'tr'); });
-        } else if (siralama === 'puan') {
-            filtre.sort(function(a,b){
-                var pA = urunYorumIstatistik(a.id).ortPuan || 0;
-                var pB = urunYorumIstatistik(b.id).ortPuan || 0;
-                return pB - pA;
-            });
-        } else if (siralama === 'kesim') {
-            filtre.sort(function(a,b){ return (a.kesimTuru||'').localeCompare(b.kesimTuru||'', 'tr'); });
+    var filtre = tumUrunler.filter(function(u) {
+        var aramaUyumu  = !arama  || u.ad.toLowerCase().includes(arama);
+        var magazaUyumu = !magaza || u.magazaId == magaza;
+        var kesimUyumu  = seciliKesimler.length === 0 || seciliKesimler.includes(u.kesimTuru);
+        var kumasUyumu  = !kumas  ||
+            (kumas === 'esnek'    && u.kumasEsnek === true) ||
+            (kumas === 'standart' && u.kumasEsnek === false);
+        
+        // ---- DEĞİŞİKLİK: NLP filtresi artık gerçek veriyle çalışıyor ----
+        var nlpUyumu = true;
+        if (nlp) {
+            var ist = urunYorumIstatistik(u.id);
+            nlpUyumu = nlp === 'islendi'   ? ist.nlpSayisi > 0
+                     : nlp === 'islenmedi' ? ist.bekleyen > 0
+                     : true;
         }
+        // ------------------------------------------------------------
+        
+        return aramaUyumu && magazaUyumu && kesimUyumu && kumasUyumu && nlpUyumu;
+    });
 
-        return filtre;
+    // Sıralama (Ad, Puan, Kesim)
+    if (siralama === 'ad') {
+        filtre.sort(function(a,b){ return a.ad.localeCompare(b.ad, 'tr'); });
+    } else if (siralama === 'puan') {
+        filtre.sort(function(a,b){
+            var pA = urunYorumIstatistik(a.id).ortPuan || 0;
+            var pB = urunYorumIstatistik(b.id).ortPuan || 0;
+            return pB - pA;
+        });
+    } else if (siralama === 'kesim') {
+        filtre.sort(function(a,b){ return (a.kesimTuru||'').localeCompare(b.kesimTuru||'', 'tr'); });
     }
+    return filtre;
+}
 
     // =============================================
     // Kart Render
@@ -232,15 +225,16 @@ $(function () {
     });
 
     function yorumlariGoster(urunId, siralama) {
-        var yorumlar = tumYorumlar.filter(function(y){ return y.urunId === urunId; });
+    var yorumlar = tumYorumlar.filter(function(y){ return y.urunId === urunId; });
+    
+    // Sıralama mantığı aynı kalabilir
+    if (siralama === 'puan_yuksek') yorumlar.sort(function(a,b){ return (b.puan||0)-(a.puan||0); });
+    else if (siralama === 'puan_dusuk') yorumlar.sort(function(a,b){ return (a.puan||0)-(b.puan||0); });
+    else if (siralama === 'nlp') yorumlar.sort(function(a,b){ return a.nlpIslendi - b.nlpIslendi; });
+    else yorumlar.sort(function(a,b){ return b.id - a.id; });
 
-        if (siralama === 'puan_yuksek') yorumlar.sort(function(a,b){ return (b.puan||0)-(a.puan||0); });
-        else if (siralama === 'puan_dusuk') yorumlar.sort(function(a,b){ return (a.puan||0)-(b.puan||0); });
-        else if (siralama === 'nlp') yorumlar.sort(function(a,b){ return a.nlpIslendi - b.nlpIslendi; });
-        else yorumlar.sort(function(a,b){ return b.id - a.id; });
-
-        var $liste = $('#yorumListesi');
-        $liste.empty();
+    var $liste = $('#yorumListesi');
+    $liste.empty();
 
         if (yorumlar.length === 0) {
             $liste.html('<div class="text-center text-muted py-4"><i class="fas fa-comment-slash fa-2x mb-2 d-block"></i>Henüz yorum yok.</div>');

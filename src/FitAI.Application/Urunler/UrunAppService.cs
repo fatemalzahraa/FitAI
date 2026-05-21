@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using FitAI.Domain.Commerce;
 using FitAI.Domain.Products;
+using FitAI.Domain.Commerce;
 using FitAI.Urunler;
 
 namespace FitAI.Urunler
@@ -21,16 +21,15 @@ namespace FitAI.Urunler
         {
         }
 
-        public async Task<List<UrunDto>> GetListByMagazaIdAsync(int magazaId)
-        {
-            var urunler = await Repository
-                .WithDetailsAsync(u => u.Magaza) 
-                .Result
-                .Where(u => u.MagazaId == magazaId && !u.SilindiMi)
-                .ToListAsync();
+public async Task<List<UrunDto>> GetListByMagazaIdAsync(int magazaId)
+{
+    var queryable = await Repository.WithDetailsAsync(u => u.Magaza);
+    var urunler = await queryable
+        .Where(u => u.MagazaId == magazaId && !u.SilindiMi)
+        .ToListAsync();
 
-            return ObjectMapper.Map<List<Urun>, List<UrunDto>>(urunler);
-        }
+    return ObjectMapper.Map<List<Urun>, List<UrunDto>>(urunler);
+}
 
         protected override async Task<IQueryable<Urun>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
         {

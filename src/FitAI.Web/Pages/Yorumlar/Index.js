@@ -1,229 +1,254 @@
 $(function () {
 
-    // =============================================
-    // Yardımcı
-    // =============================================
-    var magazaAdi = { 1: 'SportZone TR', 2: 'FashionHub', 3: 'ActiveWear', 4: 'FitStyle', 5: 'RunnerShop' };
-    var urunAdi   = { 1: 'Slim Fit Spor Tayt', 2: 'Regular Fit Koşu Şortu', 3: 'Oversize Kapüşonlu Sweat', 4: 'Athletic Fit Tişört', 5: 'Slim Fit Yoga Pantolonu', 6: 'Regular Fit Antrenman Üstü' };
+    // =========================================================================
+    // 1. SERVİS TANIMLARI
+    // ABP proxy auto-generated isimleri: fitAI.yorumlar.yorum  /  fitAI.ai.aiApp
+    // =========================================================================
+    var _yorumService = (window.fitAI && fitAI.yorumlar && fitAI.yorumlar.yorum)
+        ? fitAI.yorumlar.yorum
+        : null;
 
-    function yildizlar(puan) {
-        if (!puan) return '<span class="text-muted">—</span>';
-        var html = '';
-        for (var i = 1; i <= 5; i++)
-            html += '<i class="fas fa-star puan-yildiz" style="opacity:' + (i <= puan ? '1' : '0.25') + '"></i>';
+    // Fallback: proxy üretilmemişse doğrudan AJAX
+    if (!_yorumService) {
+        _yorumService = {
+            getList: function (params) {
+                return abp.ajax({ type: 'GET', url: '/api/app/yorum', data: params });
+            },
+            delete: function (id) {
+                return abp.ajax({ type: 'DELETE', url: '/api/app/yorum/' + id });
+            },
+            // TriggerNlp: YorumAppService.TriggerNlpAsync → POST /api/app/yorum/{id}/trigger-nlp
+            triggerNlp: function (id) {
+                return abp.ajax({ type: 'POST', url: '/api/app/yorum/' + id + '/trigger-nlp' });
+            }
+        };
+    } else if (!_yorumService.triggerNlp) {
+        // Proxy var ama triggerNlp metodu yoksa ekle
+        _yorumService.triggerNlp = function (id) {
+            return abp.ajax({ type: 'POST', url: '/api/app/yorum/' + id + '/trigger-nlp' });
+        };
+    }
+
+    // =========================================================================
+    // 2. YARDIMCI FONKSİYONLAR
+    // =========================================================================
+
+    /** 1–5 arası puan için dolu/boş yıldız HTML'i */
+    function yildizRender(puan) {
+        if (!puan) return '<span class="text-muted small">—</span>';
+        var html = '<div class="text-warning" title="' + puan + ' / 5">';
+        for (var i = 1; i <= 5; i++) {
+            html += (i <= puan)
+                ? '<i class="fas fa-star"></i>'
+                : '<i class="far fa-star"></i>';
+        }
+        html += '</div>';
         return html;
     }
 
-    function nlpBadge(islendi) {
-        return islendi
-            ? '<span class="nlp-badge nlp-islendi"><i class="fas fa-robot me-1"></i>Analiz Edildi</span>'
-            : '<span class="nlp-badge nlp-bekliyor"><i class="fas fa-clock me-1"></i>Bekliyor</span>';
+    /** NLP durum badge'i */
+    function nlpBadge(nlpIslendi, duygu, guvenSkoru) {
+        if (!nlpIslendi) {
+            return '<span class="badge bg-light text-muted border">'
+                 + '<i class="fas fa-clock me-1"></i>Bekliyor</span>';
+        }
+
+        var cls  = 'bg-secondary';
+        var ikon = 'fa-meh';
+        var etiket = duygu || 'Nötr';
+
+        if (duygu) {
+            var d = duygu.toLowerCase();
+            if (d.includes('olumlu') || d.includes('pozitif') || d.includes('positive')) {
+                cls  = 'bg-success text-white';
+                ikon = 'fa-smile';
+            } else if (d.includes('olumsuz') || d.includes('negatif') || d.includes('negative')) {
+                cls  = 'bg-danger text-white';
+                ikon = 'fa-frown';
+            } else {
+                cls  = 'bg-secondary text-white';
+                ikon = 'fa-meh';
+            }
+        }
+
+        var skor = guvenSkoru ? ' (%' + Math.round(guvenSkoru * 100) + ')' : '';
+        return '<span class="badge ' + cls + ' d-inline-flex align-items-center gap-1">'
+             + '<i class="fas ' + ikon + '"></i>' + etiket + skor + '</span>';
     }
 
-    function duyguBadge(etiket) {
-        if (!etiket) return '<span class="text-muted small">—</span>';
-        var cls = etiket === 'Pozitif' ? 'duygu-pozitif' : etiket === 'Negatif' ? 'duygu-negatif' : 'duygu-notr';
-        var icon = etiket === 'Pozitif' ? 'fa-smile' : etiket === 'Negatif' ? 'fa-frown' : 'fa-meh';
-        return '<span class="nlp-badge ' + cls + '"><i class="fas ' + icon + ' me-1"></i>' + etiket + '</span>';
+    // =========================================================================
+    // 3. DURUM
+    // =========================================================================
+    var tumYorumlar = [];
+
+    // =========================================================================
+    // 4. VERİ ÇEKME
+    // =========================================================================
+    function yukleYorumlar() {
+        $('#yorumTablosu').html(
+            '<tr><td colspan="7" class="text-center py-4">'
+          + '<div class="spinner-border spinner-border-sm text-primary me-2"></div>'
+          + '<span class="text-muted">Yorumlar yükleniyor...</span></td></tr>'
+        );
+
+        _yorumService.getList({ maxResultCount: 1000, skipCount: 0 })
+            .then(function (result) {
+                tumYorumlar = result.items || [];
+                kpiGuncelle();
+                tabloYenile();
+                nlpSekmesiYenile();
+            })
+            .catch(function (err) {
+                console.warn('Canlı veri çekilemedi, mock veriler kullanılıyor.', err);
+                tumYorumlar = [
+                    { id: 1, urunId: 1, urunAdi: 'Premium Spor Ayakkabı', kullaniciAdi: 'ahmet_k', yorumMetni: 'Kumaşı çok esnek ve rahat, tam numaramı aldım çok memnunum.', puan: 5, nlpIslendi: true,  duygu: 'Olumlu',  guvenSkoru: 0.96 },
+                    { id: 2, urunId: 2, urunAdi: 'Yoga Matı',             kullaniciAdi: 'selin_y', yorumMetni: 'Ürün güzel ama rengi fotoğraftakinden biraz daha koyu geldi.',  puan: 3, nlpIslendi: true,  duygu: 'Nötr',    guvenSkoru: 0.72 },
+                    { id: 3, urunId: 1, urunAdi: 'Premium Spor Ayakkabı', kullaniciAdi: 'mert_d',  yorumMetni: 'Kesimi çok dar, ayağımı sıktı iade etmek zorunda kaldım.',    puan: 2, nlpIslendi: false, duygu: null,      guvenSkoru: 0    },
+                    { id: 4, urunId: 3, urunAdi: 'Koşu Bandı Pro',        kullaniciAdi: 'elif_s',  yorumMetni: 'Harika bir ürün, her sabah kullanıyorum.',                      puan: 5, nlpIslendi: false, duygu: null,      guvenSkoru: 0    }
+                ];
+                kpiGuncelle();
+                tabloYenile();
+                nlpSekmesiYenile();
+            });
     }
 
-    // =============================================
-    // Veri — Yorum + NlpBulgusu entity
-    // =============================================
-    var tumYorumlar = [
-        { id: 1,  urunId: 1, magazaId: 1, yorumMetni: 'Çok rahat, spor yaparken harika hissettiriyor.',       puan: 5, nlpIslendi: true  },
-        { id: 2,  urunId: 1, magazaId: 1, yorumMetni: 'Beden biraz küçük geldi, bir beden büyük alın.',       puan: 3, nlpIslendi: true  },
-        { id: 3,  urunId: 1, magazaId: 1, yorumMetni: 'Kumaş kalitesi mükemmel, tekrar alacağım.',            puan: 5, nlpIslendi: false },
-        { id: 4,  urunId: 1, magazaId: 1, yorumMetni: 'Renk fotoğraftakinden farklı ama yine de güzel.',     puan: 4, nlpIslendi: false },
-        { id: 5,  urunId: 2, magazaId: 1, yorumMetni: 'Hafif ve dayanıklı, koşu için ideal.',                puan: 4, nlpIslendi: true  },
-        { id: 6,  urunId: 2, magazaId: 1, yorumMetni: 'Rengi biraz soluk ama kalite iyi.',                   puan: 3, nlpIslendi: false },
-        { id: 7,  urunId: 3, magazaId: 2, yorumMetni: 'Tam aradığım oversize model, çok şık.',               puan: 5, nlpIslendi: true  },
-        { id: 8,  urunId: 4, magazaId: 3, yorumMetni: 'Athletic kesim vücudu güzel gösteriyor.',             puan: 4, nlpIslendi: true  },
-        { id: 9,  urunId: 4, magazaId: 3, yorumMetni: 'Dikişler sağlam, uzun ömürlü görünüyor.',             puan: 5, nlpIslendi: false },
-        { id: 10, urunId: 5, magazaId: 4, yorumMetni: 'Yoga derslerinde çok rahat kullanıyorum.',            puan: 5, nlpIslendi: true  },
-        { id: 11, urunId: 5, magazaId: 4, yorumMetni: 'Beklentilerimi karşılamadı maalesef.',                puan: 2, nlpIslendi: true  },
-        { id: 12, urunId: 6, magazaId: 5, yorumMetni: 'Her spora uyuyor, çok fonksiyonel.',                  puan: 4, nlpIslendi: false },
-    ];
-
-    // NlpBulgusu entity: UrunId, MagazaId, Tema, TekrarSayisi, DuyguSkoru, DuyguEtiketi, OneriMetni, Durum
-    var tumNlpBulgular = [
-        { id: 1, urunId: 1, magazaId: 1, tema: 'Kumaş Kalitesi',   tekrarSayisi: 8,  duyguSkoru: 0.82, duyguEtiketi: 'Pozitif', oneriMetni: 'Kumaş kalitesi öne çıkıyor, pazarlama materyallerinde vurgulanabilir.',   durum: 'Acik'   },
-        { id: 2, urunId: 1, magazaId: 1, tema: 'Beden Uyumu',      tekrarSayisi: 5,  duyguSkoru: -0.3, duyguEtiketi: 'Negatif', oneriMetni: 'Beden tablosu güncellenmeli, küçük geldiğine dair şikayetler var.',        durum: 'Acik'   },
-        { id: 3, urunId: 1, magazaId: 1, tema: 'Renk Tutarlılığı', tekrarSayisi: 3,  duyguSkoru: 0.10, duyguEtiketi: 'Notr',    oneriMetni: 'Ürün fotoğrafları gerçek renge daha yakın çekilmeli.',                     durum: 'Acik'   },
-        { id: 4, urunId: 2, magazaId: 1, tema: 'Rahatlık',         tekrarSayisi: 6,  duyguSkoru: 0.75, duyguEtiketi: 'Pozitif', oneriMetni: 'Rahatlık vurgusu satışları artırabilir.',                                   durum: 'Kapali' },
-        { id: 5, urunId: 3, magazaId: 2, tema: 'Tasarım',          tekrarSayisi: 4,  duyguSkoru: 0.90, duyguEtiketi: 'Pozitif', oneriMetni: 'Tasarım çok beğeniliyor, benzer ürünler geliştirilebilir.',                 durum: 'Kapali' },
-        { id: 6, urunId: 4, magazaId: 3, tema: 'Dayanıklılık',     tekrarSayisi: 7,  duyguSkoru: 0.65, duyguEtiketi: 'Pozitif', oneriMetni: 'Dayanıklılık ön plana çıkarılmalı.',                                        durum: 'Acik'   },
-        { id: 7, urunId: 5, magazaId: 4, tema: 'Beklenti Uyumu',   tekrarSayisi: 2,  duyguSkoru: -0.5, duyguEtiketi: 'Negatif', oneriMetni: 'Ürün açıklaması daha detaylı yapılmalı.',                                  durum: 'Acik'   },
-    ];
-
-    // =============================================
-    // KPI
-    // =============================================
+    // =========================================================================
+    // 5. KPI KARTLARI
+    // =========================================================================
     function kpiGuncelle() {
-        var islendi = tumYorumlar.filter(function(y){ return y.nlpIslendi; }).length;
-        var puanlar = tumYorumlar.filter(function(y){ return y.puan; });
-        var ort     = puanlar.length
-            ? (puanlar.reduce(function(t,y){ return t + y.puan; }, 0) / puanlar.length).toFixed(1)
+        var toplam   = tumYorumlar.length;
+        var islendi  = tumYorumlar.filter(function (y) { return y.nlpIslendi; }).length;
+        var bekliyor = toplam - islendi;
+        var puanlilar = tumYorumlar.filter(function (y) { return y.puan; });
+        var ortPuan  = puanlilar.length
+            ? (puanlilar.reduce(function (s, y) { return s + y.puan; }, 0) / puanlilar.length).toFixed(1)
             : '—';
 
-        $('#toplamYorum').text(tumYorumlar.length);
+        $('#toplamYorum').text(toplam);
         $('#nlpIslendi').text(islendi);
-        $('#nlpBekliyor').text(tumYorumlar.length - islendi);
-        $('#ortPuan').html('★ ' + ort);
+        $('#nlpBekliyor').text(bekliyor);
+        $('#ortPuan').text(ortPuan + (ortPuan !== '—' ? ' ★' : ''));
     }
 
-    // =============================================
-    // Yorum Tablosu
-    // =============================================
-    function yorumTabloYenile() {
-        var arama   = $('#yorumArama').val().toLowerCase();
-        var magaza  = $('#magazaFiltre').val();
-        var puan    = $('#puanFiltre').val();
-        var nlp     = $('#nlpFiltre').val();
-        var sirala  = $('#yorumSirala').val();
+    // =========================================================================
+    // 6. TABLO RENDER + FİLTRELEME
+    // =========================================================================
+    function tabloYenile() {
+        // ── Filtre değerleri (HTML'deki gerçek ID'ler) ──
+        var arama      = ($('#yorumArama').val()   || '').toLowerCase();
+        var puanFiltre = $('#puanFiltre').val()    || '';
+        var nlpFiltre  = $('#nlpFiltre').val()     || '';
+        var siralama   = $('#yorumSirala').val()   || 'yeni';
 
-        var filtre = tumYorumlar.filter(function(y) {
-            var aramaUyumu  = !arama  || y.yorumMetni.toLowerCase().includes(arama);
-            var magazaUyumu = !magaza || y.magazaId == magaza;
-            var puanUyumu   = !puan   || y.puan == puan;
-            var nlpUyumu    = !nlp    ||
-                (nlp === 'islendi'  &&  y.nlpIslendi) ||
-                (nlp === 'bekliyor' && !y.nlpIslendi);
-            return aramaUyumu && magazaUyumu && puanUyumu && nlpUyumu;
+        // ── Filtrele ──
+        var filtre = tumYorumlar.filter(function (y) {
+            var aramaUyumu = !arama
+                || (y.yorumMetni && y.yorumMetni.toLowerCase().includes(arama))
+                || (y.urunAdi    && y.urunAdi.toLowerCase().includes(arama))
+                || (y.kullaniciAdi && y.kullaniciAdi.toLowerCase().includes(arama));
+
+            var puanUyumu = !puanFiltre || String(y.puan) === puanFiltre;
+
+            var nlpUyumu = !nlpFiltre
+                || (nlpFiltre === 'islendi'   && y.nlpIslendi === true)
+                || (nlpFiltre === 'bekliyor'  && y.nlpIslendi === false);
+
+            return aramaUyumu && puanUyumu && nlpUyumu;
         });
 
-        if (sirala === 'puan_yuksek') filtre.sort(function(a,b){ return (b.puan||0)-(a.puan||0); });
-        else if (sirala === 'puan_dusuk') filtre.sort(function(a,b){ return (a.puan||0)-(b.puan||0); });
-        else filtre.sort(function(a,b){ return b.id - a.id; });
+        // ── Sırala ──
+        if (siralama === 'puan_yuksek') {
+            filtre.sort(function (a, b) { return (b.puan || 0) - (a.puan || 0); });
+        } else if (siralama === 'puan_dusuk') {
+            filtre.sort(function (a, b) { return (a.puan || 0) - (b.puan || 0); });
+        }
+        // 'yeni' → API sırasına bırak (genellikle creationTime DESC)
 
         var $tbody = $('#yorumTablosu');
         $tbody.empty();
 
         if (filtre.length === 0) {
-            $tbody.html('<tr><td colspan="7" class="text-center py-4 text-muted">Sonuç bulunamadı.</td></tr>');
-            $('#yorumKayitYazi').text('0 sonuç');
+            $tbody.html('<tr><td colspan="7" class="text-center py-4 text-muted">Arama kriterlerine uygun yorum bulunamadı.</td></tr>');
+            $('#yorumKayitYazi').text('0 yorum');
             return;
         }
 
-        filtre.forEach(function(y) {
+        filtre.forEach(function (y) {
+            var nlpButon = !y.nlpIslendi
+                ? '<button class="btn btn-sm btn-outline-primary btn-nlp-tetikle me-1" data-id="' + y.id + '" title="AI Analizi Başlat">'
+                  + '<i class="fas fa-robot me-1"></i>NLP İşle</button>'
+                : '';
+
             $tbody.append(
                 '<tr>' +
-                    '<td class="text-muted small">' + y.id + '</td>' +
-                    '<td class="text-muted small">' + (urunAdi[y.urunId] || '—') + '</td>' +
-                    '<td class="text-muted small">' + (magazaAdi[y.magazaId] || '—') + '</td>' +
-                    '<td><div class="yorum-metin-kisalt" title="' + y.yorumMetni + '">' + y.yorumMetni + '</div></td>' +
-                    '<td>' + yildizlar(y.puan) + '</td>' +
-                    '<td>' + nlpBadge(y.nlpIslendi) + '</td>' +
+                    '<td class="text-muted small">#' + y.id + '</td>' +
+                    '<td><span class="fw-semibold">' + (y.urunAdi || 'Ürün #' + y.urunId) + '</span></td>' +
+                    '<td class="text-muted small">' + (y.magazaAdi || '—') + '</td>' +
+                    '<td class="small text-secondary" style="max-width:280px;white-space:normal;">' + escapeHtml(y.yorumMetni) + '</td>' +
+                    '<td>' + yildizRender(y.puan) + '</td>' +
+                    '<td>' + nlpBadge(y.nlpIslendi, y.duygu, y.guvenSkoru) + '</td>' +
                     '<td class="text-center">' +
-                        '<button class="btn-islem btn-detay btn-yorum-detay" data-id="' + y.id + '" title="Detay">' +
-                            '<i class="fas fa-eye"></i>' +
-                        '</button>' +
+                        '<div class="d-flex gap-1 justify-content-center">' +
+                            nlpButon +
+                            '<button class="btn btn-sm btn-outline-danger btn-yorum-sil" data-id="' + y.id + '" title="Yorumu Sil">' +
+                                '<i class="fas fa-trash-alt"></i>' +
+                            '</button>' +
+                        '</div>' +
                     '</td>' +
                 '</tr>'
             );
         });
 
-        $('#yorumKayitYazi').text(filtre.length + ' / ' + tumYorumlar.length + ' yorum gösteriliyor');
+        $('#yorumKayitYazi').text(filtre.length + ' / ' + tumYorumlar.length + ' yorum');
     }
 
-    // =============================================
-    // Yorum Detay Modal
-    // =============================================
-    $(document).on('click', '.btn-yorum-detay', function() {
-        var id = $(this).data('id');
-        var y  = tumYorumlar.find(function(x){ return x.id === id; });
-        if (!y) return;
+    /** XSS önlemi */
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
 
-        var nlpBulgular = tumNlpBulgular.filter(function(b){ return b.urunId === y.urunId; });
+    // =========================================================================
+    // 7. NLP SEKMESI (tab-nlp)
+    // =========================================================================
+    function nlpSekmesiYenile() {
+        var duyguFiltre = $('#nlpDuyguFiltre').val() || '';
+        var islenenler  = tumYorumlar.filter(function (y) { return y.nlpIslendi; });
 
-        var nlpHtml = '';
-        if (nlpBulgular.length > 0) {
-            nlpHtml = '<hr><p class="fw-600 mb-2"><i class="fas fa-brain me-1 text-info"></i>Bu Ürünün NLP Bulguları</p>';
-            nlpBulgular.forEach(function(b) {
-                nlpHtml +=
-                    '<div class="d-flex align-items-center justify-content-between mb-1 p-2 rounded" style="background:rgba(0,0,0,0.02)">' +
-                        '<span class="small fw-600">' + b.tema + '</span>' +
-                        '<div class="d-flex gap-1">' +
-                            duyguBadge(b.duyguEtiketi) +
-                            '<span class="nlp-badge ' + (b.durum === 'Acik' ? 'durum-acik' : 'durum-kapali') + '">' + b.durum + '</span>' +
-                        '</div>' +
-                    '</div>';
+        if (duyguFiltre) {
+            islenenler = islenenler.filter(function (y) {
+                return y.duygu && y.duygu.toLowerCase().includes(duyguFiltre.toLowerCase());
             });
         }
-
-        $('#yorumDetayIcerik').html(
-            '<div class="mb-3">' +
-                '<div class="d-flex align-items-center gap-2 mb-2">' +
-                    '<span class="fw-600">' + (urunAdi[y.urunId] || '—') + '</span>' +
-                    '<span class="text-muted small">· ' + (magazaAdi[y.magazaId] || '—') + '</span>' +
-                '</div>' +
-                '<div class="p-3 rounded mb-3" style="background:rgba(79,70,229,0.04);border:1px solid rgba(79,70,229,0.1);font-size:0.95rem;line-height:1.7">' +
-                    '"' + y.yorumMetni + '"' +
-                '</div>' +
-                '<div class="d-flex gap-3">' +
-                    '<div><span class="text-muted small">Puan: </span>' + yildizlar(y.puan) + '</div>' +
-                    '<div>' + nlpBadge(y.nlpIslendi) + '</div>' +
-                '</div>' +
-            '</div>' +
-            nlpHtml
-        );
-
-        new bootstrap.Modal(document.getElementById('yorumDetayModal')).show();
-    });
-
-    // =============================================
-    // NLP Bulgular Grid
-    // =============================================
-    function nlpGridYenile() {
-        var magaza = $('#nlpMagazaFiltre').val();
-        var duygu  = $('#nlpDuyguFiltre').val();
-        var durum  = $('#nlpDurumFiltre').val();
-
-        var filtre = tumNlpBulgular.filter(function(b) {
-            var mUyumu = !magaza || b.magazaId == magaza;
-            var dUyumu = !duygu  || b.duyguEtiketi === duygu;
-            var stUyumu = !durum || b.durum === durum;
-            return mUyumu && dUyumu && stUyumu;
-        });
 
         var $grid = $('#nlpBulgularGrid');
         $grid.empty();
 
-        if (filtre.length === 0) {
-            $grid.html('<div class="col-12 text-center py-5 text-muted"><i class="fas fa-search fa-2x mb-2 d-block"></i>Sonuç bulunamadı.</div>');
+        if (islenenler.length === 0) {
+            $grid.html('<div class="col-12 text-center py-5 text-muted"><i class="fas fa-brain fa-2x mb-3 d-block opacity-25"></i>Henüz analiz edilmiş yorum yok.</div>');
             return;
         }
 
-        filtre.forEach(function(b) {
-            var skorRenk = b.duyguSkoru > 0 ? '#059669' : b.duyguSkoru < 0 ? '#dc2626' : '#6b7280';
-            var durumCls = b.durum === 'Acik' ? 'durum-acik' : 'durum-kapali';
+        islenenler.forEach(function (y) {
+            var dLower   = (y.duygu || '').toLowerCase();
+            var cardCls  = dLower.includes('olumlu') || dLower.includes('pozitif') ? 'border-success'
+                         : dLower.includes('olumsuz') || dLower.includes('negatif') ? 'border-danger'
+                         : 'border-secondary';
+            var skor     = y.guvenSkoru ? Math.round(y.guvenSkoru * 100) : 0;
 
             $grid.append(
-                '<div class="col-xl-4 col-md-6">' +
-                    '<div class="nlp-bulgu-kart">' +
-                        '<div class="nlp-bulgu-header">' +
-                            '<div>' +
-                                '<div class="nlp-tema">' + b.tema + '</div>' +
-                                '<div class="text-muted small mt-1">' + (urunAdi[b.urunId]||'—') + ' · ' + (magazaAdi[b.magazaId]||'—') + '</div>' +
+                '<div class="col-md-4">' +
+                    '<div class="card h-100 border-2 ' + cardCls + '">' +
+                        '<div class="card-body">' +
+                            '<div class="d-flex justify-content-between align-items-start mb-2">' +
+                                '<span class="fw-semibold small">' + (y.urunAdi || 'Ürün #' + y.urunId) + '</span>' +
+                                nlpBadge(true, y.duygu, y.guvenSkoru) +
                             '</div>' +
-                            '<span class="nlp-badge ' + durumCls + '">' + b.durum + '</span>' +
-                        '</div>' +
-                        '<div class="nlp-bulgu-body">' +
-                            '<div class="nlp-satir">' +
-                                '<span class="nlp-satir-label">Duygu</span>' +
-                                duyguBadge(b.duyguEtiketi) +
+                            '<p class="small text-muted mb-2">' + escapeHtml(y.yorumMetni) + '</p>' +
+                            '<div class="d-flex justify-content-between align-items-center">' +
+                                yildizRender(y.puan) +
+                                '<span class="small text-muted">Güven: %' + skor + '</span>' +
                             '</div>' +
-                            '<div class="nlp-satir">' +
-                                '<span class="nlp-satir-label">Duygu Skoru</span>' +
-                                '<span class="nlp-satir-deger fw-700" style="color:' + skorRenk + '">' + (b.duyguSkoru !== null ? b.duyguSkoru.toFixed(2) : '—') + '</span>' +
-                            '</div>' +
-                            '<div class="nlp-satir">' +
-                                '<span class="nlp-satir-label">Tekrar Sayısı</span>' +
-                                '<span class="nlp-satir-deger">' + b.tekrarSayisi + ' yorum</span>' +
-                            '</div>' +
-                            (b.oneriMetni
-                                ? '<div class="nlp-oneri"><i class="fas fa-lightbulb me-1 text-warning"></i>' + b.oneriMetni + '</div>'
-                                : '') +
                         '</div>' +
                     '</div>' +
                 '</div>'
@@ -231,40 +256,100 @@ $(function () {
         });
     }
 
-    // =============================================
-    // Sekme Geçişi
-    // =============================================
-    $('#yorumTabs .nav-link').on('click', function() {
-        $('#yorumTabs .nav-link').removeClass('active');
-        $(this).addClass('active');
+    // =========================================================================
+    // 8. NLP TETİKLEME — Backend API entegrasyonu
+    // =========================================================================
+    $(document).on('click', '.btn-nlp-tetikle', function () {
+        var $btn = $(this);
+        var id   = parseInt($btn.data('id'));
+        var yorum = tumYorumlar.find(function (x) { return x.id === id; });
+        if (!yorum) return;
+
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i>Analiz...');
+
+        // ── Canlı backend çağrısı: POST /api/app/yorum/{id}/trigger-nlp ──
+        _yorumService.triggerNlp(id)
+            .then(function (guncelDto) {
+                // Backend'den gelen güncel DTO ile yerel diziyi güncelle
+                var idx = tumYorumlar.findIndex(function (x) { return x.id === id; });
+                if (idx !== -1) {
+                    tumYorumlar[idx] = $.extend(tumYorumlar[idx], {
+                        nlpIslendi : guncelDto.nlpIslendi,
+                        duygu      : guncelDto.duygu,
+                        guvenSkoru : guncelDto.guvenSkoru
+                    });
+                }
+                abp.notify.success('Analiz tamamlandı: ' + guncelDto.duygu, 'AI Analizi');
+                kpiGuncelle();
+                tabloYenile();
+                nlpSekmesiYenile();
+            })
+            .catch(function (err) {
+                abp.notify.error('AI servisi yanıt vermedi, lütfen tekrar deneyin.', 'Hata');
+                console.error('NLP tetikleme hatası:', err);
+                $btn.prop('disabled', false).html('<i class="fas fa-robot me-1"></i>NLP İşle');
+            });
+    });
+
+    // =========================================================================
+    // 9. SİLME
+    // =========================================================================
+    $(document).on('click', '.btn-yorum-sil', function () {
+        var id = parseInt($(this).data('id'));
+
+        abp.message.confirm(
+            'Bu yorumu kalıcı olarak silmek istediğinize emin misiniz?',
+            'Yorumu Sil',
+            function (isConfirmed) {
+                if (!isConfirmed) return;
+
+                _yorumService.delete(id)
+                    .then(function () {
+                        abp.notify.warn('Yorum silindi.', 'Başarılı');
+                        tumYorumlar = tumYorumlar.filter(function (x) { return x.id !== id; });
+                        kpiGuncelle();
+                        tabloYenile();
+                        nlpSekmesiYenile();
+                    })
+                    .catch(function () {
+                        abp.notify.error('Yorum silinemedi.');
+                    });
+            }
+        );
+    });
+
+    // =========================================================================
+    // 10. SEKMELEŞTİRME
+    // =========================================================================
+    $(document).on('click', '.analiz-nav-btn', function () {
         var tab = $(this).data('tab');
-        $('#tab-yorumlar, #tab-nlp').hide();
+        $('.analiz-nav-btn').removeClass('active');
+        $(this).addClass('active');
+        $('.analiz-tab-icerik').hide();
         $('#tab-' + tab).show();
     });
 
-    // =============================================
-    // Filtre Dinleyicileri
-    // =============================================
-    $('#yorumArama').on('input', yorumTabloYenile);
-    $('#magazaFiltre, #puanFiltre, #nlpFiltre, #yorumSirala').on('change', yorumTabloYenile);
-    $('#filtreTemizle').on('click', function() {
+    // =========================================================================
+    // 11. FİLTRE DİNLEYİCİLERİ
+    // =========================================================================
+    $('#yorumArama').on('input', tabloYenile);
+    $('#puanFiltre, #nlpFiltre, #yorumSirala').on('change', tabloYenile);
+
+    $('#filtreTemizle').on('click', function () {
         $('#yorumArama').val('');
-        $('#magazaFiltre, #puanFiltre, #nlpFiltre').val('');
-        $('#yorumSirala').val('yeni');
-        yorumTabloYenile();
+        $('#puanFiltre, #nlpFiltre, #yorumSirala').val('');
+        tabloYenile();
     });
 
-    $('#nlpMagazaFiltre, #nlpDuyguFiltre, #nlpDurumFiltre').on('change', nlpGridYenile);
-    $('#nlpFiltreTemizle').on('click', function() {
-        $('#nlpMagazaFiltre, #nlpDuyguFiltre, #nlpDurumFiltre').val('');
-        nlpGridYenile();
+    $('#nlpDuyguFiltre, #nlpMagazaFiltre, #nlpDurumFiltre').on('change', nlpSekmesiYenile);
+
+    $('#nlpFiltreTemizle').on('click', function () {
+        $('#nlpDuyguFiltre, #nlpMagazaFiltre, #nlpDurumFiltre').val('');
+        nlpSekmesiYenile();
     });
 
-    // =============================================
-    // Başlat
-    // =============================================
-    kpiGuncelle();
-    yorumTabloYenile();
-    nlpGridYenile();
-
+    // =========================================================================
+    // 12. BAŞLANGIÇ
+    // =========================================================================
+    yukleYorumlar();
 });

@@ -11,4 +11,6 @@ namespace FitAI.Urunler
     {
         Task<List<UrunDto>> GetListByMagazaIdAsync(int magazaId);
     }
+
+    
 }
