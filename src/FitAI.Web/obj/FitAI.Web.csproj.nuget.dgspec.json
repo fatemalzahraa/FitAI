@@ -683,6 +683,9 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
+              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
+              },
               "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj": {
                 "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj"
               },

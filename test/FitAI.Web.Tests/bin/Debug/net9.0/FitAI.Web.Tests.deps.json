@@ -5491,6 +5491,7 @@
       "FitAI.Web/1.0.0": {
         "dependencies": {
           "FitAI.Application": "1.0.0",
+          "FitAI.Application.Contracts": "1.0.0",
           "FitAI.EntityFrameworkCore": "1.0.0",
           "FitAI.HttpApi": "1.0.0",
           "Microsoft.AspNetCore.Identity": "2.3.9",

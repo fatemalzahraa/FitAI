@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.EntityFrameworkCore.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60a9d7d3fa5f4f214be32c4feb7a769cf633cf8c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfbf2b0bba31d50b4aafde7ff9b240e2836f98ce")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.EntityFrameworkCore.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.EntityFrameworkCore.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

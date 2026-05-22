@@ -6,7 +6,7 @@ namespace FitAI.Magazalar
     // Id alanı int olduğu için EntityDto<int> kullanıyoruz
     public class MagazaDto : EntityDto<int>
     {
-        public string MagazaAdi { get; set; }
+        public required string MagazaAdi { get; set; }
         public string Eposta { get; set; }
         public decimal KomisyonOrani { get; set; }
         public bool AktifMi { get; set; }

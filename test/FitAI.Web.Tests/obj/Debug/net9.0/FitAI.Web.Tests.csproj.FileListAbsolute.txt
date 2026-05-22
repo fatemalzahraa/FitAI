@@ -801,3 +801,4 @@ C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\obj\Debug\net9.0\refint\FitAI.Web.Tes
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\obj\Debug\net9.0\FitAI.Web.Tests.pdb
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\obj\Debug\net9.0\FitAI.Web.Tests.genruntimeconfig.cache
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\obj\Debug\net9.0\ref\FitAI.Web.Tests.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Pages\Bildirimler\Index.css

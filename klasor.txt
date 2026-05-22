@@ -136,10 +136,12 @@ C:.
 |   |   |       
 |   |   +---Urunler
 |   |   |       UrunAppService.cs
+|   |   |       UrunProfile.cs
 |   |   |       
 |   |   \---Yorumlar
 |   |           IYorumAppService.cs
 |   |           YorumAppService.cs
+|   |           YorumProfile.cs
 |   |           
 |   +---FitAI.Application.Contracts
 |   |   |   FitAI.Application.Contracts.csproj
@@ -796,6 +798,12 @@ C:.
 |   |   |       20260504225223_AddBackgroundJobs.Designer.cs
 |   |   |       20260516101617_Added_Performance_Indexes_Fixed.cs
 |   |   |       20260516101617_Added_Performance_Indexes_Fixed.Designer.cs
+|   |   |       20260521204225_AddYorumNlpFields.cs
+|   |   |       20260521204225_AddYorumNlpFields.Designer.cs
+|   |   |       20260521214633_CleanYorumDuplicatedUrunRelation.cs
+|   |   |       20260521214633_CleanYorumDuplicatedUrunRelation.Designer.cs
+|   |   |       20260521224451_CleanMukerrerKolonlar.cs
+|   |   |       20260521224451_CleanMukerrerKolonlar.Designer.cs
 |   |   |       FitAIDbContextModelSnapshot.cs
 |   |   |       
 |   |   +---obj
@@ -9043,6 +9051,7 @@ C:.
 |       |           |       zlar9dqs6u-t4n9iggmu2.gz
 |       |           |       znpacx4i9o-qy0rq627z3.gz
 |       |           |       zoxdv5b626-jkwxfi3bqt.gz
+|       |           |       zvmbo3ufi1-o25b4xfko9.gz
 |       |           |       zw7l4yl9fi-lcvp0rrylz.gz
 |       |           |       
 |       |           +---ref
@@ -9145,6 +9154,9 @@ C:.
 |       \---wwwroot
 |           |   global-styles.css
 |           |   
+|           +---client-proxies
+|           |       app-proxy.js
+|           |       
 |           +---images
 |           |   +---getting-started
 |           |   |       bg-01.png

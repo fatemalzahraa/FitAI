@@ -96,23 +96,23 @@ public class FitAIDbContext :
         builder.Entity<Urun>();
 
         // --- YORUMLAR TABLOSU PERFORMANS OPTİMİZASYONU & İLİŞKİ DÜZENLEMESİ ---
-        builder.Entity<Yorum>(b =>
-        {
-            b.ConfigureByConvention(); // ABP'nin standart alanlarını yapılandırır
+builder.Entity<Yorum>(b =>
+{
+    b.ConfigureByConvention();
 
-            // AI arka plan motorunun MagazaId ve NlpIslendi filtresini uçuracak index
-            b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
-            b.HasIndex(x => x.UrunId);
+    b.HasOne(y => y.Urun)
+     .WithMany()
+     .HasForeignKey(y => y.UrunId)
+     .OnDelete(DeleteBehavior.NoAction);
 
-            // MULTIPLE CASCADE PATHS ÇÖZÜMÜ:
-            // Ürün silindiğinde yorumların zincirleme (cascade) silinmesini kapatıyoruz.
-            // Bu sayede SQL Server'ın çakışma (cycle) koruması aşılmış oluyor.
-            b.HasOne<Urun>()
-             .WithMany()
-             .HasForeignKey(x => x.UrunId)
-             .OnDelete(DeleteBehavior.NoAction);
-        });
+    b.HasOne(y => y.Magaza)
+     .WithMany()
+     .HasForeignKey(y => y.MagazaId)
+     .OnDelete(DeleteBehavior.NoAction);
 
+    b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
+    b.HasIndex(x => x.UrunId);
+});
         builder.Entity<PlatformBaglantisi>();
         builder.Entity<SenkronizasyonLog>();
 

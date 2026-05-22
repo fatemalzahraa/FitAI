@@ -29,6 +29,7 @@
             
             var tumUrunler = [];
             var duzenlenecekId = null;
+            var silinecekId = null;
             
             // =============================================
             // Yardımcı fonksiyonlar
@@ -121,6 +122,7 @@
                     );
                 }
                 
+                // Gösterilen kayıt bilgisini güncelle
                 $('#toplamKayitYazi').text(filtre.length + ' / ' + tumUrunler.length + ' ürün gösteriliyor');
             }
             
@@ -132,36 +134,21 @@
                 
                 fetch('/api/app/urun?maxResultCount=1000&skipCount=0', {
                     method: 'GET',
-                   headers: {
-    'Content-Type': 'application/json',
-    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-}
+                    headers: { 'Content-Type': 'application/json' }
                 })
                 .then(function(response) {
-                    console.log("API Yanıt Kodu:", response.status);
-                    if (!response.ok) {
-                        throw new Error('HTTP ' + response.status);
-                    }
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
                     return response.json();
                 })
                 .then(function(result) {
-                    console.log("API'den gelen veri:", result);
+                    console.log("Gelen veri:", result);
+                    tumUrunler = (result && result.items) ? result.items : (Array.isArray(result) ? result : []);
+                    console.log("Ürün sayısı:", tumUrunler.length);
                     
-                    if (result && result.items) {
-                        tumUrunler = result.items;
-                    } else if (Array.isArray(result)) {
-                        tumUrunler = result;
-                    } else {
-                        tumUrunler = [];
-                    }
-                    
-                    console.log("Toplam ürün sayısı:", tumUrunler.length);
-                    
-                    // Yükleniyor mesajını kaldır
-                    var $spinner = $('#urunTablosu .spinner-border');
-                    if ($spinner.length) {
-                        $spinner.parent().parent().remove();
-                    }
+                    // Spinner temizliği
+                    $('#urunTablosu').find('tr').filter(function() {
+                        return $(this).find('.spinner-border').length > 0;
+                    }).remove();
                     
                     tabloYenile();
                     kpiGuncelle();
@@ -171,8 +158,7 @@
                     $('#urunTablosu').html(
                         '<tr><td colspan="8" class="text-center py-4 text-danger">' +
                         '<i class="fas fa-exclamation-circle fa-2x mb-2 d-block"></i>' +
-                        'API bağlantı hatası!<br>' +
-                        '<span class="small text-muted">' + err.message + '</span>' +
+                        'API bağlantı hatası: ' + err.message +
                         '</td></tr>'
                     );
                 });
@@ -190,14 +176,18 @@
                 $('.is-invalid').removeClass('is-invalid');
             }
             
-            // Eventler
+            // Yeni Ürün Ekle Butonu
             $('#yeniUrunBtn').on('click', function() {
                 duzenlenecekId = null;
                 formTemizle();
                 $('#urunModalBaslik').html('<i class="fas fa-tshirt me-2 text-primary"></i>Yeni Ürün Ekle');
-                new bootstrap.Modal(document.getElementById('urunModal')).show();
+                
+                var modalEl = document.getElementById('urunModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modalInstance.show();
             });
             
+            // Düzenle Butonu (Satır İçi)
             $(document).on('click', '.btn-duzenle-ac', function() {
                 var id = $(this).data('id');
                 var u = tumUrunler.find(function(x) { return x.id === id; });
@@ -214,68 +204,151 @@
                 $('#f_aciklama').val(u.aciklama || '');
                 $('#aciklamaKarakter').text((u.aciklama || '').length + ' karakter');
                 
-                new bootstrap.Modal(document.getElementById('urunModal')).show();
+                // Mükerrer / Çift nesne oluşturma hatası giderildi:
+                var modalEl = document.getElementById('urunModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modalInstance.show();
             });
             
-            $('#urunKaydetBtn').on('click', function() {
-                if (!$('#f_ad').val().trim()) {
-                    abp.notify.warn('Ürün adı giriniz.');
-                    return;
+            // Kaydet / Güncelle Onay Butonu
+       // =================================================================
+// INDEX.JS İÇİNDE SADECE BU BUTON EVENTLERİNİ GÜNCELLEMENİZ YETERLİDİR
+// =================================================================
+
+// =================================================================
+// KAYDET BUTONU - BACKEND ZORUNLU ALANLAR İÇİN DÜZENLENMİŞ VERSİYON
+// =================================================================
+
+$('#urunKaydetBtn').on('click', function() {
+    var urunAdi = $('#f_ad').val().trim();
+    var magazaId = $('#f_magazaId').val();
+    
+    if (!urunAdi) {
+        abp.notify.warn('Ürün adı giriniz.');
+        $('#f_ad').addClass('is-invalid');
+        return;
+    }
+    $('#f_ad').removeClass('is-invalid');
+    
+    if (!magazaId) {
+        abp.notify.warn('Mağaza seçiniz.');
+        $('#f_magazaId').addClass('is-invalid');
+        return;
+    }
+    $('#f_magazaId').removeClass('is-invalid');
+    
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    
+    // ZORUNLU ALANLARI DOLDUR - Backend required olduğu için boş olamazlar
+    var aciklamaDeger = $('#f_aciklama').val().trim();
+    var kesimTuruDeger = $('#f_kesimTuru').val();
+    
+    var dto = {
+        ad: urunAdi,
+        magazaId: magazaId,
+        // Aciklama: Boşsa varsayılan açıklama ekle
+        aciklama: aciklamaDeger ? aciklamaDeger : "Açıklama girilmedi",
+        // KesimTuru: Boşsa varsayılan değer olarak "Regular" gönder
+        kesimTuru: kesimTuruDeger ? kesimTuruDeger : "Regular",
+        kumasEsnek: $('#f_kumasEsnek').is(':checked')
+    };
+    
+    console.log("Gönderilen DTO:", JSON.stringify(dto, null, 2));
+    
+    var url = duzenlenecekId ? '/api/app/urun/' + duzenlenecekId : '/api/app/urun';
+    var method = duzenlenecekId ? 'PUT' : 'POST';
+    
+    var $btn = $(this);
+    var originalText = $btn.html();
+    $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i>Kaydediliyor...');
+    
+    fetch(url, {
+        method: method,
+        headers: { 
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': token
+        },
+        body: JSON.stringify(dto)
+    })
+    .then(function(response) {
+        if (!response.ok) {
+            return response.json().then(function(err) { 
+                console.error("Hata Detayı:", err);
+                
+                if (err.error && err.error.validationErrors) {
+                    var mesajlar = err.error.validationErrors.map(function(v) { 
+                        return v.message; 
+                    });
+                    abp.notify.error(mesajlar.join('\n'), "Doğrulama Hatası");
+                } else if (err.error && err.error.message) {
+                    abp.notify.error(err.error.message, "Hata");
+                } else {
+                    abp.notify.error('Ürün kaydedilirken bir hata oluştu.', 'Hata');
                 }
-                if (!$('#f_magazaId').val()) {
-                    abp.notify.warn('Mağaza seçiniz.');
-                    return;
-                }
-                
-                var dto = {
-                    magazaId: parseInt($('#f_magazaId').val()),
-                    ad: $('#f_ad').val().trim(),
-                    aciklama: $('#f_aciklama').val().trim() || null,
-                    kesimTuru: $('#f_kesimTuru').val() || null,
-                    kumasEsnek: $('#f_kumasEsnek').is(':checked')
-                };
-                
-                var url = duzenlenecekId ? '/api/app/urun/' + duzenlenecekId : '/api/app/urun';
-                var method = duzenlenecekId ? 'PUT' : 'POST';
-                
-                fetch(url, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dto)
-                })
-                .then(function(response) {
-                    if (!response.ok) throw new Error('HTTP ' + response.status);
-                    return response.json();
-                })
-                .then(function() {
-                    abp.notify.success(duzenlenecekId ? 'Ürün güncellendi.' : 'Ürün eklendi.', 'Başarılı');
-                    bootstrap.Modal.getInstance(document.getElementById('urunModal')).hide();
-                    yukleUrunler();
-                })
-                .catch(function(err) {
-                    console.error("Kayıt hatası:", err);
-                    abp.notify.error('İşlem sırasında hata oluştu.');
-                });
+                throw new Error('HTTP ' + response.status);
             });
-            
-            var silinecekId = null;
-            
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        abp.notify.success(duzenlenecekId ? 'Ürün başarıyla güncellendi.' : 'Ürün başarıyla eklendi.', 'Başarılı');
+        
+        var modalEl = document.getElementById('urunModal');
+        var modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+        
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        
+        setTimeout(function() {
+            $('#yeniUrunBtn').focus();
+            yukleUrunler();
+        }, 200);
+    })
+    .catch(function(err) {
+        console.error("Kayıt hatası:", err);
+    })
+    .finally(function() {
+        $btn.prop('disabled', false).html(originalText);
+    });
+});    
+            // Silme Modalı Açılış (Satır İçi)
             $(document).on('click', '.btn-sil-ac', function() {
                 silinecekId = $(this).data('id');
                 $('#silUrunAdi').text($(this).data('ad'));
-                new bootstrap.Modal(document.getElementById('silOnayModal')).show();
+                
+                var modalEl = document.getElementById('silOnayModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modalInstance.show();
             });
             
+            // Silme Onay Butonu (Tekilleştirildi)
             $('#silOnayBtn').on('click', function() {
                 if (!silinecekId) return;
                 
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                
                 fetch('/api/app/urun/' + silinecekId, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
                 })
                 .then(function(response) {
                     if (!response.ok) throw new Error('HTTP ' + response.status);
                     abp.notify.warn('Ürün silindi.', 'Silindi');
-                    bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
+                    
+                    var modalEl = document.getElementById('silOnayModal');
+                    var modalInstance = bootstrap.Modal.getInstance(modalEl);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                    
+                    // aria-hidden engeline takılmamak için odağı arama kutusuna fırlatıyoruz
+                    $('#aramaInput').focus();
+                    
                     yukleUrunler();
                     silinecekId = null;
                 })
@@ -294,7 +367,13 @@
                 tabloYenile();
             });
             
-            // Sayfa yüklendiğinde verileri çek
+            // Karakter Sayacı (Açıklama alanı için dinamik takip)
+            $('#f_aciklama').on('input', function() {
+                var len = $(this).val().length;
+                $('#aciklamaKarakter').text(len + ' karakter');
+            });
+            
+            // İlk açılışta verileri çek
             yukleUrunler();
         });
     }

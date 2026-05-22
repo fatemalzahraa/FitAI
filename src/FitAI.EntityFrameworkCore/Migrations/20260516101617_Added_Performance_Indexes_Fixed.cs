@@ -33,13 +33,7 @@ namespace FitAI.Migrations
                 principalTable: "Urunler",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Yorumlar_Urunler_UrunId1",
-                table: "Yorumlar",
-                column: "UrunId1",
-                principalTable: "Urunler",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+
         }
 
         /// <inheritdoc />
@@ -49,9 +43,6 @@ namespace FitAI.Migrations
                 name: "FK_Yorumlar_Urunler_UrunId",
                 table: "Yorumlar");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Yorumlar_Urunler_UrunId1",
-                table: "Yorumlar");
 
             migrationBuilder.DropIndex(
                 name: "IX_Yorumlar_UrunId1",

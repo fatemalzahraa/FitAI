@@ -1229,3 +1229,4 @@ C:\Users\RAGHAD\FitAI\src\FitAI.Web\obj\Debug\net9.0\refint\FitAI.Web.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\obj\Debug\net9.0\FitAI.Web.pdb
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\obj\Debug\net9.0\FitAI.Web.genruntimeconfig.cache
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\obj\Debug\net9.0\ref\FitAI.Web.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Pages\Bildirimler\Index.css

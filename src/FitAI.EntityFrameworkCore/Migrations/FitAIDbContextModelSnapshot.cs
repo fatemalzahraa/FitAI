@@ -700,10 +700,16 @@ namespace FitAI.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CreatorId");
 
+                    b.Property<string>("Duygu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<double?>("GuvenSkoru")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2")
@@ -725,9 +731,6 @@ namespace FitAI.Migrations
                     b.Property<int>("UrunId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UrunId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("YorumMetni")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -735,8 +738,6 @@ namespace FitAI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UrunId");
-
-                    b.HasIndex("UrunId1");
 
                     b.HasIndex("MagazaId", "NlpIslendi");
 
@@ -2316,19 +2317,13 @@ namespace FitAI.Migrations
                     b.HasOne("FitAI.Domain.Commerce.Magaza", "Magaza")
                         .WithMany()
                         .HasForeignKey("MagazaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitAI.Domain.Products.Urun", null)
-                        .WithMany()
-                        .HasForeignKey("UrunId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("FitAI.Domain.Products.Urun", "Urun")
                         .WithMany()
-                        .HasForeignKey("UrunId1")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("UrunId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Magaza");
