@@ -1,68 +1,82 @@
-# FitAI-ai
 # FitAI — Akıllı Beden Öneri Sistemi
 
-## 🚀 Kurulum ve Çalıştırma
+## 🚀 Kurulum
 
-### 1. Gereksinimleri yükle
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Modeli eğit ve kaydet (yalnızca bir kez)
+## ▶️ Çalıştırma Sırası
+
+### 1. Modeli eğit (yalnızca ilk seferinde)
 ```bash
 python fit_model.py
 ```
-Üç dosya oluşturur: `model.pkl`, `le_vucut.pkl`, `le_kesim.pkl`
 
-### 3. Ana API'yi başlat
+### 2. AI API'sini başlat (Terminal 1)
 ```bash
-uvicorn api:app --reload --port 8000
+fitai_env/bin/uvicorn api:app --reload --port 8000
 ```
 
-### 4. NLP servisini başlat (yorum analizi)
+### 3. NLP Servisini başlat (Terminal 2)
 ```bash
-uvicorn main:app --reload --port 8001
+fitai_env/bin/uvicorn main:app --reload --port 8001
+```
+
+### 4. Scheduler'ı başlat (Terminal 3)
+```bash
+python scheduler.py
+```
+
+### 5. Test
+```bash
+python api_client.py
 ```
 
 ---
 
 ## ⚙️ Ortam Değişkenleri
-`.env.example` dosyasını `.env` olarak kopyalayın ve düzenleyin:
+
+`.env.example` → `.env` olarak kopyala:
 ```bash
 cp .env.example .env
 ```
 
 | Değişken | Açıklama | Varsayılan |
 |----------|----------|------------|
-| `FITAI_BACKEND_URL` | API adresi | `http://127.0.0.1:8000` |
+| `FITAI_AI_URL` | AI model servisi | `http://127.0.0.1:8000` |
+| `FITAI_NLP_URL` | NLP servisi | `http://127.0.0.1:8001` |
+| `FITAI_BACKEND_URL` | Gerçek backend | `http://localhost:44399` |
+| `UYUM_SKORU_ARALIK_DK` | Skor güncelleme sıklığı | `60` dakika |
+| `YORUM_ANALIZ_ARALIK_DK` | Yorum analiz sıklığı | `30` dakika |
 
 ---
 
-## 📡 API Uç Noktaları
+## 📡 API Endpoint'leri
 
-### `POST /analiz`
-Bir ürün için uyum skoru hesaplar.
+### AI Servisi (port 8000)
+| Method | Endpoint | Açıklama |
+|--------|----------|----------|
+| POST | `/analiz` | Uyum skoru hesapla |
 
-**Giriş:**
-```json
-{
-  "urun_id": 101,
-  "vucut_tipi": "Kum Saati",
-  "urun_kesim": "Slim",
-  "kumas_esnek": 1
-}
-```
+### NLP Servisi (port 8001)
+| Method | Endpoint | Açıklama |
+|--------|----------|----------|
+| GET | `/yorum-analiz` | Mock yorumları analiz et |
+| POST | `/yorum-analiz/toplu` | Toplu yorum analizi |
 
-**Çıkış:**
-```json
-{
-  "urun_id": 101,
-  "vucut_tipi": "Kum Saati",
-  "uyum_skoru": 88.0,
-  "iade_riski": "Düşük",
-  "tavsiye": "Kum Saati vücut tipiniz için Slim kesim mükemmel uyum sağlar."
-}
-```
+---
+
+## 🔗 Backend Entegrasyonu
+
+Backend ekibi şu endpoint'leri açtığında otomatik bağlanacak:
+
+| Endpoint | Açıklama |
+|----------|----------|
+| `POST /api/vucut-uyum-skoru` | Uyum skorunu kaydet |
+| `POST /api/yorum-analiz` | Yorum analizini kaydet |
+| `GET /api/urunler` | Ürün listesini çek |
+| `GET /api/yorumlar?durum=beklemede` | Bekleyen yorumları çek |
 
 ---
 
