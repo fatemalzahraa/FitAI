@@ -1,8 +1,9 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
+import joblib
 
-# ── 9 أنواع جسم × 3 قصات × مرونة = بيانات أكثر وأدق ──
+# 9 vücut tipi × 3 kesim × kumaş esnekliği = kapsamlı veri seti
 data = {
     'vucut_tipi': [
         'Elma',       'Elma',       'Elma',
@@ -38,23 +39,23 @@ data = {
         1, 0, 1,
     ],
     'uyum_skoru': [
-        # Elma - الجسم التفاحي يناسب Regular و Oversize أكثر
+        # Elma - Regular ve Oversize daha uygun
         48, 72, 78,
-        # Armut - يناسب Slim فوق Regular تحت
+        # Armut - Slim üst, Regular alt için uygun
         65, 75, 70,
-        # Kum Saati - ساعة رملية تناسب كل شيء
+        # Kum Saati - her kesime uyar
         88, 82, 70,
-        # Dikdortgen - مستطيل يناسب Oversize
+        # Dikdortgen - Oversize daha uygun
         60, 70, 80,
-        # Ters Ucgen - مثلث معكوس يناسب Slim
+        # Ters Ucgen - Slim daha uygun
         72, 65, 60,
-        # Oval - قريب من Elma
+        # Oval - Elma'ya yakın
         50, 70, 75,
-        # Elmas - ماسة
+        # Elmas - dengeli vücut
         68, 74, 72,
-        # Uzun - طويل ونحيف
+        # Uzun - ince uzun yapı
         75, 70, 65,
-        # Atletik - رياضي
+        # Atletik - sportif yapı
         82, 78, 72,
     ]
 }
@@ -82,7 +83,7 @@ def tahmin_et(vucut_tipi, urun_kesim, kumas_esnek):
     else:            risk = 'Yüksek'
     return skor, risk
 
-# ── اختبار الـ 9 أنواع ──────────────────────────────────
+# 9 vücut tipi için test
 print(f"{'Vücut Tipi':<14} {'Kesim':<10} {'Skor':>6}  {'Risk'}")
 print("─" * 45)
 for vucut in ['Elma','Armut','Kum Saati','Dikdortgen','Ters Ucgen','Oval','Elmas','Uzun','Atletik']:
@@ -91,11 +92,7 @@ for vucut in ['Elma','Armut','Kum Saati','Dikdortgen','Ters Ucgen','Oval','Elmas
         print(f"{vucut:<14} {kesim:<10} {skor:>6}  {risk}")
     print()
 
-
-
-    import joblib
-
-# حفظ النموذج والـ encoders
+# Model ve encoder'ları kaydet
 joblib.dump(model,    'model.pkl')
 joblib.dump(le_vucut, 'le_vucut.pkl')
 joblib.dump(le_kesim, 'le_kesim.pkl')
