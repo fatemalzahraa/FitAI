@@ -1,0 +1,87 @@
+الخطوة 2: اكتبي العنوان
+
+قسم الذكاء الاصطناعي في مشروع FitAI
+
+الخطوة 3: اكتبي الهدف
+
+انسخي هذا:
+
+هدف الذكاء الاصطناعي في FitAI هو تحليل بيانات المستخدم والمنتج وتعليقات العملاء من أجل اقتراح المقاس المناسب، حساب Fit Score، وتوقع احتمال الإرجاع.
+
+الخطوة 4: اكتبي المدخلات
+
+User Inputs:
+
+الطول
+الوزن
+نوع الجسم
+المقاس المعتاد
+رابط المنتج
+
+Product Inputs:
+
+نوع القطعة
+المقاسات المتوفرة
+وصف المنتج
+تعليقات العملاء
+الخطوة 5: اكتبي المخرجات
+
+AI Outputs:
+
+Recommended Size
+Fit Score
+Return Risk
+Reason / Explanation
+الخطوة 6: اكتبي القواعد
+
+انسخي هذا:
+
+If reviews say the product is tight:
+Recommended Size = one size bigger
+
+If reviews say the product is large:
+Recommended Size = one size smaller
+
+If reviews say true to size:
+Recommended Size = usual size
+الخطوة 7: اكتبي حساب Fit Score
+Start Fit Score = 100
+
+If product is tight:
+Subtract 20
+
+If product is large:
+Subtract 15
+
+If body type does not match product category:
+Subtract 10
+
+If recommended size is not available:
+Subtract 30
+الخطوة 8: اكتبي Return Risk
+If Fit Score >= 80:
+Return Risk = Low
+
+If Fit Score between 60 and 79:
+Return Risk = Medium
+
+If Fit Score < 60:
+Return Risk = High
+الخطوة 9: اكتبي مثال واحد
+User:
+Height = 165
+Weight = 60
+Body Type = Pear
+Usual Size = M
+Product Link = Trendyol link
+
+Product:
+Category = Dress
+Available Sizes = S, M, L
+Reviews = "The product is a bit tight."
+
+AI Output:
+Recommended Size = L
+Fit Score = 80
+Return Risk = Low
+Reason = Because reviews indicate that the product runs tight, the system recommends one size larger.
