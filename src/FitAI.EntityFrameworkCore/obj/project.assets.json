@@ -9615,25 +9615,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\avcia\\.nuget\\packages\\": {},
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+      "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
       "projectName": "FitAI.EntityFrameworkCore",
-      "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
-      "packagesPath": "C:\\Users\\avcia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.EntityFrameworkCore\\obj\\",
+      "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+      "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\NuGet.Config",
-        "C:\\Users\\avcia\\NuGet.Config",
-        "C:\\Users\\avcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
+        "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -9648,8 +9647,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
-              "projectPath": "C:\\Users\\avcia\\OneDrive\\Masaüstü\\ProjeYedek\\src\\FitAI.Domain\\FitAI.Domain.csproj"
+            "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
+              "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
             }
           }
         }
@@ -9664,7 +9663,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -9743,7 +9742,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

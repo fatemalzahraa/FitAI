@@ -1,0 +1,179 @@
+/* =============================================
+   FitAI - Kullanıcı Panel CSS
+   ============================================= */
+
+.fitai-page {
+    padding: 0.5rem 0;
+}
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--lpx-heading-color, #1a1a2e);
+}
+
+/* =============================================
+   Kullanıcı Tablosu
+   ============================================= */
+.kullanici-table thead th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0.85rem 1rem;
+    white-space: nowrap;
+}
+
+.kullanici-table tbody td {
+    font-size: 0.875rem;
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    color: #374151;
+}
+
+.kullanici-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.kullanici-table tbody tr:hover td {
+    background: rgba(79,70,229,0.02);
+}
+
+/* Kullanıcı Avatar + İsim */
+.kullanici-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.kullanici-bilgi {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.kullanici-ad {
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 0.875rem;
+}
+
+/* Rol Renkleri */
+.rol-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+}
+
+.rol-admin        { background: rgba(239,68,68,0.1);   color: #dc2626; }
+.rol-magazasahibi { background: rgba(79,70,229,0.1);   color: #4f46e5; }
+.rol-kullanici    { background: rgba(107,114,128,0.1); color: #374151; }
+
+/* Durum Badge */
+.durum-aktif { background: rgba(16,185,129,0.1); color: #059669; }
+.durum-pasif { background: rgba(156,163,175,0.1); color: #6b7280; }
+
+/* İşlem Butonları */
+.btn-islem {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.btn-detay  { background: rgba(79,70,229,0.08); color: #4f46e5; border-color: rgba(79,70,229,0.2); }
+.btn-detay:hover  { background: #4f46e5; color: #fff; }
+
+/* =============================================
+   Detay Modal - Profil Kartı
+   ============================================= */
+.profil-kart-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(14,165,233,0.06));
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+}
+
+.profil-avatar-buyuk {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.profil-detay-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.profil-detay-item {
+    background: rgba(0,0,0,0.02);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+.profil-detay-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 2px;
+}
+
+.profil-detay-deger {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.profil-section-baslik {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .kullanici-table thead th {
+    background: rgba(255,255,255,0.02);
+}
+[data-bs-theme="dark"] .kullanici-ad,
+[data-bs-theme="dark"] .profil-detay-deger {
+    color: #e2e8f0;
+}
+[data-bs-theme="dark"] .profil-detay-item {
+    background: rgba(255,255,255,0.04);
+}
