@@ -99,20 +99,21 @@ public class FitAIWebModule : AbpModule
         }
     }
 
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
-        var configuration = context.Services.GetConfiguration();
+public override void ConfigureServices(ServiceConfigurationContext context)
+{
+    var hostingEnvironment = context.Services.GetHostingEnvironment();
+    var configuration = context.Services.GetConfiguration();
 
-        ConfigureAuthentication(context);
-        ConfigureUrls(configuration);
-        ConfigureAutoMapper();
-        ConfigureVirtualFileSystem(hostingEnvironment);
-        ConfigureNavigationServices();
-        ConfigureAutoApiControllers();
-        ConfigureSwaggerServices(context.Services); // Kritik: Bu metod a˛a˝da g¸ncellendi
-    }
+    context.Services.AddHttpClient(); // ‚Üê BU SATIRI EKLE
 
+    ConfigureAuthentication(context);
+    ConfigureUrls(configuration);
+    ConfigureAutoMapper();
+    ConfigureVirtualFileSystem(hostingEnvironment);
+    ConfigureNavigationServices();
+    ConfigureAutoApiControllers();
+    ConfigureSwaggerServices(context.Services);
+}
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
@@ -140,6 +141,7 @@ public class FitAIWebModule : AbpModule
 
     private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
     {
+        
         if (hostingEnvironment.IsDevelopment())
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
@@ -169,7 +171,7 @@ public class FitAIWebModule : AbpModule
         });
     }
 
-    // --- G‹NCEL SWAGGER METODU ---
+    // --- GÔøΩNCEL SWAGGER METODU ---
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
         services.AddAbpSwaggerGen(
@@ -179,7 +181,7 @@ public class FitAIWebModule : AbpModule
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
 
-                // Kilit butonu tan˝mlamas˝
+                // Kilit butonu tanÔøΩmlamasÔøΩ
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -187,7 +189,7 @@ public class FitAIWebModule : AbpModule
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n ÷rnek: 'Bearer 12345abcdef'"
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n ÔøΩrnek: 'Bearer 12345abcdef'"
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -250,4 +252,6 @@ public class FitAIWebModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
     }
+
+    
 }

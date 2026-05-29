@@ -7,24 +7,25 @@ fitAI.bildirimler.index = (function () {
 
     var _bildirimService = fitAI.bildirimler.bildirim;
 
-    var _tumBildirimler  = [];
+    var _tumBildirimler    = [];
     var _aktifOkunduFiltre = 'tumu'; // tumu | okunmamis | okunmus
-    var _aktifKanal     = '';
-    var _aktifTip       = '';
-    var _silinecekId    = null;
+    var _aktifKanal        = '';
+    var _aktifTip          = '';
+    var _silinecekId       = null;
 
-    // Tip → ikon + renk eşleşmesi (Bildirim.cs'deki serbest string değerleri)
     var _tipConfig = {
-        'AI'    : { ikon: 'fa-robot',               css: 'primary' },
-        'Sistem': { ikon: 'fa-cog',                 css: 'secondary' },
+        'AI'    : { ikon: 'fa-robot',                css: 'primary' },
+        'Sistem': { ikon: 'fa-cog',                  css: 'secondary' },
         'Uyari' : { ikon: 'fa-exclamation-triangle', css: 'warning' }
     };
 
     var _kanalConfig = {
-        'InApp' : { etiket: 'Uygulama İçi', css: 'info' },
-        'Email' : { etiket: 'E-posta',      css: 'secondary' },
-        'Push'  : { etiket: 'Push',         css: 'success' }
+        'InApp': { etiket: 'Uygulama İçi', css: 'info' },
+        'Email': { etiket: 'E-posta',      css: 'secondary' },
+        'Push' : { etiket: 'Push',         css: 'success' }
     };
+
+    /* ---------- init ---------- */
 
     function init() {
         _listeyiYukle();
@@ -36,15 +37,17 @@ fitAI.bildirimler.index = (function () {
     function _listeyiYukle() {
         _yukleniyor(true);
 
+        // ABP proxy jQuery Deferred döndürür — .finally() YOK, .always() kullan
         _bildirimService.getList()
             .then(function (result) {
                 _tumBildirimler = result.items || result;
                 _render();
             })
-            .catch(function () {
+            .fail(function (err) {
                 abp.notify.error('Bildirimler yüklenirken bir hata oluştu.');
+                console.error('Bildirim getList hatası:', err);
             })
-            .finally(function () {
+            .always(function () {
                 _yukleniyor(false);
             });
     }
@@ -54,19 +57,16 @@ fitAI.bildirimler.index = (function () {
     function _filtreUygula() {
         var liste = _tumBildirimler;
 
-        // Okundu/Okunmadı
         if (_aktifOkunduFiltre === 'okunmamis') {
             liste = liste.filter(function (b) { return !b.okunduMu; });
         } else if (_aktifOkunduFiltre === 'okunmus') {
             liste = liste.filter(function (b) { return b.okunduMu; });
         }
 
-        // Kanal
         if (_aktifKanal) {
             liste = liste.filter(function (b) { return b.kanal === _aktifKanal; });
         }
 
-        // Tip
         if (_aktifTip) {
             liste = liste.filter(function (b) { return b.tip === _aktifTip; });
         }
@@ -95,9 +95,11 @@ fitAI.bildirimler.index = (function () {
     }
 
     function _bildirimSatiri(b) {
-        var tipCfg   = _tipConfig[b.tip]   || { ikon: 'fa-bell', css: 'dark' };
+        var tipCfg   = _tipConfig[b.tip]     || { ikon: 'fa-bell', css: 'dark' };
         var kanalCfg = _kanalConfig[b.kanal] || { etiket: b.kanal, css: 'light' };
-        var tarih    = new Date(b.gonderimTarihi).toLocaleString('tr-TR');
+        var tarih    = b.gonderimTarihi
+            ? new Date(b.gonderimTarihi).toLocaleString('tr-TR')
+            : '';
 
         var ilgiliHtml = '';
         if (b.ilgiliKayitId && b.ilgiliKayitTipi) {
@@ -183,9 +185,15 @@ fitAI.bildirimler.index = (function () {
             _bildirimService.okunduIsaretle(id)
                 .then(function () {
                     var b = _tumBildirimler.find(function (x) { return x.id === id; });
-                    if (b) { b.okunduMu = true; b.okunmaTarihi = new Date().toISOString(); }
+                    if (b) {
+                        b.okunduMu = true;
+                        b.okunmaTarihi = new Date().toISOString();
+                    }
                     _render();
                     abp.notify.success('Bildirim okundu olarak işaretlendi.');
+                })
+                .fail(function () {
+                    abp.notify.error('İşlem sırasında bir hata oluştu.');
                 });
         });
 
@@ -205,6 +213,9 @@ fitAI.bildirimler.index = (function () {
                     });
                     _render();
                     abp.notify.success('Tüm bildirimler okundu olarak işaretlendi.');
+                })
+                .fail(function () {
+                    abp.notify.error('İşlem sırasında bir hata oluştu.');
                 });
         });
 
@@ -225,6 +236,9 @@ fitAI.bildirimler.index = (function () {
                     $('#silmeModal').modal('hide');
                     _render();
                     abp.notify.success('Bildirim silindi.');
+                })
+                .fail(function () {
+                    abp.notify.error('Silme işlemi başarısız.');
                 });
         });
     }

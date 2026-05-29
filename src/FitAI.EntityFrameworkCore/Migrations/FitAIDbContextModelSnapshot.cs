@@ -711,6 +711,9 @@ namespace FitAI.Migrations
                     b.Property<double?>("GuvenSkoru")
                         .HasColumnType("float");
 
+                    b.Property<string>("KullaniciAdi")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("LastModificationTime");

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FzreFmSwKvw=",
+  "dgSpecHash": "rjhxyiYoTXI=",
   "success": true,
   "projectFilePath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj",
   "expectedPackageFiles": [
@@ -42,6 +42,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.configuration.usersecrets\\9.0.5\\microsoft.extensions.configuration.usersecrets.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.6\\microsoft.extensions.dependencyinjection.9.0.6.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.6\\microsoft.extensions.dependencyinjection.abstractions.9.0.6.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.diagnostics\\9.0.5\\microsoft.extensions.diagnostics.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\9.0.5\\microsoft.extensions.diagnostics.abstractions.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\9.0.5\\microsoft.extensions.fileproviders.abstractions.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.fileproviders.composite\\9.0.5\\microsoft.extensions.fileproviders.composite.9.0.5.nupkg.sha512",
@@ -49,6 +50,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\9.0.5\\microsoft.extensions.fileproviders.physical.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\9.0.5\\microsoft.extensions.filesystemglobbing.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\9.0.5\\microsoft.extensions.hosting.abstractions.9.0.5.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.http\\9.0.5\\microsoft.extensions.http.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.identity.core\\9.0.5\\microsoft.extensions.identity.core.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.localization\\9.0.5\\microsoft.extensions.localization.9.0.5.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\9.0.5\\microsoft.extensions.localization.abstractions.9.0.5.nupkg.sha512",

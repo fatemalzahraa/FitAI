@@ -108,6 +108,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Micr
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Diagnostics.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Composite.dll
@@ -115,6 +116,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Micr
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Physical.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Http.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Localization.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.Extensions.Localization.Abstractions.dll

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-
+using Microsoft.EntityFrameworkCore;
 namespace FitAI.Analytics;
 
 //[Authorize] 
@@ -26,7 +26,55 @@ public class AnalyticsAppService : FitAIAppService, IAnalyticsAppService
         _yorumRepository = yorumRepository;
         _nlpBulgusuRepository = nlpBulgusuRepository;
     }
+public async Task<DashboardSummaryDto> GetDashboardSummaryAsync()
+{
+    var toplamUrun = await _urunRepository.CountAsync(u => !u.SilindiMi);
+    var toplamYorum = await _yorumRepository.CountAsync();
+    var islenenYorum = await _nlpBulgusuRepository.CountAsync();
 
+    return new DashboardSummaryDto
+    {
+        ToplamUrunSayisi = toplamUrun,
+        ToplamYorumSayisi = toplamYorum,
+        MagazaPuanOrtalamasi = 0, // İsterseniz hesaplatın
+        IslenmeyiBekleyenYorumlar = toplamYorum - islenenYorum
+    };
+}
+
+public async Task<List<ReviewDto>> GetReviewsAsync(int magazaId, string? duyguEtiketi = null, int? urunId = null, int maxSayi = 10)
+{
+    var yorumlarQuery = await _yorumRepository.GetQueryableAsync();
+    var urunlerQuery = await _urunRepository.GetQueryableAsync();
+
+    var query = from y in yorumlarQuery
+                join u in urunlerQuery on y.UrunId equals u.Id
+                where u.MagazaId == magazaId && !u.SilindiMi
+                select y;
+
+    if (!string.IsNullOrEmpty(duyguEtiketi))
+        query = query.Where(y => y.Duygu == duyguEtiketi);
+
+    if (urunId.HasValue)
+        query = query.Where(y => y.UrunId == urunId.Value);
+
+    var yorumlar = await query
+        .OrderByDescending(y => y.CreationTime)
+        .Take(maxSayi)
+        .ToListAsync();
+
+    // Mapping: Domain entity -> ReviewDto
+    return yorumlar.Select(y => new ReviewDto
+    {
+        Id = y.Id,
+        Kullanici = y.KullaniciAdi ?? "Anonim",
+        Yildiz = y.Puan ?? 0,
+        Metin = y.YorumMetni,
+        DuyguEtiketi = y.Duygu ?? "Belirsiz",
+        DuyguSkoru = y.GuvenSkoru ?? 0,
+        Tema = y.Tema ?? "genel",
+        Zaman = y.CreationTime
+    }).ToList();
+}
     public async Task<DashboardSummaryDto> GetStoreSummaryAsync(int magazaId)
     {
         var urunlerQuery = await _urunRepository.GetQueryableAsync();

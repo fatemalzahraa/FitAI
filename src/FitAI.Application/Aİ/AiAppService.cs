@@ -1,87 +1,223 @@
-﻿using FitAI.Ai;
-using FitAI.Domain.Ai;
-using FitAI.Domain.Products;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+﻿// src/FitAI.Application/AI/AiAppService.cs
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+using System.Linq;
+using Volo.Abp;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Repositories;
 
-namespace FitAI.Ai;
+namespace FitAI.AI;
 
-//[Authorize] 
-public class AiAppService : FitAIAppService, IAiAppService
+/// <summary>
+/// Python FastAPI AI servisine proxy yapan ABP uygulama servisi.
+/// 
+/// Konfigürasyon (appsettings.json):
+///   "AiService": {
+///     "BaseUrl": "http://127.0.0.1:8000"
+///   }
+/// </summary>
+public class AiAppService : ApplicationService, IAiAppService
 {
-    private readonly IRepository<Yorum, int> _yorumRepository;
-    private readonly IRepository<NlpBulgusu, int> _nlpBulgusuRepository;
+    private readonly HttpClient _http;
+    private readonly ILogger<AiAppService> _logger;
+    private readonly string _aiBaseUrl;
 
-    public AiAppService(
-        IRepository<Yorum, int> yorumRepository,
-        IRepository<NlpBulgusu, int> nlpBulgusuRepository)
+    // In-memory talimat deposu (veritabanı yoksa)
+    // Gerçek projede IRepository<Talimat, int> kullanılır.
+    private static readonly List<TalimatDto> _talimatlar = new()
     {
-        _yorumRepository = yorumRepository;
-        _nlpBulgusuRepository = nlpBulgusuRepository;
+        new() { Id = 1, Ad = "Günlük NLP Analizi",      Aciklama = "Gelen yorumları NLP ile analiz eder",          Tetikleyici = "zamanli", Cron = "0 2 * * *", Durum = "aktif",     SonCalisma = "2024-05-07 02:15:23", Prompt = "Yorumları duygu analizi yaparak pozitif/negatif/nötr olarak sınıflandır." },
+        new() { Id = 2, Ad = "Ürün Skor Güncelleme",    Aciklama = "Ürünlerin AI skorlarını günceller",            Tetikleyici = "zamanli", Cron = "0 3 * * *", Durum = "aktif",     SonCalisma = "2024-05-07 03:00:12", Prompt = "Her ürün için vücut uyum skorunu hesapla ve güncelle." },
+        new() { Id = 3, Ad = "İade Riski Tespiti",      Aciklama = "Yüksek iade riski olan siparişleri tespit eder",Tetikleyici = "olay",    Cron = "-",        Durum = "aktif",     SonCalisma = "2024-05-06 14:30:45", Prompt = "Sipariş verilerine göre iade riski yüksek olanları işaretle." },
+        new() { Id = 4, Ad = "Stok Tahmini",            Aciklama = "Gelecek ay için stok ihtiyacını tahmin eder",  Tetikleyici = "zamanli", Cron = "0 4 1 * *", Durum = "beklemede", SonCalisma = null,                  Prompt = "Satış trendlerine göre stok tahmini yap." },
+        new() { Id = 5, Ad = "Rapor Oluşturma",         Aciklama = "Haftalık AI raporunu oluşturur",               Tetikleyici = "manuel",  Cron = "-",        Durum = "pasif",     SonCalisma = "2024-05-01 09:00:00", Prompt = "Haftalık AI performans raporu hazırla." },
+    };
+    private static int _nextId = 6;
+
+// YENİ (güvenli):
+public AiAppService(
+    IHttpClientFactory httpClientFactory,
+    IConfiguration configuration,
+    ILogger<AiAppService> logger)
+{
+    _logger = logger;
+    _aiBaseUrl = configuration["AiService:BaseUrl"] ?? "http://127.0.0.1:8000";
+    _http = httpClientFactory.CreateClient();          // ← named client yerine default
+    _http.BaseAddress = new Uri(_aiBaseUrl);
+    _http.Timeout = TimeSpan.FromSeconds(30);
+}
+
+    // ─────────────────────────────────────────
+    // Talimat CRUD
+    // ─────────────────────────────────────────
+
+    public Task<List<TalimatDto>> GetTalimatListesiAsync()
+        => Task.FromResult(_talimatlar);
+
+    public Task<TalimatDto> GetTalimatAsync(int id)
+    {
+        var t = _talimatlar.Find(x => x.Id == id)
+            ?? throw new UserFriendlyException($"Talimat bulunamadı: {id}");
+        return Task.FromResult(t);
     }
 
-    public async Task<NlpResultDto> AnalyzeCommentAsync(string yorumMetni)
+    public Task<TalimatDto> CreateTalimatAsync(TalimatCreateOrUpdateDto input)
     {
-        if (string.IsNullOrWhiteSpace(yorumMetni))
+        var dto = new TalimatDto
         {
-            return new NlpResultDto
-            {
-                Duygu = "Nötr",
-                GuvenSkoru = 1.00,
-                TespitEdilenKonu = "Bilinmiyor"
-            };
+            Id          = _nextId++,
+            Ad          = input.Ad,
+            Aciklama    = input.Aciklama,
+            Tetikleyici = input.Tetikleyici,
+            Cron        = string.IsNullOrWhiteSpace(input.Cron) ? "-" : input.Cron,
+            Durum       = "aktif",
+            SonCalisma  = null,
+            Prompt      = input.Prompt
+        };
+        _talimatlar.Add(dto);
+        return Task.FromResult(dto);
+    }
+
+    public Task<TalimatDto> UpdateTalimatAsync(int id, TalimatCreateOrUpdateDto input)
+    {
+        var t = _talimatlar.Find(x => x.Id == id)
+            ?? throw new UserFriendlyException($"Talimat bulunamadı: {id}");
+        t.Ad          = input.Ad;
+        t.Aciklama    = input.Aciklama;
+        t.Tetikleyici = input.Tetikleyici;
+        t.Cron        = string.IsNullOrWhiteSpace(input.Cron) ? "-" : input.Cron;
+        t.Prompt      = input.Prompt;
+        return Task.FromResult(t);
+    }
+
+    public Task DeleteTalimatAsync(int id)
+    {
+        var t = _talimatlar.Find(x => x.Id == id)
+            ?? throw new UserFriendlyException($"Talimat bulunamadı: {id}");
+        _talimatlar.Remove(t);
+        return Task.CompletedTask;
+    }
+
+    // ─────────────────────────────────────────
+    // AI Çalıştırma
+    // ─────────────────────────────────────────
+
+    public async Task<TalimatCalistirmaSonucDto> TalimatCalistirAsync(int id)
+    {
+        var talimat = await GetTalimatAsync(id);
+
+        var istek = new TalimatCalistirmaIstegiDto { Talimat = talimat.Prompt };
+
+        TalimatCalistirmaSonucDto sonuc;
+        try
+        {
+            var response = await _http.PostAsJsonAsync("/talimat", istek);
+            response.EnsureSuccessStatusCode();
+            sonuc = (await response.Content.ReadFromJsonAsync<TalimatCalistirmaSonucDto>())!;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("AI servisi ulaşılamadı: {Msg}", ex.Message);
+            throw new UserFriendlyException("AI servisi şu anda erişilemiyor. Lütfen servisin çalıştığından emin olun.");
         }
 
-        var metin = yorumMetni.ToLower();
-
-        var result = new NlpResultDto
-        {
-            Duygu = metin.Contains("kötü") || metin.Contains("dar") ? "Negatif" : "Pozitif",
-            GuvenSkoru = 0.85,
-            TespitEdilenKonu = metin.Contains("kargo") ? "Lojistik" :
-                               metin.Contains("fiyat") ? "Maliyet" : "Ürün Kalitesi"
-        };
-
-        return await Task.FromResult(result);
+        // Son çalışma zamanını güncelle
+        talimat.SonCalisma = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        return sonuc;
     }
 
-    public async Task ProcessPendingCommentsAsync(int magazaId)
+    public async Task<object> TalimatGeriAlAsync()
     {
-        var pendingComments = await _yorumRepository.GetListAsync(y => !y.NlpIslendi && y.MagazaId == magazaId);
-
-        foreach (var yorum in pendingComments)
+        try
         {
-            try
-            {
-                var analizSonucu = await AnalyzeCommentAsync(yorum.YorumMetni);
+            var response = await _http.PostAsync("/talimat/undo", null);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<object>(json)!;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Undo isteği başarısız: {Msg}", ex.Message);
+            throw new UserFriendlyException("Geri alma işlemi başarısız oldu.");
+        }
+    }
 
-                await _nlpBulgusuRepository.InsertAsync(new NlpBulgusu
-                {
-                    UrunId = yorum.UrunId,
-                    MagazaId = magazaId,
-                    Tema = analizSonucu.TespitEdilenKonu,
-                    DuyguEtiketi = analizSonucu.Duygu,
-                    DuyguSkoru = (decimal)analizSonucu.GuvenSkoru,
-                    TekrarSayisi = 1,
-                    Durum = "Acik",
-                    OneriMetni = analizSonucu.Duygu == "Negatif" ? "Bu konuyla ilgili müşteri geri bildirimlerini inceleyin." : null
-                }, autoSave: true);
+    // ─────────────────────────────────────────
+    // Analiz
+    // ─────────────────────────────────────────
 
-                yorum.NlpIslendi = true;
-                await _yorumRepository.UpdateAsync(yorum);
-            }
-            catch (Exception ex)
+public async Task<AnalizSonucDto> AnalizYapAsync(AnalizIstegiDto input)
+{
+    try
+    {
+        var payload = new
+        {
+            urunId      = input.UrunId,
+            vucutTipi   = input.VucutTipi,
+            urunKesim   = input.UrunKesim,
+            kumasEsnek  = input.KumasEsnek,
+            mevcutBeden = input.MevcutBeden,
+            yorumOzeti  = input.YorumOzeti
+        };
+
+        _logger.LogInformation("AI isteği gönderiliyor: {Url}/analiz", _aiBaseUrl);
+
+        var response = await _http.PostAsJsonAsync("/analiz", payload);
+
+        _logger.LogInformation("AI yanıtı: {Status}", response.StatusCode);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errBody = await response.Content.ReadAsStringAsync();
+            _logger.LogError("AI hata yanıtı: {Body}", errBody);
+            throw new UserFriendlyException($"AI servisi hata döndürdü: {response.StatusCode}");
+        }
+
+        return (await response.Content.ReadFromJsonAsync<AnalizSonucDto>())!;
+    }
+    catch (HttpRequestException ex)
+    {
+        _logger.LogError("AI servisine bağlanılamadı: {Url} - {Msg}", _aiBaseUrl, ex.Message);
+        throw new UserFriendlyException($"AI servisi erişilemiyor ({_aiBaseUrl}). Python servisi çalışıyor mu?");
+    }
+    catch (TaskCanceledException)
+    {
+        _logger.LogError("AI servisi timeout: {Url}", _aiBaseUrl);
+        throw new UserFriendlyException("AI servisi zaman aşımına uğradı (30s).");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Beklenmeyen hata");
+        throw new UserFriendlyException($"Beklenmeyen hata: {ex.Message}");
+    }
+}
+    public async Task<TopluYorumSonucDto> TopluYorumAnalizAsync(TopluYorumIstegiDto input)
+    {
+        try
+        {
+            // Python API camelCase field adları bekliyor
+            var yorumlar = input.Yorumlar.Select(y => new
             {
-                // HATA YAKALAMA: Döngü esnasında bir yorumda sorun çıkarsa sistem kilitlenmez, log atıp sıradakine geçer.
-                Logger.LogError(ex, $"Yorum ID: {yorum.Id} işlenirken bir hata oluştu. Bir sonraki yoruma geçiliyor.");
-                continue;
-            }
+                yorumMetni = y.YorumMetni,
+                urunId     = y.UrunId,
+                magazaId   = y.MagazaId
+            });
+            var payload = new { yorumlar };
+            var response = await _http.PostAsJsonAsync("/yorum-analiz/toplu", payload);
+            response.EnsureSuccessStatusCode();
+            return (await response.Content.ReadFromJsonAsync<TopluYorumSonucDto>())!;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Toplu yorum analiz isteği başarısız: {Msg}", ex.Message);
+            throw new UserFriendlyException("NLP analiz servisi şu anda erişilemiyor.");
         }
     }
 }

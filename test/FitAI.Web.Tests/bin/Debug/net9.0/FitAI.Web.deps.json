@@ -140,12 +140,10 @@
           "Microsoft.Extensions.Configuration.Ini": "9.0.0.0",
           "Microsoft.Extensions.Configuration.KeyPerFile": "9.0.0.0",
           "Microsoft.Extensions.Configuration.Xml": "9.0.0.0",
-          "Microsoft.Extensions.Diagnostics": "9.0.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "9.0.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "9.0.0.0",
           "Microsoft.Extensions.Features": "9.0.0.0",
           "Microsoft.Extensions.Hosting": "9.0.0.0",
-          "Microsoft.Extensions.Http": "9.0.0.0",
           "Microsoft.Extensions.Identity.Stores": "9.0.0.0",
           "Microsoft.Extensions.Logging.Configuration": "9.0.0.0",
           "Microsoft.Extensions.Logging.Console": "9.0.0.0",
@@ -1447,6 +1445,22 @@
           "lib/net9.0/Microsoft.Extensions.DependencyModel.dll": {}
         }
       },
+      "Microsoft.Extensions.Diagnostics/9.0.5": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "9.0.5",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.5",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "9.0.5"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Diagnostics.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.525.21509"
+          }
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.Extensions.Diagnostics.dll": {}
+        }
+      },
       "Microsoft.Extensions.Diagnostics.Abstractions/9.0.5": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.6",
@@ -1548,6 +1562,25 @@
         },
         "compile": {
           "lib/net9.0/Microsoft.Extensions.Hosting.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Http/9.0.5": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.5",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.6",
+          "Microsoft.Extensions.Diagnostics": "9.0.5",
+          "Microsoft.Extensions.Logging": "9.0.6",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.6",
+          "Microsoft.Extensions.Options": "9.0.6"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Http.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.525.21509"
+          }
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.Extensions.Http.dll": {}
         }
       },
       "Microsoft.Extensions.Identity.Core/9.0.5": {
@@ -4680,6 +4713,7 @@
           "FitAI.Domain": "1.0.0",
           "Microsoft.AspNetCore.Identity": "2.3.9",
           "Microsoft.EntityFrameworkCore": "9.0.5",
+          "Microsoft.Extensions.Http": "9.0.5",
           "Volo.Abp.Account.Application": "9.3.7",
           "Volo.Abp.FeatureManagement.Application": "9.3.7",
           "Volo.Abp.Identity.Application": "9.3.7",
@@ -5332,12 +5366,6 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Diagnostics/9.0.0.0": {
-        "compile": {
-          "Microsoft.Extensions.Diagnostics.dll": {}
-        },
-        "compileOnly": true
-      },
       "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/9.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll": {}
@@ -5359,12 +5387,6 @@
       "Microsoft.Extensions.Hosting/9.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Hosting.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.Extensions.Http/9.0.0.0": {
-        "compile": {
-          "Microsoft.Extensions.Http.dll": {}
         },
         "compileOnly": true
       },
@@ -6935,6 +6957,13 @@
       "path": "microsoft.extensions.dependencymodel/9.0.5",
       "hashPath": "microsoft.extensions.dependencymodel.9.0.5.nupkg.sha512"
     },
+    "Microsoft.Extensions.Diagnostics/9.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fRiUjmhm9e4vMp6WEO9MgWNxVtWSr4Pcgh1W4DyJIr8bRANlZz9JU7uicf7ShzMspDxo/9Ejo9zJ6qQZY0IhVw==",
+      "path": "microsoft.extensions.diagnostics/9.0.5",
+      "hashPath": "microsoft.extensions.diagnostics.9.0.5.nupkg.sha512"
+    },
     "Microsoft.Extensions.Diagnostics.Abstractions/9.0.5": {
       "type": "package",
       "serviceable": true,
@@ -6983,6 +7012,13 @@
       "sha512": "sha512-3GA/dxqkP6yFe18qYRgtKYuN2onC8NfhlpNN21jptkVKk7olqBTkdT49oL0pSEz2SptRsux7LocCU7+alGnEag==",
       "path": "microsoft.extensions.hosting.abstractions/9.0.5",
       "hashPath": "microsoft.extensions.hosting.abstractions.9.0.5.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http/9.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6vbo3XjyEc+w/kv/Dkfv9NA7iSdIdX5dlU9Shk3wJJ0fiZpCVzVW5FJtNoIePX5hS0ENNpHPClq/qtq06yM4FQ==",
+      "path": "microsoft.extensions.http/9.0.5",
+      "hashPath": "microsoft.extensions.http.9.0.5.nupkg.sha512"
     },
     "Microsoft.Extensions.Identity.Core/9.0.5": {
       "type": "package",
@@ -8996,11 +9032,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Diagnostics/9.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
     "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions/9.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
@@ -9017,11 +9048,6 @@
       "sha512": ""
     },
     "Microsoft.Extensions.Hosting/9.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Extensions.Http/9.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

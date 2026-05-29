@@ -489,73 +489,98 @@ $(function () {
     }
 
     function yorumListesiniRender(duygu, limit) {
-        // TODO: Backend'den yorum listesi çekilecek
-        var tumYorumlar = [
-            { id: 1, kullanici: 'Ahmet Y.', yildiz: 5, duygu: 'pozitif', metin: 'Ürün çok kaliteli, tam beden geldi. Teşekkürler!', zaman: '2 saat önce' },
-            { id: 2, kullanici: 'Elif K.', yildiz: 4, duygu: 'pozitif', metin: 'Kargo hızlı geldi, ürün güzel. Sadece renk biraz farklıydı.', zaman: '5 saat önce' },
-            { id: 3, kullanici: 'Mehmet S.', yildiz: 2, duygu: 'negatif', metin: 'Beden çok küçük geldi, değişim yapamadım.', zaman: '1 gün önce' },
-            { id: 4, kullanici: 'Ayşe T.', yildiz: 5, duygu: 'pozitif', metin: 'Harika bir ürün, herkese tavsiye ederim!', zaman: '1 gün önce' },
-            { id: 5, kullanici: 'Can D.', yildiz: 3, duygu: 'notr', metin: 'Fiyatına göre idare eder, beklentimi tam karşılamadı.', zaman: '2 gün önce' }
-        ];
-
-        var filtreliYorumlar = duygu === 'all' 
-            ? tumYorumlar 
-            : tumYorumlar.filter(function (y) { return y.duygu === duygu; });
-
         var $liste = $('#yorumListesi');
-        $liste.empty();
+        $liste.html('<div class="text-center py-3 text-muted"><i class="fas fa-spinner fa-pulse me-2"></i>Yükleniyor...</div>');
 
-        filtreliYorumlar.slice(0, limit).forEach(function (yorum) {
-            var yildizHtml = '';
-            for (var i = 0; i < 5; i++) {
-                yildizHtml += i < yorum.yildiz 
-                    ? '<i class="fas fa-star text-warning"></i>' 
-                    : '<i class="far fa-star text-muted"></i>';
+        var params = { magazaId: currentMagazaId, maxSayi: limit };
+        if (duygu !== 'all') params.duyguEtiketi = duygu.charAt(0).toUpperCase() + duygu.slice(1);
+        var urunId = $('#urunSecici').val();
+        if (urunId !== 'all') params.urunId = parseInt(urunId);
+
+        abp.ajax({
+            url: '/api/app/analytics/reviews',
+            data: params
+        }).done(function (yorumlar) {
+            $liste.empty();
+            if (!yorumlar || yorumlar.length === 0) {
+                $liste.html('<p class="text-muted text-center py-3">Bu filtre için yorum bulunamadı.</p>');
+                $('#dahaFazlaYorumBtn').hide();
+                return;
             }
-
-            var duygुBadge = yorum.duygu === 'pozitif' 
-                ? '<span class="badge bg-success-soft text-success"><i class="fas fa-smile me-1"></i>Pozitif</span>'
-                : yorum.duygu === 'negatif'
-                ? '<span class="badge bg-danger-soft text-danger"><i class="fas fa-frown me-1"></i>Negatif</span>'
-                : '<span class="badge bg-secondary-soft text-secondary"><i class="fas fa-meh me-1"></i>Nötr</span>';
-
-            $liste.append(
-                '<div class="yorum-item">' +
-                    '<div class="yorum-ust">' +
-                        '<div class="d-flex align-items-center gap-2">' +
-                            '<span class="yorum-kullanici">' + yorum.kullanici + '</span>' +
-                            '<span class="yorum-yildiz">' + yildizHtml + '</span>' +
-                            duygुBadge +
+            yorumlar.forEach(function (yorum) {
+                var yildizHtml = '';
+                for (var i = 0; i < 5; i++) {
+                    yildizHtml += i < yorum.yildiz
+                        ? '<i class="fas fa-star text-warning"></i>'
+                        : '<i class="far fa-star text-muted"></i>';
+                }
+                var etiket = (yorum.duyguEtiketi || '').toLowerCase();
+                var duygुBadge = etiket === 'olumlu' || etiket === 'pozitif'
+                    ? '<span class="badge bg-success-soft text-success"><i class="fas fa-smile me-1"></i>Pozitif</span>'
+                    : etiket === 'olumsuz' || etiket === 'negatif'
+                    ? '<span class="badge bg-danger-soft text-danger"><i class="fas fa-frown me-1"></i>Negatif</span>'
+                    : '<span class="badge bg-secondary-soft text-secondary"><i class="fas fa-meh me-1"></i>Nötr</span>';
+                var zaman = yorum.zaman ? abp.timing.toUserTime(yorum.zaman) : '';
+                $liste.append(
+                    '<div class="yorum-item">' +
+                        '<div class="yorum-ust">' +
+                            '<div class="d-flex align-items-center gap-2">' +
+                                '<span class="yorum-kullanici">' + yorum.kullanici + '</span>' +
+                                '<span class="yorum-yildiz">' + yildizHtml + '</span>' +
+                                duygुBadge +
+                            '</div>' +
+                            '<span class="yorum-zaman text-muted small">' + zaman + '</span>' +
                         '</div>' +
-                        '<span class="yorum-zaman text-muted small">' + yorum.zaman + '</span>' +
-                    '</div>' +
-                    '<p class="yorum-metin mb-0">' + yorum.metin + '</p>' +
-                '</div>'
-            );
+                        '<p class="yorum-metin mb-0">' + yorum.metin + '</p>' +
+                    '</div>'
+                );
+            });
+            if (yorumlar.length >= limit) {
+                $('#dahaFazlaYorumBtn').show();
+            } else {
+                $('#dahaFazlaYorumBtn').hide();
+            }
+        }).fail(function () {
+            $liste.html('<p class="text-danger text-center py-3"><i class="fas fa-exclamation-circle me-2"></i>Yorumlar yüklenemedi.</p>');
         });
-
-        if (filtreliYorumlar.length > limit) {
-            $('#dahaFazlaYorumBtn').show();
-        } else {
-            $('#dahaFazlaYorumBtn').hide();
-        }
     }
 
     function nlpOzetiniGuncelle(urunId) {
-        var ozetVerileri = {
-            all: { trendler: ['Kalite memnuniyeti yüksek', 'Beden uyumu sorunları var', 'Kargo hızı beğeniliyor', 'Renk seçenekleri yetersiz'], oneri: 'Beden tablosunu güncelleyin ve renk seçeneklerini artırın.' },
-            1: { trendler: ['Ayakkabı kalitesi çok beğeniliyor', 'Konfor ve rahatlık öne çıkıyor', 'Beden uyumunda sorunlar var', 'Fiyat performans olumlu'], oneri: 'Beden tablosunu detaylandırın ve farklı renk seçenekleri ekleyin.' },
-            2: { trendler: ['Matın kalınlığı beğeniliyor', 'Kaymaz yüzey memnun ediyor', 'Renk seçenekleri yeterli'], oneri: 'Farklı ebat seçenekleri ekleyerek ürün gamını genişletin.' },
-            3: { trendler: ['Eldiven dayanıklılığı iyi', 'Terletmiyor yorumları öne çıkıyor', 'Beden seçiminde kararsızlık var'], oneri: 'Detaylı beden ölçü tablosu ekleyin ve video inceleme koyun.' },
-            4: { trendler: ['Şık tasarım beğeniliyor', 'Pratik kullanım öne çıkıyor', 'Fiyat biraz yüksek bulunuyor'], oneri: 'Farklı renk ve desen seçenekleri ile ürünü çeşitlendirin.' }
-        };
-        var data = ozetVerileri[urunId] || ozetVerileri.all;
-        var $liste = $('#ozetListesi');
-        $liste.empty();
-        data.trendler.forEach(function(trend) {
-            $liste.append('<li><i class="fas fa-chart-line text-primary me-2"></i>' + trend + '</li>');
+        var params = { magazaId: currentMagazaId };
+        if (urunId && urunId !== 'all') params.urunId = parseInt(urunId);
+
+        abp.ajax({
+            url: '/api/app/analytics/top-themes',
+            data: params
+        }).done(function (temalar) {
+            var $liste = $('#ozetListesi');
+            $liste.empty();
+            if (temalar && temalar.length > 0) {
+                temalar.forEach(function (tema) {
+                    $liste.append(
+                        '<li><i class="fas fa-chart-line text-primary me-2"></i>' +
+                        tema.etiket + ' — ' + tema.sayi + ' yorum (%' + tema.yuzde + ')' +
+                        '</li>'
+                    );
+                });
+                // En baskın temaya göre öneri üret
+                var enCok = temalar[0];
+                var oneriMap = {
+                    'beden': 'Beden tablosunu güncelleyin ve farklı bedenler için ölçü rehberi ekleyin.',
+                    'kumas': 'Kumaş kalitesi açıklamasını detaylandırın, bakım talimatları ekleyin.',
+                    'iade': 'İade oranı yüksek; ürün açıklaması ve görseller gözden geçirilmeli.',
+                    'kalip': 'Kalıp bilgisi ürün detayına eklenmeli, model ölçüleri paylaşılmalı.',
+                    'genel': 'Genel müşteri geri bildirimlerini düzenli olarak inceleyin.'
+                };
+                var oneri = oneriMap[enCok.etiket.toLowerCase()] || oneriMap['genel'];
+                $('.ozet-oneri span').text('AI Önerisi: ' + oneri);
+            } else {
+                $liste.append('<li class="text-muted">Henüz tema verisi yok.</li>');
+                $('.ozet-oneri span').text('AI Önerisi: Yeterli veri birikmesi bekleniyor.');
+            }
+        }).fail(function () {
+            $('#ozetListesi').html('<li class="text-danger">Veriler yüklenemedi.</li>');
         });
-        $('.ozet-oneri span').text('AI Önerisi: ' + data.oneri);
     }
 
     $('#duyguFiltreBtnGrubu .btn').on('click', function() {

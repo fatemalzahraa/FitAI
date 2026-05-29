@@ -6329,6 +6329,7 @@
           "FitAI.Domain": "1.0.0",
           "Microsoft.AspNetCore.Identity": "2.3.9",
           "Microsoft.EntityFrameworkCore": "9.0.5",
+          "Microsoft.Extensions.Http": "9.0.5",
           "Volo.Abp.Account.Application": "9.3.7",
           "Volo.Abp.FeatureManagement.Application": "9.3.7",
           "Volo.Abp.Identity.Application": "9.3.7",
