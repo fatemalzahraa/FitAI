@@ -28,17 +28,19 @@ namespace FitAI.Application.Auth
             result.CheckErrors();
         }
 
-        public async Task<string> LoginAsync(UserLoginDto input)
-        {
-            var user = await _userManager.FindByNameAsync(input.UserName);
-            if (user == null)
-                throw new AbpAuthorizationException("User not found.");
+public async Task<string> LoginAsync(UserLoginDto input)
+{
+    var user = await _userManager.FindByNameAsync(input.UserName);
+    if (user == null)
+        throw new AbpAuthorizationException("Kullanıcı bulunamadı.");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, input.Password, false);
-            if (!result.Succeeded)
-                throw new AbpAuthorizationException("Invalid credentials.");
+    var result = await _signInManager.PasswordSignInAsync(
+        user, input.Password, isPersistent: false, lockoutOnFailure: false);
 
-            return user.UserName;
-        }
+    if (!result.Succeeded)
+        throw new AbpAuthorizationException("Kullanıcı adı veya şifre hatalı.");
+
+    return user.UserName!;  // Interface'in beklediği string
+}
     }
 }

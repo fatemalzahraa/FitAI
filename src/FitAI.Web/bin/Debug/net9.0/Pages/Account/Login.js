@@ -1,5 +1,7 @@
-$(function () {
-    // Şifre göster/gizle
+// $(function () {   ← ESKİ, SİL
+// });
+
+function initLoginPage() {
     $('#togglePassword').on('click', function () {
         const passwordField = $('#loginPassword');
         const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
@@ -7,7 +9,6 @@ $(function () {
         $(this).find('i').toggleClass('fa-eye fa-eye-slash');
     });
 
-    // Basit frontend validasyon (opsiyonel)
     $('#loginForm').on('submit', function (e) {
         let valid = true;
         const email = $('#loginEmail').val().trim();
@@ -30,13 +31,25 @@ $(function () {
             e.preventDefault();
             return false;
         }
-        // Backend post devam eder
         return true;
     });
 
-    // Demo: Unutulan şifre için uyarı
     $('#forgotPasswordLink').on('click', function (e) {
         e.preventDefault();
         abp.message.info('Şifre sıfırlama bağlantısı demo modunda devre dışıdır.', 'Bilgi');
     });
-});
+}
+
+// jQuery yüklenene kadar bekle
+if (typeof $ !== 'undefined') {
+    $(initLoginPage);
+} else {
+    document.addEventListener('DOMContentLoaded', function () {
+        var interval = setInterval(function () {
+            if (typeof $ !== 'undefined') {
+                clearInterval(interval);
+                $(initLoginPage);
+            }
+        }, 50);
+    });
+}

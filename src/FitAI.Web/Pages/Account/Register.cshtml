@@ -24,6 +24,11 @@
         </div>
 
         <form method="post" id="registerForm">
+            @Html.AntiForgeryToken()
+
+            @* DÜZELTME 2: Sunucu hatalarını göster *@
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
+
             <div class="mb-3">
                 <label class="form-label">Ad Soyad</label>
                 <div class="input-group">
@@ -70,8 +75,9 @@
                     <span class="input-group-text bg-transparent border-end-0">
                         <i class="fas fa-lock text-muted"></i>
                     </span>
+                    @* DÜZELTME 3: asp-for eklendi *@
                     <input type="password" class="form-control border-start-0" id="confirmPassword"
-                           placeholder="••••••••" required>
+                           placeholder="••••••••" asp-for="Input.ConfirmPassword" required>
                 </div>
                 <span class="invalid-feedback" id="errConfirm"></span>
             </div>

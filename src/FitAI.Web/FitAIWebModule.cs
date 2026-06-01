@@ -104,7 +104,14 @@ public override void ConfigureServices(ServiceConfigurationContext context)
     var hostingEnvironment = context.Services.GetHostingEnvironment();
     var configuration = context.Services.GetConfiguration();
 
-    context.Services.AddHttpClient(); // ← BU SATIRI EKLE
+    context.Services.AddHttpClient();
+
+    // ← BU BLOĞU EKLE
+    context.Services.ConfigureApplicationCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/Login";
+    });
 
     ConfigureAuthentication(context);
     ConfigureUrls(configuration);

@@ -1,4 +1,7 @@
-﻿namespace FitAI.Web.Pages;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace FitAI.Web.Pages;
+[Authorize]  // ← BU SATIRI EKLE
 
 public class IndexModel : FitAIPageModel
 {

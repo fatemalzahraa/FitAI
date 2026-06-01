@@ -2,13 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using FitAI.Web.Pages;
+using Microsoft.AspNetCore.Identity;
+using Volo.Abp.Identity;
 
 namespace FitAI.Web.Pages.Account;
 
 public class LoginModel : FitAIPageModel
 {
     [BindProperty]
-    public InputModel Input { get; set; } = new();   // Varsayılan nesne oluştur
+    public InputModel Input { get; set; } = new();
 
     public class InputModel
     {
@@ -22,22 +24,39 @@ public class LoginModel : FitAIPageModel
         public bool RememberMe { get; set; }
     }
 
-    public void OnGet()
-    {
-    }
+    public void OnGet() { }
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
+            return Page();
+
+        var userManager = LazyServiceProvider.LazyGetRequiredService<IdentityUserManager>();
+        var signInManager = LazyServiceProvider.LazyGetRequiredService<SignInManager<Volo.Abp.Identity.IdentityUser>>();
+
+        Volo.Abp.Identity.IdentityUser? user = null;
+
+        if (Input.EmailOrUsername!.Contains('@'))
+            user = await userManager.FindByEmailAsync(Input.EmailOrUsername);
+
+        if (user is null)
+            user = await userManager.FindByNameAsync(Input.EmailOrUsername);
+
+        if (user is null)
         {
+            ModelState.AddModelError(string.Empty, "E-posta veya şifre hatalı.");
             return Page();
         }
 
-        // Demo doğrulama
-        if ((Input.EmailOrUsername == "admin@fitai.com" || Input.EmailOrUsername == "admin") && Input.Password == "12345678")
-        {
+        var result = await signInManager.PasswordSignInAsync(
+            user,
+            Input.Password!,
+            isPersistent: Input.RememberMe,
+            lockoutOnFailure: false
+        );
+
+        if (result.Succeeded)
             return RedirectToPage("/Index");
-        }
 
         ModelState.AddModelError(string.Empty, "E-posta veya şifre hatalı.");
         return Page();
