@@ -731,6 +731,9 @@ namespace FitAI.Migrations
                     b.Property<int?>("Puan")
                         .HasColumnType("int");
 
+                    b.Property<string>("Tema")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UrunId")
                         .HasColumnType("int");
 

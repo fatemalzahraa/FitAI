@@ -245,3 +245,10 @@
         </div>
     </div>
 </div>
+
+<form id="antiForgeryForm" style="display:none">
+    @Html.AntiForgeryToken()
+</form>
+@section scripts {
+    <script src="~/Pages/Talimatlar/Index.js"></script>
+}

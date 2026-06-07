@@ -235,6 +235,9 @@ $(function () {
         $('#yeniTalimatModalLabel, .modal-title').html('<i class="fas fa-plus-circle me-2 text-primary"></i>Yeni AI Talimatı Oluştur');
         yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
         yeniModal.show();
+        document.getElementById('yeniTalimatModal').addEventListener('hidden.bs.modal', function () {
+            document.activeElement?.blur();
+        }, { once: true });
     });
 
     $('#talimatKaydetBtn').on('click', function() {
@@ -260,6 +263,8 @@ $(function () {
         req.done(function() {
             yeniModal.hide();
             abp.message.success(mode === 'edit' ? 'Talimat güncellendi.' : 'Yeni talimat oluşturuldu.', 'Başarılı');
+            console.log("Index.js başlatıldı, talimatlarYukle çağrılıyor");
+
             talimatlarYukle();
         })
         .fail(function(xhr) {
@@ -295,7 +300,11 @@ $(function () {
                 '</div>'
             );
             $('#talimatTestEtBtn').data('id', id).show();
-            new bootstrap.Modal(document.getElementById('talimatDetayModal')).show();
+            var detayModal = new bootstrap.Modal(document.getElementById('talimatDetayModal'));
+            detayModal.show();
+            document.getElementById('talimatDetayModal').addEventListener('hidden.bs.modal', function () {
+                document.activeElement?.blur();
+            }, { once: true });
         }
 
         // ── Çalıştır ───────────────────────────
@@ -331,6 +340,9 @@ $(function () {
             $('.modal-title').html('<i class="fas fa-edit me-2 text-warning"></i>Talimatı Düzenle');
             yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
             yeniModal.show();
+            document.getElementById('yeniTalimatModal').addEventListener('hidden.bs.modal', function () {
+                document.activeElement?.blur();
+            }, { once: true });
         }
 
         // ── Sil ────────────────────────────────
@@ -459,7 +471,11 @@ $(function () {
             escapeHtml(talimatAd) + ' — Çalıştırma Sonucu</h6>' + icerik
         );
         $('#talimatTestEtBtn').hide();
-        new bootstrap.Modal(document.getElementById('talimatDetayModal')).show();
+        var sonucModal = new bootstrap.Modal(document.getElementById('talimatDetayModal'));
+        sonucModal.show();
+        document.getElementById('talimatDetayModal').addEventListener('hidden.bs.modal', function () {
+            document.activeElement?.blur();
+        }, { once: true });
     }
 
     // =============================================

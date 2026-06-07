@@ -32,6 +32,15 @@ public class Program
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+            
+            // 🔽 HttpClient servisini buraya ekleyin
+            builder.Services.AddHttpClient("NlpServisi", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5000"); // Python servisinizin adresi
+                client.Timeout = TimeSpan.FromSeconds(30);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+            
             await builder.AddApplicationAsync<FitAIWebModule>();
 
             var app = builder.Build();

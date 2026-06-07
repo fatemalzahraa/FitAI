@@ -1,16 +1,17 @@
-﻿using FitAI.Domain.Ai;
+﻿using FitAI.Analytics;
+using FitAI.Domain.Ai;
 using FitAI.Domain.Products;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
+
 namespace FitAI.Analytics;
 
-//[Authorize] 
+// [Authorize]
 public class AnalyticsAppService : FitAIAppService, IAnalyticsAppService
 {
     private readonly IRepository<Urun, int> _urunRepository;
@@ -26,97 +27,78 @@ public class AnalyticsAppService : FitAIAppService, IAnalyticsAppService
         _yorumRepository = yorumRepository;
         _nlpBulgusuRepository = nlpBulgusuRepository;
     }
-public async Task<DashboardSummaryDto> GetDashboardSummaryAsync()
-{
-    var toplamUrun = await _urunRepository.CountAsync(u => !u.SilindiMi);
-    var toplamYorum = await _yorumRepository.CountAsync();
-    var islenenYorum = await _nlpBulgusuRepository.CountAsync();
 
-    return new DashboardSummaryDto
+    // ─── Dashboard Summary (mağaza filtresi olmaksızın) ──────
+
+    public async Task<DashboardSummaryDto> GetDashboardSummaryAsync()
     {
-        ToplamUrunSayisi = toplamUrun,
-        ToplamYorumSayisi = toplamYorum,
-        MagazaPuanOrtalamasi = 0, // İsterseniz hesaplatın
-        IslenmeyiBekleyenYorumlar = toplamYorum - islenenYorum
-    };
-}
+        var toplamUrun    = await _urunRepository.CountAsync(u => !u.SilindiMi);
+        var toplamYorum   = await _yorumRepository.CountAsync();
+        var islenenYorum  = await _nlpBulgusuRepository.CountAsync();
 
-public async Task<List<ReviewDto>> GetReviewsAsync(int magazaId, string? duyguEtiketi = null, int? urunId = null, int maxSayi = 10)
-{
-    var yorumlarQuery = await _yorumRepository.GetQueryableAsync();
-    var urunlerQuery = await _urunRepository.GetQueryableAsync();
+        return new DashboardSummaryDto
+        {
+            ToplamUrunSayisi          = toplamUrun,
+            ToplamYorumSayisi         = toplamYorum,
+            MagazaPuanOrtalamasi      = 0,
+            IslenmeyiBekleyenYorumlar = toplamYorum - islenenYorum
+        };
+    }
 
-    var query = from y in yorumlarQuery
-                join u in urunlerQuery on y.UrunId equals u.Id
-                where u.MagazaId == magazaId && !u.SilindiMi
-                select y;
+    // ─── Store Summary ───────────────────────────────────────
+    // GET /api/app/analytics/store-summary?magazaId=1
 
-    if (!string.IsNullOrEmpty(duyguEtiketi))
-        query = query.Where(y => y.Duygu == duyguEtiketi);
-
-    if (urunId.HasValue)
-        query = query.Where(y => y.UrunId == urunId.Value);
-
-    var yorumlar = await query
-        .OrderByDescending(y => y.CreationTime)
-        .Take(maxSayi)
-        .ToListAsync();
-
-    // Mapping: Domain entity -> ReviewDto
-    return yorumlar.Select(y => new ReviewDto
-    {
-        Id = y.Id,
-        Kullanici = y.KullaniciAdi ?? "Anonim",
-        Yildiz = y.Puan ?? 0,
-        Metin = y.YorumMetni,
-        DuyguEtiketi = y.Duygu ?? "Belirsiz",
-        DuyguSkoru = y.GuvenSkoru ?? 0,
-        Tema = y.Tema ?? "genel",
-        Zaman = y.CreationTime
-    }).ToList();
-}
     public async Task<DashboardSummaryDto> GetStoreSummaryAsync(int magazaId)
     {
-        var urunlerQuery = await _urunRepository.GetQueryableAsync();
-        var yorumlarQuery = await _yorumRepository.GetQueryableAsync();
+        var urunlerQuery   = await _urunRepository.GetQueryableAsync();
+        var yorumlarQuery  = await _yorumRepository.GetQueryableAsync();
 
-        var magazaUrunQuery = urunlerQuery.Where(u => u.MagazaId == magazaId && !u.SilindiMi);
-        var magazaUrunIdsList = magazaUrunQuery.Select(u => u.Id).ToList();
+        var magazaUrunIdleri = urunlerQuery
+            .Where(u => u.MagazaId == magazaId && !u.SilindiMi)
+            .Select(u => u.Id)
+            .ToList();
 
-        var magazaYorumlariQuery = yorumlarQuery.Where(y => urunlerQuery.Any(u => u.Id == y.UrunId && u.MagazaId == magazaId && !u.SilindiMi));
+        var magazaYorumlari = yorumlarQuery
+            .Where(y => magazaUrunIdleri.Contains(y.UrunId));
 
-        var toplamYorum = magazaYorumlariQuery.Count();
-        double puanOrtalamasi = 0;
+        var toplamYorum   = magazaYorumlari.Count();
+        double puanOrt    = 0;
 
         if (toplamYorum > 0)
         {
-            var puanlar = magazaYorumlariQuery.Where(y => y.Puan != null).Select(y => (double)y.Puan!).ToList();
+            var puanlar = magazaYorumlari
+                .Where(y => y.Puan != null)
+                .Select(y => (double)y.Puan!)
+                .ToList();
+
             if (puanlar.Any())
-            {
-                puanOrtalamasi = Math.Round(puanlar.Average(), 1);
-            }
+                puanOrt = Math.Round(puanlar.Average(), 1);
         }
 
         return new DashboardSummaryDto
         {
-            ToplamUrunSayisi = magazaUrunIdsList.Count,
-            ToplamYorumSayisi = toplamYorum,
-            MagazaPuanOrtalamasi = puanOrtalamasi,
-            IslenmeyiBekleyenYorumlar = magazaYorumlariQuery.Count(y => !y.NlpIslendi)
+            ToplamUrunSayisi          = magazaUrunIdleri.Count,
+            ToplamYorumSayisi         = toplamYorum,
+            MagazaPuanOrtalamasi      = puanOrt,
+            IslenmeyiBekleyenYorumlar = magazaYorumlari.Count(y => !y.NlpIslendi)
         };
     }
+
+    // ─── Sentiment Distribution ──────────────────────────────
+    // GET /api/app/analytics/sentiment-distribution?magazaId=1
 
     public async Task<List<SentimentAnalysisDto>> GetSentimentDistributionAsync(int magazaId)
     {
         var bulgular = await _nlpBulgusuRepository.GetListAsync(b => b.MagazaId == magazaId);
-        var toplam = bulgular.Count;
+        var toplam   = bulgular.Count;
 
         if (toplam == 0)
         {
             return new List<SentimentAnalysisDto>
             {
-                new SentimentAnalysisDto { Etiket = "Pozitif", Sayi = 0, Yuzde = 0 },
-                new SentimentAnalysisDto { Etiket = "Negatif", Sayi = 0, Yuzde = 0 }
+                new() { Etiket = "Pozitif",  Sayi = 0, Yuzde = 0 },
+                new() { Etiket = "Negatif",  Sayi = 0, Yuzde = 0 },
+                new() { Etiket = "Belirsiz", Sayi = 0, Yuzde = 0 }
             };
         }
 
@@ -125,33 +107,89 @@ public async Task<List<ReviewDto>> GetReviewsAsync(int magazaId, string? duyguEt
             .Select(g => new SentimentAnalysisDto
             {
                 Etiket = g.Key ?? "Belirsiz",
-                Sayi = g.Count(),
-                Yuzde = Math.Round((double)g.Count() / toplam * 100, 1)
+                Sayi   = g.Count(),
+                Yuzde  = Math.Round((double)g.Count() / toplam * 100, 1)
             })
             .OrderByDescending(x => x.Sayi)
             .ToList();
     }
 
-    public async Task<List<SentimentAnalysisDto>> GetTopThemesAsync(int magazaId)
+    // ─── Top Themes ──────────────────────────────────────────
+    // GET /api/app/analytics/top-themes?magazaId=1
+    // GET /api/app/analytics/top-themes?magazaId=1&urunId=2
+    //
+    // JS'de nlpOzetiniGuncelle() hem magazaId hem urunId gönderiyor;
+    // urunId opsiyonel parametre olarak alınıyor.
+
+    public async Task<List<SentimentAnalysisDto>> GetTopThemesAsync(int magazaId, int? urunId = null)
     {
-        var bulgular = await _nlpBulgusuRepository.GetListAsync(b => b.MagazaId == magazaId);
-        var toplam = bulgular.Count;
+        var bulgu = await _nlpBulgusuRepository.GetQueryableAsync();
+
+        var query = bulgu.Where(b => b.MagazaId == magazaId);
+
+        if (urunId.HasValue)
+            query = query.Where(b => b.UrunId == urunId.Value);
+
+        var liste  = query.ToList();
+        var toplam = liste.Count;
 
         if (toplam == 0)
-        {
             return new List<SentimentAnalysisDto>();
-        }
 
-        return bulgular
+        return liste
             .GroupBy(b => b.Tema)
             .Select(g => new SentimentAnalysisDto
             {
                 Etiket = g.Key ?? "Genel",
-                Sayi = g.Count(),
-                Yuzde = Math.Round((double)g.Count() / toplam * 100, 1)
+                Sayi   = g.Count(),
+                Yuzde  = Math.Round((double)g.Count() / toplam * 100, 1)
             })
             .OrderByDescending(x => x.Sayi)
-            .Take(5) 
+            .Take(5)
             .ToList();
+    }
+
+    // ─── Reviews ─────────────────────────────────────────────
+    // GET /api/app/analytics/reviews?magazaId=1&duyguEtiketi=Pozitif&urunId=1&maxSayi=10
+
+    public async Task<List<ReviewDto>> GetReviewsAsync(
+        int     magazaId,
+        string? duyguEtiketi = null,
+        int?    urunId       = null,
+        int     maxSayi      = 10)
+    {
+        var urunlerQuery  = await _urunRepository.GetQueryableAsync();
+        var yorumlarQuery = await _yorumRepository.GetQueryableAsync();
+
+        // Mağazaya ait aktif ürünlerin ID'lerini al
+        var magazaUrunIdleri = urunlerQuery
+            .Where(u => u.MagazaId == magazaId && !u.SilindiMi)
+            .Select(u => u.Id);
+
+        var query = yorumlarQuery
+            .Where(y => magazaUrunIdleri.Contains(y.UrunId));
+
+        if (!string.IsNullOrWhiteSpace(duyguEtiketi))
+            query = query.Where(y => y.Duygu == duyguEtiketi);
+
+        if (urunId.HasValue)
+            query = query.Where(y => y.UrunId == urunId.Value);
+
+        var yorumlar = await query
+            .OrderByDescending(y => y.CreationTime)
+            .Take(maxSayi)
+            .ToListAsync();
+
+        return yorumlar.Select(y => new ReviewDto
+        {
+            Id           = y.Id,
+            Kullanici    = y.KullaniciAdi ?? "Anonim",
+            Yildiz       = y.Puan        ?? 0,
+            Metin        = y.YorumMetni,
+            DuyguEtiketi = y.Duygu       ?? "Belirsiz",
+            DuyguSkoru   = y.GuvenSkoru  ?? 0,
+            Tema         = y.Tema        ?? "genel",
+            Zaman        = y.CreationTime
+        }).ToList();
     }
 }

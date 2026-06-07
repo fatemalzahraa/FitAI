@@ -109,30 +109,50 @@ public AiAppService(
     // AI Çalıştırma
     // ─────────────────────────────────────────
 
-    public async Task<TalimatCalistirmaSonucDto> TalimatCalistirAsync(int id)
+public async Task<TalimatCalistirmaSonucDto> TalimatCalistirAsync(int id)
+{
+    var talimat = await GetTalimatAsync(id);
+
+    TalimatCalistirmaSonucDto sonuc;
+    try
     {
-        var talimat = await GetTalimatAsync(id);
-
-        var istek = new TalimatCalistirmaIstegiDto { Talimat = talimat.Prompt };
-
-        TalimatCalistirmaSonucDto sonuc;
-        try
+        // Prompt'u tek yorum olarak gönder
+        var payload = new
         {
-            var response = await _http.PostAsJsonAsync("/talimat", istek);
-            response.EnsureSuccessStatusCode();
-            sonuc = (await response.Content.ReadFromJsonAsync<TalimatCalistirmaSonucDto>())!;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning("AI servisi ulaşılamadı: {Msg}", ex.Message);
-            throw new UserFriendlyException("AI servisi şu anda erişilemiyor. Lütfen servisin çalıştığından emin olun.");
-        }
+            yorumlar = new[]
+            {
+                new { yorumMetni = talimat.Prompt, urunId = 0, magazaId = 0 }
+            }
+        };
 
-        // Son çalışma zamanını güncelle
-        talimat.SonCalisma = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        return sonuc;
+        var response = await _http.PostAsJsonAsync("/yorum-analiz/toplu", payload);
+        response.EnsureSuccessStatusCode();
+
+        var raw = await response.Content.ReadFromJsonAsync<JsonElement>();
+
+        // Python'dan gelen analizSonuclari listesini oku
+        var analizler = raw.GetProperty("analizSonuclari");
+        var ilk = analizler.GetArrayLength() > 0 ? analizler[0] : default;
+
+        sonuc = new TalimatCalistirmaSonucDto
+        {
+            Durum     = "Tamamlandı",
+            Anlasilan = ilk.ValueKind != JsonValueKind.Undefined
+                        ? ilk.GetProperty("tema").GetString() ?? talimat.Ad
+                        : talimat.Ad,
+            Etkilenen = raw.TryGetProperty("toplamYorum", out var t) ? t.GetInt32() : 0,
+            Sonuclar  = new()
+        };
+    }
+    catch (Exception ex)
+    {
+        _logger.LogWarning("AI servisi ulaşılamadı: {Msg}", ex.Message);
+        throw new UserFriendlyException("AI servisi şu anda erişilemiyor. Lütfen servisin çalıştığından emin olun.");
     }
 
+    talimat.SonCalisma = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+    return sonuc;
+}
     public async Task<object> TalimatGeriAlAsync()
     {
         try
