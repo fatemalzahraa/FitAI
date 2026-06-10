@@ -8,6 +8,10 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FitAI;
 
@@ -23,9 +27,33 @@ namespace FitAI;
 public class FitAIHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        ConfigureLocalization();
-    }
+{
+    ConfigureLocalization();
+
+    context.Services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters =
+                new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = "FitAI",
+                    ValidAudience = "FitAI",
+
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                "FITAI_SUPER_SECRET_KEY_123456_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            )
+                        )
+                };
+        });
+}
 
     private void ConfigureLocalization()
     {

@@ -1,3 +1,5 @@
+import 'package:fitai_mobile/core/services/api_service.dart';
+import 'package:fitai_mobile/features/fit_score/models/fit_score_result.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_routes.dart';
@@ -8,34 +10,108 @@ class FitScoreScreen extends StatefulWidget {
 
   @override
   State<FitScoreScreen> createState() => _FitScoreScreenState();
+  
 }
 
 class _FitScoreScreenState extends State<FitScoreScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scoreAnim;
+  final ApiService _api = ApiService();
+
+  FitScoreResult? result;
+
+  bool isLoading = true;
+  bool _loaded = false;
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1200));
-    _scoreAnim =
-        Tween<double>(begin: 0, end: 0.85).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    ));
-    _controller.forward();
-  }
+void initState() {
+  super.initState();
 
+  _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1200),
+  );
+
+  _scoreAnim = Tween<double>(
+  begin: 0,
+  end: 0,
+).animate(
+  CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOutCubic,
+  ),
+);
+
+  
+}
+ @override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+
+  if (!_loaded) {
+    _loaded = true;
+    loadFitScore();
+  }
+}
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+Future<void> loadFitScore() async {
 
+  final productUrl =
+      ModalRoute.of(context)?.settings.arguments as String?;
+
+  if (productUrl == null) {
+    setState(() {
+      isLoading = false;
+    });
+    return;
+  }
+
+  try {
+
+  final res = await _api.getFitScore(productUrl);
+
+  result = FitScoreResult.fromJson(res.data);
+  setState(() {});
+
+  _scoreAnim = Tween<double>(
+    begin: 0,
+    end: (result?.score ?? 0) / 100,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    ),
+  );
+
+  _controller.forward(from: 0);
+
+  setState(() {
+    isLoading = false;
+  });
+
+} catch (e) {
+
+  print(e);
+
+  setState(() {
+    isLoading = false;
+  });
+}
+}
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -77,7 +153,8 @@ class _FitScoreScreenState extends State<FitScoreScreen>
                   AnimatedBuilder(
                     animation: _scoreAnim,
                     builder: (context, _) {
-                      final score = (_scoreAnim.value * 100).round();
+                    final score =
+((result?.score ?? 0) * _scoreAnim.value).round();
                       return SizedBox(
                         width: 140,
                         height: 140,
@@ -149,18 +226,18 @@ class _FitScoreScreenState extends State<FitScoreScreen>
               children: [
                 Expanded(
                   child: _InfoCard(
-                    title: 'İade Riski',
-                    value: 'Yüksek',
-                    icon: Icons.warning_amber_rounded,
-                    color: AppColors.warning,
-                    desc: 'Beden uyumsuzluğu riski mevcut',
-                  ),
+  title: 'İade Riski',
+  value: result?.riskLevel ?? "",
+  icon: Icons.warning_amber_rounded,
+  color: AppColors.warning,
+  desc: 'Beden uyumsuzluğu riski mevcut',
+),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _InfoCard(
                     title: 'Beden Önerisi',
-                    value: 'Büyük Al',
+                     value: result?.sizeRecommendation ?? "",
                     icon: Icons.straighten_rounded,
                     color: AppColors.primary,
                     desc: 'Normal bedeninden 1 büyük seç',
@@ -172,15 +249,17 @@ class _FitScoreScreenState extends State<FitScoreScreen>
 
             // Detailed breakdown
             _SectionTitle('Detaylı Analiz'),
-            const SizedBox(height: 12),
-            _ScoreRow(label: 'Omuz Genişliği', score: 88),
-            const SizedBox(height: 10),
-            _ScoreRow(label: 'Göğüs Çevresi', score: 92),
-            const SizedBox(height: 10),
-            _ScoreRow(label: 'Bel Çevresi', score: 75),
-            const SizedBox(height: 10),
-            _ScoreRow(label: 'Kumaş Esnekliği', score: 80),
-            const SizedBox(height: 20),
+const SizedBox(height: 12),
+
+...(result?.details ?? []).map(
+  (e) => Padding(
+    padding: const EdgeInsets.only(bottom: 10),
+    child: _ScoreRow(
+      label: e.label,
+      score: e.score,
+    ),
+  ),
+),
 
             _SectionTitle('AI Önerileri'),
             const SizedBox(height: 12),
@@ -203,39 +282,21 @@ class _FitScoreScreenState extends State<FitScoreScreen>
             ),
             const SizedBox(height: 24),
 
-            Row(
-              children: [
-                Expanded(
-                  child: GradientButton(
-                    text: 'Satın Al',
-                    onTap: () async {},
-                    height: 48,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppColors.divider),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.favorite_border_rounded,
-                        color: AppColors.error, size: 20),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+          
             SizedBox(
               width: double.infinity,
               height: 48,
               child: OutlinedButton.icon(
-                onPressed: () =>
-                    Navigator.pushNamed(context, AppRoutes.reviewAnalysis),
+              onPressed: () {
+  final productUrl =
+      ModalRoute.of(context)?.settings.arguments as String?;
+
+  Navigator.pushNamed(
+    context,
+    AppRoutes.reviewAnalysis,
+    arguments: productUrl,
+  );
+},
                 icon: const Icon(Icons.comment_rounded, size: 18),
                 label: const Text('Yorum Analizini Gör'),
                 style: OutlinedButton.styleFrom(

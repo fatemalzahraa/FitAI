@@ -105,22 +105,7 @@ Future<void> _login() async {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text(
-                        'Cemal Kaya',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      const Text(
-                        'cemal@email.com',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
+                      
                     ],
                   ),
                 ),

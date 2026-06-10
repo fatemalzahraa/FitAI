@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj": {}
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
         "projectName": "FitAI.Application.Contracts",
-        "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
-        "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-          "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -27,14 +27,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
-                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
               }
             }
           }
@@ -49,7 +50,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -100,25 +101,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj",
         "projectName": "FitAI.DbMigrator",
-        "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj",
-        "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.DbMigrator\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.DbMigrator\\FitAI.DbMigrator.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.DbMigrator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-          "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -127,17 +128,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
-                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
               },
-              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj": {
-                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj"
               }
             }
           }
@@ -152,7 +154,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -209,25 +211,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
         "projectName": "FitAI.Domain.Shared",
-        "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
-        "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-          "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -236,6 +238,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -254,7 +257,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -313,25 +316,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
         "projectName": "FitAI.Domain",
-        "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
-        "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-          "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -340,14 +343,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
-                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
               }
             }
           }
@@ -362,7 +366,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -425,25 +429,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
         "projectName": "FitAI.EntityFrameworkCore",
-        "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
-        "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.EntityFrameworkCore\\obj\\",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-          "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -452,14 +456,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
-                "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
               }
             }
           }
@@ -474,7 +479,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -553,7 +558,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

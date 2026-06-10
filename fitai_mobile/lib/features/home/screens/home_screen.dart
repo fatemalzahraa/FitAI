@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_routes.dart';
 import '../../../core/widgets/common_widgets.dart';
 import '../../favorites/screens/favorites_screen.dart';
 import '../../profile/screens/profile_screen.dart';
+import '../../../core/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _linkCtrl = TextEditingController();
   int _tabIndex = 0;
-
+String name = "";
+final ApiService _api = ApiService();
   final _analyses = [
     {
       'name': 'Kudos Açık Mavi Denim Gömlek',
@@ -42,6 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
       'image': 'assets/images/p3.jpeg',
     },
   ];
+  @override
+void initState() {
+  super.initState();
+  loadUserName();
+}
+Future<void> loadUserName() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  try {
+    final res = await _api.getMyProfile();
+    final data = res.data;
+
+    await prefs.setString('userName', data["name"]);
+
+    setState(() {
+      name = data["name"] ?? "";
+    });
+  } catch (e) {
+    setState(() {
+      name = prefs.getString('userName') ?? "";
+    });
+  }
+}
 Widget _buildDrawer() {
   return Drawer(
     backgroundColor: Colors.white,
@@ -190,42 +216,7 @@ Widget _drawerItem({
               const FitAILogo(size: 20),
             ],
           ),
-          Row(
-            children: [
-              Stack(
-                children: [
-                  GestureDetector(
-                     onTap: () {
-    Navigator.pushNamed(context, AppRoutes.notifications);
-  },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.divider),
-                      ),
-                      child:  Icon(Icons.notifications_outlined,
-                          color: AppColors.textPrimary, size: 22),
-                    ),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: AppColors.error,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        
         ],
       ),
     );
@@ -238,8 +229,8 @@ Widget _drawerItem({
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RichText(
-            text: const TextSpan(
-              text: 'Merhaba Cemal! ',
+            text:  TextSpan(
+              text: 'Merhaba $name! ',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -250,47 +241,11 @@ Widget _drawerItem({
             ),
           ),
           const SizedBox(height: 2),
-          const Text(
-            'Armut vücut tipi >',
-            style: TextStyle(
-              fontSize: 13,
-              color: AppColors.primary,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+        
           const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.divider),
-            ),
-            child: TextField(
-              controller: _linkCtrl,
-              decoration: InputDecoration(
-                hintText: 'Trendyol veya Hepsiburada ürün linki gir',
-                hintStyle:
-                    const TextStyle(color: AppColors.textHint, fontSize: 13),
-                prefixIcon: const Icon(Icons.search_rounded,
-                    color: AppColors.textHint, size: 22),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              ),
-            ),
-          ),
+        
           const SizedBox(height: 12),
-          GradientButton(
-            text: 'Analiz Et',
-            onTap: () => Navigator.pushNamed(
-  context,
-  AppRoutes.aiRecommendations,
-),
-            leading: const Icon(Icons.auto_awesome_rounded,
-                color: Colors.white, size: 18),
-          ),
+        
         ],
       ),
     );
@@ -368,11 +323,7 @@ Widget _drawerItem({
             onTap: () => setState(() => _tabIndex = 0),
           ),
           const SizedBox(width: 8),
-          _Tab(
-            label: 'Favoriler',
-            active: _tabIndex == 1,
-            onTap: () => setState(() => _tabIndex = 1),
-          ),
+        
           const Spacer(),
           GestureDetector(
             onTap: () {
@@ -381,8 +332,8 @@ Widget _drawerItem({
     AppRoutes.allAnalysis,
   );
 },
-            child: const Text(
-              'Tümünü Gör >',
+            child:  Text(
+              ' ',
               style: TextStyle(
                 fontSize: 12,
                 color: AppColors.primary,

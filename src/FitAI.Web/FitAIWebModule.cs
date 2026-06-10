@@ -73,16 +73,22 @@ public class FitAIWebModule : AbpModule
                 typeof(FitAIWebModule).Assembly
             );
         });
+PreConfigure<OpenIddictBuilder>(builder =>
+{
+    builder.AddValidation(options =>
+    {
+        options.AddAudiences("FitAI");
+        options.UseLocalServer();
+        options.UseAspNetCore();
+    });
 
-        PreConfigure<OpenIddictBuilder>(builder =>
-        {
-            builder.AddValidation(options =>
-            {
-                options.AddAudiences("FitAI");
-                options.UseLocalServer();
-                options.UseAspNetCore();
-            });
-        });
+    // ← BUNU EKLE
+    builder.AddServer(options =>
+    {
+        options.UseAspNetCore()
+               .DisableTransportSecurityRequirement();
+    });
+});
 
         if (!hostingEnvironment.IsDevelopment())
         {

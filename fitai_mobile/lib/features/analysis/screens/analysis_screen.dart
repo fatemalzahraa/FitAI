@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_routes.dart';
 import '../../../core/widgets/common_widgets.dart';
+import '../../../core/services/api_service.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -15,14 +16,44 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   bool _analyzing = false;
 
   Future<void> _analyze() async {
-    if (_linkCtrl.text.isEmpty) return;
-    setState(() => _analyzing = true);
-    await Future.delayed(const Duration(seconds: 2));
+
+  if (_linkCtrl.text.isEmpty) return;
+
+  setState(() {
+    _analyzing = true;
+  });
+
+  try {
+
+    final response =
+        await ApiService().analyzeProduct(_linkCtrl.text);
+
+    print(response.data);
+
     if (mounted) {
-      setState(() => _analyzing = false);
-      Navigator.pushNamed(context, AppRoutes.productDetail);
+
+      Navigator.pushNamed(
+        context,
+        AppRoutes.productDetail,
+        arguments: response.data,
+      );
     }
+
+  } catch (e) {
+
+    print(e);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Analiz başarısız"),
+      ),
+    );
   }
+
+  setState(() {
+    _analyzing = false;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -31,126 +62,119 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Ürün Analizi',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                      letterSpacing: -0.5,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Ürün Analizi',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                        letterSpacing: -0.5,
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.divider),
-                    ),
-                    child: const Icon(Icons.history_rounded,
-                        color: AppColors.primary, size: 22),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Ürün linkini girerek AI destekli\nvücut uyum analizini başlat.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 28),
-
-              // Platform icons
-              Row(
-                children: [
-                  _PlatformChip(label: 'Trendyol', color: AppColors.trendyolOrange),
-                  const SizedBox(width: 8),
-                  _PlatformChip(label: 'Hepsiburada', color: AppColors.hepsiburadaBlue),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Input
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withOpacity(0.06),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
+                    
                   ],
                 ),
-                child: TextField(
-                  controller: _linkCtrl,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    hintText: 'https://www.trendyol.com/...',
-                    hintStyle: TextStyle(color: AppColors.textHint, fontSize: 14),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.all(18),
+                const SizedBox(height: 8),
+                const Text(
+                  'Ürün linkini girerek AI destekli\nvücut uyum analizini başlat.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                    height: 1.4,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-
-              _analyzing
-                  ? _LoadingAnalysis()
-                  : GradientButton(
-                      text: 'Analiz Et',
-                      onTap: _analyze,
-                      leading: const Icon(Icons.auto_awesome_rounded,
-                          color: Colors.white, size: 18),
-                    ),
-              const SizedBox(height: 32),
-
-              // Info cards
-              const Text(
-                'Nasıl Çalışır?',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                const SizedBox(height: 28),
+            
+                // Platform icons
+                Row(
+                  children: [
+                    _PlatformChip(label: 'Trendyol', color: AppColors.trendyolOrange),
+                    const SizedBox(width: 8),
+                    _PlatformChip(label: 'Hepsiburada', color: AppColors.hepsiburadaBlue),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 12),
-              _HowItWorksCard(
-                step: '1',
-                title: 'Ürün Linkini Gir',
-                desc: 'Trendyol veya Hepsiburada ürün sayfasının linkini kopyala yapıştır.',
-                icon: Icons.link_rounded,
-              ),
-              const SizedBox(height: 8),
-              _HowItWorksCard(
-                step: '2',
-                title: 'AI Analiz',
-                desc: 'Yapay zeka ürün özelliklerini ve yorumları tarar.',
-                icon: Icons.psychology_rounded,
-              ),
-              const SizedBox(height: 8),
-              _HowItWorksCard(
-                step: '3',
-                title: 'Uyum Skoru',
-                desc: 'Vücut tipine özel uyum skoru ve öneriler al.',
-                icon: Icons.analytics_rounded,
-              ),
-            ],
+                const SizedBox(height: 20),
+            
+                // Input
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withOpacity(0.06),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _linkCtrl,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      hintText: 'https://www.trendyol.com/...',
+                      hintStyle: TextStyle(color: AppColors.textHint, fontSize: 14),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.all(18),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+            
+                _analyzing
+                    ? _LoadingAnalysis()
+                    : GradientButton(
+                        text: 'Analiz Et',
+                        onTap: _analyze,
+                        leading: const Icon(Icons.auto_awesome_rounded,
+                            color: Colors.white, size: 18),
+                      ),
+                const SizedBox(height: 32),
+            
+                // Info cards
+                const Text(
+                  'Nasıl Çalışır?',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                _HowItWorksCard(
+                  step: '1',
+                  title: 'Ürün Linkini Gir',
+                  desc: 'Trendyol veya Hepsiburada ürün sayfasının linkini kopyala yapıştır.',
+                  icon: Icons.link_rounded,
+                ),
+                const SizedBox(height: 8),
+                _HowItWorksCard(
+                  step: '2',
+                  title: 'AI Analiz',
+                  desc: 'Yapay zeka ürün özelliklerini ve yorumları tarar.',
+                  icon: Icons.psychology_rounded,
+                ),
+                const SizedBox(height: 8),
+                _HowItWorksCard(
+                  step: '3',
+                  title: 'Uyum Skoru',
+                  desc: 'Vücut tipine özel uyum skoru ve öneriler al.',
+                  icon: Icons.analytics_rounded,
+                ),
+              ],
+            ),
           ),
         ),
       ),

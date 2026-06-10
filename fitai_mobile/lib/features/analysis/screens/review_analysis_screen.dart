@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/services/api_service.dart';
 
 class ReviewAnalysisScreen extends StatefulWidget {
   const ReviewAnalysisScreen({super.key});
@@ -9,45 +10,69 @@ class ReviewAnalysisScreen extends StatefulWidget {
 }
 
 class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
+  final ApiService _api = ApiService();
+
+List<dynamic> reviews = [];
+int positivePercent = 0;
+int neutralPercent = 0;
+int negativePercent = 0;
+
+bool isLoading = true;
+
+bool loaded = false;
   String _filter = 'Tümü';
 
   final _filters = ['Tümü', 'Pozitif', 'Negatif', 'Beden', 'Kumaş'];
 
-  final _reviews = [
-    {
-      'text': 'Gerçekten çok güzel bir gömlek, kumaşı kaliteli ve dikişler sağlam.',
-      'sentiment': 'positive',
-      'issue': null,
-      'time': '2 gün önce',
-    },
-    {
-      'text': 'Beden biraz büyük geldi, bir küçük almalıydım. Ama kalitesi iyi.',
-      'sentiment': 'neutral',
-      'issue': 'Beden',
-      'time': '5 gün önce',
-    },
-    {
-      'text': 'Kumaş biraz sentetik hissettiriyor, doğal kumaş bekledim.',
-      'sentiment': 'negative',
-      'issue': 'Kumaş',
-      'time': '1 hafta önce',
-    },
-    {
-      'text': 'Renk fotoğraftakiyle birebir aynı. Çok memnun kaldım.',
-      'sentiment': 'positive',
-      'issue': null,
-      'time': '2 hafta önce',
-    },
-    {
-      'text': 'Omuz kısmı biraz dar geldi, omuzları geniş olanlar dikkat.',
-      'sentiment': 'negative',
-      'issue': 'Beden',
-      'time': '3 hafta önce',
-    },
-  ];
+  Future<void> loadReviews() async {
 
+  final productUrl =
+      ModalRoute.of(context)?.settings.arguments as String?;
+
+  if (productUrl == null) {
+    setState(() {
+      isLoading = false;
+    });
+    return;
+  }
+
+  try {
+
+    final response = await _api.analyzeReviews(productUrl);
+    print(response.data);
+    reviews = response.data["reviews"];
+    positivePercent = response.data["positivePercent"] ?? 0;
+neutralPercent = response.data["neutralPercent"] ?? 0;
+negativePercent = response.data["negativePercent"] ?? 0;
+
+  } catch (e) {
+
+    print(e);
+
+  }
+
+  setState(() {
+    isLoading = false;
+  });
+}
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+
+  if (!loaded) {
+    loaded = true;
+    loadReviews();
+  }
+}
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+  return const Scaffold(
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+}
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -93,11 +118,23 @@ class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      _SentimentBar(label: 'Pozitif', percent: 68, color: AppColors.scoreGreen),
-                      const SizedBox(width: 12),
-                      _SentimentBar(label: 'Nötr', percent: 18, color: AppColors.warning),
-                      const SizedBox(width: 12),
-                      _SentimentBar(label: 'Negatif', percent: 14, color: AppColors.error),
+                      _SentimentBar(
+  label: 'Pozitif',
+  percent: positivePercent,
+  color: AppColors.scoreGreen,
+),
+
+_SentimentBar(
+  label: 'Nötr',
+  percent: neutralPercent,
+  color: AppColors.warning,
+),
+
+_SentimentBar(
+  label: 'Negatif',
+  percent: negativePercent,
+  color: AppColors.error,
+),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -107,15 +144,15 @@ class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          flex: 68,
+                          flex: positivePercent == 0 ? 1 : positivePercent,
                           child: Container(height: 10, color: AppColors.scoreGreen),
                         ),
                         Expanded(
-                          flex: 18,
+                          flex: neutralPercent == 0 ? 1 : neutralPercent,
                           child: Container(height: 10, color: AppColors.warning),
                         ),
                         Expanded(
-                          flex: 14,
+                          flex: negativePercent == 0 ? 1 : negativePercent,
                           child: Container(height: 10, color: AppColors.error),
                         ),
                       ],
@@ -127,26 +164,7 @@ class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
             const SizedBox(height: 16),
 
             // Issue breakdown
-            const Text(
-              'Sık Bahsedilen Konular',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                _IssueBadge(label: 'Beden', count: 12, color: AppColors.warning),
-                const SizedBox(width: 8),
-                _IssueBadge(label: 'Kumaş', count: 8, color: AppColors.primary),
-                const SizedBox(width: 8),
-                _IssueBadge(label: 'Renk', count: 5, color: AppColors.scoreGreen),
-                const SizedBox(width: 8),
-                _IssueBadge(label: 'Kargo', count: 3, color: AppColors.textHint),
-              ],
-            ),
+            
             const SizedBox(height: 20),
 
             // Filter chips
@@ -194,12 +212,12 @@ class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
             ),
             const SizedBox(height: 12),
 
-            ..._reviews.map((r) => _ReviewCard(
-                  text: r['text'] as String,
-                  sentiment: r['sentiment'] as String,
-                  issue: r['issue'] as String?,
-                  time: r['time'] as String,
-                )),
+            ...reviews.map((r) => _ReviewCard(
+      text: r["text"] ?? "",
+      sentiment: r["sentiment"] ?? "neutral",
+      issue: r["issue"],
+      time: r["time"] ?? "",
+)),
             const SizedBox(height: 24),
           ],
         ),

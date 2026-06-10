@@ -16,17 +16,25 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _index = 0;
 
-  final _pages = const [
-    HomeScreen(),
-    AnalysisScreen(),
-    FavoritesScreen(),
-    ProfileScreen(),
-  ];
+  Widget _buildPage() {
+  switch (_index) {
+    case 0:
+      return const HomeScreen();
+    case 1:
+      return const AnalysisScreen();
+    case 2:
+      return const FavoritesScreen();
+    case 3:
+      return const ProfileScreen();
+    default:
+      return const HomeScreen();
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _index, children: _pages),
+      body: _buildPage(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

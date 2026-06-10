@@ -7,6 +7,7 @@ using FitAI.Domain.Onboarding;
 using FitAI.Domain.Products;
 using FitAI.Domain.Scoring;
 using FitAI.Domain.Users;
+using FitAI.Domain.Favorites;
 
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -23,6 +24,9 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.AuditLogging;
 namespace FitAI.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
@@ -38,6 +42,7 @@ public class FitAIDbContext :
     public DbSet<Magaza> Magazalar => Set<Magaza>();
     public DbSet<Kullanici> Kullanicilar => Set<Kullanici>();
     public DbSet<KullaniciProfil> KullaniciProfilleri => Set<KullaniciProfil>();
+    public DbSet<FavoriteItem> FavoriteItems => Set<FavoriteItem>();
 
     public DbSet<Urun> Urunler => Set<Urun>();
     public DbSet<Yorum> Yorumlar => Set<Yorum>();
@@ -55,6 +60,7 @@ public class FitAIDbContext :
     public DbSet<VucutUyumSkoru> VucutUyumSkorlari => Set<VucutUyumSkoru>();
 
     public DbSet<WidgetSorguLog> WidgetSorguLoglari => Set<WidgetSorguLog>();
+    
 
     // ================= ABP =================
 
@@ -81,18 +87,36 @@ public class FitAIDbContext :
 
         // ================= ABP MODULES =================
         builder.ConfigureIdentity();
-        builder.ConfigureOpenIddict();
-        builder.ConfigurePermissionManagement();
-        builder.ConfigureSettingManagement();
-        builder.ConfigureTenantManagement();
+builder.ConfigureOpenIddict();
+builder.ConfigurePermissionManagement();
+builder.ConfigureSettingManagement();
+builder.ConfigureTenantManagement();
+builder.ConfigureFeatureManagement();
+builder.ConfigureAuditLogging();
 
         // ================= DOMAIN REGISTRATION =================
         builder.Entity<Magaza>();
         builder.Entity<Kullanici>();
         builder.Entity<KullaniciProfil>();
+        builder.Entity<FavoriteItem>();
+        builder.Entity<KullaniciProfil>(b =>
+{
+    b.HasIndex(x => x.UserId).IsUnique();
+});
 
         builder.Entity<Urun>();
-        builder.Entity<Yorum>();
+        builder.Entity<Yorum>(b =>
+{
+    b.HasOne(x => x.Urun)
+        .WithMany()
+        .HasForeignKey(x => x.UrunId)
+        .OnDelete(DeleteBehavior.NoAction);
+
+    b.HasOne(x => x.Magaza)
+        .WithMany()
+        .HasForeignKey(x => x.MagazaId)
+        .OnDelete(DeleteBehavior.Cascade);
+});
 
         builder.Entity<PlatformBaglantisi>();
         builder.Entity<SenkronizasyonLog>();
@@ -107,6 +131,7 @@ public class FitAIDbContext :
         builder.Entity<VucutUyumSkoru>();
 
         builder.Entity<WidgetSorguLog>();
+        
         builder.ConfigureBackgroundJobs(); 
     }
 }

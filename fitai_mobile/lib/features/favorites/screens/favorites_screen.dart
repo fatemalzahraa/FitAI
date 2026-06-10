@@ -25,30 +25,32 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     super.initState();
     loadFavorites();
   }
-
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  Future.microtask(() => loadFavorites());
+}
   Future<void> loadFavorites() async {
+  try {
+    final res = await _api.getFavorites();
 
-    try {
+    print("FAVORITES RESPONSE:");
+    print(res.data);
 
-      final res = await _api.getFavorites();
+    final data = res.data;
 
-      print("FAVORITES RESPONSE:");
-      print(res.data);
-
-      setState(() {
-        favorites = res.data;
-        isLoading = false;
-      });
-
-    } catch (e) {
-
-      print(e);
-
-      setState(() {
-        isLoading = false;
-      });
-    }
+    setState(() {
+      favorites = data is List ? data : data["items"] ?? [];
+      print("FAVORITES LENGTH: ${favorites.length}");
+      isLoading = false;
+    });
+  } catch (e) {
+    print(e);
+    setState(() {
+      isLoading = false;
+    });
   }
+}
 
   Future<void> deleteFavorite(int id) async {
 
@@ -68,27 +70,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-    onPressed: () async {
-
-      final api = ApiService();
-
-      await api.addFavorite(
-        productName: "Nike Oversize Hoodie",
-        productImage: "assets/images/p1.jpeg",
-        platform: "Trendyol",
-        price: "₺1299",
-        score: 92,
-        bodyType: "Oval",
-      );
-
-      print("FAVORİ EKLENDİ");
-
-      loadFavorites(); // EKLE
-
-    },
-    child: const Icon(Icons.add),
-  ),
+      
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
@@ -156,6 +138,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           itemBuilder: (context, i) {
 
                             final item = favorites[i];
+                            
+
+  print(item);
 
                             return _FavoriteCard(
 
@@ -309,27 +294,7 @@ class _FavoriteCard extends StatelessWidget {
 
                     const SizedBox(width: 8),
 
-                    ElevatedButton(
-                      onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        minimumSize: Size.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      child: const Text('Detayları Gör'),
-                    ),
+                    
 
                     const Spacer(),
 

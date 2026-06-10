@@ -15,5 +15,6 @@ namespace FitAI.Domain.Users
         public decimal? Kilo { get; set; }
 
         public string? TercihleriJSON { get; set; }
+        public Guid UserId { get; set; }
     }
 }

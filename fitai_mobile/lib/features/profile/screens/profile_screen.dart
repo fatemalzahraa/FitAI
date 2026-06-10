@@ -38,13 +38,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(res.data);
 
       final data = res.data;
+      print(data);
+print(data["name"]);
+print(data["email"]);
 
-      setState(() {
-        name = data["name"] ?? savedName;
-        email = data["email"] ?? "";
-        bodyType = data["bodyType"] ?? "Unknown";
-        isLoading = false;
-      });
+      final userName = data["name"] ?? savedName;
+
+// SharedPreferences'a kaydet
+await prefs.setString('userName', userName);
+
+setState(() {
+  name = userName;
+  email = data["email"] ?? "";
+  bodyType = data["bodyType"] ?? "Unknown";
+  isLoading = false;
+});
     } catch (e) {
       setState(() {
         name = savedName;
@@ -191,18 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.settings,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.settings_rounded,
-                            size: 28,
-                          ),
-                        )
+                      
                       ],
                     ),
                   ),
@@ -309,29 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 28),
 
                   // STATS
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14),
-                    child: Row(
-                      children: [
-                        buildStatCard(
-                          "Body Type",
-                          bodyType,
-                          Icons.accessibility_new,
-                        ),
-                        buildStatCard(
-                          "Workouts",
-                          "12",
-                          Icons.fitness_center,
-                        ),
-                        buildStatCard(
-                          "Level",
-                          "Pro",
-                          Icons.star,
-                        ),
-                      ],
-                    ),
-                  ),
+                  
 
                   const SizedBox(height: 30),
 
@@ -375,21 +350,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () {},
                   ),
 
-                  buildMenuTile(
-                    icon: Icons.notifications_none,
-                    title: "Bildirimler",
-                    subtitle:
-                    "Bildirim ayarlarını yönet",
-                    onTap: () {},
-                  ),
+                  
 
-                  buildMenuTile(
-                    icon: Icons.lock_outline,
-                    title: "Gizlilik",
-                    subtitle:
-                    "Hesap güvenliği ve gizlilik",
-                    onTap: () {},
-                  ),
+                  
 
                   buildMenuTile(
                     icon: Icons.dark_mode_outlined,
@@ -399,13 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () {},
                   ),
 
-                  buildMenuTile(
-                    icon: Icons.help_outline,
-                    title: "Destek",
-                    subtitle:
-                    "Yardım ve destek merkezi",
-                    onTap: () {},
-                  ),
+                
 
                   const SizedBox(height: 20),
 

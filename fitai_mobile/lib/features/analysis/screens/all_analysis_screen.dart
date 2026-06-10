@@ -1,9 +1,42 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/common_widgets.dart';
+import '../../../core/services/api_service.dart';
 
-class AllAnalysisScreen extends StatelessWidget {
+class AllAnalysisScreen extends StatefulWidget {
   const AllAnalysisScreen({super.key});
+
+  @override
+  State<AllAnalysisScreen> createState() => _AllAnalysisScreenState();
+}
+
+class _AllAnalysisScreenState extends State<AllAnalysisScreen> {
+
+  List analyses = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadAllAnalyses();
+  }
+
+  Future<void> loadAllAnalyses() async {
+    try {
+      final res = await ApiService().getMyAnalyses();
+
+      setState(() {
+        analyses = res.data["items"] ?? [];
+        isLoading = false;
+      });
+
+    } catch (e) {
+      print(e);
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,29 +45,33 @@ class AllAnalysisScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tüm Analizler'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          AnalysisCard(
-            productName: 'Kudos Açık Mavi Denim Gömlek',
-            platform: 'Trendyol',
-            bodyType: 'Armut',
-            score: 73,
-            timeAgo: '12 saat önce',
-            image: 'assets/images/p1.jpeg',
-            onTap: () {},
-          ),
-          AnalysisCard(
-            productName: 'Yeşil Kaşe Kazak',
-            platform: 'Trendyol',
-            bodyType: 'Armut',
-            score: 94,
-            timeAgo: '3 saat önce',
-            image:'assets/images/p2.jpeg',
-            onTap: () {},
-          ),
-        ],
-      ),
+
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+
+          : analyses.isEmpty
+              ? const Center(
+                  child: Text("Henüz analiz bulunmuyor"),
+                )
+
+              : ListView.builder(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: analyses.length,
+                  itemBuilder: (context, i) {
+
+                    final item = analyses[i];
+
+                    return AnalysisCard(
+                      productName: item["productName"] ?? "",
+                      platform: item["platform"] ?? "",
+                      bodyType: item["bodyType"] ?? "",
+                      score: item["score"] ?? 0,
+                      timeAgo: item["timeAgo"] ?? "",
+                      image: item["image"] ?? "assets/images/p1.jpeg",
+                      onTap: () {},
+                    );
+                  },
+                ),
     );
   }
 }
