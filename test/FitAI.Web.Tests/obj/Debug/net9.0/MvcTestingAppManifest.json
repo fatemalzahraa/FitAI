@@ -1,13 +1,13 @@
 {
-  "FitAI.Application.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\src\\FitAI.Application.Contracts",
-  "FitAI.Application": "C:\\Projects\\src\\FitAI.Application",
-  "FitAI.Application.Tests": "C:\\Projects\\test\\FitAI.Application.Tests",
-  "FitAI.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\src\\FitAI.Domain",
-  "FitAI.Domain.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\src\\FitAI.Domain.Shared",
-  "FitAI.Domain.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\test\\FitAI.Domain.Tests",
-  "FitAI.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\src\\FitAI.EntityFrameworkCore",
-  "FitAI.EntityFrameworkCore.Tests": "C:\\Projects\\test\\FitAI.EntityFrameworkCore.Tests",
-  "FitAI.HttpApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\src\\FitAI.HttpApi",
-  "FitAI.TestBase, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Projects\\test\\FitAI.TestBase",
-  "FitAI.Web": "C:\\Projects\\src\\FitAI.Web"
+  "FitAI.Application.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Application.Contracts",
+  "FitAI.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Application",
+  "FitAI.Application.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.Application.Tests",
+  "FitAI.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Domain",
+  "FitAI.Domain.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Domain.Shared",
+  "FitAI.Domain.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.Domain.Tests",
+  "FitAI.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.EntityFrameworkCore",
+  "FitAI.EntityFrameworkCore.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.EntityFrameworkCore.Tests",
+  "FitAI.HttpApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.HttpApi",
+  "FitAI.TestBase, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\test\\FitAI.TestBase",
+  "FitAI.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\metro\\Github\\FitAI\\src\\FitAI.Web"
 }
