@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using FitAI.AI;
 
 namespace FitAI;
 
@@ -28,6 +29,7 @@ public class FitAIHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
 {
+    context.Services.AddHttpClient<AIService>();
     ConfigureLocalization();
 
     context.Services

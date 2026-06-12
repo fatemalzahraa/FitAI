@@ -10,6 +10,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Sqlite;
 
 namespace FitAI.EntityFrameworkCore;
 
@@ -22,7 +23,8 @@ namespace FitAI.EntityFrameworkCore;
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule)
+    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+    typeof(AbpEntityFrameworkCoreSqliteModule)
 )]
 public class FitAIEntityFrameworkCoreModule : AbpModule
 {
@@ -41,7 +43,7 @@ public class FitAIEntityFrameworkCoreModule : AbpModule
         Configure<AbpDbContextOptions>(options =>
         {
             // SQL SERVER (DOĞRU KONFİGÜRASYON)
-            options.UseSqlServer();
+            options.UseSqlite();
         });
     }
 }

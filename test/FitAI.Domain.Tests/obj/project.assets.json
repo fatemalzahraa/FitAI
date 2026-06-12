@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net9.0": {
       "AsyncKeyedLock/7.1.6": {
@@ -6834,43 +6834,38 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\RAGHAD\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/fatema2003/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.Domain.Tests\\FitAI.Domain.Tests.csproj",
+      "projectUniqueName": "/Users/fatema2003/FitAI/test/FitAI.Domain.Tests/FitAI.Domain.Tests.csproj",
       "projectName": "FitAI.Domain.Tests",
-      "projectPath": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.Domain.Tests\\FitAI.Domain.Tests.csproj",
-      "packagesPath": "C:\\Users\\RAGHAD\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.Domain.Tests\\obj\\",
+      "projectPath": "/Users/fatema2003/FitAI/test/FitAI.Domain.Tests/FitAI.Domain.Tests.csproj",
+      "packagesPath": "/Users/fatema2003/.nuget/packages/",
+      "outputPath": "/Users/fatema2003/FitAI/test/FitAI.Domain.Tests/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\RAGHAD\\FitAI\\NuGet.Config",
-        "C:\\Users\\RAGHAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/fatema2003/FitAI/NuGet.Config",
+        "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
-              "projectPath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
+            "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj": {
+              "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj"
             },
-            "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj": {
-              "projectPath": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.TestBase\\FitAI.TestBase.csproj"
+            "/Users/fatema2003/FitAI/test/FitAI.TestBase/FitAI.TestBase.csproj": {
+              "projectPath": "/Users/fatema2003/FitAI/test/FitAI.TestBase/FitAI.TestBase.csproj"
             }
           }
         }
@@ -6885,10 +6880,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net9.0": {
+        "framework": "net9.0",
         "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
@@ -6907,12 +6903,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.17, 9.0.17]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.17, 9.0.17]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

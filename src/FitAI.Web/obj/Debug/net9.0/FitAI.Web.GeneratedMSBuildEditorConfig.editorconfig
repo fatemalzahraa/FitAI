@@ -15,87 +15,90 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
+build_property.EntryPointFilePath = 
 build_property.RootNamespace = FitAI.Web
 build_property.RootNamespace = FitAI.Web
-build_property.ProjectDir = C:\Users\user\Desktop\FitAI\src\FitAI.Web\
+build_property.ProjectDir = /Users/fatema2003/FitAI/src/FitAI.Web/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = C:\Users\user\Desktop\FitAI\src\FitAI.Web
+build_property.MSBuildProjectDirectory = /Users/fatema2003/FitAI/src/FitAI.Web
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Components/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfVmlld0ltcG9ydHMuY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Components/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9fVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Account/Register.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Account/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudFxfTGF5b3V0LmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Account/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9fTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Analiz/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5hbGl6XEluZGV4LmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Analiz/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQW5hbGl6L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Bildirimler/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmlsZGlyaW1sZXJcSW5kZXguY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Bildirimler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmlsZGlyaW1sZXIvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Komisyonlar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS29taXN5b25sYXJcSW5kZXguY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Komisyonlar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvS29taXN5b25sYXIvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Kullanicilar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS3VsbGFuaWNpbGFyXEluZGV4LmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Kullanicilar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvS3VsbGFuaWNpbGFyL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Magazalar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFnYXphbGFyXEluZGV4LmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Magazalar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTWFnYXphbGFyL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Talimatlar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFsaW1hdGxhclxJbmRleC5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Talimatlar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVGFsaW1hdGxhci9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Urunler/Detay.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXJ1bmxlclxEZXRheS5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Urunler/Detay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXJ1bmxlci9EZXRheS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Urunler/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXJ1bmxlclxJbmRleC5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Urunler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXJ1bmxlci9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Urunler/Liste.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXJ1bmxlclxMaXN0ZS5jc2h0bWw=
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Urunler/Liste.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXJ1bmxlci9MaXN0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/Yorumlar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcWW9ydW1sYXJcSW5kZXguY3NodG1s
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/Yorumlar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvWW9ydW1sYXIvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Pages/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/user/Desktop/FitAI/src/FitAI.Web/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/fatema2003/FitAI/src/FitAI.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

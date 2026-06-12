@@ -54,9 +54,39 @@ def review_analysis(reviews: list[str]):
 
     score = round((positive / total) * 100) if total > 0 else 0
 
+    recommendation = (
+        "Bu ürün sizin için uygun."
+        if score >= 70
+        else "Satın almadan önce yorumları dikkatlice inceleyin."
+    )
+
+    risk_level = (
+        "Düşük"
+        if score >= 70
+        else "Orta"
+        if score >= 40
+        else "Yüksek"
+    )
+
+    size_recommendation = "Standart beden önerilir"
+
+    if "Dar kalıp" in issues:
+        size_recommendation = "Bir beden büyük tercih edebilirsiniz"
+
     return {
-        "fitScore": score,
-        "positiveReviews": positive,
-        "negativeReviews": negative,
-        "issues": list(set(issues))
+        "score": score,
+        "recommendation": recommendation,
+        "riskLevel": risk_level,
+        "sizeRecommendation": size_recommendation,
+        "details": [
+            {
+                "label": "Olumlu Yorumlar",
+                "score": score
+            },
+            {
+                "label": "Olumsuz Yorumlar",
+                "score": 100 - score
+            }
+        ],
+        "aiSuggestions": list(set(issues))
     }

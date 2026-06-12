@@ -27,9 +27,6 @@
         }
       },
       "Autofac/8.2.1": {
-        "dependencies": {
-          "System.Diagnostics.DiagnosticSource": "8.0.1"
-        },
         "runtime": {
           "lib/net8.0/Autofac.dll": {
             "assemblyVersion": "8.2.1.0",
@@ -655,9 +652,6 @@
         }
       },
       "Nito.Disposables/2.2.1": {
-        "dependencies": {
-          "System.Collections.Immutable": "1.7.1"
-        },
         "runtime": {
           "lib/netstandard2.1/Nito.Disposables.dll": {
             "assemblyVersion": "2.2.1.0",
@@ -713,8 +707,6 @@
           }
         }
       },
-      "System.Collections.Immutable/1.7.1": {},
-      "System.Diagnostics.DiagnosticSource/8.0.1": {},
       "System.Diagnostics.EventLog/9.0.5": {
         "runtime": {
           "lib/net9.0/System.Diagnostics.EventLog.dll": {
@@ -727,7 +719,7 @@
             "rid": "win",
             "assetType": "runtime",
             "assemblyVersion": "9.0.0.0",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "9.0.525.21509"
           },
           "runtimes/win/lib/net9.0/System.Diagnostics.EventLog.dll": {
             "rid": "win",
@@ -2038,20 +2030,6 @@
       "sha512": "sha512-2J5uq+2smnj+u1jlyVJ6BGGqaK9fHcK/EwN7mbsuPqTI6dZr86br8Cg6o/5B+icQ9ANTvTDpJjnhDNtYYZijHQ==",
       "path": "system.codedom/9.0.1",
       "hashPath": "system.codedom.9.0.1.nupkg.sha512"
-    },
-    "System.Collections.Immutable/1.7.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-B43Zsz5EfMwyEbnObwRxW5u85fzJma3lrDeGcSAV1qkhSRTNY5uXAByTn9h9ddNdhM+4/YoLc/CI43umjwIl9Q==",
-      "path": "system.collections.immutable/1.7.1",
-      "hashPath": "system.collections.immutable.1.7.1.nupkg.sha512"
-    },
-    "System.Diagnostics.DiagnosticSource/8.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-vaoWjvkG1aenR2XdjaVivlCV9fADfgyhW5bZtXT23qaEea0lWiUljdQuze4E31vKM7ZWJaSUsbYIKE3rnzfZUg==",
-      "path": "system.diagnostics.diagnosticsource/8.0.1",
-      "hashPath": "system.diagnostics.diagnosticsource.8.0.1.nupkg.sha512"
     },
     "System.Diagnostics.EventLog/9.0.5": {
       "type": "package",

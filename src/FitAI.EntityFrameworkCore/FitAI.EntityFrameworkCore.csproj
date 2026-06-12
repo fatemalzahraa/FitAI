@@ -16,12 +16,14 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
 
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="9.3.7" />
 
 		<!-- ABP SQL SERVER -->
 		<PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="9.3.7" />

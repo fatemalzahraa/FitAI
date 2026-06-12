@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.HttpApi.Client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc7f214e570243372aec5143f4296b900363b02d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+625f636920afb54ce39951abcab72cd458cdf494")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.HttpApi.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.HttpApi.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,4 +1,5 @@
 import 'package:fitai_mobile/core/services/api_service.dart';
+import 'package:fitai_mobile/services/ai_service.dart';
 import 'package:fitai_mobile/features/fit_score/models/fit_score_result.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
@@ -17,7 +18,7 @@ class _FitScoreScreenState extends State<FitScoreScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scoreAnim;
-  final ApiService _api = ApiService();
+  final AIService _ai = AIService();
 
   FitScoreResult? result;
 
@@ -73,9 +74,12 @@ Future<void> loadFitScore() async {
 
   try {
 
-  final res = await _api.getFitScore(productUrl);
-
-  result = FitScoreResult.fromJson(res.data);
+result = await AIService.analyzeReviews([
+  "Kalıbı çok dar",
+  "Kumaşı ince",
+  "Ürün harika",
+  "Kalitesi çok güzel",
+]);
   setState(() {});
 
   _scoreAnim = Tween<double>(
@@ -263,23 +267,16 @@ const SizedBox(height: 12),
 
             _SectionTitle('AI Önerileri'),
             const SizedBox(height: 12),
-            _RecommendationCard(
-              icon: Icons.tips_and_updates_rounded,
-              color: AppColors.primary,
-              text: 'Bu ürün armut vücut tipine uygundur. Omuz genişliği iyi uyum sağlar.',
-            ),
-            const SizedBox(height: 8),
-            _RecommendationCard(
-              icon: Icons.warning_amber_rounded,
-              color: AppColors.warning,
-              text: 'Kumaş yapısı sert. Beden büyük alarak hareket rahatlığı sağlayabilirsin.',
-            ),
-            const SizedBox(height: 8),
-            _RecommendationCard(
-              icon: Icons.check_circle_outline_rounded,
-              color: AppColors.scoreGreen,
-              text: 'Renk ve model vücut hatlarını ön plana çıkarıyor.',
-            ),
+           ...(result?.aiSuggestions ?? []).map(
+  (tip) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: _RecommendationCard(
+      icon: Icons.tips_and_updates_rounded,
+      color: AppColors.primary,
+      text: tip,
+    ),
+  ),
+),
             const SizedBox(height: 24),
 
           
