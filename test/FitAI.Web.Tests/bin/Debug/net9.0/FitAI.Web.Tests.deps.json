@@ -40,7 +40,7 @@
           "FitAI.Application.Tests": "1.0.0",
           "FitAI.EntityFrameworkCore.Tests": "1.0.0",
           "FitAI.Web": "1.0.0",
-          "HtmlAgilityPack": "1.12.1",
+          "HtmlAgilityPack": "1.12.4",
           "Microsoft.NET.Test.Sdk": "17.13.0",
           "Volo.Abp.AspNetCore.TestBase": "9.3.7",
           "Microsoft.AspNetCore.Antiforgery": "9.0.0.0",
@@ -532,15 +532,15 @@
           "lib/net7.0/EmptyFiles.dll": {}
         }
       },
-      "HtmlAgilityPack/1.12.1": {
+      "HtmlAgilityPack/1.12.4": {
         "runtime": {
-          "lib/net8.0/HtmlAgilityPack.dll": {
-            "assemblyVersion": "1.12.1.0",
-            "fileVersion": "1.12.1.0"
+          "lib/net7.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.12.4.0",
+            "fileVersion": "1.12.4.0"
           }
         },
         "compile": {
-          "lib/net8.0/HtmlAgilityPack.dll": {}
+          "lib/net7.0/HtmlAgilityPack.dll": {}
         }
       },
       "IdentityModel/7.0.0": {
@@ -593,6 +593,20 @@
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.AspNetCore.Http.Extensions": "2.3.0"
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.11": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "assemblyVersion": "8.0.11.0",
+            "fileVersion": "8.0.1124.52116"
+          }
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication.OpenIdConnect/9.0.5": {
@@ -2385,6 +2399,22 @@
         },
         "compile": {
           "lib/net8.0/Polly.Core.dll": {}
+        }
+      },
+      "PuppeteerSharp/18.0.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.5",
+          "Microsoft.Extensions.Logging": "9.0.6",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "18.0.0.0",
+            "fileVersion": "18.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {}
         }
       },
       "Scriban/6.2.1": {
@@ -5284,9 +5314,11 @@
         "dependencies": {
           "FitAI.Application.Contracts": "1.0.0",
           "FitAI.Domain": "1.0.0",
+          "HtmlAgilityPack": "1.12.4",
           "Microsoft.AspNetCore.Identity": "2.3.9",
           "Microsoft.EntityFrameworkCore": "9.0.5",
           "Microsoft.Extensions.Http": "9.0.5",
+          "PuppeteerSharp": "18.0.0",
           "Volo.Abp.Account.Application": "9.3.7",
           "Volo.Abp.FeatureManagement.Application": "9.3.7",
           "Volo.Abp.Identity.Application": "9.3.7",
@@ -5449,6 +5481,7 @@
         "dependencies": {
           "FitAI.Application.Contracts": "1.0.0",
           "FitAI.EntityFrameworkCore": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.11",
           "Volo.Abp.Account.HttpApi": "9.3.7",
           "Volo.Abp.FeatureManagement.HttpApi": "9.3.7",
           "Volo.Abp.Identity.HttpApi": "9.3.7",
@@ -7196,12 +7229,12 @@
       "path": "emptyfiles/4.4.0",
       "hashPath": "emptyfiles.4.4.0.nupkg.sha512"
     },
-    "HtmlAgilityPack/1.12.1": {
+    "HtmlAgilityPack/1.12.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-SP6/2Y26CXtxjXn0Wwsom9Ek35SNWKHEu/IWhNEFejBSSVWWXPRSlpqpBSYWv1SQhYFnwMO01xVbEdK3iRR4hg==",
-      "path": "htmlagilitypack/1.12.1",
-      "hashPath": "htmlagilitypack.1.12.1.nupkg.sha512"
+      "sha512": "sha512-ljqvBabvFwKoLniuoQKO8b5bJfJweKLs4fUNS/V5dsvpo0A8MlJqxxn9XVmP2DaskbUXty6IYaWAi1SArGIMeQ==",
+      "path": "htmlagilitypack/1.12.4",
+      "hashPath": "htmlagilitypack.1.12.4.nupkg.sha512"
     },
     "IdentityModel/7.0.0": {
       "type": "package",
@@ -7244,6 +7277,13 @@
       "sha512": "sha512-gnLnKGawBjqBnU9fEuel3VcYAARkjyONAliaGDfMc8o8HBtfh+HrOPEoR8Xx4b2RnMb7uxdBDOvEAC7sul79ig==",
       "path": "microsoft.aspnetcore.authentication.core/2.3.0",
       "hashPath": "microsoft.aspnetcore.authentication.core.2.3.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9KhRuywosM24BPf1R5erwsvIkpRUu1+btVyOPlM3JgrhFVP4pq5Fuzi3vjP01OHXfbCtNhWa+HGkZeqaWdcO5w==",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/8.0.11",
+      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.OpenIdConnect/9.0.5": {
       "type": "package",
@@ -8000,6 +8040,13 @@
       "sha512": "sha512-1MJKdxv4zwDmiWvYvVN24DsrWUfgQ4F83voH8bhbtLMdPuGy8CfTUzsgQhvyrl1a7hrM6f/ydwLVdVUI0xooUw==",
       "path": "polly.core/8.5.2",
       "hashPath": "polly.core.8.5.2.nupkg.sha512"
+    },
+    "PuppeteerSharp/18.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UhovJJZA0UcAq9yM3vcEsrnrdptOK9YkSVqzoHhoB/65dYevf+YYUJsnoB6ACNv43lSL/BgrfJj6pfj4u0TL0w==",
+      "path": "puppeteersharp/18.0.0",
+      "hashPath": "puppeteersharp.18.0.0.nupkg.sha512"
     },
     "Scriban/6.2.1": {
       "type": "package",

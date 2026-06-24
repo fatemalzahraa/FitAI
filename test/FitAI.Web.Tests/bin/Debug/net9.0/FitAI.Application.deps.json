@@ -10,9 +10,11 @@
         "dependencies": {
           "FitAI.Application.Contracts": "1.0.0",
           "FitAI.Domain": "1.0.0",
+          "HtmlAgilityPack": "1.12.4",
           "Microsoft.AspNetCore.Identity": "2.3.9",
           "Microsoft.EntityFrameworkCore": "9.0.5",
           "Microsoft.Extensions.Http": "9.0.5",
+          "PuppeteerSharp": "18.0.0",
           "Volo.Abp.Account.Application": "9.3.7",
           "Volo.Abp.FeatureManagement.Application": "9.3.7",
           "Volo.Abp.Identity.Application": "9.3.7",
@@ -40,6 +42,14 @@
           "lib/net8.0/AutoMapper.dll": {
             "assemblyVersion": "14.0.0.0",
             "fileVersion": "14.0.0.0"
+          }
+        }
+      },
+      "HtmlAgilityPack/1.12.4": {
+        "runtime": {
+          "lib/net7.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.12.4.0",
+            "fileVersion": "1.12.4.0"
           }
         }
       },
@@ -741,6 +751,14 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
       "Nito.AsyncEx.Context/5.1.2": {
         "dependencies": {
           "Nito.AsyncEx.Tasks": "5.1.2"
@@ -817,6 +835,19 @@
           "lib/net8.0/Polly.Core.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.5.2.4319"
+          }
+        }
+      },
+      "PuppeteerSharp/18.0.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.5",
+          "Microsoft.Extensions.Logging": "9.0.6",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "18.0.0.0",
+            "fileVersion": "18.0.0.0"
           }
         }
       },
@@ -2065,6 +2096,13 @@
       "path": "automapper/14.0.0",
       "hashPath": "automapper.14.0.0.nupkg.sha512"
     },
+    "HtmlAgilityPack/1.12.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ljqvBabvFwKoLniuoQKO8b5bJfJweKLs4fUNS/V5dsvpo0A8MlJqxxn9XVmP2DaskbUXty6IYaWAi1SArGIMeQ==",
+      "path": "htmlagilitypack/1.12.4",
+      "hashPath": "htmlagilitypack.1.12.4.nupkg.sha512"
+    },
     "JetBrains.Annotations/2024.3.0": {
       "type": "package",
       "serviceable": true,
@@ -2492,6 +2530,13 @@
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
     },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
     "Nito.AsyncEx.Context/5.1.2": {
       "type": "package",
       "serviceable": true,
@@ -2540,6 +2585,13 @@
       "sha512": "sha512-1MJKdxv4zwDmiWvYvVN24DsrWUfgQ4F83voH8bhbtLMdPuGy8CfTUzsgQhvyrl1a7hrM6f/ydwLVdVUI0xooUw==",
       "path": "polly.core/8.5.2",
       "hashPath": "polly.core.8.5.2.nupkg.sha512"
+    },
+    "PuppeteerSharp/18.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UhovJJZA0UcAq9yM3vcEsrnrdptOK9YkSVqzoHhoB/65dYevf+YYUJsnoB6ACNv43lSL/BgrfJj6pfj4u0TL0w==",
+      "path": "puppeteersharp/18.0.0",
+      "hashPath": "puppeteersharp.18.0.0.nupkg.sha512"
     },
     "Scriban/6.2.1": {
       "type": "package",

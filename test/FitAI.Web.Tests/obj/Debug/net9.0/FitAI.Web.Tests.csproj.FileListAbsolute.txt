@@ -376,6 +376,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\EmptyFiles.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\HtmlAgilityPack.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\IdentityModel.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\JetBrains.Annotations.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authorization.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -469,6 +470,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\OpenIddict.Validatio
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\OpenIddict.Validation.ServerIntegration.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Polly.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Polly.Core.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\PuppeteerSharp.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Scriban.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Serilog.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Web.Tests\bin\Debug\net9.0\Serilog.AspNetCore.dll

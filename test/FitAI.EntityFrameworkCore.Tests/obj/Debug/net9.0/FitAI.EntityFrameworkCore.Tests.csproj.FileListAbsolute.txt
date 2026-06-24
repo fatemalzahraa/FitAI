@@ -66,6 +66,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Cast
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Castle.Core.AsyncInterceptor.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\DiffEngine.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\EmptyFiles.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\HtmlAgilityPack.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\JetBrains.Annotations.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.Abstractions.dll
@@ -154,6 +155,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Open
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\OpenIddict.Core.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Polly.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Polly.Core.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\PuppeteerSharp.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Scriban.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\Shouldly.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.EntityFrameworkCore.Tests\bin\Debug\net9.0\SQLitePCLRaw.batteries_v2.dll

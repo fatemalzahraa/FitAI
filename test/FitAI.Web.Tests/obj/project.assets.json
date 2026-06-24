@@ -258,15 +258,15 @@
           "buildTransitive/EmptyFiles.targets": {}
         }
       },
-      "HtmlAgilityPack/1.12.1": {
+      "HtmlAgilityPack/1.12.4": {
         "type": "package",
         "compile": {
-          "lib/net8.0/HtmlAgilityPack.dll": {
+          "lib/net7.0/HtmlAgilityPack.dll": {
             "related": ".deps.json;.pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net8.0/HtmlAgilityPack.dll": {
+          "lib/net7.0/HtmlAgilityPack.dll": {
             "related": ".deps.json;.pdb;.xml"
           }
         }
@@ -370,6 +370,25 @@
             "related": ".xml"
           }
         }
+      },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.11": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.1.2"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Microsoft.AspNetCore.Authentication.OpenIdConnect/9.0.5": {
         "type": "package",
@@ -2641,6 +2660,24 @@
         "runtime": {
           "lib/net8.0/Polly.Core.dll": {
             "related": ".pdb;.xml"
+          }
+        }
+      },
+      "PuppeteerSharp/18.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0",
+          "Microsoft.Extensions.Logging": "2.0.2",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -6327,9 +6364,11 @@
         "dependencies": {
           "FitAI.Application.Contracts": "1.0.0",
           "FitAI.Domain": "1.0.0",
+          "HtmlAgilityPack": "1.12.4",
           "Microsoft.AspNetCore.Identity": "2.3.9",
           "Microsoft.EntityFrameworkCore": "9.0.5",
           "Microsoft.Extensions.Http": "9.0.5",
+          "PuppeteerSharp": "18.0.0",
           "Volo.Abp.Account.Application": "9.3.7",
           "Volo.Abp.FeatureManagement.Application": "9.3.7",
           "Volo.Abp.Identity.Application": "9.3.7",
@@ -6484,6 +6523,7 @@
         "dependencies": {
           "FitAI.Application.Contracts": "1.0.0",
           "FitAI.EntityFrameworkCore": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.11",
           "Volo.Abp.Account.HttpApi": "9.3.7",
           "Volo.Abp.FeatureManagement.HttpApi": "9.3.7",
           "Volo.Abp.Identity.HttpApi": "9.3.7",
@@ -6912,14 +6952,14 @@
         "lib/netstandard2.1/EmptyFiles.xml"
       ]
     },
-    "HtmlAgilityPack/1.12.1": {
-      "sha512": "SP6/2Y26CXtxjXn0Wwsom9Ek35SNWKHEu/IWhNEFejBSSVWWXPRSlpqpBSYWv1SQhYFnwMO01xVbEdK3iRR4hg==",
+    "HtmlAgilityPack/1.12.4": {
+      "sha512": "ljqvBabvFwKoLniuoQKO8b5bJfJweKLs4fUNS/V5dsvpo0A8MlJqxxn9XVmP2DaskbUXty6IYaWAi1SArGIMeQ==",
       "type": "package",
-      "path": "htmlagilitypack/1.12.1",
+      "path": "htmlagilitypack/1.12.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "htmlagilitypack.1.12.1.nupkg.sha512",
+        "htmlagilitypack.1.12.4.nupkg.sha512",
         "htmlagilitypack.nuspec",
         "lib/Net35/HtmlAgilityPack.dll",
         "lib/Net35/HtmlAgilityPack.pdb",
@@ -6936,10 +6976,10 @@
         "lib/NetCore45/HtmlAgilityPack.XML",
         "lib/NetCore45/HtmlAgilityPack.dll",
         "lib/NetCore45/HtmlAgilityPack.pdb",
-        "lib/net8.0/HtmlAgilityPack.deps.json",
-        "lib/net8.0/HtmlAgilityPack.dll",
-        "lib/net8.0/HtmlAgilityPack.pdb",
-        "lib/net8.0/HtmlAgilityPack.xml",
+        "lib/net7.0/HtmlAgilityPack.deps.json",
+        "lib/net7.0/HtmlAgilityPack.dll",
+        "lib/net7.0/HtmlAgilityPack.pdb",
+        "lib/net7.0/HtmlAgilityPack.xml",
         "lib/netstandard2.0/HtmlAgilityPack.deps.json",
         "lib/netstandard2.0/HtmlAgilityPack.dll",
         "lib/netstandard2.0/HtmlAgilityPack.pdb",
@@ -7055,6 +7095,21 @@
         "lib/netstandard2.0/Microsoft.AspNetCore.Authentication.Core.xml",
         "microsoft.aspnetcore.authentication.core.2.3.0.nupkg.sha512",
         "microsoft.aspnetcore.authentication.core.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.11": {
+      "sha512": "9KhRuywosM24BPf1R5erwsvIkpRUu1+btVyOPlM3JgrhFVP4pq5Fuzi3vjP01OHXfbCtNhWa+HGkZeqaWdcO5w==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/8.0.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
+        "lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
+        "microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authentication.OpenIdConnect/9.0.5": {
@@ -10079,6 +10134,19 @@
         "package-readme.md",
         "polly.core.8.5.2.nupkg.sha512",
         "polly.core.nuspec"
+      ]
+    },
+    "PuppeteerSharp/18.0.0": {
+      "sha512": "UhovJJZA0UcAq9yM3vcEsrnrdptOK9YkSVqzoHhoB/65dYevf+YYUJsnoB6ACNv43lSL/BgrfJj6pfj4u0TL0w==",
+      "type": "package",
+      "path": "puppeteersharp/18.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/PuppeteerSharp.dll",
+        "lib/netstandard2.0/PuppeteerSharp.xml",
+        "puppeteersharp.18.0.0.nupkg.sha512",
+        "puppeteersharp.nuspec"
       ]
     },
     "Scriban/6.2.1": {
@@ -14946,7 +15014,7 @@
       "FitAI.Application.Tests >= 1.0.0",
       "FitAI.EntityFrameworkCore.Tests >= 1.0.0",
       "FitAI.Web >= 1.0.0",
-      "HtmlAgilityPack >= 1.12.1",
+      "HtmlAgilityPack >= 1.12.4",
       "Microsoft.NET.Test.Sdk >= 17.13.0",
       "Volo.Abp.AspNetCore.TestBase >= 9.3.7"
     ]
@@ -15014,7 +15082,7 @@
         "dependencies": {
           "HtmlAgilityPack": {
             "target": "Package",
-            "version": "[1.12.1, )"
+            "version": "[1.12.4, )"
           },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",

@@ -320,9 +320,11 @@ C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Azure.Identity.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Castle.Core.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Castle.Core.AsyncInterceptor.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\HtmlAgilityPack.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Humanizer.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\IdentityModel.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\JetBrains.Annotations.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Authorization.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -390,6 +392,7 @@ C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.SqlServer.Server.
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Mono.TextTemplating.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\MyCSharp.HttpUserAgentParser.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Nito.AsyncEx.Context.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Nito.AsyncEx.Tasks.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Nito.Disposables.dll
@@ -403,6 +406,7 @@ C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\OpenIddict.Validation.AspNe
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\OpenIddict.Validation.ServerIntegration.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Polly.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Polly.Core.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\PuppeteerSharp.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Scriban.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Serilog.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Serilog.AspNetCore.dll

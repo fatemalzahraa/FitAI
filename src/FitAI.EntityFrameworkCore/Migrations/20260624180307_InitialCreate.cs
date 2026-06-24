@@ -55,57 +55,6 @@ namespace FitAI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AbpFeatureGroups",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AbpFeatureGroups", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AbpFeatures",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ParentName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    DefaultValue = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    IsVisibleToClients = table.Column<bool>(type: "bit", nullable: false),
-                    IsAvailableToHost = table.Column<bool>(type: "bit", nullable: false),
-                    AllowedProviders = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ValueType = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AbpFeatures", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AbpFeatureValues",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    ProviderKey = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AbpFeatureValues", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AbpLinkUsers",
                 columns: table => new
                 {
@@ -997,6 +946,10 @@ namespace FitAI.Migrations
                     YorumMetni = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Puan = table.Column<int>(type: "int", nullable: true),
                     NlpIslendi = table.Column<bool>(type: "bit", nullable: false),
+                    KullaniciAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duygu = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuvenSkoru = table.Column<double>(type: "float", nullable: true),
+                    Tema = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1011,8 +964,7 @@ namespace FitAI.Migrations
                         name: "FK_Yorumlar_Magazalar_MagazaId",
                         column: x => x.MagazaId,
                         principalTable: "Magazalar",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Yorumlar_Urunler_UrunId",
                         column: x => x.UrunId,
@@ -1058,30 +1010,6 @@ namespace FitAI.Migrations
                 name: "IX_AbpBackgroundJobs_IsAbandoned_NextTryTime",
                 table: "AbpBackgroundJobs",
                 columns: new[] { "IsAbandoned", "NextTryTime" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AbpFeatureGroups_Name",
-                table: "AbpFeatureGroups",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AbpFeatures_GroupName",
-                table: "AbpFeatures",
-                column: "GroupName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AbpFeatures_Name",
-                table: "AbpFeatures",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AbpFeatureValues_Name_ProviderName_ProviderKey",
-                table: "AbpFeatureValues",
-                columns: new[] { "Name", "ProviderName", "ProviderKey" },
-                unique: true,
-                filter: "[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpLinkUsers_SourceUserId_SourceTenantId_TargetUserId_TargetTenantId",
@@ -1243,6 +1171,16 @@ namespace FitAI.Migrations
                 column: "KullaniciId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_NlpBulgulari_MagazaId",
+                table: "NlpBulgulari",
+                column: "MagazaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NlpBulgulari_UrunId",
+                table: "NlpBulgulari",
+                column: "UrunId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -1278,9 +1216,9 @@ namespace FitAI.Migrations
                 column: "MagazaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Yorumlar_MagazaId",
+                name: "IX_Yorumlar_MagazaId_NlpIslendi",
                 table: "Yorumlar",
-                column: "MagazaId");
+                columns: new[] { "MagazaId", "NlpIslendi" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Yorumlar_UrunId",
@@ -1296,15 +1234,6 @@ namespace FitAI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpClaimTypes");
-
-            migrationBuilder.DropTable(
-                name: "AbpFeatureGroups");
-
-            migrationBuilder.DropTable(
-                name: "AbpFeatures");
-
-            migrationBuilder.DropTable(
-                name: "AbpFeatureValues");
 
             migrationBuilder.DropTable(
                 name: "AbpLinkUsers");

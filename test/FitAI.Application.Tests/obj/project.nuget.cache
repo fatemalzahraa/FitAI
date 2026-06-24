@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FFtOa7MN9VY=",
+  "dgSpecHash": "4mCqqfeRkb0=",
   "success": true,
   "projectFilePath": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.Application.Tests\\FitAI.Application.Tests.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\castle.core.asyncinterceptor\\2.1.0\\castle.core.asyncinterceptor.2.1.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\diffengine\\11.3.0\\diffengine.11.3.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\emptyfiles\\4.4.0\\emptyfiles.4.4.0.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\htmlagilitypack\\1.12.4\\htmlagilitypack.1.12.4.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\jetbrains.annotations\\2024.3.0\\jetbrains.annotations.2024.3.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.3.0\\microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.0\\microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",
@@ -87,6 +88,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\openiddict.core\\6.4.0\\openiddict.core.6.4.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\polly\\8.5.2\\polly.8.5.2.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\polly.core\\8.5.2\\polly.core.8.5.2.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\puppeteersharp\\18.0.0\\puppeteersharp.18.0.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\scriban\\6.2.1\\scriban.6.2.1.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\shouldly\\4.3.0\\shouldly.4.3.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
