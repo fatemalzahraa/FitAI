@@ -266,3 +266,8 @@ src/FitAI.Blazor.Server.Tiered/Logs/*
 
 # Development app settings
 **/appsettings.secrets.json
+# FitAI ek kurallar
+src/FitAI.Web/appsettings.Development.json
+*.db
+__pycache__/
+*.pyc
