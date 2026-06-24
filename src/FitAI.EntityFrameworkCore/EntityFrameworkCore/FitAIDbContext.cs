@@ -1,4 +1,4 @@
-﻿﻿using FitAI.Domain.Ai;
+﻿using FitAI.Domain.Ai;
 using FitAI.Domain.Analytics;
 using FitAI.Domain.Commerce;
 using FitAI.Domain.Integration;
@@ -7,12 +7,12 @@ using FitAI.Domain.Onboarding;
 using FitAI.Domain.Products;
 using FitAI.Domain.Scoring;
 using FitAI.Domain.Users;
-using FitAI.Domain.Favorites;
 
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -24,9 +24,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.AuditLogging;
+
 namespace FitAI.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
@@ -42,7 +40,6 @@ public class FitAIDbContext :
     public DbSet<Magaza> Magazalar => Set<Magaza>();
     public DbSet<Kullanici> Kullanicilar => Set<Kullanici>();
     public DbSet<KullaniciProfil> KullaniciProfilleri => Set<KullaniciProfil>();
-    public DbSet<FavoriteItem> FavoriteItems => Set<FavoriteItem>();
 
     public DbSet<Urun> Urunler => Set<Urun>();
     public DbSet<Yorum> Yorumlar => Set<Yorum>();
@@ -60,7 +57,6 @@ public class FitAIDbContext :
     public DbSet<VucutUyumSkoru> VucutUyumSkorlari => Set<VucutUyumSkoru>();
 
     public DbSet<WidgetSorguLog> WidgetSorguLoglari => Set<WidgetSorguLog>();
-    
 
     // ================= ABP =================
 
@@ -87,42 +83,50 @@ public class FitAIDbContext :
 
         // ================= ABP MODULES =================
         builder.ConfigureIdentity();
-builder.ConfigureOpenIddict();
-builder.ConfigurePermissionManagement();
-builder.ConfigureSettingManagement();
-builder.ConfigureTenantManagement();
-builder.ConfigureFeatureManagement();
-builder.ConfigureAuditLogging();
+        builder.ConfigureOpenIddict();
+        builder.ConfigurePermissionManagement();
+        builder.ConfigureSettingManagement();
+        builder.ConfigureTenantManagement();
 
         // ================= DOMAIN REGISTRATION =================
         builder.Entity<Magaza>();
         builder.Entity<Kullanici>();
         builder.Entity<KullaniciProfil>();
-        builder.Entity<FavoriteItem>();
-        builder.Entity<KullaniciProfil>(b =>
-{
-    b.HasIndex(x => x.UserId).IsUnique();
-});
 
         builder.Entity<Urun>();
-        builder.Entity<Yorum>(b =>
+
+        // --- YORUMLAR TABLOSU PERFORMANS OPTİMİZASYONU & İLİŞKİ DÜZENLEMESİ ---
+builder.Entity<Yorum>(b =>
 {
-    b.HasOne(x => x.Urun)
-        .WithMany()
-        .HasForeignKey(x => x.UrunId)
-        .OnDelete(DeleteBehavior.NoAction);
+    b.ConfigureByConvention();
 
-    b.HasOne(x => x.Magaza)
-        .WithMany()
-        .HasForeignKey(x => x.MagazaId)
-        .OnDelete(DeleteBehavior.Cascade);
+    b.HasOne(y => y.Urun)
+     .WithMany()
+     .HasForeignKey(y => y.UrunId)
+     .OnDelete(DeleteBehavior.NoAction);
+
+    b.HasOne(y => y.Magaza)
+     .WithMany()
+     .HasForeignKey(y => y.MagazaId)
+     .OnDelete(DeleteBehavior.NoAction);
+
+    b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
+    b.HasIndex(x => x.UrunId);
 });
-
         builder.Entity<PlatformBaglantisi>();
         builder.Entity<SenkronizasyonLog>();
 
         builder.Entity<AiTalimat>();
-        builder.Entity<NlpBulgusu>();
+
+        // --- NLP BULGULARI TABLOSU PERFORMANS OPTİMİZASYONU ---
+        builder.Entity<NlpBulgusu>(b =>
+        {
+            b.ConfigureByConvention();
+
+            // Analytics servisinin GroupBy ve Where (MagazaId) sorgularını uçuracak index
+            b.HasIndex(x => x.MagazaId);
+            b.HasIndex(x => x.UrunId);
+        });
 
         builder.Entity<Bildirim>();
         builder.Entity<OnboardingAdim>();
@@ -131,7 +135,7 @@ builder.ConfigureAuditLogging();
         builder.Entity<VucutUyumSkoru>();
 
         builder.Entity<WidgetSorguLog>();
-        
-        builder.ConfigureBackgroundJobs(); 
+
+        builder.ConfigureBackgroundJobs();
     }
 }

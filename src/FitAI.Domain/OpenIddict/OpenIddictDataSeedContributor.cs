@@ -126,26 +126,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 clientUri: swaggerRootUrl
             );
         }
-        // Mobile Client
-var mobileClientId = configurationSection["FitAI_Mobile:ClientId"];
-if (!mobileClientId.IsNullOrWhiteSpace())
-{
-    await CreateApplicationAsync(
-        name: mobileClientId!,
-        type: OpenIddictConstants.ClientTypes.Confidential,
-        consentType: OpenIddictConstants.ConsentTypes.Implicit,
-        displayName: "Mobile Application",
-        secret: configurationSection["FitAI_Mobile:ClientSecret"] ?? "1q2w3e*",
-        grantTypes: new List<string>
-        {
-            OpenIddictConstants.GrantTypes.Password,
-            OpenIddictConstants.GrantTypes.RefreshToken
-        },
-        scopes: commonScopes
-    );
-}
     }
-    
+
     private async Task CreateApplicationAsync(
         [NotNull] string name,
         [NotNull] string type,

@@ -10,7 +10,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+
 namespace FitAI.EntityFrameworkCore;
 
 [DependsOn(
@@ -22,8 +22,7 @@ namespace FitAI.EntityFrameworkCore;
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
-    typeof(AbpEntityFrameworkCoreSqlServerModule)
+    typeof(AbpFeatureManagementEntityFrameworkCoreModule)
 )]
 public class FitAIEntityFrameworkCoreModule : AbpModule
 {

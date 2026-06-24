@@ -22,5 +22,22 @@ public class FitAIApplicationAutoMapperProfile : Profile
 
         CreateMap<Magaza, MagazaDto>();
         CreateMap<CreateUpdateMagazaDto, Magaza>();
+    // ============================================================
+// FitAIApplicationAutoMapperProfile.cs dosyasına ekleyin
+// CreateMap bloklarının içine:
+// ============================================================
+
+// Yorum → YorumDto
+CreateMap<FitAI.Domain.Products.Yorum, FitAI.Yorumlar.YorumDto>()
+    .ForMember(d => d.UrunAdi,   o => o.MapFrom(s => s.Urun   != null ? s.Urun.Ad         : null))
+    .ForMember(d => d.MagazaAdi, o => o.MapFrom(s => s.Magaza != null ? s.Magaza.MagazaAdi : null));
+
+// CreateUpdateYorumDto → Yorum
+CreateMap<FitAI.Yorumlar.CreateUpdateYorumDto, FitAI.Domain.Products.Yorum>()
+    .ForMember(d => d.NlpIslendi, o => o.Ignore())
+    .ForMember(d => d.Duygu,      o => o.Ignore())
+    .ForMember(d => d.GuvenSkoru, o => o.Ignore());
     }
+
+    
 }

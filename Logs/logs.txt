@@ -206,20 +206,3 @@
 2026-05-11 16:52:39.862 +03:00 [WRN] No store type was specified for the decimal property 'UyumSkoru' on entity type 'VucutUyumSkoru'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
 2026-05-11 16:52:39.862 +03:00 [WRN] No store type was specified for the decimal property 'Boy' on entity type 'KullaniciProfil'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
 2026-05-11 16:52:39.862 +03:00 [WRN] No store type was specified for the decimal property 'Kilo' on entity type 'KullaniciProfil'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
-2026-06-12 03:51:31.911 +03:00 [INF] Started database migrations...
-2026-06-12 03:51:31.919 +03:00 [INF] Migrating schema for host database...
-2026-06-12 03:51:32.772 +03:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
-CREATE TABLE "AbpBackgroundJobs" (
-    "Id" uniqueidentifier NOT NULL CONSTRAINT "PK_AbpBackgroundJobs" PRIMARY KEY,
-    "ApplicationName" nvarchar(96) NULL,
-    "JobName" nvarchar(128) NOT NULL,
-    "JobArgs" nvarchar(max) NOT NULL,
-    "TryCount" smallint NOT NULL DEFAULT 0,
-    "CreationTime" datetime2 NOT NULL,
-    "NextTryTime" datetime2 NOT NULL,
-    "LastTryTime" datetime2 NULL,
-    "IsAbandoned" bit NOT NULL DEFAULT 0,
-    "Priority" tinyint NOT NULL DEFAULT 15,
-    "ExtraProperties" nvarchar(max) NOT NULL,
-    "ConcurrencyStamp" nvarchar(40) NOT NULL
-);

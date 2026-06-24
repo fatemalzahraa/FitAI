@@ -1,166 +1,85 @@
 @page
-@using FitAI.Localization
-@using Microsoft.Extensions.Localization
-@inject IStringLocalizer<FitAIResource> L
 @model FitAI.Web.Pages.Bildirimler.IndexModel
-
-@section styles {
-    <abp-style src="/Pages/Bildirimler/Index.css" />
+@{
+    ViewData["Title"] = "Bildirimler";
 }
 
-@section scripts {
-    <abp-script src="/Pages/Bildirimler/Index.js" />
-}
+<div class="container-fluid py-4">
 
-<div class="fitai-page">
-
-    <!-- Sayfa Başlığı -->
-    <div class="page-header mb-4">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <div>
-                <h2 class="page-title mb-1">
-                    <i class="fas fa-bell me-2 text-warning"></i>Bildirimler
-                </h2>
-                <p class="text-muted mb-0 small">Sistem bildirimlerini görüntüleyin ve yönetin</p>
-            </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-sm btn-outline-primary" id="markAllReadBtn">
-                    <i class="fas fa-check-double me-1"></i>Tümünü Okundu İşaretle
-                </button>
-                <button class="btn btn-sm btn-outline-secondary" id="yenileBtn">
-                    <i class="fas fa-sync-alt me-1"></i>Yenile
-                </button>
-            </div>
+    <!-- Başlık -->
+    <div class="row mb-3 align-items-center">
+        <div class="col">
+            <h4 class="mb-0">
+                <i class="fa fa-bell me-2 text-primary"></i>Bildirimler
+                <span id="okunmamisSayi" class="badge bg-danger ms-2 d-none"></span>
+            </h4>
+        </div>
+        <div class="col-auto d-flex gap-2">
+            <select id="kanalFiltre" class="form-select form-select-sm" style="width:auto">
+                <option value="">Tüm Kanallar</option>
+                <option value="InApp">Uygulama İçi</option>
+                <option value="Email">E-posta</option>
+                <option value="Push">Push</option>
+            </select>
+            <select id="tipFiltre" class="form-select form-select-sm" style="width:auto">
+                <option value="">Tüm Tipler</option>
+                <option value="AI">AI</option>
+                <option value="Sistem">Sistem</option>
+                <option value="Uyari">Uyarı</option>
+            </select>
+            <button id="btnTumunuOku" class="btn btn-outline-secondary btn-sm">
+                <i class="fa fa-check-double me-1"></i>Tümünü Okundu İşaretle
+            </button>
         </div>
     </div>
 
-    <!-- KPI Kartları -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="bildirim-kpi-card">
-                <div class="bildirim-kpi-icon bg-primary-soft text-primary">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div>
-                    <div class="bildirim-kpi-value" id="toplamBildirim">—</div>
-                    <div class="bildirim-kpi-label">Toplam Bildirim</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="bildirim-kpi-card">
-                <div class="bildirim-kpi-icon bg-warning-soft text-warning">
-                    <i class="fas fa-circle"></i>
-                </div>
-                <div>
-                    <div class="bildirim-kpi-value" id="okunmamisBildirim">—</div>
-                    <div class="bildirim-kpi-label">Okunmamış</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="bildirim-kpi-card">
-                <div class="bildirim-kpi-icon bg-info-soft text-info">
-                    <i class="fas fa-calendar-week"></i>
-                </div>
-                <div>
-                    <div class="bildirim-kpi-value" id="buHaftaBildirim">—</div>
-                    <div class="bildirim-kpi-label">Bu Hafta</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="bildirim-kpi-card">
-                <div class="bildirim-kpi-icon bg-danger-soft text-danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div>
-                    <div class="bildirim-kpi-value" id="kritikBildirim">—</div>
-                    <div class="bildirim-kpi-label">Kritik Uyarı</div>
-                </div>
-            </div>
-        </div>
+    <!-- Okundu/Okunmadı Sekmeleri -->
+    <ul class="nav nav-tabs mb-3" id="bildirimTab">
+        <li class="nav-item">
+            <a class="nav-link active" data-filter="tumu" href="#">Tümü</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-filter="okunmamis" href="#">Okunmamış</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-filter="okunmus" href="#">Okunmuş</a>
+        </li>
+    </ul>
+
+    <!-- Liste -->
+    <div id="bildirimListesi" class="list-group shadow-sm"></div>
+
+    <div id="yukleniyor" class="text-center py-5 text-muted d-none">
+        <i class="fa fa-spinner fa-spin fa-2x"></i>
+        <p class="mt-2">Yükleniyor...</p>
     </div>
 
-    <!-- Filtreler -->
-    <div class="card mb-3">
-        <div class="card-body py-3">
-            <div class="row g-2 align-items-center">
-                <div class="col-md-3">
-                    <select id="tipFiltre" class="form-select">
-                        <option value="">Tüm Tipler</option>
-                        <option value="NLP Uyarısı">NLP Uyarısı</option>
-                        <option value="Sync Hatası">Sync Hatası</option>
-                        <option value="Yüksek İade Riski">Yüksek İade Riski</option>
-                        <option value="AI Etki Raporu">AI Etki Raporu</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select id="durumFiltre" class="form-select">
-                        <option value="">Tüm Durumlar</option>
-                        <option value="okundu">Okundu</option>
-                        <option value="okunmadi">Okunmadı</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-search"></i></span>
-                        <input type="text" id="aramaInput" class="form-control border-start-0" placeholder="Başlık veya içerik ara...">
-                    </div>
-                </div>
-                <div class="col-md-3 text-end">
-                    <button class="btn btn-outline-secondary btn-sm" id="filtreTemizle">Filtreleri Temizle</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bildirim Tablosu -->
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table bildirim-table mb-0">
-                    <thead>
-                        <tr>
-                            <th style="width: 40px;">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="selectAll">
-                                </div>
-                            </th>
-                            <th>Tip</th>
-                            <th>Başlık</th>
-                            <th>İçerik</th>
-                            <th>Gönderim Tarihi</th>
-                            <th>Durum</th>
-                            <th style="width: 100px;">İşlem</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bildirimTablosu">
-                        <tr><td colspan="7" class="text-center py-4 text-muted"><i class="fas fa-spinner fa-spin"></i> Yükleniyor...</td></tr>
-                    </tbody>
-                <table>
-            </div>
-        </div>
-        <div class="card-footer d-flex justify-content-between align-items-center">
-            <span class="text-muted small" id="bildirimSayac">0 bildirim</span>
-            <nav><ul class="pagination pagination-sm mb-0" id="bildirimPagination"></ul></nav>
-        </div>
+    <div id="bosListeMesaji" class="text-center py-5 text-muted d-none">
+        <i class="fa fa-bell-slash fa-3x mb-3"></i>
+        <p>Gösterilecek bildirim yok.</p>
     </div>
 </div>
 
-<!-- Bildirim Detay Modal -->
-<div class="modal fade" id="bildirimDetayModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- Silme Onay Modal -->
+<div class="modal fade" id="silmeModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-bell me-2 text-warning"></i>Bildirim Detayı</h5>
+                <h5 class="modal-title">Bildirimi Sil</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="bildirimDetayIcerik"></div>
+            <div class="modal-body">
+                Bu bildirimi silmek istediğinize emin misiniz?
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary" id="modalOkunduBtn">Okundu İşaretle</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnSilmeOnayla">Sil</button>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <link rel="stylesheet" href="~/Pages/Bildirimler/Index.css" />
+    <script src="~/Pages/Bildirimler/Index.js"></script>
+}

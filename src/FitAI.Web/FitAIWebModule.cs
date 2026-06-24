@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -73,22 +74,16 @@ public class FitAIWebModule : AbpModule
                 typeof(FitAIWebModule).Assembly
             );
         });
-PreConfigure<OpenIddictBuilder>(builder =>
-{
-    builder.AddValidation(options =>
-    {
-        options.AddAudiences("FitAI");
-        options.UseLocalServer();
-        options.UseAspNetCore();
-    });
 
-    // ← BUNU EKLE
-    builder.AddServer(options =>
-    {
-        options.UseAspNetCore()
-               .DisableTransportSecurityRequirement();
-    });
-});
+        PreConfigure<OpenIddictBuilder>(builder =>
+        {
+            builder.AddValidation(options =>
+            {
+                options.AddAudiences("FitAI");
+                options.UseLocalServer();
+                options.UseAspNetCore();
+            });
+        });
 
         if (!hostingEnvironment.IsDevelopment())
         {
@@ -104,20 +99,28 @@ PreConfigure<OpenIddictBuilder>(builder =>
         }
     }
 
-    public override void ConfigureServices(ServiceConfigurationContext context)
+public override void ConfigureServices(ServiceConfigurationContext context)
+{
+    var hostingEnvironment = context.Services.GetHostingEnvironment();
+    var configuration = context.Services.GetConfiguration();
+
+    context.Services.AddHttpClient();
+
+    // ← BU BLOĞU EKLE
+    context.Services.ConfigureApplicationCookie(options =>
     {
-     var hostingEnvironment = context.Services.GetHostingEnvironment();
-        var configuration = context.Services.GetConfiguration();
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/Login";
+    });
 
-        ConfigureAuthentication(context);
-        ConfigureUrls(configuration);
-        ConfigureAutoMapper();
-        ConfigureVirtualFileSystem(hostingEnvironment);
-        ConfigureNavigationServices();
-        ConfigureAutoApiControllers();
-        ConfigureSwaggerServices(context.Services);
-    }
-
+    ConfigureAuthentication(context);
+    ConfigureUrls(configuration);
+    ConfigureAutoMapper();
+    ConfigureVirtualFileSystem(hostingEnvironment);
+    ConfigureNavigationServices();
+    ConfigureAutoApiControllers();
+    ConfigureSwaggerServices(context.Services);
+}
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
@@ -135,7 +138,6 @@ PreConfigure<OpenIddictBuilder>(builder =>
         });
     }
 
-
     private void ConfigureAutoMapper()
     {
         Configure<AbpAutoMapperOptions>(options =>
@@ -146,6 +148,7 @@ PreConfigure<OpenIddictBuilder>(builder =>
 
     private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
     {
+        
         if (hostingEnvironment.IsDevelopment())
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
@@ -175,6 +178,7 @@ PreConfigure<OpenIddictBuilder>(builder =>
         });
     }
 
+    // --- G�NCEL SWAGGER METODU ---
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
         services.AddAbpSwaggerGen(
@@ -183,6 +187,32 @@ PreConfigure<OpenIddictBuilder>(builder =>
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "FitAI API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+
+                // Kilit butonu tan�mlamas�
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n �rnek: 'Bearer 12345abcdef'"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             }
         );
     }
@@ -229,4 +259,6 @@ PreConfigure<OpenIddictBuilder>(builder =>
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
     }
+
+    
 }

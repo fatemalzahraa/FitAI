@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
     <ProjectReference Include="..\FitAI.Application.Tests\FitAI.Application.Tests.csproj" />
     <ProjectReference Include="..\..\src\FitAI.Web\FitAI.Web.csproj" />
     <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="9.3.7" />

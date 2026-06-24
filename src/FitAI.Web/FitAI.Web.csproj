@@ -39,13 +39,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="PuppeteerSharp" Version="25.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
   </ItemGroup>
@@ -56,6 +54,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitAI.Application\FitAI.Application.csproj" />
+    <ProjectReference Include="..\FitAI.Application.Contracts\FitAI.Application.Contracts.csproj" />
     <ProjectReference Include="..\FitAI.HttpApi\FitAI.HttpApi.csproj" />
     <ProjectReference Include="..\FitAI.EntityFrameworkCore\FitAI.EntityFrameworkCore.csproj" />
     <PackageReference Include="Volo.Abp.Autofac" Version="9.3.7" />
