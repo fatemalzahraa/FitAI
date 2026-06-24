@@ -1,36 +1,41 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj": {}
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj": {}
   },
   "projects": {
-    "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
         "projectName": "FitAI.Application.Contracts",
-        "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj",
-        "packagesPath": "/Users/fatema2003/.nuget/packages/",
-        "outputPath": "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/obj/",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/fatema2003/FitAI/NuGet.Config",
-          "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
-            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj": {
-                "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
               }
             }
           }
@@ -45,11 +50,10 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
-          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Volo.Abp.Account.Application.Contracts": {
@@ -92,55 +96,50 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj",
         "projectName": "FitAI.Application",
-        "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj",
-        "packagesPath": "/Users/fatema2003/.nuget/packages/",
-        "outputPath": "/Users/fatema2003/FitAI/src/FitAI.Application/obj/",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/fatema2003/FitAI/NuGet.Config",
-          "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
-            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj": {
-                "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
               },
-              "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj": {
-                "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj"
               }
             }
           }
@@ -155,11 +154,10 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
-          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "HtmlAgilityPack": {
@@ -218,48 +216,43 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
         "projectName": "FitAI.Domain.Shared",
-        "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj",
-        "packagesPath": "/Users/fatema2003/.nuget/packages/",
-        "outputPath": "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/obj/",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/fatema2003/FitAI/NuGet.Config",
-          "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
-            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -274,11 +267,10 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
-          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.Extensions.FileProviders.Embedded": {
@@ -329,52 +321,47 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj": {
+    "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
         "projectName": "FitAI.Domain",
-        "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain/FitAI.Domain.csproj",
-        "packagesPath": "/Users/fatema2003/.nuget/packages/",
-        "outputPath": "/Users/fatema2003/FitAI/src/FitAI.Domain/obj/",
+        "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\FitAI.Domain.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/fatema2003/FitAI/NuGet.Config",
-          "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
-            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj": {
-                "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Domain.Shared/FitAI.Domain.Shared.csproj"
+              "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Domain.Shared\\FitAI.Domain.Shared.csproj"
               }
             }
           }
@@ -389,11 +376,10 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
-          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Volo.Abp.AuditLogging.Domain": {
@@ -448,22 +434,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.17, 9.0.17]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

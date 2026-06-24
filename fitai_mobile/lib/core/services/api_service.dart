@@ -5,7 +5,7 @@ class ApiService {
 
   static final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'http://192.168.0.113:5000',
+      baseUrl: 'http://10.16.5.173:5001',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -75,23 +75,31 @@ class ApiService {
 
   // ================= ANALYSIS =================
 
-  Future<Response> analyzeProduct(String productUrl) {
-    return dio.post(
-      "/api/app/analysis/analyze",
-      data: {
-        "productUrl": productUrl,
-      },
-    );
-  }
+Future<Response> analyzeProduct(String productUrl) async {
+  final prefs = await SharedPreferences.getInstance();
+  final bodyType = prefs.getString('bodyType') ?? 'Armut';
 
-  Future<Response> getFitScore(String productUrl) {
-    return dio.post(
-      "/api/app/analysis/analyze",
-      data: {
-        "productUrl": productUrl,
-      },
-    );
-  }
+  return dio.post(
+    "/api/app/analysis/analyze",
+    data: {
+      "productUrl": productUrl,
+      "bodyType": bodyType,     // ← eklendi
+    },
+  );
+}
+
+Future<Response> getFitScore(String productUrl) async {
+  final prefs = await SharedPreferences.getInstance();
+  final bodyType = prefs.getString('bodyType') ?? 'Armut';
+
+  return dio.post(
+    "/api/app/analysis/analyze",
+    data: {
+      "productUrl": productUrl,
+      "bodyType": bodyType,     // ← eklendi
+    },
+  );
+}
 
   // 🔥 EKLENDİ (SENİN EKSİK OLAN KISIM)
 

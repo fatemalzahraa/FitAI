@@ -11,8 +11,15 @@ class ReviewAnalysisScreen extends StatefulWidget {
 
 class _ReviewAnalysisScreenState extends State<ReviewAnalysisScreen> {
   final ApiService _api = ApiService();
-
 List<dynamic> reviews = [];
+List<dynamic> get filteredReviews {
+  if (_filter == 'Tümü') return reviews;
+  if (_filter == 'Pozitif') return reviews.where((r) => r["sentiment"] == "positive").toList();
+  if (_filter == 'Negatif') return reviews.where((r) => r["sentiment"] == "negative").toList();
+  if (_filter == 'Beden')   return reviews.where((r) => r["issue"] == "Beden").toList();
+  if (_filter == 'Kumaş')   return reviews.where((r) => r["issue"] == "Kumaş").toList();
+  return reviews;
+}
 int positivePercent = 0;
 int neutralPercent = 0;
 int negativePercent = 0;
@@ -22,7 +29,7 @@ bool isLoading = true;
 bool loaded = false;
   String _filter = 'Tümü';
 
-  final _filters = ['Tümü', 'Pozitif', 'Negatif', 'Beden', 'Kumaş'];
+  final _filters = ['Tümü', 'Pozitif', 'Negatif'];
 
   Future<void> loadReviews() async {
 
@@ -124,11 +131,7 @@ void didChangeDependencies() {
   color: AppColors.scoreGreen,
 ),
 
-_SentimentBar(
-  label: 'Nötr',
-  percent: neutralPercent,
-  color: AppColors.warning,
-),
+
 
 _SentimentBar(
   label: 'Negatif',
@@ -212,7 +215,7 @@ _SentimentBar(
             ),
             const SizedBox(height: 12),
 
-            ...reviews.map((r) => _ReviewCard(
+            ...filteredReviews.map((r) => _ReviewCard(
       text: r["text"] ?? "",
       sentiment: r["sentiment"] ?? "neutral",
       issue: r["issue"],

@@ -1,94 +1,103 @@
-using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FitAI.Analysis.Dtos;
+using HtmlAgilityPack;
 using Volo.Abp.Application.Services;
 
 namespace FitAI.Analysis;
 
-public class AnalysisAppService
-    : ApplicationService,
-      IAnalysisAppService
+public class AnalysisAppService : ApplicationService, IAnalysisAppService
 {
-    public async Task<FitScoreResultDto> AnalyzeAsync(
-        AnalyzeProductDto input)
+    private static readonly HttpClient _http = new HttpClient();
+    private const string PythonUrl = "http://localhost:8000";
+
+    public async Task<FitScoreResultDto> AnalyzeAsync(AnalyzeProductDto input)
     {
-        using var httpClient = new HttpClient();
+        // ── 1. HTML scraping ile ürün bilgilerini çek ──
+        _http.DefaultRequestHeaders.Remove("User-Agent");
+        _http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
 
-        httpClient.DefaultRequestHeaders.Add(
-            "User-Agent",
-            "Mozilla/5.0");
-
-        var html = await httpClient.GetStringAsync(input.ProductUrl);
+        var html = await _http.GetStringAsync(input.ProductUrl);
 
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
 
-        var titleNode = doc.DocumentNode
-            .SelectSingleNode("//title");
+        var titleNode = doc.DocumentNode.SelectSingleNode("//title");
+        string productName = titleNode?.InnerText?.Trim() ?? "Ürün";
 
-        string productName =
-            titleNode?.InnerText ?? "Ürün";
+        var imageNode = doc.DocumentNode.SelectSingleNode("//meta[@property='og:image']");
+        string productImage = imageNode?.GetAttributeValue("content", "") ?? "";
 
-        var imageNode = doc.DocumentNode.SelectSingleNode(
-            "//meta[@property='og:image']");
+        var priceNode = doc.DocumentNode.SelectSingleNode("//*[contains(@class,'prc-dsc')]")
+                     ?? doc.DocumentNode.SelectSingleNode("//*[contains(@class,'product-price')]");
+        string price = priceNode?.InnerText?.Trim() ?? "";
 
-        string productImage =
-            imageNode?.GetAttributeValue("content", "") ?? "";
+        string platform = input.ProductUrl.Contains("trendyol") ? "Trendyol" : "Hepsiburada";
 
-        return new FitScoreResultDto
+        // ── 2. Python AI servisine gönder ──
+        var payload = JsonSerializer.Serialize(new
         {
-            ProductName = productName,
+            productUrl = input.ProductUrl,
+            vucut_tipi = input.BodyType ?? "Armut"
+        });
 
-            Score = 85,
+        var content = new StringContent(payload, Encoding.UTF8, "application/json");
+        var aiResponse = await _http.PostAsync($"{PythonUrl}/url-analiz", content);
 
-            Recommendation = "Vücut tipine uygun",
-
-            RiskLevel = "HIGH",
-
-            SizeRecommendation = "Büyük Al",
-
-            Details = new List<ScoreDetailDto>
+        // ── 3. AI yanıtını oku ──
+        if (!aiResponse.IsSuccessStatusCode)
+        {
+            // AI çalışmazsa hardcode fallback
+            return new FitScoreResultDto
             {
-                new ScoreDetailDto
+                ProductName = productName,
+                ProductImage = productImage,
+                Price = price,
+                Platform = platform,
+                ProductUrl = input.ProductUrl,
+                Score = 70,
+                Recommendation = "Vücut tipine uygun",
+                RiskLevel = "Orta",
+                SizeRecommendation = "Normal Beden",
+                Details = new List<ScoreDetailDto>
                 {
-                    Label = "Omuz Genişliği",
-                    Score = 88
+                    new ScoreDetailDto { Label = "Omuz Genişliği", Score = 88 },
+                    new ScoreDetailDto { Label = "Göğüs Çevresi",  Score = 92 },
+                    new ScoreDetailDto { Label = "Bel Çevresi",     Score = 75 },
+                    new ScoreDetailDto { Label = "Kumaş Esnekliği", Score = 80 },
                 },
-
-                new ScoreDetailDto
+                AiSuggestions = new List<string>
                 {
-                    Label = "Göğüs Çevresi",
-                    Score = 92
-                },
-
-                new ScoreDetailDto
-                {
-                    Label = "Bel Çevresi",
-                    Score = 75
-                },
-
-                new ScoreDetailDto
-                {
-                    Label = "Kumaş Esnekliği",
-                    Score = 80
+                    "AI servisi şu an yanıt vermiyor.",
+                    "Lütfen daha sonra tekrar deneyin.",
                 }
-            },
+            };
+        }
 
-            AiSuggestions = new List<string>
-            {
-                "Bu ürün armut vücut tipine uygundur.",
-                "Kumaş yapısı serttir.",
-                "Bir beden büyük alman önerilir."
-            },
+        var json = await aiResponse.Content.ReadAsStringAsync();
+        var aiResult = JsonSerializer.Deserialize<FitScoreResultDto>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
 
-            ProductImage = productImage,
+        // ── 4. Scraping'den gelen bilgileri AI sonucuna ekle ──
+        // Python scraping bazen boş dönebilir, C# tarafını öncelikli kullan
+        if (string.IsNullOrEmpty(aiResult.ProductName) || aiResult.ProductName == "Ürün")
+            aiResult.ProductName = productName;
 
-            Platform = "Trendyol",
+        if (string.IsNullOrEmpty(aiResult.ProductImage))
+            aiResult.ProductImage = productImage;
 
-            Price = "",
-            ProductUrl = input.ProductUrl,
-        };
+        if (string.IsNullOrEmpty(aiResult.Price))
+            aiResult.Price = price;
+
+        if (string.IsNullOrEmpty(aiResult.Platform))
+            aiResult.Platform = platform;
+
+        aiResult.ProductUrl = input.ProductUrl;
+
+        return aiResult;
     }
 }

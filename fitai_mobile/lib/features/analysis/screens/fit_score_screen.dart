@@ -1,7 +1,6 @@
-import 'package:fitai_mobile/core/services/api_service.dart';
-import 'package:fitai_mobile/services/ai_service.dart';
 import 'package:fitai_mobile/features/fit_score/models/fit_score_result.dart';
 import 'package:flutter/material.dart';
+
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_routes.dart';
 import '../../../core/widgets/common_widgets.dart';
@@ -11,14 +10,12 @@ class FitScoreScreen extends StatefulWidget {
 
   @override
   State<FitScoreScreen> createState() => _FitScoreScreenState();
-  
 }
 
 class _FitScoreScreenState extends State<FitScoreScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scoreAnim;
-  final AIService _ai = AIService();
 
   FitScoreResult? result;
 
@@ -26,96 +23,58 @@ class _FitScoreScreenState extends State<FitScoreScreen>
   bool _loaded = false;
 
   @override
-void initState() {
-  super.initState();
+  void initState() {
+    super.initState();
 
-  _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1200),
-  );
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
 
-  _scoreAnim = Tween<double>(
-  begin: 0,
-  end: 0,
-).animate(
-  CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOutCubic,
-  ),
-);
-
-  
-}
- @override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-
-  if (!_loaded) {
-    _loaded = true;
-    loadFitScore();
+    _scoreAnim = Tween<double>(
+      begin: 0,
+      end: 0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
   }
-}
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_loaded) {
+      _loaded = true;
+      loadFitScore();
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-Future<void> loadFitScore() async {
 
-  final productUrl =
-      ModalRoute.of(context)?.settings.arguments as String?;
+  Future<void> loadFitScore() async {
+  final args = ModalRoute.of(context)?.settings.arguments;
 
-  if (productUrl == null) {
-    setState(() {
-      isLoading = false;
-    });
-    return;
+  if (args is Map<String, dynamic>) {
+    result = FitScoreResult.fromJson(args);
   }
 
-  try {
-
-result = await AIService.analyzeReviews([
-  "Kalıbı çok dar",
-  "Kumaşı ince",
-  "Ürün harika",
-  "Kalitesi çok güzel",
-]);
-  setState(() {});
-
-  _scoreAnim = Tween<double>(
-    begin: 0,
-    end: (result?.score ?? 0) / 100,
-  ).animate(
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    ),
-  );
+  _scoreAnim = Tween<double>(begin: 0, end: (result?.score ?? 0) / 100)
+      .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
   _controller.forward(from: 0);
 
   setState(() {
     isLoading = false;
   });
-
-} catch (e) {
-
-  print(e);
-
-  setState(() {
-    isLoading = false;
-  });
 }
-}
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -129,8 +88,11 @@ result = await AIService.analyzeReviews([
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: AppColors.divider),
             ),
-            child: const Icon(Icons.arrow_back_ios_rounded,
-                color: AppColors.textPrimary, size: 18),
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: AppColors.textPrimary,
+              size: 18,
+            ),
           ),
         ),
       ),
@@ -155,53 +117,58 @@ result = await AIService.analyzeReviews([
               child: Column(
                 children: [
                   AnimatedBuilder(
-                    animation: _scoreAnim,
-                    builder: (context, _) {
-                    final score =
-((result?.score ?? 0) * _scoreAnim.value).round();
-                      return SizedBox(
-                        width: 140,
-                        height: 140,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: 140,
-                              height: 140,
-                              child: CircularProgressIndicator(
-                                value: _scoreAnim.value,
-                                strokeWidth: 12,
-                                backgroundColor: Colors.white.withOpacity(0.2),
-                                valueColor: const AlwaysStoppedAnimation(Colors.white),
-                                strokeCap: StrokeCap.round,
-                              ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  '$score%',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: -1,
-                                  ),
-                                ),
-                                Text(
-                                  'Vücut uyumu',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+  animation: _scoreAnim,
+  builder: (context, _) {
+
+    final score = (_scoreAnim.value * 100).round();
+
+    return SizedBox(
+      width: 140,
+      height: 140,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+
+          SizedBox(
+            width: 140,
+            height: 140,
+            child: CircularProgressIndicator(
+              value: _scoreAnim.value,
+              strokeWidth: 12,
+              backgroundColor: Colors.white.withOpacity(0.2),
+              valueColor:
+                  const AlwaysStoppedAnimation(Colors.white),
+              strokeCap: StrokeCap.round,
+            ),
+          ),
+
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '$score%',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -1,
+                ),
+              ),
+
+              Text(
+                'Vücut uyumu',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.8),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  },
+),
                   const SizedBox(height: 16),
                   const Text(
                     'Vücut uyum iyi görünüyor ✓',
@@ -230,18 +197,18 @@ result = await AIService.analyzeReviews([
               children: [
                 Expanded(
                   child: _InfoCard(
-  title: 'İade Riski',
-  value: result?.riskLevel ?? "",
-  icon: Icons.warning_amber_rounded,
-  color: AppColors.warning,
-  desc: 'Beden uyumsuzluğu riski mevcut',
-),
+                    title: 'İade Riski',
+                    value: result?.riskLevel ?? "",
+                    icon: Icons.warning_amber_rounded,
+                    color: AppColors.warning,
+                    desc: 'Beden uyumsuzluğu riski mevcut',
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _InfoCard(
                     title: 'Beden Önerisi',
-                     value: result?.sizeRecommendation ?? "",
+                    value: result?.sizeRecommendation ?? "",
                     icon: Icons.straighten_rounded,
                     color: AppColors.primary,
                     desc: 'Normal bedeninden 1 büyük seç',
@@ -253,54 +220,46 @@ result = await AIService.analyzeReviews([
 
             // Detailed breakdown
             _SectionTitle('Detaylı Analiz'),
-const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-...(result?.details ?? []).map(
-  (e) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: _ScoreRow(
-      label: e.label,
-      score: e.score,
-    ),
-  ),
-),
+            ...(result?.details ?? []).map(
+              (e) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _ScoreRow(label: e.label, score: e.score),
+              ),
+            ),
 
             _SectionTitle('AI Önerileri'),
             const SizedBox(height: 12),
-           ...(result?.aiSuggestions ?? []).map(
-  (tip) => Padding(
-    padding: const EdgeInsets.only(bottom: 8),
-    child: _RecommendationCard(
-      icon: Icons.tips_and_updates_rounded,
-      color: AppColors.primary,
-      text: tip,
-    ),
-  ),
-),
+            ...(result?.aiSuggestions ?? []).map(
+              (tip) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: _RecommendationCard(
+                  icon: Icons.tips_and_updates_rounded,
+                  color: AppColors.primary,
+                  text: tip,
+                ),
+              ),
+            ),
             const SizedBox(height: 24),
 
-          
             SizedBox(
               width: double.infinity,
               height: 48,
               child: OutlinedButton.icon(
-              onPressed: () {
-  final productUrl =
-      ModalRoute.of(context)?.settings.arguments as String?;
-
-  Navigator.pushNamed(
-    context,
-    AppRoutes.reviewAnalysis,
-    arguments: productUrl,
-  );
-},
+                onPressed: () {
+                  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+final productUrl = args?["productUrl"] as String?;
+Navigator.pushNamed(context, AppRoutes.reviewAnalysis, arguments: productUrl);
+                },
                 icon: const Icon(Icons.comment_rounded, size: 18),
                 label: const Text('Yorum Analizini Gör'),
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppColors.primary),
                   foregroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -341,12 +300,13 @@ class _InfoCard extends StatelessWidget {
   final Color color;
   final String desc;
 
-  const _InfoCard(
-      {required this.title,
-      required this.value,
-      required this.icon,
-      required this.color,
-      required this.desc});
+  const _InfoCard({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.color,
+    required this.desc,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -400,8 +360,8 @@ class _ScoreRow extends StatelessWidget {
     final color = score >= 80
         ? AppColors.scoreGreen
         : score >= 60
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,14 +372,18 @@ class _ScoreRow extends StatelessWidget {
             Text(
               label,
               style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textPrimary),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textPrimary,
+              ),
             ),
             Text(
               '$score%',
               style: TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w700, color: color),
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
             ),
           ],
         ),
@@ -443,8 +407,11 @@ class _RecommendationCard extends StatelessWidget {
   final Color color;
   final String text;
 
-  const _RecommendationCard(
-      {required this.icon, required this.color, required this.text});
+  const _RecommendationCard({
+    required this.icon,
+    required this.color,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {

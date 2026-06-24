@@ -47,6 +47,7 @@ print(data["email"]);
 // SharedPreferences'a kaydet
 await prefs.setString('userName', userName);
 
+await prefs.setString('bodyType', data["bodyType"] ?? "Armut");
 setState(() {
   name = userName;
   email = data["email"] ?? "";

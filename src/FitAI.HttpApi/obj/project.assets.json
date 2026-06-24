@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net9.0": {
       "Asp.Versioning.Abstractions/8.1.0": {
@@ -10978,41 +10978,47 @@
     ]
   },
   "packageFolders": {
-    "/Users/fatema2003/.nuget/packages/": {}
+    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/fatema2003/FitAI/src/FitAI.HttpApi/FitAI.HttpApi.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.HttpApi\\FitAI.HttpApi.csproj",
       "projectName": "FitAI.HttpApi",
-      "projectPath": "/Users/fatema2003/FitAI/src/FitAI.HttpApi/FitAI.HttpApi.csproj",
-      "packagesPath": "/Users/fatema2003/.nuget/packages/",
-      "outputPath": "/Users/fatema2003/FitAI/src/FitAI.HttpApi/obj/",
+      "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.HttpApi\\FitAI.HttpApi.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.HttpApi\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/fatema2003/FitAI/NuGet.Config",
-        "/Users/fatema2003/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\user\\Desktop\\FitAI\\NuGet.Config",
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
-          "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj": {
-              "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Application.Contracts/FitAI.Application.Contracts.csproj"
+            "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj": {
+              "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application.Contracts\\FitAI.Application.Contracts.csproj"
             },
-            "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj": {
-              "projectPath": "/Users/fatema2003/FitAI/src/FitAI.Application/FitAI.Application.csproj"
+            "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj": {
+              "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj"
             },
-            "/Users/fatema2003/FitAI/src/FitAI.EntityFrameworkCore/FitAI.EntityFrameworkCore.csproj": {
-              "projectPath": "/Users/fatema2003/FitAI/src/FitAI.EntityFrameworkCore/FitAI.EntityFrameworkCore.csproj"
+            "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj": {
+              "projectPath": "C:\\Users\\user\\Desktop\\FitAI\\src\\FitAI.EntityFrameworkCore\\FitAI.EntityFrameworkCore.csproj"
             }
           }
         }
@@ -11027,11 +11033,10 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
-        "framework": "net9.0",
         "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -11074,22 +11079,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[9.0.17, 9.0.17]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[9.0.17, 9.0.17]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

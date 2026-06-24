@@ -16,17 +16,17 @@ class FitScoreResult {
   });
 
   factory FitScoreResult.fromJson(Map<String, dynamic> json) {
-    return FitScoreResult(
-      score: json["score"],
-      recommendation: json["recommendation"],
-      riskLevel: json["riskLevel"],
-      sizeRecommendation: json["sizeRecommendation"],
-      details: (json["details"] as List)
-          .map((e) => ScoreDetail.fromJson(e))
-          .toList(),
-      aiSuggestions: List<String>.from(json["aiSuggestions"]),
-    );
-  }
+  return FitScoreResult(
+    score: (json["score"] as num?)?.toDouble() ?? 0.0,  // null-safe
+    recommendation: json["recommendation"] ?? "",
+    riskLevel: json["riskLevel"] ?? "",
+    sizeRecommendation: json["sizeRecommendation"] ?? "",
+    details: (json["details"] as List? ?? [])
+        .map((e) => ScoreDetail.fromJson(e))
+        .toList(),
+    aiSuggestions: List<String>.from(json["aiSuggestions"] ?? []),
+  );
+}
 }
 
 class ScoreDetail {
@@ -39,9 +39,9 @@ class ScoreDetail {
   });
 
   factory ScoreDetail.fromJson(Map<String, dynamic> json) {
-    return ScoreDetail(
-      label: json["label"],
-      score: json["score"],
-    );
-  }
+  return ScoreDetail(
+    label: json["label"] ?? "",
+    score: (json["score"] as num?)?.toInt() ?? 0,  // null-safe
+  );
+}
 }

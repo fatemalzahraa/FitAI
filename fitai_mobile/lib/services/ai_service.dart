@@ -1,30 +1,109 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../features/fit_score/models/fit_score_result.dart';
+class ApiService {
 
-class AIService {
-  static const String baseUrl =
-      "http://192.168.1.255:8000";
-
-  static Future<FitScoreResult> analyzeReviews(
-      List<String> reviews) async {
-
-    final response = await http.post(
-      Uri.parse("$baseUrl/review-analysis"),
+  static final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: 'http://10.16.5.173:5001',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      body: jsonEncode(reviews),
+    ),
+  )..interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+
+          print("TOKEN FROM STORAGE: $token");
+
+          if (token != null) {
+            options.headers['Authorization'] = "Bearer $token";
+          }
+
+          return handler.next(options);
+        },
+      ),
     );
 
-    if (response.statusCode == 200) {
-      return FitScoreResult.fromJson(
-        jsonDecode(response.body),
-      );
-    }
+  // ================= PROFILE =================
 
-    throw Exception("AI analizi başarısız");
+  Future<Response> getMyProfile() {
+    return dio.get("/api/profile/my-profile");
   }
-}
 
+  Future<Response> updateBodyType(String bodyType) {
+    return dio.put(
+      "/api/profile/body-type",
+      data: {
+        "bodyType": bodyType,
+      },
+    );
+  }
+
+  // ================= FAVORITES =================
+
+  Future<Response> getFavorites() {
+    return dio.get("/api/favorites");
+  }
+
+  Future<Response> addFavorite({
+    required String productName,
+    required String productImage,
+    required String platform,
+    required String price,
+    required int score,
+    required String bodyType,
+  }) {
+    return dio.post(
+      "/api/favorites",
+      data: {
+        "productName": productName,
+        "productImage": productImage,
+        "platform": platform,
+        "price": price,
+        "score": score,
+        "bodyType": bodyType,
+      },
+    );
+  }
+
+  Future<Response> deleteFavorite(int id) {
+    return dio.delete("/api/favorites/$id");
+  }
+
+  // ================= ANALYSIS =================
+
+  Future<Response> analyzeProduct(String productUrl) {
+    return dio.post(
+      "/api/app/analysis/analyze",
+      data: {
+        "productUrl": productUrl,
+      },
+    );
+  }
+
+  Future<Response> getFitScore(String productUrl) {
+    return dio.post(
+      "/api/app/analysis/analyze",
+      data: {
+        "productUrl": productUrl,
+      },
+    );
+  }
+
+  // 🔥 EKLENDİ (SENİN EKSİK OLAN KISIM)
+
+  Future<Response> getMyAnalyses() {
+    return dio.get("/api/analysis");
+  }
+  Future<Response> analyzeReviews(String productUrl) {
+  return dio.post(
+    "/api/app/review-analysis/analyze",
+    data: {
+      "productUrl": productUrl,
+    },
+  );
+}
+}

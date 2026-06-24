@@ -149,6 +149,75 @@ Widget _drawerItem({
     ),
   );
 }
+Widget _featureCard(
+  IconData icon,
+  String title,
+  String desc,
+) {
+  return Container(
+    padding: const EdgeInsets.all(18),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      border: Border.all(color: AppColors.divider),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.04),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+
+        Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(
+            icon,
+            color: AppColors.primary,
+            size: 26,
+          ),
+        ),
+
+        const SizedBox(width: 14),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Text(
+                desc,
+                style: const TextStyle(
+                  fontSize: 13,
+                  height: 1.5,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,7 +255,117 @@ Widget _drawerItem({
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+  child: Padding(
+    padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        const SizedBox(height: 20),
+
+        const Text(
+          "FitAI Nedir?",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
+        ),
+
+        const SizedBox(height: 15),
+
+        Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            gradient: AppColors.primaryGradient,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Row(
+                children: [
+                  Icon(
+                    Icons.auto_awesome_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                  SizedBox(width: 10),
+
+                  Text(
+                    "AI Destekli Moda Asistanı",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 18),
+
+              Text(
+                "FitAI, ürünlerin vücut tipine uygunluğunu yapay zeka yardımıyla analiz ederek kullanıcıya özel öneriler sunar.",
+                style: TextStyle(
+                  color: Colors.white,
+                  height: 1.6,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 25),
+
+        _featureCard(
+          Icons.link_rounded,
+          "Ürün Linki Analizi",
+          "Trendyol ve Hepsiburada ürün linklerini analiz eder.",
+        ),
+
+        const SizedBox(height: 12),
+
+        _featureCard(
+          Icons.analytics_rounded,
+          "Uyum Skoru",
+          "Her ürün için kişiselleştirilmiş puan üretir.",
+        ),
+
+        const SizedBox(height: 12),
+
+        _featureCard(
+          Icons.favorite_rounded,
+          "Favori Ürünler",
+          "Beğendiğin ürünleri daha sonra görüntülemek için kaydedebilirsin.",
+        ),
+
+        const SizedBox(height: 12),
+
+        _featureCard(
+          Icons.psychology_rounded,
+          "AI Önerileri",
+          "Yapay zeka ürün hakkında tavsiyeler oluşturur.",
+        ),
+
+        const SizedBox(height: 12),
+
+        _featureCard(
+          Icons.history_rounded,
+          "Geçmiş Analizler",
+          "Daha önce yaptığın analizleri tekrar görüntüleyebilirsin.",
+        ),
+
+        const SizedBox(height: 30),
+      ],
+    ),
+  ),
+),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
+             
           ],
         ),
       ),
@@ -254,61 +433,7 @@ Widget _drawerItem({
   Widget _buildAiSection() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: GestureDetector(
-      onTap: () => Navigator.pushNamed(
-  context,
-  AppRoutes.aiRecommendations,
-),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF5B3FD4), Color(0xFF9B7EFD)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'A-I Çizgisimi & Öneriler',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Vücut tipine uygun stil önerileri',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.75),
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(Icons.arrow_forward_ios_rounded,
-                    color: Colors.white, size: 18),
-              ),
-            ],
-          ),
-        ),
-      ),
+      
     );
   }
 
