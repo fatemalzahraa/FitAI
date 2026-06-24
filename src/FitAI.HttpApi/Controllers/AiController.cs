@@ -7,6 +7,7 @@ using FitAI.AI;
 namespace FitAI.Controllers;
 
 [AllowAnonymous]   // Geliştirme aşamasında; sonra [Authorize] yapılabilir
+[IgnoreAntiforgeryToken]   // ← bunu ekle
 [Route("api/ai")]
 public class AiController : FitAIController
 {
