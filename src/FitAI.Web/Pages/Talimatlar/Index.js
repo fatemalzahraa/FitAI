@@ -13,6 +13,21 @@ $(function () {
     var talimatlar     = [];          // API'den yüklenen liste
 
     // =============================================
+    // Yardımcı Fonksiyonlar
+    // =============================================
+    function escapeHtml(text) {
+        if (!text) return '';
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // =============================================
     // Yardımcı: API çağrısı
     // =============================================
     function apiGet(path) {
@@ -165,59 +180,39 @@ $(function () {
             );
         });
 
-        $('#talimatSayac').text(sayfaTalimatlar.length + ' talimat gösteriliyor (toplam ' + filtered.length + ')');
-        paginationRender(toplamSayfa);
-    }
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>"']/g, function(m) {
-            return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m];
-        });
+        $('#talimatSayac').text(sayfaTalimatlar.length + ' talimat gösteriliyor (Toplam: ' + filtered.length + ')');
+        olusturPagination(toplamSayfa);
     }
 
     // =============================================
     // Pagination
     // =============================================
-    function paginationRender(toplamSayfa) {
-        var $pag = $('#talimatPagination');
-        $pag.empty();
-        if (toplamSayfa <= 1) return;
-
-        if (aktifSayfa > 1)
-            $pag.append('<li class="page-item"><a class="page-link" href="#" data-page="prev"><i class="fas fa-chevron-left"></i></a></li>');
-
-        var sp = Math.max(1, aktifSayfa - 2);
-        var ep = Math.min(toplamSayfa, sp + 4);
-        if (ep - sp < 4 && sp > 1) sp = Math.max(1, ep - 4);
-
-        for (var i = sp; i <= ep; i++) {
-            $pag.append('<li class="page-item ' + (i === aktifSayfa ? 'active' : '') + '">' +
-                '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+    function olusturPagination(toplamSayfa) {
+        var $pagination = $('#talimatPagination');
+        $pagination.empty();
+        for (var i = 1; i <= toplamSayfa; i++) {
+            var $li = $('<li class="page-item' + (i === aktifSayfa ? ' active' : '') + '"></li>');
+            var $a = $('<a class="page-link" href="#">' + i + '</a>');
+            $a.on('click', function(e) {
+                e.preventDefault();
+                aktifSayfa = parseInt($(this).text());
+                talimatTablosunuRender();
+                document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            $li.append($a);
+            $pagination.append($li);
         }
-
-        if (aktifSayfa < toplamSayfa)
-            $pag.append('<li class="page-item"><a class="page-link" href="#" data-page="next"><i class="fas fa-chevron-right"></i></a></li>');
-
-        $pag.find('.page-link').on('click', function(e) {
-            e.preventDefault();
-            var page = $(this).data('page');
-            if (page === 'prev' && aktifSayfa > 1)              aktifSayfa--;
-            else if (page === 'next' && aktifSayfa < toplamSayfa) aktifSayfa++;
-            else if (!isNaN(parseInt(page)))                      aktifSayfa = parseInt(page);
-            else return;
-            talimatTablosunuRender();
-        });
     }
 
     // =============================================
-    // Filtreleme Event'leri
+    // Arama, Filtreleme
     // =============================================
     $('#talimatAra').on('keyup', function() {
         aramaKelimesi = $(this).val();
         aktifSayfa = 1;
         talimatTablosunuRender();
     });
+
     $('#durumFiltre').on('change', function() {
         aktifDurumFiltre = $(this).val();
         aktifSayfa = 1;
@@ -225,98 +220,101 @@ $(function () {
     });
 
     // =============================================
-    // Yeni Talimat — Modal & Kaydet
+    // "Yeni Talimat" butonu
     // =============================================
-    var yeniModal;
-
     $('#yeniTalimatBtn').on('click', function() {
-        $('#talimatForm')[0].reset();
-        $('#talimatKaydetBtn').data('mode', 'create').data('id', null);
-        $('#yeniTalimatModalLabel, .modal-title').html('<i class="fas fa-plus-circle me-2 text-primary"></i>Yeni AI Talimatı Oluştur');
-        yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
+        $('#talimatAd').val('');
+        $('#talimatAciklama').val('');
+        $('#talimatTetikleyici').val('zamanli');
+        $('#talimatCron').val('');
+        $('#talimatPrompt').val('');
+        $('#talimatKaydetBtn').data('mode', 'create').removeData('id');
+        $('.modal-title').html('<i class="fas fa-plus-circle me-2 text-primary"></i>Yeni AI Talimatı Oluştur');
+        var yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
         yeniModal.show();
-        document.getElementById('yeniTalimatModal').addEventListener('hidden.bs.modal', function () {
-            document.activeElement?.blur();
-        }, { once: true });
-    });
-
-    $('#talimatKaydetBtn').on('click', function() {
-        var ad = $('#talimatAd').val().trim();
-        if (!ad) { abp.message.warning('Lütfen talimat adını girin.', 'Uyarı'); return; }
-
-        var payload = {
-            ad:          ad,
-            aciklama:    $('#talimatAciklama').val().trim(),
-            tetikleyici: $('#talimatTetikleyici').val(),
-            cron:        $('#talimatCron').val().trim() || '-',
-            prompt:      $('#talimatPrompt').val().trim()
-        };
-
-        var mode = $(this).data('mode');
-        var id   = $(this).data('id');
-        var req  = (mode === 'edit' && id)
-                   ? apiPut('/talimatlar/' + id, payload)
-                   : apiPost('/talimatlar', payload);
-
-        $('#talimatKaydetBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Kaydediliyor...');
-
-        req.done(function() {
-            yeniModal.hide();
-            abp.message.success(mode === 'edit' ? 'Talimat güncellendi.' : 'Yeni talimat oluşturuldu.', 'Başarılı');
-            console.log("Index.js başlatıldı, talimatlarYukle çağrılıyor");
-
-            talimatlarYukle();
-        })
-        .fail(function(xhr) {
-            var msg = xhr.responseJSON?.error?.message || 'Kayıt başarısız.';
-            abp.message.error(msg, 'Hata');
-        })
-        .always(function() {
-            $('#talimatKaydetBtn').prop('disabled', false).html('<i class="fas fa-save me-1"></i>Kaydet');
-        });
     });
 
     // =============================================
-    // Aksiyon Butonları (Detay / Çalıştır / Düzenle / Sil)
+    // "Kaydet" butonu (Yeni / Düzenle)
+    // =============================================
+    $('#talimatKaydetBtn').on('click', function() {
+        var mode = $(this).data('mode') || 'create';
+        var id = $(this).data('id');
+        var ad = $('#talimatAd').val().trim();
+        var aciklama = $('#talimatAciklama').val().trim();
+        var tetikleyici = $('#talimatTetikleyici').val();
+        var cron = $('#talimatCron').val().trim() || '-';
+        var prompt = $('#talimatPrompt').val().trim();
+
+        if (!ad) { abp.message.warning('Talimat adı boş olamaz!', 'Hata'); return; }
+        if (!prompt) { abp.message.warning('Talimat içeriği boş olamaz!', 'Hata'); return; }
+
+        var payload = { ad: ad, aciklama: aciklama, tetikleyici: tetikleyici, cron: cron, prompt: prompt };
+        var $btn = $(this);
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Kaydediliyor...');
+
+        var apiCall = (mode === 'create')
+            ? apiPost('/talimatlar', payload)
+            : apiPut('/talimatlar/' + id, payload);
+
+        apiCall
+            .done(function() {
+                var msg = (mode === 'create') ? 'Talimat oluşturuldu.' : 'Talimat güncellendi.';
+                abp.message.success(msg, 'Başarılı');
+                bootstrap.Modal.getInstance(document.getElementById('yeniTalimatModal')).hide();
+                talimatlarYukle();
+            })
+            .fail(function(xhr) {
+                var msg = xhr.responseJSON?.error?.message || (mode === 'create' ? 'Talimat oluşturulamadı.' : 'Talimat güncellenemedi.');
+                abp.message.error(msg, 'Hata');
+            })
+            .always(function() {
+                $btn.prop('disabled', false).html('<i class="fas fa-save me-1"></i>Kaydet');
+            });
+    });
+
+    // =============================================
+    // Tablo Aksiyon Butonları (Detay, Çalıştır, Düzenle, Sil)
     // =============================================
     $(document).on('click', '.aksiyon-btn', function() {
-        var id      = parseInt($(this).data('id'));
-        var aksiyon = $(this).data('aksiyon');
-        var talimat = talimatlar.find(function(t) { return t.id === id; });
-        if (!talimat) return;
+        var $btn = $(this);
+        var aksiyon = $btn.data('aksiyon');
+        var id = $btn.data('id');
 
-        // ── Detay ──────────────────────────────
+        var talimat = talimatlar.find(function(t) { return t.id == id; });
+        if (!talimat) { abp.message.error('Talimat bulunamadı.', 'Hata'); return; }
+
+        // ── Detay ───────────────────────────────
         if (aksiyon === 'detay') {
-            $('#talimatDetayIcerik').html(
-                '<div class="talimat-detay-bilgi">' +
-                    '<p><strong>Talimat Adı:</strong> '      + escapeHtml(talimat.ad)          + '</p>' +
-                    '<p><strong>Açıklama:</strong> '         + escapeHtml(talimat.aciklama||'—')+ '</p>' +
-                    '<p><strong>Tetikleyici:</strong> '      + tetikleyiciText(talimat.tetikleyici) + '</p>' +
-                    '<p><strong>Çalışma Zamanı:</strong> '   + escapeHtml((talimat.cron !== '-' && talimat.cron) ? talimat.cron : '—') + '</p>' +
-                    '<p><strong>Durum:</strong> '            + durumText(talimat.durum)         + '</p>' +
-                    '<p><strong>Son Çalışma:</strong> '      + escapeHtml(talimat.sonCalisma||'—')+ '</p>' +
-                    '<p><strong>AI Prompt:</strong></p>'     +
-                    '<pre>' + escapeHtml(talimat.prompt||'—') + '</pre>' +
-                '</div>'
-            );
-            $('#talimatTestEtBtn').data('id', id).show();
+            var satirlar = '';
+            if (talimat.sonuclar && talimat.sonuclar.length) {
+                talimat.sonuclar.forEach(function(s) {
+                    satirlar +=
+                        '<tr><td>' + escapeHtml(s.vucutTipi || '') + '</td>' +
+                        '<td>' + escapeHtml(s.urunKesim || '') + '</td>' +
+                        '<td>' + (s.eskiSkor != null ? s.eskiSkor : '—') + '</td>' +
+                        '<td>' + (s.yeniSkor != null ? s.yeniSkor : '—') + '</td></tr>';
+                });
+            }
+
+            var icerik =
+                '<h6><i class="fas fa-info-circle me-2 text-info"></i>Talimat: <strong>' + escapeHtml(talimat.ad) + '</strong></h6>' +
+                '<p class="text-muted mb-2"><small>' + escapeHtml(talimat.aciklama || '—') + '</small></p>' +
+                '<table class="table table-sm table-bordered"><thead><tr><th>Vücut Tipi</th><th>Kesim</th><th>Eski Skor</th><th>Yeni Skor</th></tr></thead><tbody>' + (satirlar || '<tr><td colspan="4" class="text-center text-muted">Sonuç bulunamadı</td></tr>') + '</tbody></table>';
+
+            $('#talimatDetayIcerik').html(icerik);
+            $('#talimatTestEtBtn').show().data('id', id);
             var detayModal = new bootstrap.Modal(document.getElementById('talimatDetayModal'));
             detayModal.show();
-            document.getElementById('talimatDetayModal').addEventListener('hidden.bs.modal', function () {
-                document.activeElement?.blur();
-            }, { once: true });
         }
 
-        // ── Çalıştır ───────────────────────────
+        // ── Çalıştır ────────────────────────────
         else if (aksiyon === 'calistir') {
-            var $btn = $(this);
-            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span>');
+            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Çalışıyor...');
 
             apiPost('/talimatlar/' + id + '/calistir', {})
                 .done(function(sonuc) {
-                    // Son çalışma zamanını local'de güncelle
-                    talimat.sonCalisma = new Date().toISOString().slice(0,19).replace('T',' ');
-                    talimatTablosunuRender();
+                    talimatlarYukle();
                     kpiGuncelle();
                     calistirSonucGoster(talimat.ad, sonuc);
                 })
@@ -338,11 +336,8 @@ $(function () {
             $('#talimatPrompt').val(talimat.prompt);
             $('#talimatKaydetBtn').data('mode', 'edit').data('id', id);
             $('.modal-title').html('<i class="fas fa-edit me-2 text-warning"></i>Talimatı Düzenle');
-            yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
+            var yeniModal = new bootstrap.Modal(document.getElementById('yeniTalimatModal'));
             yeniModal.show();
-            document.getElementById('yeniTalimatModal').addEventListener('hidden.bs.modal', function () {
-                document.activeElement?.blur();
-            }, { once: true });
         }
 
         // ── Sil ────────────────────────────────
@@ -473,9 +468,6 @@ $(function () {
         $('#talimatTestEtBtn').hide();
         var sonucModal = new bootstrap.Modal(document.getElementById('talimatDetayModal'));
         sonucModal.show();
-        document.getElementById('talimatDetayModal').addEventListener('hidden.bs.modal', function () {
-            document.activeElement?.blur();
-        }, { once: true });
     }
 
     // =============================================

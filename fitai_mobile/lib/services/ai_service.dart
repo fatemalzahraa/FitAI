@@ -5,7 +5,7 @@ class ApiService {
 
   static final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.16.5.173:5001',
+      baseUrl: 'https://192.168.1.103:44399',
       headers: {
         'Content-Type': 'application/json',
       },

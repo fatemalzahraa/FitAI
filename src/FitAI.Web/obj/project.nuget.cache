@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "61anPRK1l1k=",
+  "dgSpecHash": "E/esivGG6DQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Web\\FitAI.Web.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\castle.core.asyncinterceptor\\2.1.0\\castle.core.asyncinterceptor.2.1.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\htmlagilitypack\\1.12.4\\htmlagilitypack.1.12.4.nupkg.sha512",

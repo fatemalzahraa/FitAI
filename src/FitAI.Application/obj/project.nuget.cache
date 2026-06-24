@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ssNB13N7jSo=",
+  "dgSpecHash": "0M8JyQ3ZtPI=",
   "success": true,
   "projectFilePath": "C:\\Users\\RAGHAD\\FitAI\\src\\FitAI.Application\\FitAI.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\RAGHAD\\.nuget\\packages\\asynckeyedlock\\7.1.6\\asynckeyedlock.7.1.6.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\htmlagilitypack\\1.12.4\\htmlagilitypack.1.12.4.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\jetbrains.annotations\\2024.3.0\\jetbrains.annotations.2024.3.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.3.0\\microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",

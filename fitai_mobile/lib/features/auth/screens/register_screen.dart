@@ -98,13 +98,18 @@ final token = loginRes.data['access_token'];
     // 4. VÜCUT TİPİ SEÇİMİNE YÖNLENDİR
     Navigator.pushReplacementNamed(context, AppRoutes.bodyType);
 
-  } on DioException catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(e.response?.data.toString() ?? 'Hata oluştu')),
-    );
-  } finally {
-    setState(() => _loading = false);
-  }
+} on DioException catch (e) {
+  print("REGISTER HATA TİPİ: ${e.type}");
+  print("REGISTER HATA MESAJ: ${e.message}");
+  print("RESPONSE STATUS: ${e.response?.statusCode}");
+  print("RESPONSE DATA: ${e.response?.data}");
+  if (!mounted) return;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text("Hata: ${e.type} | ${e.response?.data ?? e.message}")),
+  );
+} finally {
+  setState(() => _loading = false);
+}
 }
 
   // =========================================================

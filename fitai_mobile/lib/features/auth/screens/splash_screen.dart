@@ -1,7 +1,7 @@
 import 'package:fitai_mobile/core/constants/app_routes.dart';
 import 'package:fitai_mobile/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,9 +29,18 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        // Check token → go to login for now
+    Future.delayed(const Duration(seconds: 2), () async {
+      if (!mounted) return;
+
+      // TOKEN KONTROLÜ
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token != null && token.isNotEmpty) {
+        // Token var → direkt ana sayfaya
+        Navigator.pushReplacementNamed(context, AppRoutes.main);
+      } else {
+        // Token yok → login'e
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     });

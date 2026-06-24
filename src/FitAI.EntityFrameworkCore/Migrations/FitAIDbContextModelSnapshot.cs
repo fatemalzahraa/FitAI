@@ -96,7 +96,7 @@ namespace FitAI.Migrations
 
                     b.HasIndex("KullaniciId");
 
-                    b.ToTable("AiTalimatlar", (string)null);
+                    b.ToTable("AiTalimatlar");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Ai.NlpBulgusu", b =>
@@ -167,7 +167,7 @@ namespace FitAI.Migrations
 
                     b.HasIndex("UrunId");
 
-                    b.ToTable("NlpBulgulari", (string)null);
+                    b.ToTable("NlpBulgulari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Analytics.WidgetSorguLog", b =>
@@ -220,7 +220,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WidgetSorguLoglari", (string)null);
+                    b.ToTable("WidgetSorguLoglari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Commerce.KomisyonKaydi", b =>
@@ -298,7 +298,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("KomisyonKayitlari", (string)null);
+                    b.ToTable("KomisyonKayitlari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Commerce.Magaza", b =>
@@ -363,7 +363,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Magazalar", (string)null);
+                    b.ToTable("Magazalar");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Integration.PlatformBaglantisi", b =>
@@ -418,7 +418,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlatformBaglantilari", (string)null);
+                    b.ToTable("PlatformBaglantilari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Integration.SenkronizasyonLog", b =>
@@ -473,7 +473,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SenkronizasyonLoglari", (string)null);
+                    b.ToTable("SenkronizasyonLoglari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Notifications.Bildirim", b =>
@@ -551,7 +551,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bildirimler", (string)null);
+                    b.ToTable("Bildirimler");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Onboarding.OnboardingAdim", b =>
@@ -612,7 +612,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OnboardingAdimlari", (string)null);
+                    b.ToTable("OnboardingAdimlari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Products.Urun", b =>
@@ -674,7 +674,7 @@ namespace FitAI.Migrations
 
                     b.HasIndex("MagazaId");
 
-                    b.ToTable("Urunler", (string)null);
+                    b.ToTable("Urunler");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Products.Yorum", b =>
@@ -747,7 +747,7 @@ namespace FitAI.Migrations
 
                     b.HasIndex("MagazaId", "NlpIslendi");
 
-                    b.ToTable("Yorumlar", (string)null);
+                    b.ToTable("Yorumlar");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Scoring.VucutUyumSkoru", b =>
@@ -807,7 +807,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VucutUyumSkorlari", (string)null);
+                    b.ToTable("VucutUyumSkorlari");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Users.Kullanici", b =>
@@ -873,7 +873,7 @@ namespace FitAI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kullanicilar", (string)null);
+                    b.ToTable("Kullanicilar");
                 });
 
             modelBuilder.Entity("FitAI.Domain.Users.KullaniciProfil", b =>
@@ -925,12 +925,15 @@ namespace FitAI.Migrations
                     b.Property<string>("TercihleriJSON")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("VucutTipi")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("KullaniciProfilleri", (string)null);
+                    b.ToTable("KullaniciProfilleri");
                 });
 
             modelBuilder.Entity("Volo.Abp.BackgroundJobs.BackgroundJobRecord", b =>

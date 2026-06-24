@@ -1,16 +1,29 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
 
-  static final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://10.16.5.173:5001',
-      headers: {
-        'Content-Type': 'application/json',
+static final Dio dio = Dio(
+  BaseOptions(
+    baseUrl: 'https://192.168.1.103:44399',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
+    sendTimeout: const Duration(seconds: 30),
+  ),
+)
+    ..httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () {
+        final client = HttpClient();
+        client.badCertificateCallback = (cert, host, port) => true;
+        return client;
       },
-    ),
-  )..interceptors.add(
+    )
+    ..interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final prefs = await SharedPreferences.getInstance();
@@ -36,9 +49,7 @@ class ApiService {
   Future<Response> updateBodyType(String bodyType) {
     return dio.put(
       "/api/profile/body-type",
-      data: {
-        "bodyType": bodyType,
-      },
+      data: {"bodyType": bodyType},
     );
   }
 
@@ -75,43 +86,38 @@ class ApiService {
 
   // ================= ANALYSIS =================
 
-Future<Response> analyzeProduct(String productUrl) async {
-  final prefs = await SharedPreferences.getInstance();
-  final bodyType = prefs.getString('bodyType') ?? 'Armut';
+  Future<Response> analyzeProduct(String productUrl) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bodyType = prefs.getString('bodyType') ?? 'Armut';
+    return dio.post(
+      "/api/app/analysis/analyze",
+      data: {
+        "productUrl": productUrl,
+        "bodyType": bodyType,
+      },
+    );
+  }
 
-  return dio.post(
-    "/api/app/analysis/analyze",
-    data: {
-      "productUrl": productUrl,
-      "bodyType": bodyType,     // ← eklendi
-    },
-  );
-}
-
-Future<Response> getFitScore(String productUrl) async {
-  final prefs = await SharedPreferences.getInstance();
-  final bodyType = prefs.getString('bodyType') ?? 'Armut';
-
-  return dio.post(
-    "/api/app/analysis/analyze",
-    data: {
-      "productUrl": productUrl,
-      "bodyType": bodyType,     // ← eklendi
-    },
-  );
-}
-
-  // 🔥 EKLENDİ (SENİN EKSİK OLAN KISIM)
+  Future<Response> getFitScore(String productUrl) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bodyType = prefs.getString('bodyType') ?? 'Armut';
+    return dio.post(
+      "/api/app/analysis/analyze",
+      data: {
+        "productUrl": productUrl,
+        "bodyType": bodyType,
+      },
+    );
+  }
 
   Future<Response> getMyAnalyses() {
     return dio.get("/api/analysis");
   }
+
   Future<Response> analyzeReviews(String productUrl) {
-  return dio.post(
-    "/api/app/review-analysis/analyze",
-    data: {
-      "productUrl": productUrl,
-    },
-  );
-}
+    return dio.post(
+      "/api/app/review-analysis/analyze",
+      data: {"productUrl": productUrl},
+    );
+  }
 }

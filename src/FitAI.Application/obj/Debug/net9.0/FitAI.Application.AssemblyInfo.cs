@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FitAI.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a34f434b7d0469c2b3b03afe7dfbb52e401800c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2e82192f7754f7438ff6c47e09d30d095c72244")]
 [assembly: System.Reflection.AssemblyProductAttribute("FitAI.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FitAI.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

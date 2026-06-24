@@ -1,6 +1,5 @@
 $(function () {
 
-    // ABP'nin dinamik proxy nesnesi koruması
     var _magazaService = (window.fitAI && fitAI.magazalar && fitAI.magazalar.magaza) 
                           ? fitAI.magazalar.magaza 
                           : null;
@@ -31,17 +30,13 @@ $(function () {
             : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2"><i class="fas fa-times-circle me-1"></i>Pasif</span>';
     }
 
-    // =============================================
-    // 1. VERİLERİ VERİTABANINDAN ÇEKME (GET)
-    // =============================================
-    var tumMagazalar = []; 
+    var tumMagazalar = [];
 
     function magazalariYukle() {
         if (_magazaService) {
-            // ABP Proxy Modu
             _magazaService.getList({ maxResultCount: 1000 })
                 .then(function (result) {
-                    tumMagazalar = result.items || []; 
+                    tumMagazalar = result.items || [];
                     tabloYenile();
                     kpiGuncelle();
                 })
@@ -50,12 +45,11 @@ $(function () {
                     console.error(err);
                 });
         } else {
-            // Standart Fallback AJAX Modu
             $.ajax({
                 url: '/api/app/magaza?maxResultCount=1000',
                 type: 'GET',
                 success: function (result) {
-                    tumMagazalar = result.items || []; 
+                    tumMagazalar = result.items || [];
                     tabloYenile();
                     kpiGuncelle();
                 }
@@ -113,43 +107,71 @@ $(function () {
         $('#kpiPremium').text(tumMagazalar.filter(function(m){ return m.paketTuru === 'Premium'; }).length);
     }
 
-    // Modal Açma Tetikleyicisi (Eski kodda eksikti!)
     $('#yeniMagazaBtn').on('click', function() {
         new bootstrap.Modal(document.getElementById('yeniMagazaModal')).show();
     });
 
     // =============================================
-    // 2. MAĞAZA EKLEME (POST)
+    // YENİ MAĞAZA EKLEME - DÜZELTİLDİ
     // =============================================
-    $('#yeniMagazaForm').on('submit', function (e) {
-        e.preventDefault();
-        
-        var inputDto = {
-            magazaAdi: $('#magazaAdi').val().trim(),
-            eposta: $('#magazaEposta').val().trim(),
-            sifreHash: $('#magazaSifre').val(), 
-            paketTuru: $('#magazaPaket').val(),
-            komisyonOrani: parseFloat($('#magazaKomisyon').val()) || 0,
-            minimumKomisyonEsigi: 0,
-            aktifMi: $('#magazaAktif').is(':checked')
-        };
+// ... diğer kodlar aynı
 
-        var savePromise = _magazaService 
-            ? _magazaService.create(inputDto)
-            : $.ajax({ url: '/api/app/magaza', type: 'POST', contentType: 'application/json', data: JSON.stringify(inputDto) });
+$('#yeniMagazaForm').on('submit', function (e) {
+    e.preventDefault();
+    
+    var sifre = $('#magazaSifre').val();
+    var magazaAdi = $('#magazaAdi').val().trim();
+    var eposta = $('#magazaEposta').val().trim();
+    var paket = $('#magazaPaket').val();
+    var komisyon = parseFloat($('#magazaKomisyon').val()) || 0;
+    var aktif = $('#magazaAktif').is(':checked');
 
-        Promise.resolve(savePromise).then(function () {
+    // Frontend validasyon
+    if (!magazaAdi) { abp.message.error('Mağaza adı gereklidir.'); return; }
+    if (!eposta) { abp.message.error('E-posta gereklidir.'); return; }
+    if (!sifre || sifre.length < 6) { abp.message.error('Şifre en az 6 karakter olmalıdır.'); return; }
+    if (!paket) { abp.message.error('Paket türü gereklidir.'); return; }
+
+    var inputDto = {
+        MagazaAdi: magazaAdi,
+        Eposta: eposta,
+        SifreHash: sifre,
+        PaketTuru: paket,
+        KomisyonOrani: komisyon,
+        MinimumKomisyonEsigi: 0,
+        AktifMi: aktif
+    };
+
+    console.log('Gönderilen JSON:', JSON.stringify(inputDto));
+
+    var savePromise = _magazaService
+        ? _magazaService.create(inputDto)
+        : $.ajax({
+            url: '/api/app/magaza',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(inputDto),
+            headers: { 'Accept': 'application/json' }
+        });
+
+    Promise.resolve(savePromise)
+        .then(function (result) {
             abp.notify.success('Mağaza başarıyla eklendi.');
             bootstrap.Modal.getInstance(document.getElementById('yeniMagazaModal')).hide();
             $('#yeniMagazaForm')[0].reset();
             magazalariYukle();
-        }).catch(function(err) {
-            abp.notify.error('Ekleme başarısız.');
+        })
+        .catch(function(err) {
+            console.error('HATA DETAYI:', err);
+            // Tüm hata objesini stringify edip alert ile göster
+            alert('Hata detayı:\n' + JSON.stringify(err, null, 2));
+            // Ayrıca abp.message.error da dene
+            var hataMsg = err.responseJSON?.message || err.responseJSON?.error?.message || err.responseText || err.statusText || 'Bilinmeyen hata';
+            abp.message.error(hataMsg, 'Hata');
         });
-    });
-
+});
     // =============================================
-    // 3. MAĞAZA GÜNCELLEME (PUT)
+    // GÜNCELLEME - DÜZELTİLDİ
     // =============================================
     var duzenlenecekId = null;
 
@@ -167,34 +189,45 @@ $(function () {
         new bootstrap.Modal(document.getElementById('editMagazaModal')).show();
     });
 
-    $('#editMagazaForm').on('submit', function (e) {
-        e.preventDefault();
-        if (!duzenlenecekId) return;
+$('#editMagazaForm').on('submit', function (e) {
+    e.preventDefault();
+    if (!duzenlenecekId) return;
 
-        var updateDto = {
-            magazaAdi: $('#editMagazaAdi').val().trim(),
-            eposta: $('#editMagazaEposta').val().trim(),
-            sifreHash: "degismedi", 
-            paketTuru: $('#editMagazaPaket').val(),
-            komisyonOrani: parseFloat($('#editMagazaKomisyon').val()) || 0,
-            minimumKomisyonEsigi: 0,
-            aktifMi: $('#editMagazaAktif').is(':checked')
-        };
+    var updateDto = {
+        MagazaAdi: $('#editMagazaAdi').val().trim(),
+        Eposta: $('#editMagazaEposta').val().trim(),
+        SifreHash: "degismedi",
+        PaketTuru: $('#editMagazaPaket').val(),
+        KomisyonOrani: parseFloat($('#editMagazaKomisyon').val()) || 0,
+        MinimumKomisyonEsigi: 0,
+        AktifMi: $('#editMagazaAktif').is(':checked')
+    };
 
-        var updatePromise = _magazaService 
-            ? _magazaService.update(duzenlenecekId, updateDto)
-            : $.ajax({ url: '/api/app/magaza/' + duzenlenecekId, type: 'PUT', contentType: 'application/json', data: JSON.stringify(updateDto) });
+    var updatePromise = _magazaService
+        ? _magazaService.update(duzenlenecekId, updateDto)
+        : $.ajax({
+            url: '/api/app/magaza/' + duzenlenecekId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(updateDto),
+            headers: { 'Accept': 'application/json' }
+        });
 
-        Promise.resolve(updatePromise).then(function () {
+    Promise.resolve(updatePromise)
+        .then(function () {
             abp.notify.info('Mağaza güncellendi.');
             bootstrap.Modal.getInstance(document.getElementById('editMagazaModal')).hide();
             magazalariYukle();
             duzenlenecekId = null;
+        })
+        .catch(function(err) {
+            console.error('GÜNCELLEME HATASI:', err);
+            var hataMsg = err.responseJSON?.message || err.responseJSON?.error?.message || err.responseText || err.statusText || 'Bilinmeyen hata';
+            abp.message.error(hataMsg, 'Hata');
         });
-    });
-
+});
     // =============================================
-    // 4. MAĞAZA SİLME (DELETE)
+    // SİLME
     // =============================================
     var silinecekId = null;
 
@@ -207,17 +240,25 @@ $(function () {
     $('#silOnayBtn').on('click', function () {
         if (!silinecekId) return;
 
-        var deletePromise = _magazaService ? _magazaService.delete(silinecekId) : $.ajax({ url: '/api/app/magaza/' + silinecekId, type: 'DELETE' });
+        var deletePromise = _magazaService 
+            ? _magazaService.delete(silinecekId) 
+            : $.ajax({ url: '/api/app/magaza/' + silinecekId, type: 'DELETE', headers: { 'Accept': 'application/json' } });
 
-        Promise.resolve(deletePromise).then(function () {
-            abp.notify.warn('Mağaza silindi.');
-            bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
-            magazalariYukle();
-            silinecekId = null;
-        });
+        Promise.resolve(deletePromise)
+            .then(function () {
+                abp.notify.warn('Mağaza silindi.');
+                bootstrap.Modal.getInstance(document.getElementById('silOnayModal')).hide();
+                magazalariYukle();
+                silinecekId = null;
+            })
+            .catch(function(err) {
+                console.error('SİLME HATASI:', err);
+                var hataMsg = err.responseJSON?.message || err.responseJSON?.error?.message || err.responseText || err.statusText || 'Bilinmeyen hata';
+                abp.message.error(hataMsg, 'Hata');
+            });
     });
 
-    // Filtre Değişimleri
+    // Filtreler
     $('#aramaInput').on('input', tabloYenile);
     $('#paketFiltre, #durumFiltre').on('change', tabloYenile);
     $('#filtreTemizle').on('click', function () {
@@ -232,6 +273,5 @@ $(function () {
         $(this).closest('.mb-3').find('.paket-yardim').text(p ? paketBilgileri[p] : '');
     });
 
-    // İlk yükleme tetiklemesi
     magazalariYukle();
 });

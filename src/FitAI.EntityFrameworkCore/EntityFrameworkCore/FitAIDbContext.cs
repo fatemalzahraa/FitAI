@@ -87,7 +87,16 @@ public class FitAIDbContext :
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureTenantManagement();
+    builder.ConfigureIdentity();
+    builder.ConfigureOpenIddict();
+    builder.ConfigurePermissionManagement();
+    builder.ConfigureSettingManagement();
+    builder.ConfigureTenantManagement();
 
+    // ⬇️ EKSİK OLANLARI EKLEYİN ⬇️
+    // ⬆️ EKSİK OLANLARI EKLEYİN ⬆️
+
+    builder.ConfigureBackgroundJobs();
         // ================= DOMAIN REGISTRATION =================
         builder.Entity<Magaza>();
         builder.Entity<Kullanici>();

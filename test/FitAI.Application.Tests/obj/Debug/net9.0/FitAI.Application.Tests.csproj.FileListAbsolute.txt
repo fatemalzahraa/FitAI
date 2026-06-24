@@ -58,6 +58,7 @@ C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Autofac.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Autofac.Extensions.DependencyInjection.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Autofac.Extras.DynamicProxy.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\AutoMapper.dll
+C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\BCrypt-Net-Next.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Castle.Core.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\Castle.Core.AsyncInterceptor.dll
 C:\Users\RAGHAD\FitAI\test\FitAI.Application.Tests\bin\Debug\net9.0\DiffEngine.dll

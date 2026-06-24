@@ -318,6 +318,7 @@ C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Autofac.Extras.DynamicProxy
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\AutoMapper.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\BCrypt-Net-Next.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Castle.Core.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\Castle.Core.AsyncInterceptor.dll
 C:\Users\RAGHAD\FitAI\src\FitAI.Web\bin\Debug\net9.0\HtmlAgilityPack.dll

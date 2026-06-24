@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is ECF0-4C2B
+Volume serial number is 00000010 ECF0:4C2B
 C:.
 |   .gitattributes
 |   .gitignore
@@ -48,6 +48,19 @@ C:.
 |           fitai.projects.v9.bin
 |           fitai.strings.v9.bin
 |           
++---ai_service
+|       .gitignore
+|       app.py
+|       dataset.csv
+|       main.py
+|       model.pkl
+|       README.md
+|       requirements.txt
+|       train_model.py
+|       
++---data
+|       mock_reviews.py
+|       
 +---FitAI.Web
 |   \---Pages
 |       \---Magazalar
@@ -56,14 +69,385 @@ C:.
 |               Index.css
 |               Index.js
 |               
++---FitAI_ai
+|   |   api.py
+|   |   api_client.py
+|   |   fit_model.py
+|   |   le_kesim.pkl
+|   |   le_vucut.pkl
+|   |   main.py
+|   |   model.pkl
+|   |   requirements.txt
+|   |   scheduler.py
+|   |   sentiment.py
+|   |   talimat_engine.py
+|   |   
+|   \---__pycache__
+|           api.cpython-313.pyc
+|           sentiment.cpython-313.pyc
+|           
++---fitai_mobile
+|   |   .gitignore
+|   |   .metadata
+|   |   analysis_options.yaml
+|   |   pubspec.lock
+|   |   pubspec.yaml
+|   |   README.md
+|   |   
+|   +---android
+|   |   |   .gitignore
+|   |   |   build.gradle.kts
+|   |   |   gradle.properties
+|   |   |   settings.gradle.kts
+|   |   |   
+|   |   +---app
+|   |   |   |   build.gradle.kts
+|   |   |   |   
+|   |   |   \---src
+|   |   |       +---main
+|   |   |       |   |   AndroidManifest.xml
+|   |   |       |   |   
+|   |   |       |   +---kotlin
+|   |   |       |   |   \---com
+|   |   |       |   |       \---example
+|   |   |       |   |           \---fitai_mobile
+|   |   |       |   |                   MainActivity.kt
+|   |   |       |   |                   
+|   |   |       |   \---res
+|   |   |       |       +---drawable
+|   |   |       |       |       launch_background.xml
+|   |   |       |       |       
+|   |   |       |       +---drawable-v21
+|   |   |       |       |       launch_background.xml
+|   |   |       |       |       
+|   |   |       |       +---mipmap-hdpi
+|   |   |       |       |       ic_launcher.png
+|   |   |       |       |       
+|   |   |       |       +---mipmap-mdpi
+|   |   |       |       |       ic_launcher.png
+|   |   |       |       |       
+|   |   |       |       +---mipmap-xhdpi
+|   |   |       |       |       ic_launcher.png
+|   |   |       |       |       
+|   |   |       |       +---mipmap-xxhdpi
+|   |   |       |       |       ic_launcher.png
+|   |   |       |       |       
+|   |   |       |       +---mipmap-xxxhdpi
+|   |   |       |       |       ic_launcher.png
+|   |   |       |       |       
+|   |   |       |       +---values
+|   |   |       |       |       styles.xml
+|   |   |       |       |       
+|   |   |       |       \---values-night
+|   |   |       |               styles.xml
+|   |   |       |               
+|   |   |       \---profile
+|   |   |               AndroidManifest.xml
+|   |   |               
+|   |   \---gradle
+|   |       \---wrapper
+|   |               gradle-wrapper.properties
+|   |               
+|   +---assets
+|   |   \---images
+|   |           p1.jpeg
+|   |           p2.jpeg
+|   |           p3.jpeg
+|   |           
+|   +---ios
+|   |   |   .gitignore
+|   |   |   
+|   |   +---Flutter
+|   |   |       AppFrameworkInfo.plist
+|   |   |       Debug.xcconfig
+|   |   |       Release.xcconfig
+|   |   |       
+|   |   +---Runner
+|   |   |   |   AppDelegate.swift
+|   |   |   |   Info.plist
+|   |   |   |   Runner-Bridging-Header.h
+|   |   |   |   
+|   |   |   +---Assets.xcassets
+|   |   |   |   +---AppIcon.appiconset
+|   |   |   |   |       Contents.json
+|   |   |   |   |       Icon-App-1024x1024@1x.png
+|   |   |   |   |       Icon-App-20x20@1x.png
+|   |   |   |   |       Icon-App-20x20@2x.png
+|   |   |   |   |       Icon-App-20x20@3x.png
+|   |   |   |   |       Icon-App-29x29@1x.png
+|   |   |   |   |       Icon-App-29x29@2x.png
+|   |   |   |   |       Icon-App-29x29@3x.png
+|   |   |   |   |       Icon-App-40x40@1x.png
+|   |   |   |   |       Icon-App-40x40@2x.png
+|   |   |   |   |       Icon-App-40x40@3x.png
+|   |   |   |   |       Icon-App-60x60@2x.png
+|   |   |   |   |       Icon-App-60x60@3x.png
+|   |   |   |   |       Icon-App-76x76@1x.png
+|   |   |   |   |       Icon-App-76x76@2x.png
+|   |   |   |   |       Icon-App-83.5x83.5@2x.png
+|   |   |   |   |       
+|   |   |   |   \---LaunchImage.imageset
+|   |   |   |           Contents.json
+|   |   |   |           LaunchImage.png
+|   |   |   |           LaunchImage@2x.png
+|   |   |   |           LaunchImage@3x.png
+|   |   |   |           README.md
+|   |   |   |           
+|   |   |   \---Base.lproj
+|   |   |           LaunchScreen.storyboard
+|   |   |           Main.storyboard
+|   |   |           
+|   |   +---Runner.xcodeproj
+|   |   |   |   project.pbxproj
+|   |   |   |   
+|   |   |   +---project.xcworkspace
+|   |   |   |   |   contents.xcworkspacedata
+|   |   |   |   |   
+|   |   |   |   \---xcshareddata
+|   |   |   |           IDEWorkspaceChecks.plist
+|   |   |   |           WorkspaceSettings.xcsettings
+|   |   |   |           
+|   |   |   \---xcshareddata
+|   |   |       \---xcschemes
+|   |   |               Runner.xcscheme
+|   |   |               
+|   |   +---Runner.xcworkspace
+|   |   |   |   contents.xcworkspacedata
+|   |   |   |   
+|   |   |   \---xcshareddata
+|   |   |           IDEWorkspaceChecks.plist
+|   |   |           WorkspaceSettings.xcsettings
+|   |   |           
+|   |   \---RunnerTests
+|   |           RunnerTests.swift
+|   |           
+|   +---lib
+|   |   |   main.dart
+|   |   |   
+|   |   +---core
+|   |   |   +---constants
+|   |   |   |       app_routes.dart
+|   |   |   |       
+|   |   |   +---features
+|   |   |   |   \---fit_score
+|   |   |   |       \---models
+|   |   |   |               fit_score_result.dart
+|   |   |   |               
+|   |   |   +---services
+|   |   |   |       api_service.dart
+|   |   |   |       
+|   |   |   +---theme
+|   |   |   |       app_theme.dart
+|   |   |   |       
+|   |   |   \---widgets
+|   |   |           common_widgets.dart
+|   |   |           
+|   |   +---features
+|   |   |   +---analysis
+|   |   |   |   +---models
+|   |   |   |   |       analysis_response.dart
+|   |   |   |   |       
+|   |   |   |   \---screens
+|   |   |   |           ai_recommendation_screen.dart
+|   |   |   |           all_analysis_screen.dart
+|   |   |   |           analysis_screen.dart
+|   |   |   |           fit_score_screen.dart
+|   |   |   |           product_detail_screen.dart
+|   |   |   |           review_analysis_screen.dart
+|   |   |   |           
+|   |   |   +---analysis_history
+|   |   |   |   \---screens
+|   |   |   |           analysis_history_screen.dart
+|   |   |   |           
+|   |   |   +---auth
+|   |   |   |   \---screens
+|   |   |   |           login_screen.dart
+|   |   |   |           register_screen.dart
+|   |   |   |           splash_screen.dart
+|   |   |   |           
+|   |   |   +---edit_profile
+|   |   |   |   \---screens
+|   |   |   |           edit_profile_screen.dart
+|   |   |   |           
+|   |   |   +---favorites
+|   |   |   |   \---screens
+|   |   |   |           favorites_screen.dart
+|   |   |   |           
+|   |   |   +---fit_score
+|   |   |   |   \---models
+|   |   |   |           fit_score_result.dart
+|   |   |   |           
+|   |   |   +---help
+|   |   |   |   \---screens
+|   |   |   |           help_screen.dart
+|   |   |   |           
+|   |   |   +---home
+|   |   |   |   \---screens
+|   |   |   |           home_screen.dart
+|   |   |   |           main_screen.dart
+|   |   |   |           
+|   |   |   +---notifications
+|   |   |   |   \---screens
+|   |   |   |           notification_screen.dart
+|   |   |   |           
+|   |   |   +---onboarding
+|   |   |   |   \---screens
+|   |   |   |           body_type_screen.dart
+|   |   |   |           
+|   |   |   +---privacy
+|   |   |   |   \---screens
+|   |   |   |           privacy_screen.dart
+|   |   |   |           
+|   |   |   +---profile
+|   |   |   |   \---screens
+|   |   |   |           profile_screen.dart
+|   |   |   |           settings_screen.dart
+|   |   |   |           
+|   |   |   \---settings
+|   |   |       \---screens
+|   |   |               settings_screen.dart
+|   |   |               
+|   |   \---services
+|   |           ai_service.dart
+|   |           
+|   +---linux
+|   |   |   .gitignore
+|   |   |   CMakeLists.txt
+|   |   |   
+|   |   +---flutter
+|   |   |       CMakeLists.txt
+|   |   |       generated_plugins.cmake
+|   |   |       generated_plugin_registrant.cc
+|   |   |       generated_plugin_registrant.h
+|   |   |       
+|   |   \---runner
+|   |           CMakeLists.txt
+|   |           main.cc
+|   |           my_application.cc
+|   |           my_application.h
+|   |           
+|   +---macos
+|   |   |   .gitignore
+|   |   |   
+|   |   +---Flutter
+|   |   |       Flutter-Debug.xcconfig
+|   |   |       Flutter-Release.xcconfig
+|   |   |       GeneratedPluginRegistrant.swift
+|   |   |       
+|   |   +---Runner
+|   |   |   |   AppDelegate.swift
+|   |   |   |   DebugProfile.entitlements
+|   |   |   |   Info.plist
+|   |   |   |   MainFlutterWindow.swift
+|   |   |   |   Release.entitlements
+|   |   |   |   
+|   |   |   +---Assets.xcassets
+|   |   |   |   \---AppIcon.appiconset
+|   |   |   |           app_icon_1024.png
+|   |   |   |           app_icon_128.png
+|   |   |   |           app_icon_16.png
+|   |   |   |           app_icon_256.png
+|   |   |   |           app_icon_32.png
+|   |   |   |           app_icon_512.png
+|   |   |   |           app_icon_64.png
+|   |   |   |           Contents.json
+|   |   |   |           
+|   |   |   +---Base.lproj
+|   |   |   |       MainMenu.xib
+|   |   |   |       
+|   |   |   \---Configs
+|   |   |           AppInfo.xcconfig
+|   |   |           Debug.xcconfig
+|   |   |           Release.xcconfig
+|   |   |           Warnings.xcconfig
+|   |   |           
+|   |   +---Runner.xcodeproj
+|   |   |   |   project.pbxproj
+|   |   |   |   
+|   |   |   +---project.xcworkspace
+|   |   |   |   \---xcshareddata
+|   |   |   |           IDEWorkspaceChecks.plist
+|   |   |   |           
+|   |   |   \---xcshareddata
+|   |   |       \---xcschemes
+|   |   |               Runner.xcscheme
+|   |   |               
+|   |   +---Runner.xcworkspace
+|   |   |   |   contents.xcworkspacedata
+|   |   |   |   
+|   |   |   \---xcshareddata
+|   |   |           IDEWorkspaceChecks.plist
+|   |   |           
+|   |   \---RunnerTests
+|   |           RunnerTests.swift
+|   |           
+|   +---test
+|   |       widget_test.dart
+|   |       
+|   +---web
+|   |   |   favicon.png
+|   |   |   index.html
+|   |   |   manifest.json
+|   |   |   
+|   |   \---icons
+|   |           Icon-192.png
+|   |           Icon-512.png
+|   |           Icon-maskable-192.png
+|   |           Icon-maskable-512.png
+|   |           
+|   \---windows
+|       |   .gitignore
+|       |   CMakeLists.txt
+|       |   
+|       +---flutter
+|       |       CMakeLists.txt
+|       |       generated_plugins.cmake
+|       |       generated_plugin_registrant.cc
+|       |       generated_plugin_registrant.h
+|       |       
+|       \---runner
+|           |   CMakeLists.txt
+|           |   flutter_window.cpp
+|           |   flutter_window.h
+|           |   main.cpp
+|           |   resource.h
+|           |   runner.exe.manifest
+|           |   Runner.rc
+|           |   utils.cpp
+|           |   utils.h
+|           |   win32_window.cpp
+|           |   win32_window.h
+|           |   
+|           \---resources
+|                   app_icon.ico
+|                   
 +---Logs
 |       logs.txt
 |       
 +---repos
 |   \---FitAl
-|       +---FitAl
-|       +---FitAl.Service
-|       \---FitAlCore
+|       +---FitAlCore
+|       |   \---obj
+|       |       \---Debug
+|       |           \---net8.0
+|       |               |   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+|       |               |   FitAl.Core.AssemblyInfo.cs
+|       |               |   FitAl.Core.AssemblyInfoInputs.cache
+|       |               |   FitAl.Core.GeneratedMSBuildEditorConfig.editorconfig
+|       |               |   FitAl.Core.GlobalUsings.g.cs
+|       |               |   
+|       |               \---refint
+|       \---FitAlData
+|           \---obj
+|               \---Debug
+|                   \---net8.0
+|                       |   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+|                       |   FitAl.Data.AssemblyInfo.cs
+|                       |   FitAl.Data.AssemblyInfoInputs.cache
+|                       |   FitAl.Data.GeneratedMSBuildEditorConfig.editorconfig
+|                       |   FitAl.Data.GlobalUsings.g.cs
+|                       |   
+|                       \---refint
 +---src
 |   +---FitAI.Application
 |   |   |   FitAI.Application.csproj
@@ -74,6 +458,12 @@ C:.
 |   |   +---Accounts
 |   |   |       AccountAppService.cs
 |   |   |       
+|   |   +---AI
+|   |   |       AIService.cs
+|   |   |       
+|   |   +---Analysis
+|   |   |       AnalysisAppService.cs
+|   |   |       
 |   |   +---Analytics
 |   |   |       AnalyticsAppService.cs
 |   |   |       
@@ -82,6 +472,10 @@ C:.
 |   |   |       
 |   |   +---AI
 |   |   |       AiAppService.cs
+|   |   |       
+|   |   +---Bildirimler
+|   |   |       BildirimAppService.cs
+|   |   |       BildirimProfile.cs
 |   |   |       
 |   |   +---bin
 |   |   |   \---Debug
@@ -100,8 +494,17 @@ C:.
 |   |   |       MagazaAppService.cs
 |   |   |       MagazaProfile.cs
 |   |   |       
+|   |   +---Komisyonlar
+|   |   |       KomisyonAppService.cs
+|   |   |       KomisyonProfile.cs
+|   |   |       
+|   |   +---Kullanicilar
+|   |   |       KullaniciAppService.cs
+|   |   |       KullaniciProfile.cs
+|   |   |       
 |   |   +---Magazalar
 |   |   |       MagazaAppService.cs
+|   |   |       MagazaProfile.cs
 |   |   |       
 |   |   +---obj
 |   |   |   |   FitAI.Application.csproj.nuget.dgspec.json
@@ -134,6 +537,12 @@ C:.
 |   |   +---Properties
 |   |   |       AssemblyInfo.cs
 |   |   |       
+|   |   +---ReviewAnalysis
+|   |   |       IReviewAnalysisAppService.cs
+|   |   |       ITrendyolReviewScraper.cs
+|   |   |       ReviewAnalysisAppService.cs
+|   |   |       TrendyolReviewScraper.cs
+|   |   |       
 |   |   +---Urunler
 |   |   |       UrunAppService.cs
 |   |   |       UrunProfile.cs
@@ -148,13 +557,28 @@ C:.
 |   |   |   FitAIApplicationContractsModule.cs
 |   |   |   FitAIDtoExtensions.cs
 |   |   |   
+|   |   +---Account
+|   |   |       BodyTypeDto.cs
+|   |   |       ProfileDto.cs
+|   |   |       
 |   |   +---Accounts
 |   |   |       IAccountAppService.cs
 |   |   |       RegisterDto.cs
 |   |   |       
+|   |   +---Analysis
+|   |   |   |   IAnalysisAppService.cs
+|   |   |   |   
+|   |   |   \---Dtos
+|   |   |           AnalysisResultDto.cs
+|   |   |           AnalyzeProductDto.cs
+|   |   |           FitScoreResultDto.cs
+|   |   |           ScoreDetailDto.cs
+|   |   |           
 |   |   +---Analytics
+|   |   |       AnalyticsDto.cs
 |   |   |       DashboardSummaryDto.cs
 |   |   |       IAnalyticsAppService.cs
+|   |   |       ReviewDto.cs
 |   |   |       SentimentAnalysisDto.cs
 |   |   |       
 |   |   +---Auth
@@ -163,6 +587,11 @@ C:.
 |   |   +---AI
 |   |   |       IAiAppService.cs
 |   |   |       NlpResultDto.cs
+|   |   |       TalimatDto.cs
+|   |   |       
+|   |   +---Bildirimler
+|   |   |       BildirimDto.cs
+|   |   |       IBildirimAppService.cs
 |   |   |       
 |   |   +---bin
 |   |   |   \---Debug
@@ -173,6 +602,18 @@ C:.
 |   |   |               FitAI.Domain.Shared.dll
 |   |   |               FitAI.Domain.Shared.pdb
 |   |   |               
+|   |   +---Favorites
+|   |   |       FavoriteDto.cs
+|   |   |       
+|   |   +---Komisyonlar
+|   |   |       CreateUpdateKomisyonDto.cs
+|   |   |       IKomisyonAppService.cs
+|   |   |       KomisyonDto.cs
+|   |   |       
+|   |   +---Kullanicilar
+|   |   |       IKullaniciAppService.cs
+|   |   |       KullaniciDto.cs
+|   |   |       
 |   |   +---Magazalar
 |   |   |       IMagazaAppService.cs
 |   |   |       MagazaDto.cs
@@ -209,6 +650,12 @@ C:.
 |   |   |       FitAIPermissionDefinitionProvider.cs
 |   |   |       FitAIPermissions.cs
 |   |   |       
+|   |   +---ReviewAnalysis
+|   |   |       IssueDto.cs
+|   |   |       ReviewAnalysisDto.cs
+|   |   |       ReviewAnalysisInput.cs
+|   |   |       ReviewDto.cs
+|   |   |       
 |   |   +---Urunler
 |   |   |       IUrunAppService.cs
 |   |   |       UrunDto.cs
@@ -226,6 +673,7 @@ C:.
 |   |   |   appsettings.json
 |   |   |   appsettings.secrets.json
 |   |   |   DbMigratorHostedService.cs
+|   |   |   dotnet
 |   |   |   FitAI.DbMigrator.csproj
 |   |   |   FitAIDbMigratorModule.cs
 |   |   |   Program.cs
@@ -634,6 +1082,9 @@ C:.
 |   |   |       IFitAIDbSchemaMigrator.cs
 |   |   |       NullFitAIDbSchemaMigrator.cs
 |   |   |       
+|   |   +---Favorites
+|   |   |       FavoriteItem.cs
+|   |   |       
 |   |   +---Integration
 |   |   |       PlatformBaglantisi.cs
 |   |   |       SenkronizasyonLog.cs
@@ -792,18 +1243,8 @@ C:.
 |   |   |       FitAIEntityFrameworkCoreModule.cs
 |   |   |       
 |   |   +---Migrations
-|   |   |       20260504223129_InitialCreate.cs
-|   |   |       20260504223129_InitialCreate.Designer.cs
-|   |   |       20260504225223_AddBackgroundJobs.cs
-|   |   |       20260504225223_AddBackgroundJobs.Designer.cs
-|   |   |       20260516101617_Added_Performance_Indexes_Fixed.cs
-|   |   |       20260516101617_Added_Performance_Indexes_Fixed.Designer.cs
-|   |   |       20260521204225_AddYorumNlpFields.cs
-|   |   |       20260521204225_AddYorumNlpFields.Designer.cs
-|   |   |       20260521214633_CleanYorumDuplicatedUrunRelation.cs
-|   |   |       20260521214633_CleanYorumDuplicatedUrunRelation.Designer.cs
-|   |   |       20260521224451_CleanMukerrerKolonlar.cs
-|   |   |       20260521224451_CleanMukerrerKolonlar.Designer.cs
+|   |   |       20260624180307_InitialCreate.cs
+|   |   |       20260624180307_InitialCreate.Designer.cs
 |   |   |       FitAIDbContextModelSnapshot.cs
 |   |   |       
 |   |   +---obj
@@ -1130,8 +1571,11 @@ C:.
 |   |   |                   WindowsBase.dll
 |   |   |                   
 |   |   +---Controllers
+|   |   |       AiController.cs
 |   |   |       AuthController.cs
+|   |   |       FavoritesController.cs
 |   |   |       FitAIController.cs
+|   |   |       ProfileController.cs
 |   |   |       
 |   |   +---Models
 |   |   |   \---Test
@@ -1222,6 +1666,7 @@ C:.
 |       |   openiddict.pfx
 |       |   package-lock.json
 |       |   package.json
+|       |   Pages (2).zip
 |       |   Pages.zip
 |       |   Program.cs
 |       |   web.config
@@ -1244,6 +1689,7 @@ C:.
 |       |           |   AutoMapper.dll
 |       |           |   Azure.Core.dll
 |       |           |   Azure.Identity.dll
+|       |           |   BCrypt-Net-Next.dll
 |       |           |   Castle.Core.AsyncInterceptor.dll
 |       |           |   Castle.Core.dll
 |       |           |   FitAI.Application.Contracts.dll
@@ -1266,9 +1712,11 @@ C:.
 |       |           |   FitAI.Web.runtimeconfig.json
 |       |           |   FitAI.Web.staticwebassets.endpoints.json
 |       |           |   FitAI.Web.staticwebassets.runtime.json
+|       |           |   HtmlAgilityPack.dll
 |       |           |   Humanizer.dll
 |       |           |   IdentityModel.dll
 |       |           |   JetBrains.Annotations.dll
+|       |           |   Microsoft.AspNetCore.Authentication.JwtBearer.dll
 |       |           |   Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 |       |           |   Microsoft.AspNetCore.Authorization.dll
 |       |           |   Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -1307,12 +1755,14 @@ C:.
 |       |           |   Microsoft.Extensions.DependencyInjection.dll
 |       |           |   Microsoft.Extensions.DependencyModel.dll
 |       |           |   Microsoft.Extensions.Diagnostics.Abstractions.dll
+|       |           |   Microsoft.Extensions.Diagnostics.dll
 |       |           |   Microsoft.Extensions.FileProviders.Abstractions.dll
 |       |           |   Microsoft.Extensions.FileProviders.Composite.dll
 |       |           |   Microsoft.Extensions.FileProviders.Embedded.dll
 |       |           |   Microsoft.Extensions.FileProviders.Physical.dll
 |       |           |   Microsoft.Extensions.FileSystemGlobbing.dll
 |       |           |   Microsoft.Extensions.Hosting.Abstractions.dll
+|       |           |   Microsoft.Extensions.Http.dll
 |       |           |   Microsoft.Extensions.Identity.Core.dll
 |       |           |   Microsoft.Extensions.Localization.Abstractions.dll
 |       |           |   Microsoft.Extensions.Localization.dll
@@ -1334,6 +1784,7 @@ C:.
 |       |           |   Microsoft.Win32.SystemEvents.dll
 |       |           |   Mono.TextTemplating.dll
 |       |           |   MyCSharp.HttpUserAgentParser.dll
+|       |           |   Newtonsoft.Json.dll
 |       |           |   Nito.AsyncEx.Context.dll
 |       |           |   Nito.AsyncEx.Tasks.dll
 |       |           |   Nito.Disposables.dll
@@ -1350,6 +1801,7 @@ C:.
 |       |           |   package.json
 |       |           |   Polly.Core.dll
 |       |           |   Polly.dll
+|       |           |   PuppeteerSharp.dll
 |       |           |   Scriban.dll
 |       |           |   Serilog.AspNetCore.dll
 |       |           |   Serilog.dll
@@ -1580,6 +2032,7 @@ C:.
 |       |           |   |       Index.js
 |       |           |   |       
 |       |           |   +---Bildirimler
+|       |           |   |       Index.css
 |       |           |   |       Index.js
 |       |           |   |       
 |       |           |   +---Komisyonlar
@@ -1712,12 +2165,10 @@ C:.
 |       |           |       Microsoft.Extensions.Configuration.Ini.dll
 |       |           |       Microsoft.Extensions.Configuration.KeyPerFile.dll
 |       |           |       Microsoft.Extensions.Configuration.Xml.dll
-|       |           |       Microsoft.Extensions.Diagnostics.dll
 |       |           |       Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
 |       |           |       Microsoft.Extensions.Diagnostics.HealthChecks.dll
 |       |           |       Microsoft.Extensions.Features.dll
 |       |           |       Microsoft.Extensions.Hosting.dll
-|       |           |       Microsoft.Extensions.Http.dll
 |       |           |       Microsoft.Extensions.Identity.Stores.dll
 |       |           |       Microsoft.Extensions.Logging.Configuration.dll
 |       |           |       Microsoft.Extensions.Logging.Console.dll
@@ -9095,6 +9546,7 @@ C:.
 |       |   +---Bildirimler
 |       |   |       Index.cshtml
 |       |   |       Index.cshtml.cs
+|       |   |       Index.css
 |       |   |       Index.js
 |       |   |       
 |       |   +---Komisyonlar
@@ -9808,6 +10260,7 @@ C:.
     |   |           |   Autofac.Extensions.DependencyInjection.dll
     |   |           |   Autofac.Extras.DynamicProxy.dll
     |   |           |   AutoMapper.dll
+    |   |           |   BCrypt-Net-Next.dll
     |   |           |   Castle.Core.AsyncInterceptor.dll
     |   |           |   Castle.Core.dll
     |   |           |   DiffEngine.dll
@@ -9832,6 +10285,7 @@ C:.
     |   |           |   FitAI.TestBase.dll
     |   |           |   FitAI.TestBase.pdb
     |   |           |   FitAI.TestBase.runtimeconfig.json
+    |   |           |   HtmlAgilityPack.dll
     |   |           |   JetBrains.Annotations.dll
     |   |           |   Microsoft.AspNetCore.Authentication.Abstractions.dll
     |   |           |   Microsoft.AspNetCore.Authentication.Cookies.dll
@@ -9868,12 +10322,14 @@ C:.
     |   |           |   Microsoft.Extensions.DependencyInjection.Abstractions.dll
     |   |           |   Microsoft.Extensions.DependencyInjection.dll
     |   |           |   Microsoft.Extensions.Diagnostics.Abstractions.dll
+    |   |           |   Microsoft.Extensions.Diagnostics.dll
     |   |           |   Microsoft.Extensions.FileProviders.Abstractions.dll
     |   |           |   Microsoft.Extensions.FileProviders.Composite.dll
     |   |           |   Microsoft.Extensions.FileProviders.Embedded.dll
     |   |           |   Microsoft.Extensions.FileProviders.Physical.dll
     |   |           |   Microsoft.Extensions.FileSystemGlobbing.dll
     |   |           |   Microsoft.Extensions.Hosting.Abstractions.dll
+    |   |           |   Microsoft.Extensions.Http.dll
     |   |           |   Microsoft.Extensions.Identity.Core.dll
     |   |           |   Microsoft.Extensions.Localization.Abstractions.dll
     |   |           |   Microsoft.Extensions.Localization.dll
@@ -9905,6 +10361,7 @@ C:.
     |   |           |   OpenIddict.Core.dll
     |   |           |   Polly.Core.dll
     |   |           |   Polly.dll
+    |   |           |   PuppeteerSharp.dll
     |   |           |   Scriban.dll
     |   |           |   Shouldly.dll
     |   |           |   System.CodeDom.dll
@@ -10560,6 +11017,7 @@ C:.
     |   |           |   AutoMapper.dll
     |   |           |   Azure.Core.dll
     |   |           |   Azure.Identity.dll
+    |   |           |   BCrypt-Net-Next.dll
     |   |           |   Castle.Core.AsyncInterceptor.dll
     |   |           |   Castle.Core.dll
     |   |           |   DiffEngine.dll
@@ -10590,6 +11048,7 @@ C:.
     |   |           |   FitAI.TestBase.dll
     |   |           |   FitAI.TestBase.pdb
     |   |           |   FitAI.TestBase.runtimeconfig.json
+    |   |           |   HtmlAgilityPack.dll
     |   |           |   JetBrains.Annotations.dll
     |   |           |   Microsoft.AspNetCore.Authentication.Abstractions.dll
     |   |           |   Microsoft.AspNetCore.Authentication.Cookies.dll
@@ -10632,12 +11091,14 @@ C:.
     |   |           |   Microsoft.Extensions.DependencyInjection.dll
     |   |           |   Microsoft.Extensions.DependencyModel.dll
     |   |           |   Microsoft.Extensions.Diagnostics.Abstractions.dll
+    |   |           |   Microsoft.Extensions.Diagnostics.dll
     |   |           |   Microsoft.Extensions.FileProviders.Abstractions.dll
     |   |           |   Microsoft.Extensions.FileProviders.Composite.dll
     |   |           |   Microsoft.Extensions.FileProviders.Embedded.dll
     |   |           |   Microsoft.Extensions.FileProviders.Physical.dll
     |   |           |   Microsoft.Extensions.FileSystemGlobbing.dll
     |   |           |   Microsoft.Extensions.Hosting.Abstractions.dll
+    |   |           |   Microsoft.Extensions.Http.dll
     |   |           |   Microsoft.Extensions.Identity.Core.dll
     |   |           |   Microsoft.Extensions.Localization.Abstractions.dll
     |   |           |   Microsoft.Extensions.Localization.dll
@@ -10676,6 +11137,7 @@ C:.
     |   |           |   OpenIddict.Core.dll
     |   |           |   Polly.Core.dll
     |   |           |   Polly.dll
+    |   |           |   PuppeteerSharp.dll
     |   |           |   Scriban.dll
     |   |           |   Shouldly.dll
     |   |           |   SQLitePCLRaw.batteries_v2.dll
@@ -11605,6 +12067,7 @@ C:.
         |           |   AutoMapper.dll
         |           |   Azure.Core.dll
         |           |   Azure.Identity.dll
+        |           |   BCrypt-Net-Next.dll
         |           |   Castle.Core.AsyncInterceptor.dll
         |           |   Castle.Core.dll
         |           |   DiffEngine.dll
@@ -11658,6 +12121,7 @@ C:.
         |           |   HtmlAgilityPack.dll
         |           |   IdentityModel.dll
         |           |   JetBrains.Annotations.dll
+        |           |   Microsoft.AspNetCore.Authentication.JwtBearer.dll
         |           |   Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
         |           |   Microsoft.AspNetCore.Authorization.dll
         |           |   Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -11755,6 +12219,7 @@ C:.
         |           |   package.json
         |           |   Polly.Core.dll
         |           |   Polly.dll
+        |           |   PuppeteerSharp.dll
         |           |   Scriban.dll
         |           |   Serilog.AspNetCore.dll
         |           |   Serilog.dll
@@ -12064,6 +12529,7 @@ C:.
         |           |   |       Index.js
         |           |   |       
         |           |   +---Bildirimler
+        |           |   |       Index.css
         |           |   |       Index.js
         |           |   |       
         |           |   +---Komisyonlar

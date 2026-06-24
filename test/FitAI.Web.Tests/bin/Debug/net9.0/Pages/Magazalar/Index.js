@@ -144,8 +144,17 @@ $(function () {
             $('#yeniMagazaForm')[0].reset();
             magazalariYukle();
         }).catch(function(err) {
-            abp.notify.error('Ekleme başarısız.');
-        });
+    console.log("HATA:", err);
+
+    if (err.responseJSON) {
+        console.log(err.responseJSON);
+    }
+
+    abp.message.error(
+        JSON.stringify(err.responseJSON || err),
+        'Hata'
+    );
+});
     });
 
     // =============================================

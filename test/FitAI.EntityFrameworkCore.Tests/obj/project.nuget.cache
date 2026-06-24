@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ECZdpJ0LIdM=",
+  "dgSpecHash": "qgBCXX9Gb4M=",
   "success": true,
   "projectFilePath": "C:\\Users\\RAGHAD\\FitAI\\test\\FitAI.EntityFrameworkCore.Tests\\FitAI.EntityFrameworkCore.Tests.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\RAGHAD\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\RAGHAD\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\castle.core.asyncinterceptor\\2.1.0\\castle.core.asyncinterceptor.2.1.0.nupkg.sha512",
     "C:\\Users\\RAGHAD\\.nuget\\packages\\diffengine\\11.3.0\\diffengine.11.3.0.nupkg.sha512",
