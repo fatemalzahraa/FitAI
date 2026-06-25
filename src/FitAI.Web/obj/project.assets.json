@@ -5795,7 +5795,10 @@
         },
         "runtime": {
           "bin/placeholder/FitAI.Application.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "FitAI.Application.Contracts/1.0.0": {
         "type": "project",

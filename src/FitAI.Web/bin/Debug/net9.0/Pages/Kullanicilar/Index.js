@@ -28,8 +28,39 @@ $(function () {
     var _tumKullanicilar = [];
     var _sayfaNo = 1;
     var _sayfaBoyutu = 15;
+    var _detayModal = null;
+    var _formModal = null;
+
+    // Modal instance'larını başlat
+    function modallariBastir() {
+        var detayEl = document.getElementById('kullaniciDetayModal');
+        var formEl = document.getElementById('kullaniciFormModal');
+        
+        if (detayEl) {
+            _detayModal = new bootstrap.Modal(detayEl, { backdrop: 'static', keyboard: true });
+            // Focus management için event handler'ları ekle
+            detayEl.addEventListener('shown.bs.modal', function() {
+                var closeBtn = this.querySelector('.btn-close');
+                if (closeBtn) {
+                    // Modali açtıktan sonra close button'a focus ver
+                    setTimeout(function() { closeBtn.focus(); }, 100);
+                }
+            });
+        }
+        
+        if (formEl) {
+            _formModal = new bootstrap.Modal(formEl, { backdrop: 'static', keyboard: true });
+            formEl.addEventListener('shown.bs.modal', function() {
+                var firstInput = this.querySelector('input:not([type="hidden"])');
+                if (firstInput) {
+                    setTimeout(function() { firstInput.focus(); }, 100);
+                }
+            });
+        }
+    }
 
     // ─── İlk Yükleme ─────────────────────────────────────────────────────────
+    modallariBastir();
     listeyiYukle();
 
     function listeyiYukle() {
@@ -195,15 +226,24 @@ $(function () {
             '</div>';
 
         $('#kullaniciDetayIcerik').html(html);
-        new bootstrap.Modal('#kullaniciDetayModal').show();
+        
+        // Bootstrap modal instance'ını kullan - hide tüm event'leri öncesi gizle
+        var modalEl = document.getElementById('kullaniciDetayModal');
+        if (modalEl) {
+            _detayModal.show();
+        }
     });
 
     // ─── Yeni Kullanıcı ───────────────────────────────────────────────────────
     $('#yeniKullaniciBtn').on('click', function () {
         formSifirla();
-        $('#formModalBaslik').html('<i class="fas fa-user-plus me-2 text-primary"></i>Yeni Kullanıcı');
+        $('#formModalLabel').html('<i class="fas fa-user-plus me-2 text-primary"></i>Yeni Kullanıcı');
         $('#sifreZorunluIsareti').show();
-        new bootstrap.Modal('#kullaniciFormModal').show();
+        
+        var modalEl = document.getElementById('kullaniciFormModal');
+        if (modalEl) {
+            _formModal.show();
+        }
     });
 
     // ─── Düzenle ─────────────────────────────────────────────────────────────
@@ -221,9 +261,12 @@ $(function () {
         $('#formMagazaId').val(k.magazaId);
         $('#formAktifMi').prop('checked', k.aktifMi);
         $('#sifreZorunluIsareti').hide();
-        $('#formModalBaslik').html('<i class="fas fa-user-edit me-2 text-primary"></i>Kullanıcı Düzenle');
+        $('#formModalLabel').html('<i class="fas fa-user-edit me-2 text-primary"></i>Kullanıcı Düzenle');
 
-        new bootstrap.Modal('#kullaniciFormModal').show();
+        var modalEl = document.getElementById('kullaniciFormModal');
+        if (modalEl) {
+            _formModal.show();
+        }
     });
 
     // ─── Kaydet ──────────────────────────────────────────────────────────────
@@ -248,7 +291,12 @@ $(function () {
         istek
             .done(function () {
                 abp.notify.success(id ? 'Kullanıcı güncellendi.' : 'Kullanıcı oluşturuldu.');
-                bootstrap.Modal.getInstance(document.getElementById('kullaniciFormModal')).hide();
+                
+                var modalEl = document.getElementById('kullaniciFormModal');
+                if (modalEl && _formModal) {
+                    _formModal.hide();
+                }
+                
                 listeyiYukle();
             })
             .fail(function () {

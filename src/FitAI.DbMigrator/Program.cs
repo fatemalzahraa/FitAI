@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -27,12 +28,35 @@ class Program
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
 
-        await CreateHostBuilder(args).RunConsoleAsync();
+        try
+        {
+            Log.Information("FitAI Database Migration Service starting...");
+            await CreateHostBuilder(args).RunConsoleAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Host terminated unexpectedly!");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                var env = context.HostingEnvironment.EnvironmentName;
+                var basePath = Path.Combine(AppContext.BaseDirectory);
+                
+                config
+                    .SetBasePath(basePath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false)
+                    .AddEnvironmentVariables();
+            })
             .ConfigureLogging((context, logging) => logging.ClearProviders())
             .ConfigureServices((hostContext, services) =>
             {

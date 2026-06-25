@@ -205,6 +205,7 @@ $(function () {
     function yukleMagazaOzeti() {
         abp.ajax({
             url: abp.appPath + 'api/app/analytics/store-summary',
+            type: 'GET',
             data: { magazaId: currentMagazaId }
         }).done(function (result) {
             // result property isimleri ABP tarafından camelCase'e çevrilir:
@@ -224,6 +225,7 @@ $(function () {
     function yukleDuyguDagilimi() {
         abp.ajax({
             url: abp.appPath + 'api/app/analytics/sentiment-distribution',
+            type: 'GET',
             data: { magazaId: currentMagazaId }
         }).done(function (result) {
             yukleNlpDuyguChart(result);
@@ -252,6 +254,7 @@ $(function () {
     function yukleTopTemalar() {
         abp.ajax({
             url: abp.appPath + 'api/app/analytics/top-themes',
+            type: 'GET',
             data: { magazaId: currentMagazaId }
         }).done(function (result) {
             yukleKelimeBulutuFromBackend(result);
@@ -455,6 +458,7 @@ $(function () {
 
         abp.ajax({
             url: abp.appPath + 'api/app/analytics/reviews',
+            type: 'GET',
             data: params
         }).done(function (yorumlar) {
             $liste.empty();
@@ -524,6 +528,7 @@ $(function () {
 
         abp.ajax({
             url: abp.appPath + 'api/app/analytics/top-themes',
+            type: 'GET',
             data: params
         }).done(function (temalar) {
             var $liste = $('#ozetListesi');

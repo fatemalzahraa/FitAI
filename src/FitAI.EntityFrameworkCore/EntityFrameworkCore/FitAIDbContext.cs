@@ -24,16 +24,19 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 
 namespace FitAI.EntityFrameworkCore;
 
 [ConnectionStringName("Default")]
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
+[ReplaceDbContext(typeof(IFeatureManagementDbContext))]
 public class FitAIDbContext :
     AbpDbContext<FitAIDbContext>,
     IIdentityDbContext,
-    ITenantManagementDbContext
+    ITenantManagementDbContext,
+    IFeatureManagementDbContext
 {
     // ================= DOMAIN =================
 
@@ -72,6 +75,11 @@ public class FitAIDbContext :
     public DbSet<Tenant> Tenants { get; set; } = null!;
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; } = null!;
 
+    // ================= FEATURE MANAGEMENT =================
+    public DbSet<Volo.Abp.FeatureManagement.FeatureGroupDefinitionRecord> FeatureGroups { get; set; } = null!;
+    public DbSet<Volo.Abp.FeatureManagement.FeatureDefinitionRecord> Features { get; set; } = null!;
+    public DbSet<Volo.Abp.FeatureManagement.FeatureValue> FeatureValues { get; set; } = null!;
+
     public FitAIDbContext(DbContextOptions<FitAIDbContext> options)
         : base(options)
     {
@@ -87,32 +95,52 @@ public class FitAIDbContext :
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureTenantManagement();
+        builder.ConfigureFeatureManagement();
 
         // ================= DOMAIN REGISTRATION =================
-        builder.Entity<Magaza>();
+        
+        // --- MAGAZA TABLOSU ---
+        builder.Entity<Magaza>(b =>
+        {
+            b.ConfigureByConvention();
+            b.Property(x => x.KomisyonOrani).HasPrecision(18, 2);
+            b.Property(x => x.MinimumKomisyonEsigi).HasPrecision(18, 2);
+        });
+
         builder.Entity<Kullanici>();
-        builder.Entity<KullaniciProfil>();
+        
+        // --- KULLANICI PROFİLİ TABLOSU ---
+        builder.Entity<KullaniciProfil>(b =>
+        {
+            b.ConfigureByConvention();
+            b.Property(x => x.Boy).HasPrecision(18, 2);
+            b.Property(x => x.Kilo).HasPrecision(18, 2);
+        });
 
         builder.Entity<Urun>();
 
         // --- YORUMLAR TABLOSU PERFORMANS OPTİMİZASYONU & İLİŞKİ DÜZENLEMESİ ---
-builder.Entity<Yorum>(b =>
-{
-    b.ConfigureByConvention();
+        builder.Entity<Yorum>(b =>
+        {
+            b.ConfigureByConvention();
 
-    b.HasOne(y => y.Urun)
-     .WithMany()
-     .HasForeignKey(y => y.UrunId)
-     .OnDelete(DeleteBehavior.NoAction);
+            b.HasOne(y => y.Urun)
+             .WithMany()
+             .HasForeignKey(y => y.UrunId)
+             .OnDelete(DeleteBehavior.NoAction);
 
-    b.HasOne(y => y.Magaza)
-     .WithMany()
-     .HasForeignKey(y => y.MagazaId)
-     .OnDelete(DeleteBehavior.NoAction);
+            b.HasOne(y => y.Magaza)
+             .WithMany()
+             .HasForeignKey(y => y.MagazaId)
+             .OnDelete(DeleteBehavior.NoAction);
 
-    b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
-    b.HasIndex(x => x.UrunId);
-});
+            // Eski shadow property'yi yoksay
+            b.Ignore("UrunId1");
+
+            b.HasIndex(x => new { x.MagazaId, x.NlpIslendi });
+            b.HasIndex(x => x.UrunId);
+        });
+
         builder.Entity<PlatformBaglantisi>();
         builder.Entity<SenkronizasyonLog>();
 
@@ -122,6 +150,9 @@ builder.Entity<Yorum>(b =>
         builder.Entity<NlpBulgusu>(b =>
         {
             b.ConfigureByConvention();
+            
+            // Decimal precision configuration
+            b.Property(x => x.DuyguSkoru).HasPrecision(18, 2);
 
             // Analytics servisinin GroupBy ve Where (MagazaId) sorgularını uçuracak index
             b.HasIndex(x => x.MagazaId);
@@ -131,10 +162,29 @@ builder.Entity<Yorum>(b =>
         builder.Entity<Bildirim>();
         builder.Entity<OnboardingAdim>();
 
-        builder.Entity<KomisyonKaydi>();
-        builder.Entity<VucutUyumSkoru>();
+        // --- KOMİSYON KAYDI TABLOSU ---
+        builder.Entity<KomisyonKaydi>(b =>
+        {
+            b.ConfigureByConvention();
+            b.Property(x => x.KomisyonOrani).HasPrecision(18, 2);
+            b.Property(x => x.KomisyonTutari).HasPrecision(18, 2);
+            b.Property(x => x.SatisTutari).HasPrecision(18, 2);
+        });
 
-        builder.Entity<WidgetSorguLog>();
+        // --- VÜCUT UYUM SKORU TABLOSU ---
+        builder.Entity<VucutUyumSkoru>(b =>
+        {
+            b.ConfigureByConvention();
+            b.Property(x => x.UyumSkoru).HasPrecision(18, 2);
+            b.Property(x => x.IadeRiski).HasPrecision(18, 2);
+        });
+
+        // --- WIDGET SORGU LOG TABLOSU ---
+        builder.Entity<WidgetSorguLog>(b =>
+        {
+            b.ConfigureByConvention();
+            b.Property(x => x.DonulenUyumSkoru).HasPrecision(18, 2);
+        });
 
         builder.ConfigureBackgroundJobs();
     }

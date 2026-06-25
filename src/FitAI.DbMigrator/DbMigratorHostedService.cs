@@ -25,19 +25,22 @@ public class DbMigratorHostedService : IHostedService
     {
         using (var application = await AbpApplicationFactory.CreateAsync<FitAIDbMigratorModule>(options =>
         {
-           options.Services.ReplaceConfiguration(_configuration);
-           options.UseAutofac();
-           options.Services.AddLogging(c => c.AddSerilog());
-           options.AddDataMigrationEnvironment();
+            options.Services.ReplaceConfiguration(_configuration);
+            options.UseAutofac();
+            options.Services.AddLogging(c => c.AddSerilog());
+            options.AddDataMigrationEnvironment();
         }))
         {
             await application.InitializeAsync();
 
-            await application
-                .ServiceProvider
-                .GetRequiredService<FitAIDbMigrationService>()
-                .MigrateAsync();
+            var migrationService = application.ServiceProvider.GetRequiredService<FitAIDbMigrationService>();
+            
+            Log.Information("Database migration service initialized");
+            
+            await migrationService.MigrateAsync();
 
+            Log.Information("Database migration completed successfully");
+            
             await application.ShutdownAsync();
 
             _hostApplicationLifetime.StopApplication();
